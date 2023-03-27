@@ -9,27 +9,62 @@ import java.util.Random;
  *
  */
 public class App {
-    static final int col = 9;
-    static final int row = 9;
-    public static void main( String[] args ){
+    static final int col = 7;
+    static final int row = 7;
+    public static void main( String[] args ) {
 
-        Random r =  new Random();
-        Tiles [][] g = new Tiles[row][col];
-        for(int i = 0;i<row;i++){
-            for(int j =0;j<col;j++){
-                g[i][j] = new Tiles(r.nextInt(6));
+        Random r = new Random();
+        Tiles[][] g = new Tiles[row][col];
+        for (int i = 0; i < row; i++) {
+            for (int j = 0; j < col; j++) {
+                if (j == 0) {
+                    if (i < 3 || i > 4) {
+                        g[i][j] = new Tiles(-1, i, j);
+                    } else {
+                        g[i][j] = new Tiles(r.nextInt(5), i, j);
+                    }
+                } else if (j == 1) {
+                    if (i < 2 || i > 4) {
+                        g[i][j] = new Tiles(-1, i, j);
+                    } else {
+                        g[i][j] = new Tiles(r.nextInt(5), i, j);
+                    }
+                } else if (j == 4) {
+                    if (i < 1) {
+                        g[i][j] = new Tiles(-1, i, j);
+                    } else {
+                        g[i][j] = new Tiles(r.nextInt(5), i, j);
+                    }
+                } else if (j == 5) {
+                    if (i < 2 || i > 4) {
+                        g[i][j] = new Tiles(-1, i, j);
+                    } else {
+                        g[i][j] = new Tiles(r.nextInt(5), i, j);
+                    }
+                } else if (j == 6) {
+                    if (i < 2 || i > 3) {
+                        g[i][j] = new Tiles(-1, i, j);
+                    } else {
+                        g[i][j] = new Tiles(r.nextInt(5), i, j);
+                    }
+                } else {
+                    g[i][j] = new Tiles(r.nextInt(5), i, j);
+                }
             }
         }
+
         Playground p = new Playground(row*col,g);
         for(int i = 0; i<row;i++){
             for(int j = 0;j<col;j++){
-                System.out.print(g[i][j].getType()+" ");
+                System.out.print(g[i][j].getType()+"\t");
             }
             System.out.print("\n");
         }
 
 
-
         System.out.println( "Hello World!" );
     }
 }
+
+
+

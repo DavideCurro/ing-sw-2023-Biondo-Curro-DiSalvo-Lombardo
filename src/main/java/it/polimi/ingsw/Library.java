@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+//import java.util.Arrays;
 import java.util.Vector;
 
 public class Library {
@@ -35,11 +36,26 @@ public class Library {
             return s;
     }
     public  void printOut(Library s){
-        for(int i = 0;i<5;i++){
+        for(int i = 0;i<6;i++){
             for(int j = 0;j<5;j++){
                 System.out.print(s.shelf[i][j].getType()+"\t");
             }
             System.out.println("");
         }
+    }
+    public int[] available( Library s){ //how many free spots in the library
+        int[] count = new int[5];
+
+        for(int j = 0; j <= 5; j++){
+            for (int i = 1; i<=6; i++){
+                if ( (s.shelf[i][j]).getType() == -1)
+                    continue;
+                else
+                    count[j] = i;
+            }
+        }
+
+        //System.out.println("The max number of tiles you can enter in column 'j' is: ", count[j]);
+        return count;
     }
 }

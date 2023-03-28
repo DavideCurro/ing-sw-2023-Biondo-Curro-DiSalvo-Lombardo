@@ -46,4 +46,11 @@ public class Tiles {
     public void setY(int y) {
         this.y = y;
     }
+
+    public int[] getXY(){
+        int[] coordinate = new int[2];
+        coordinate[0] = this.getX();
+        coordinate[1] = this.getY();
+        return coordinate;
+    }
 }

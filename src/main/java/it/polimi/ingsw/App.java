@@ -60,7 +60,16 @@ public class App {
             }
             System.out.print("\n");
         }
-
+        System.out.println("\n\n\n");
+        Library l = new Library();
+        l.posix(l,g[4][5],g[4][5],g[4][5],4);
+        Tiles [][] prova = l.getShelf();
+        for(int i = 0; i<6;i++) {
+            for (int j = 0; j < 5; j++) {
+                System.out.print(prova[i][j].getType() + "\t");
+            }
+            System.out.print("\n");
+        }
 
         System.out.println( "Hello World!" );
     }

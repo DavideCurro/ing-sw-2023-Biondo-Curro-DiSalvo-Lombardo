@@ -29,6 +29,12 @@ public class App {
                     } else {
                         g[i][j] = new Tiles(r.nextInt(5), i, j);
                     }
+                }else if (j==2){
+                    if(i > 5 ){
+                        g [i][j] = new Tiles(-1, i, j);
+                    } else {
+                        g[i][j] = new Tiles(r.nextInt(5), i, j);
+                    }
                 } else if (j == 4) {
                     if (i < 1) {
                         g[i][j] = new Tiles(-1, i, j);

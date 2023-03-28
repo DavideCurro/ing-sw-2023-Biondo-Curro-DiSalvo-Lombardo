@@ -103,7 +103,7 @@ public class Playground {
 
     public boolean checkAdjacency(int x1, int y1){ // one tile picked
         boolean free = false;
-        if(((this.ground[x1][y1-1]).getType()!=-1) || ((this.ground[x1][y1+1]).getType()!=-1) || ((this.ground[x1+1][y1]).getType()!=-1) || (this.ground[x1-1][y1]).getType()!=-1)
+        if(((this.ground[x1][y1-1]).getType()==-1) || ((this.ground[x1][y1+1]).getType()==-1) || ((this.ground[x1+1][y1]).getType()==-1) || (this.ground[x1-1][y1]).getType()==-1)
             free = true;
         return free;
     }
@@ -112,12 +112,12 @@ public class Playground {
         boolean free = false;
         boolean near = false;
 
-        if(((this.ground[x1][y1-1]).getType()!=-1) || ((this.ground[x1][y1+1]).getType()!=-1) || ((this.ground[x1+1][y1]).getType()!=-1) || (this.ground[x1-1][y1]).getType()!=-1)
+        if(((this.ground[x1][y1-1]).getType()==-1) || ((this.ground[x1][y1+1]).getType()==-1) || ((this.ground[x1+1][y1]).getType()==-1) || (this.ground[x1-1][y1]).getType()==-1)
             free = true;
         else
             return false;
 
-        if ((((this.ground[x2][y2-1]).getType()!=-1) || ((this.ground[x2][y2+1]).getType()!=-1) || ((this.ground[x2+1][y2]).getType()!=-1) || (this.ground[x2-1][y2]).getType()!=-1) && (free == true))
+        if ((((this.ground[x2][y2-1]).getType()==-1) || ((this.ground[x2][y2+1]).getType()==-1) || ((this.ground[x2+1][y2]).getType()==-1) || (this.ground[x2-1][y2]).getType()==-1) && (free == true))
             free = true;
         else
             return false;
@@ -140,12 +140,12 @@ public class Playground {
         boolean free = false;
         boolean near = false;
 
-        if(((this.ground[x1][y1-1]).getType()!=-1) || ((this.ground[x1][y1+1]).getType()!=-1) || ((this.ground[x1+1][y1]).getType()!=-1) || (this.ground[x1-1][y1]).getType()!=-1)
+        if(((this.ground[x1][y1-1]).getType()==-1) || ((this.ground[x1][y1+1]).getType()==-1) || ((this.ground[x1+1][y1]).getType()==-1) || (this.ground[x1-1][y1]).getType()==-1)
             free = true;
         else
             return false;
 
-        if ((((this.ground[x2][y2-1]).getType()!=-1) || ((this.ground[x2][y2+1]).getType()!=-1) || ((this.ground[x2+1][y2]).getType()!=-1) || (this.ground[x2-1][y2]).getType()!=-1) && (free == true))
+        if ((((this.ground[x2][y2-1]).getType()==-1) || ((this.ground[x2][y2+1]).getType()==-1) || ((this.ground[x2+1][y2]).getType()==-1) || (this.ground[x2-1][y2]).getType()==-1) && (free == true))
             free = true;
         else
             return false;

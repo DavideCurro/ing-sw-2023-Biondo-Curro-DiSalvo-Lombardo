@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import java.util.Vector;
+
 public class Library {
     private Tiles[][] shelf;
 
@@ -24,9 +26,20 @@ public class Library {
         this.shelf = shelf;
     }
 
-    public void posix(Tiles[]t, int column, int len){
+    public Library posix(Vector<Tiles> t, int column, int len, Library s){
             for (int i =0;i<len;i++){
-                this.shelf[5-i][column].setType(t[i].getType());
+
+                s.shelf[5-i][column].setType(t.get(i).getType());
+                System.out.println(s.shelf[5-i][column].getType());
             }
+            return s;
+    }
+    public  void printOut(Library s){
+        for(int i = 0;i<5;i++){
+            for(int j = 0;j<5;j++){
+                System.out.print(s.shelf[i][j].getType()+"\t");
+            }
+            System.out.println("");
+        }
     }
 }

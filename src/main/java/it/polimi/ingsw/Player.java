@@ -1,18 +1,16 @@
 package it.polimi.ingsw;
-import java.nio.channels.ScatteringByteChannel;
 import java.util.*;
 public class Player {
     private Boolean is_first;
     private Library my_shelfie;
     private String nickname;
     private Boolean turn;
-    private Scanner scanner;
+    private final Scanner scanner;
     Map<Integer, Integer> coordinates;
 
     public Player() {
         this.is_first = false;
         this.my_shelfie = new Library();
-        this.nickname = new String();
         this.turn   = false;
         this.scanner = new Scanner(System.in);
         this.coordinates= new HashMap<Integer, Integer>();
@@ -60,7 +58,7 @@ public class Player {
     }
 
 
-    public Boolean pickUp(){
+    public Boolean pickUp(Playground p){
         int i = 0;
         int pick = 0;
         do {
@@ -68,9 +66,15 @@ public class Player {
             this.coordinates.put(scanner.nextInt(), scanner.nextInt());
             pick = scanner.nextInt();
         }while((pick!= -1 )&&(i!=3));
+        Vector<Tiles> picked = new Vector<Tiles>();
         for(Map.Entry<Integer,Integer> entry : this.coordinates.entrySet()){
             System.out.println(entry.getKey()+"\t"+ entry.getValue());
+            picked.add(p.getGround()[entry.getKey()][entry.getValue()]);
+            System.out.println(picked.get(0).getType());
         }
+        setMy_shelfie(this.my_shelfie.posix(picked,2,picked.size(),this.my_shelfie));
+
+
         return false;
     }
 

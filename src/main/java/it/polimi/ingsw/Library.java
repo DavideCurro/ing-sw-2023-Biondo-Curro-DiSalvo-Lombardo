@@ -24,10 +24,9 @@ public class Library {
         this.shelf = shelf;
     }
 
-    public Boolean posix(Library s1,Tiles t1,Tiles t2, Tiles t3, int column){
-            for (int i =0;i<3;i++){
-                s1.shelf[5-i][column].setType(t1.getType());
+    public void posix(Tiles[]t, int column, int len){
+            for (int i =0;i<len;i++){
+                this.shelf[5-i][column].setType(t[i].getType());
             }
-        return true;
     }
 }

@@ -13,62 +13,17 @@ public class App {
     static final int row = 7;
     public static void main( String[] args ) {
 
-        Random r = new Random();
-        Tiles[][] g = new Tiles[row][col];
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (j == 0) {
-                    if (i < 3 || i > 4) {
-                        g[i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                } else if (j == 1) {
-                    if (i < 2 || i > 4) {
-                        g[i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                }else if (j==2){
-                    if(i > 5 ){
-                        g [i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                } else if (j == 4) {
-                    if (i < 1) {
-                        g[i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                } else if (j == 5) {
-                    if (i < 2 || i > 4) {
-                        g[i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                } else if (j == 6) {
-                    if (i < 2 || i > 3) {
-                        g[i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                } else {
-                    g[i][j] = new Tiles(r.nextInt(5), i, j);
-                }
-            }
-        }
-
-        Playground p = new Playground(row*col,g);
-        for(int i = 0; i<row;i++){
-            for(int j = 0;j<col;j++){
-                System.out.print(g[i][j].getType()+"\t");
-            }
-            System.out.print("\n");
-        }
+        Playground p = new Playground(col*row);
+        p.fillUP();
+        p.printOutPlayground();
+        p.fillUP();
         System.out.println("\n\n\n");
         Library l = new Library();
-        l.posix(l,g[4][5],g[4][5],g[4][5],4);
+        Tiles [] provaT = new Tiles[2];
+        provaT[0] = p.getGround()[4][5];
+        provaT[1] = p.getGround()[6][3];
+        //provaT[2] = g[2][2];
+        l.posix(provaT,4,provaT.length);
         Tiles [][] prova = l.getShelf();
         for(int i = 0; i<6;i++) {
             for (int j = 0; j < 5; j++) {
@@ -76,6 +31,9 @@ public class App {
             }
             System.out.print("\n");
         }
+        System.out.println("\n\n\n\n\n");
+        Player player = new Player();
+        player.pickUp();
 
         System.out.println( "Hello World!" );
     }

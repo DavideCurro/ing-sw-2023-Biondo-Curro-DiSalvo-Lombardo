@@ -101,14 +101,14 @@ public class Playground {
         this.setGround(g);
     }
 
-    public boolean checkAdjancency(int x1, int y1){
+    public boolean checkAdjacency(int x1, int y1){ // one tile picked
         boolean free = false;
         if(((this.ground[x1][y1-1]).getType()!=-1) || ((this.ground[x1][y1+1]).getType()!=-1) || ((this.ground[x1+1][y1]).getType()!=-1) || (this.ground[x1-1][y1]).getType()!=-1)
             free = true;
         return free;
     }
 
-    public boolean checkAdjancency(int x1, int y1, int x2, int y2){
+    public boolean checkAdjacency(int x1, int y1, int x2, int y2){  //two tiles picked
         boolean free = false;
         boolean near = false;
 
@@ -136,7 +136,7 @@ public class Playground {
 
     }
 
-    public boolean checkAdjancency(int x1, int y1, int x2, int y2, int x3, int y3){
+    public boolean checkAdjacency(int x1, int y1, int x2, int y2, int x3, int y3){ //three tiles picked
         boolean free = false;
         boolean near = false;
 

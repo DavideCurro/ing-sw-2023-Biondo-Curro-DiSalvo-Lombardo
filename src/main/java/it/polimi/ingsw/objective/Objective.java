@@ -23,7 +23,6 @@ public abstract class Objective {
         }
 
     }
-
     public final Cards createCards(){
         // Create Cards (depending on the type of Objective)
 

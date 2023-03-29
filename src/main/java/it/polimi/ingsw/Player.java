@@ -151,32 +151,25 @@ public class Player {
         this.turn = turn;
     }
 
-    /*
-     *
-     *
-     *
-     * */
 
     /**
-     *
-     * Pick up
-     *
-     * Interface with user, for choose his strategy of pickUp tiles from playground.
-     * Uses the attribute coordinate from his class, to save the coordinate of the tiles, for the pickup and the adiacency check.
-     *
-     *
-     * @param p  the playground, it's where all the tiles are stored
-     * @return Boolean
-     */
 
+     This method allows the player to pick up tiles from the playground.
+     @param p The playground from which the player wants to pick up the tiles.
+     @return A boolean value indicating whether the player's shelfie was able to successfully
+     */
     public Boolean pickUp(Playground p){
+// Initialize variables
         int i = 0;
         int j = 0;
         int pick = 0;
         System.out.println("Scrivi la colonna\n");
         int column = scanner.nextInt();
         Vector<Tiles> picked = new Vector<Tiles>();
+
+// Allow the player to pick up to 3 tiles
         do {
+// Prompt the player for coordinates
             System.out.println("Scrivi le coordinate\n");
             System.out.println("X:");
             this.coordinates.getX().add(scanner.nextInt()-1);
@@ -184,16 +177,18 @@ public class Player {
             this.coordinates.getY().add(scanner.nextInt()-1);
             System.out.println("Per stop -1:");
             pick = scanner.nextInt();
+// Store the picked tile in the picked Vector
             System.out.println(this.coordinates.toString());
             picked.add(p.getGround()[this.coordinates.getX().get(i)][this.coordinates.getY().get(i)]);
+// Display information about the picked tile
             System.out.println("Type: "+picked.get(i).getType());
             System.out.println("X:"+picked.get(i).getX());
             System.out.println("Y:"+picked.get(i).getY());
             i++;
-        }while((pick!= -1 )&&(i!=3));
+        }while(((pick!= -1 )&&(i!=3))||(i<this.my_shelfie.available()[column]));
+// Reset the coordinates variable
         this.coordinates = new Coordinate();
-
+// Call the posix method of the player's shelfie to place the picked up tiles on their shelf
         return this.my_shelfie.posix(picked,column,picked.size(),p);
     }
-
 }

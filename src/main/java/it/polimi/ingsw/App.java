@@ -18,8 +18,11 @@ public class App {
         p.printOutPlayground();
         System.out.println("\n\n\n\n\n");
         Player player = new Player();
-        player.pickUp(p);
+        if(!player.pickUp(p)){
+            System.out.println("SCEMO");
+        }
         player.getMy_shelfie().printOut(player.getMy_shelfie());
+        System.out.println("\n\n");
         p.printOutPlayground();
         player.pickUp(p);
         player.getMy_shelfie().printOut(player.getMy_shelfie());

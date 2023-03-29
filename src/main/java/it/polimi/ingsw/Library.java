@@ -4,7 +4,7 @@ package it.polimi.ingsw;
 import java.util.Vector;
 
 public class Library {
-    public Tiles[][] shelf;
+    private Tiles[][] shelf;
 
 
     public Library() {
@@ -27,14 +27,16 @@ public class Library {
         this.shelf = shelf;
     }
 
-    public Library posix(Vector<Tiles> t, int column, int len, Library s,Playground p){
-            int[] count = s.available(s);
+    public Boolean posix(Vector<Tiles> t, int column, int len,Playground p){
+            int[] count = this.available();
             int j = 0;
+            Boolean tmp = this.adjacence(t,p);
+            System.out.println(tmp);
+            System.out.println(t.size());
             for (int i = count[column];i<len+count[column];i++){
-                if(p.checkAdjacency(t.get(j).getX(),t.get(j).getY())){
-                    s.shelf[5-i][column].setType(t.get(j).getType());
-                    System.out.println(s.shelf[5-i][column].getType());
-
+                if(tmp){
+                    this.shelf[5-i][column].setType(t.get(j).getType());
+                    System.out.println(this.shelf[5-i][column].getType());
                     p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(-1);
                     j++;
                 }else{
@@ -42,7 +44,17 @@ public class Library {
                 }
 
             }
-            return s;
+            return tmp;
+    }
+    private Boolean adjacence(Vector<Tiles> t, Playground p){
+        boolean pick = false;
+        if(t.size()==1){
+            return p.checkAdjacency(t.get(0).getX(), t.get(0).getY());
+        }
+        for(int i = 1; i< t.size(); i++){
+            pick = p.checkAdjacency(t.get(i - 1).getX(), t.get(i - 1).getY(), t.get(i).getX(), t.get(i).getY());
+        }
+        return pick;
     }
     public  void printOut(Library s){
         for(int i = 0;i<6;i++){
@@ -52,12 +64,12 @@ public class Library {
             System.out.println("");
         }
     }
-    private int[] available(Library s){ //how many free spots in the library
+    private int[] available(){ //how many free spots in the library
         int[] count = new int[5];
 
         for(int j = 0; j < 5; j++){
             for (int i = 0; i<6; i++){
-                if ( (s.shelf[i][j]).getType() == -1)
+                if ( (this.shelf[i][j]).getType() == -1)
                     count[j] = 5-i;
 
             }

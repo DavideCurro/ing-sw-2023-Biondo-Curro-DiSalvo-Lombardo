@@ -53,4 +53,13 @@ public class Tiles {
         coordinate[1] = this.getY();
         return coordinate;
     }
+
+    @Override
+    public String toString() {
+        return "Tiles{" +
+                "type=" + type +
+                ", x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

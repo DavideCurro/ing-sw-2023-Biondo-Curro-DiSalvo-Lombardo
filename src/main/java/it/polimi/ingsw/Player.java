@@ -18,7 +18,7 @@ public class Player {
     private String nickname;
     private Boolean turn;
     private final Scanner scanner;
-    private Map<Integer, Integer> coordinates;
+    private Coordinate coordinates;
 
 
     /**
@@ -32,7 +32,7 @@ public class Player {
         this.my_shelfie = new Library();
         this.turn   = false;
         this.scanner = new Scanner(System.in);
-        this.coordinates= new HashMap<Integer, Integer>();
+        this.coordinates= new Coordinate();
 
     }
 
@@ -52,7 +52,7 @@ public class Player {
         this.nickname = nickname;
         this.scanner = new Scanner(System.in);
         this.turn = turn;
-        this.coordinates = new HashMap<Integer,Integer>();
+        this.coordinates = new Coordinate();
     }
 
 
@@ -162,33 +162,38 @@ public class Player {
      * Pick up
      *
      * Interface with user, for choose his strategy of pickUp tiles from playground.
+     * Uses the attribute coordinate from his class, to save the coordinate of the tiles, for the pickup and the adiacency check.
+     *
      *
      * @param p  the playground, it's where all the tiles are stored
      * @return Boolean
      */
 
     public Boolean pickUp(Playground p){
-
         int i = 0;
+        int j = 0;
         int pick = 0;
         System.out.println("Scrivi la colonna\n");
         int column = scanner.nextInt();
-        do {
-            i++;
-            System.out.println("Scrivi le coordinate\n");
-            this.coordinates.put(scanner.nextInt(), scanner.nextInt());
-            pick = scanner.nextInt();
-        }while((pick!= -1 )&&(i!=3));
         Vector<Tiles> picked = new Vector<Tiles>();
-        for(Map.Entry<Integer,Integer> entry : this.coordinates.entrySet()){
-            System.out.println(entry.getKey()+"\t"+ entry.getValue());
-            picked.add(p.getGround()[entry.getKey()][entry.getValue()]);
-            // System.out.println(picked.get(0).getType());
-        }
-        setMy_shelfie(this.my_shelfie.posix(picked,column,picked.size(),this.my_shelfie,p));
-        coordinates = new HashMap<Integer,Integer>();
+        do {
+            System.out.println("Scrivi le coordinate\n");
+            System.out.println("X:");
+            this.coordinates.getX().add(scanner.nextInt()-1);
+            System.out.println("Y:");
+            this.coordinates.getY().add(scanner.nextInt()-1);
+            System.out.println("Per stop -1:");
+            pick = scanner.nextInt();
+            System.out.println(this.coordinates.toString());
+            picked.add(p.getGround()[this.coordinates.getX().get(i)][this.coordinates.getY().get(i)]);
+            System.out.println("Type: "+picked.get(i).getType());
+            System.out.println("X:"+picked.get(i).getX());
+            System.out.println("Y:"+picked.get(i).getY());
+            i++;
+        }while((pick!= -1 )&&(i!=3));
+        this.coordinates = new Coordinate();
 
-        return false;
+        return this.my_shelfie.posix(picked,column,picked.size(),p);
     }
 
 }

@@ -4,7 +4,7 @@ package it.polimi.ingsw;
 import java.util.Vector;
 
 public class Library {
-    private Tiles[][] shelf;
+    public Tiles[][] shelf;
 
 
     public Library() {

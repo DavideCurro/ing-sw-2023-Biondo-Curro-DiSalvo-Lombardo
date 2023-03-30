@@ -1,15 +1,10 @@
 package it.polimi.ingsw.commonStrategy;
 
 import it.polimi.ingsw.Player;
-import it.polimi.ingsw.Tiles;
+
 
 public class GoalC1 {
-    private int points;
     private int count = 0;
-
-
-    //punteggio massimo raggiungibile con obbiettivo comune
-
 
     public void check(Player p) {
         for (int j = 0; j < 5; j++) {
@@ -19,11 +14,9 @@ public class GoalC1 {
             }
             if (i == 5)
                 count++;
-            if (count == 2)
+            if (count == 2) //count how many columns are fill with 6 equal rows
                 break;
-            //metodo conta punteggi
-            //decremento punteggio massimo raggiungibile
-            //passato e memorizzato nel match
+
         }
 
 

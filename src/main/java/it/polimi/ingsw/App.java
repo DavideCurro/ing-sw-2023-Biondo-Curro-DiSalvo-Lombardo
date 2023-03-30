@@ -13,7 +13,7 @@ public class App {
     static final int row = 7;
     public static void main( String[] args ) {
 
-        Playground p = new Playground(col*row);
+        Playground p = new Playground(col*row,2);
         p.fillUP();
         p.printOutPlayground();
         System.out.println("\n\n\n\n\n");

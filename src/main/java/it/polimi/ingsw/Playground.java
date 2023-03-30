@@ -4,22 +4,42 @@ import java.util.Random;
 import java.lang.*;
 
 public class Playground {
+    private  static  int [][] mask2Player = new int[][]{{-1, -1, 0, 0, -1,-1,-1},
+            {-1, -1, 0, 0, 0, -1, -1},
+            {-1, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, -1},
+            {-1, -1, 0, 0, 0, -1, -1},
+            {-1, -1, -1, 0, 0, -1, -1}
+    };
     private static int col = 7;
     private static int row = 7;
     private int num_tiles;
+    private int num_players;
     private Tiles[][] ground;
 
     public Playground() {
         num_tiles = 0;
         ground = new Tiles[0][0];
     }
-    public Playground(int num_tiles) {
+    public Playground(int num_tiles, int num_players) {
         this.num_tiles = num_tiles;
-        ground = new Tiles[0][0];
-    }
-    public Playground(int num_tiles, Tiles[][] ground) {
-        this.num_tiles = num_tiles;
+        this.num_players = num_players;
+        switch(num_players){
+            case 2:{
+                setGround2Player();
+            }
+            case 3:{
 
+            }
+            case 4:{
+
+            }
+        }
+    }
+    public Playground(int num_tiles, Tiles[][] ground, int num_players) {
+        this.num_tiles = num_tiles;
+        this.num_players = num_players;
         this.ground = ground;
         int row = this.ground.length;
         int col = this.ground[0].length;
@@ -28,7 +48,20 @@ public class Playground {
             System.exit(-1);
         }
     }
-
+    public void setGround2Player(){
+        Tiles[][] g = new Tiles[7][7];
+        Random r = new Random();
+        for (int i = 0;i<7;i++){
+            for(int j = 0;j<7;j++){
+                if (mask2Player[i][j]!=-1) {
+                    g[i][j] = new Tiles(r.nextInt(5), i, j);
+                }else{
+                    g[i][j] = new Tiles(-1, i, j);
+                }
+            }
+        }
+        setGround(g);
+    }
     public int getNum_tiles() {
         return num_tiles;
     }

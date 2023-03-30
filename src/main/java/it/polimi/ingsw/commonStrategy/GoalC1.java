@@ -9,7 +9,7 @@ public class GoalC1 {
     public void check(Player p) {
         for (int j = 0; j < 5; j++) {
             int i = 1;
-            while (((p.getMy_shelfie().getShelf()[i][j]).getType() == (p.getMy_shelfie().getShelf()[ i - 1][j]).getType()) && (i < 6)) {
+            while (((p.getMy_shelfie().getShelf()[i][j]).getType() != (p.getMy_shelfie().getShelf()[ i - 1][j]).getType()) && (i < 6)) {
                 i++;
             }
             if (i == 5)

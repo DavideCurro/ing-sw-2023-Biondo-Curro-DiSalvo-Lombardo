@@ -16,7 +16,7 @@ public class GoalC8 {
                 if (p.getMy_shelfie().getShelf()[i][j + 4].getType() == p.getMy_shelfie().getShelf()[i + 5][j + 4].getType()) {
                     System.out.println("The Tiles are equal");
                 } else break;
-                //check if the bottom corners are equale
+                //check if the bottom corners are equals
                 if (p.getMy_shelfie().getShelf()[i + 5][j].getType() == p.getMy_shelfie().getShelf()[i + 5][j + 4].getType()) {
                     System.out.println("The Tiles are equal");
                 } else break;

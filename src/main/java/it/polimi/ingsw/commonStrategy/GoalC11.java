@@ -1,11 +1,11 @@
 package it.polimi.ingsw.commonStrategy;
 
-//Goal 3 = Five tiles of the same type forming a diagonal.
+//Goal 11 = Five tiles of the same type forming a diagonal.
 
 
 import it.polimi.ingsw.Player;
 
-public class GoalC3 {
+public class GoalC11 {
     private int count = 0;
     //check secondary diagonal (where i+5 = j)
     public void check(Player p) {

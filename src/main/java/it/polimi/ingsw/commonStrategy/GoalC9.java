@@ -7,7 +7,6 @@ tiles  */
 import it.polimi.ingsw.Player;
 
 public class GoalC9 {
-    private int type;
     private int count1 = 0;
     private int count2 = 0;
     private int count3 = 0;
@@ -19,7 +18,7 @@ public class GoalC9 {
     public boolean check(Player p) {
         for (int j = 0; j < 5; j++) {
             for (int i = 0; i < 6; i++) {
-                type = p.getMy_shelfie().getShelf()[i][j].getType();
+                int type = p.getMy_shelfie().getShelf()[i][j].getType();
                 switch (type) {
                     case 1:
                         count1++;

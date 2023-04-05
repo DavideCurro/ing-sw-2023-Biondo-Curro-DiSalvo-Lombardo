@@ -12,6 +12,26 @@ public class Playground {
             {-1, -1, 0, 0, 0, -1, -1},
             {-1, -1, -1, 0, 0, -1, -1}
     };
+    private  static  int [][] mask3Player = new int[][]{{-1, -1, -1, 0, -1, -1,-1,-1,-1},
+            {-1,-1, -1, 0, 0, -1, -1,-1,-1},
+            {-1, -1, 0, 0, 0, 0, 0, -1,-1},
+            {-1,-1, 0, 0, 0, 0, 0, 0, 0},
+            {-1, 0, 0, 0, 0, 0, 0, 0, -1},
+            {0, 0, 0, 0, 0, 0, 0, -1, -1},
+            {-1, -1, 0, 0, 0, 0, 0, -1, -1},
+            {-1, -1, -1, -1, 0, 0, -1, -1, -1},
+            {-1, -1, -1, -1, -1, 0, -1, -1, -1}
+    };
+    private  static  int [][] mask4Player = new int[][]{{-1, -1, -1, 0, 0, -1,-1,-1,-1},
+            {-1,-1, -1, 0, 0, 0, -1,-1,-1},
+            {-1, -1, 0, 0, 0, 0, 0, -1,-1},
+            {-1, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0, 0, 0, 0, 0, -1},
+            {-1, -1, 0, 0, 0, 0, 0, -1, -1},
+            {-1, -1, -1, 0, 0, 0, -1, -1, -1},
+            {-1, -1, -1, -1, 0, 0, -1, -1, -1}
+    };
     private static int col = 7;
     private static int row = 7;
     private int num_tiles;
@@ -30,10 +50,10 @@ public class Playground {
                 setGround2Player();
             }
             case 3:{
-
+                setGround3Player();
             }
             case 4:{
-
+                setGround4Player();
             }
         }
     }
@@ -54,6 +74,36 @@ public class Playground {
         for (int i = 0;i<7;i++){
             for(int j = 0;j<7;j++){
                 if (mask2Player[i][j]!=-1) {
+                    g[i][j] = new Tiles(r.nextInt(5), i, j);
+                }else{
+                    g[i][j] = new Tiles(-1, i, j);
+                }
+            }
+        }
+        setGround(g);
+    }
+
+    public void setGround3Player(){
+        Tiles[][] g = new Tiles[9][9];
+        Random r = new Random();
+        for (int i = 0;i<9;i++){
+            for(int j = 0;j<9;j++){
+                if (mask3Player[i][j]!=-1) {
+                    g[i][j] = new Tiles(r.nextInt(5), i, j);
+                }else{
+                    g[i][j] = new Tiles(-1, i, j);
+                }
+            }
+        }
+        setGround(g);
+    }
+
+    public void setGround4Player(){
+        Tiles[][] g = new Tiles[9][9];
+        Random r = new Random();
+        for (int i = 0;i<9;i++){
+            for(int j = 0;j<9;j++){
+                if (mask4Player[i][j]!=-1) {
                     g[i][j] = new Tiles(r.nextInt(5), i, j);
                 }else{
                     g[i][j] = new Tiles(-1, i, j);

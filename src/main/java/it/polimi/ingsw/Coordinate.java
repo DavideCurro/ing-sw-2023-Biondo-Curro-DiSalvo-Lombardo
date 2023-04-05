@@ -12,9 +12,15 @@ public class Coordinate {
 
     }
 
+    /**
+     *
+     * @param x
+     * @param y
+     */
     public Coordinate(Vector<Integer> x, Vector<Integer> y) {
         X = x;
         Y = y;
+
     }
     public Vector<Integer> getX() {
         return X;

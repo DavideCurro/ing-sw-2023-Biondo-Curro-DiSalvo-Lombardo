@@ -6,46 +6,63 @@ import it.polimi.ingsw.model.exception.PlaygroundException;
 import java.util.Random;
 import java.lang.*;
 
+/**
+ * The class Playground
+ */
 public class Playground {
     private final static int[][] mask2Player = new int[][]{{-1, -1,  -1, -1, -1, -1, -1, -1, -1},
-                                                     {-1, -1,  -1,  0,  0, -1, -1, -1, -1},
-                                                     {-1, -1,  -1,  0,  0,  0, -1, -1, -1},
-                                                     {-1, -1,   0,  0,  0,  0,  0,  0, -1},
-                                                     {-1,  0,   0,  0,  0,  0,  0,  0, -1},
-                                                     {-1,  0,   0,  0,  0,  0,  0, -1, -1},
-                                                     {-1, -1,   0,  0,  0, -1, -1, -1, -1},
-                                                     {-1, -1,  -1, -1,  0,  0, -1, -1, -1},
-                                                     {-1, -1,  -1, -1, -1, -1, -1, -1, -1}
+                                                           {-1, -1,  -1,  0,  0, -1, -1, -1, -1},
+                                                           {-1, -1,  -1,  0,  0,  0, -1, -1, -1},
+                                                           {-1, -1,   0,  0,  0,  0,  0,  0, -1},
+                                                           {-1,  0,   0,  0,  0,  0,  0,  0, -1},
+                                                           {-1,  0,   0,  0,  0,  0,  0, -1, -1},
+                                                           {-1, -1,   0,  0,  0, -1, -1, -1, -1},
+                                                           {-1, -1,  -1, -1,  0,  0, -1, -1, -1},
+                                                           {-1, -1,  -1, -1, -1, -1, -1, -1, -1}
     };
     private final static int[][] mask3Player = new int[][]{{-1, -1, -1,  0, -1, -1, -1, -1, -1},
-                                                     {-1, -1, -1,  0,  0, -1, -1, -1, -1},
-                                                     {-1, -1,  0,  0,  0,  0,  0, -1, -1},
-                                                     {-1, -1,  0,  0,  0,  0,  0,  0,  0},
-                                                     {-1,  0,  0,  0,  0,  0,  0,  0, -1},
-                                                     { 0,  0,  0,  0,  0,  0,  0, -1, -1},
-                                                     {-1, -1,  0,  0,  0,  0,  0, -1, -1},
-                                                     {-1, -1, -1, -1,  0,  0, -1, -1, -1},
-                                                     {-1, -1, -1, -1, -1,  0, -1, -1, -1}
+                                                           {-1, -1, -1,  0,  0, -1, -1, -1, -1},
+                                                           {-1, -1,  0,  0,  0,  0,  0, -1, -1},
+                                                           {-1, -1,  0,  0,  0,  0,  0,  0,  0},
+                                                           {-1,  0,  0,  0,  0,  0,  0,  0, -1},
+                                                           { 0,  0,  0,  0,  0,  0,  0, -1, -1},
+                                                           {-1, -1,  0,  0,  0,  0,  0, -1, -1},
+                                                           {-1, -1, -1, -1,  0,  0, -1, -1, -1},
+                                                           {-1, -1, -1, -1, -1,  0, -1, -1, -1}
     };
     private final static int[][] mask4Player = new int[][]{{-1, -1, -1,  0, 0, -1, -1, -1, -1},
-                                                     {-1, -1, -1,  0, 0,  0, -1, -1, -1},
-                                                     {-1, -1,  0,  0, 0,  0,  0, -1, -1},
-                                                     {-1,  0,  0,  0, 0,  0,  0,  0,  0},
-                                                     { 0,  0,  0,  0, 0,  0,  0,  0,  0},
-                                                     { 0,  0,  0,  0, 0,  0,  0,  0, -1},
-                                                     {-1, -1,  0,  0, 0,  0,  0, -1, -1},
-                                                     {-1, -1, -1,  0, 0,  0, -1, -1, -1},
-                                                     {-1, -1, -1, -1, 0,  0, -1, -1, -1}
+                                                           {-1, -1, -1,  0, 0,  0, -1, -1, -1},
+                                                           {-1, -1,  0,  0, 0,  0,  0, -1, -1},
+                                                           {-1,  0,  0,  0, 0,  0,  0,  0,  0},
+                                                           { 0,  0,  0,  0, 0,  0,  0,  0,  0},
+                                                           { 0,  0,  0,  0, 0,  0,  0,  0, -1},
+                                                           {-1, -1,  0,  0, 0,  0,  0, -1, -1},
+                                                           {-1, -1, -1,  0, 0,  0, -1, -1, -1},
+                                                           {-1, -1, -1, -1, 0,  0, -1, -1, -1}
     };
 
     private int num_players;
     private Tiles[][] ground;
 
+
+    /**
+     *
+     * It is a constructor.
+     *
+     */
     public Playground() {
         ground = new Tiles[0][0];
     }
 
-    public Playground(int num_tiles, int num_players) throws PlaygroundException {
+
+    /**
+     *
+     * It is a constructor. It use num_players for setup mask
+     *
+     * @param num_players  the num_players.
+     * @throws   PlaygroundException
+     */
+    public Playground(int num_players) throws PlaygroundException {
         this.num_players = num_players;
         switch (num_players) {
             case 2 -> maskSetup(mask2Player); 
@@ -56,17 +73,24 @@ public class Playground {
         }
     }
 
-    public Playground(int num_tiles, Tiles[][] ground, int num_players) {
+    /**
+     *
+     * It is a constructor.
+     *
+     * @param ground  the ground.
+     * @param num_players  the num_players.
+     */
+    public Playground(Tiles[][] ground, int num_players) {
         this.num_players = num_players;
         this.ground = ground;
-        int row = this.ground.length;
-        int col = this.ground[0].length;
-        if ((row * col) != num_tiles) {
-            System.out.println("ERROR");
-            System.exit(-1);
-        }
     }
 
+    /**
+     *
+     * Mask setup
+     *
+     * @param maskPlayer  the mask player.
+     */
     private void maskSetup(int[][] maskPlayer) {
         Tiles[][] g = new Tiles[9][9];
         Random r = new Random();
@@ -82,14 +106,31 @@ public class Playground {
         setGround(g);
     }
 
+    /**
+     *
+     * Gets the ground
+     *
+     * @return the ground
+     */
     public Tiles[][] getGround() {
         return ground;
     }
 
+    /**
+     *
+     * Sets the ground
+     *
+     * @param ground  the ground.
+     */
     public void setGround(Tiles[][] ground) {
         this.ground = ground;
     }
 
+    /**
+     *
+     * Print output playground
+     *
+     */
     public void printOutPlayground() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -99,7 +140,13 @@ public class Playground {
         }
     }
 
-    public void fillUP() throws PlaygroundException {
+    /**
+     *
+     * FillUp the matrix when is empty
+     *
+     * @throws   PlaygroundException
+     */
+    private void fillUP() throws PlaygroundException {
         switch (num_players) {
             case 2 -> maskSetup(mask2Player);
             case 3 -> maskSetup(mask3Player);
@@ -108,6 +155,32 @@ public class Playground {
         }
     }
 
+    public void countSelected() throws PlaygroundException {
+        Coordinate tmp =new Coordinate();
+        int count = 0;
+        for(int i = 0;i<9;i++){
+            for(int j = 0; j<9;j++){
+                if(this.ground[i][j].getType()!= -1){
+                    count++;
+                }
+            }
+        }
+        if(count < 5) {
+            fillUP();
+        }
+
+    }
+
+
+
+
+    /**
+     *
+     * Adiacency
+     *
+     * @param c  the coordinate of tiles.
+     * @return boolean
+     */
     public boolean adiacency(Coordinate c) {
         try {
             int startX = c.getX().get(0);
@@ -132,6 +205,16 @@ public class Playground {
         }
         return true;
     }
+
+
+    /**
+     *
+     * isValid
+     *
+     * @param x  the x.
+     * @param y  the y.
+     * @return boolean, is true if the tile has at least one free spot adjacent it
+     */
     private boolean isValid(int x, int y){
         if(x-1>0 && this.ground[x-1][y].getType() == -1){
             return  true;
@@ -143,6 +226,15 @@ public class Playground {
             return true;
         } else return (x - 1) < 0 || x + 1 > this.ground.length || (y-1) < 0 || y + 1 > this.ground[0].length;
     }
+
+    /**
+     *
+     * Check left
+     *
+     * @param c  the coordinate.
+     * @param i  the index.
+     * @return boolean, return true if the two tiles are next to each other on left side for the index one
+     */
     private boolean checkLeft(Coordinate c, int i ){
         try {
             return c.getXByIndex(i - 1) == c.getXByIndex(i) - 1;
@@ -151,6 +243,15 @@ public class Playground {
             return false;
         }
     }
+
+    /**
+     *
+     * Check right
+     *
+     * @param c  the coordinate.
+     * @param i  the index.
+     * @return boolean, return true if the two tiles are next to each other on right side for the index one
+     */
     private boolean checkRight(Coordinate c, int i ){
         try {
             return c.getXByIndex(i - 1) == c.getXByIndex(i) + 1;
@@ -159,6 +260,15 @@ public class Playground {
             return false;
         }
     }
+
+    /**
+     *
+     * Check up
+     *
+     * @param c  the coordinate.
+     * @param i  the index.
+     * @return boolean, return true if the two tiles are next to each other on upper side for the index one
+     */
     private boolean checkUp(Coordinate c, int i ){
         try {
             return c.getYByIndex(i - 1) == c.getYByIndex(i) - 1;
@@ -167,6 +277,15 @@ public class Playground {
             return false;
         }
     }
+
+    /**
+     *
+     * Check down
+     *
+     * @param c  the coordinate.
+     * @param i  the index.
+     * @return boolean, return true if the two tiles are next to each other on down side for the index one
+     */
     private boolean checkDown(Coordinate c, int i ){
         try {
             return c.getYByIndex(i - 1) == c.getYByIndex(i) + 1;

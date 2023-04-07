@@ -5,10 +5,17 @@ import it.polimi.ingsw.model.Coordinate;
 import it.polimi.ingsw.model.Playground;
 import it.polimi.ingsw.model.Tiles;
 import it.polimi.ingsw.model.exception.CoordinateStateException;
-
+/**
+ * The class Library
+ */
 public class Library {
     private Tiles[][] shelf;
 
+    /**
+     *
+     * It is a constructor.
+     *
+     */
 
     public Library() {
         this.shelf = new Tiles[6][5];
@@ -19,26 +26,45 @@ public class Library {
         }
     }
 
+    /**
+     *
+     * It is a constructor.
+     *
+     * @param shelf  the shelf.
+     */
     public Library(Tiles[][] shelf) {
         this.shelf = shelf;
     }
 
+    /**
+     *
+     * Gets the shelf
+     *
+     * @return the shelf
+     */
     public Tiles[][] getShelf() {
         return shelf;
     }
 
+    /**
+     *
+     * Sets the shelf
+     *
+     * @param shelf  the shelf.
+     */
     public void setShelf(Tiles[][] shelf) {
         this.shelf = shelf;
     }
 
     /**
-     * This method places the tiles picked up by the player's shelfie onto their shelf in the specified column.
-     *
-     * @param t      The Vector of tiles picked up by the player's shelfie.
-     * @param column The column in which the tiles should be placed.
-     * @param len    The number of tiles to be placed.
-     * @param p      The playground from which the tiles were picked up.
-     * @return A boolean value indicating whether the tiles were successfully placed on the shelf.
+
+     Method to place picked tiles on the player's shelf, given a column to place them in and their coordinates on the playground.
+
+     @param t The coordinates of the picked tiles
+     @param column The column on the player's shelf to place the tiles in
+     @param len The number of tiles to place on the shelf
+     @param p The playground object where the tiles were originally placed
+     @return true if the tiles were successfully placed on the shelf, false otherwise
      */
     public Boolean posix(Coordinate t, int column, int len, Playground p) {
         // Initialize variables
@@ -67,10 +93,16 @@ public class Library {
         return tmp;
     }
 
-    public void printOut(Library s) {
+    /**
+     *
+     * Print output
+     *
+     *
+     */
+    public void printOut() {
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
-                System.out.print(s.shelf[i][j].getType() + "\t");
+                System.out.print(this.shelf[i][j].getType() + "\t");
             }
             System.out.println();
         }

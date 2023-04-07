@@ -33,11 +33,28 @@ public class Player {
     public Player() {
 
         this.is_first = false;
+        this.nickname = "";
         this.my_shelfie = new Library();
         this.turn   = false;
         this.scanner = new Scanner(System.in);
         this.coordinates= new Coordinate();
 
+    }
+    /**
+     *
+     * It is a constructor.
+     *
+     * @param is_first  the is_first
+     * @param nickname  the nickname
+     * @param turn  the turn
+     */
+    public Player(Boolean is_first, String nickname, Boolean turn) {
+        this.is_first = is_first;
+        this.nickname = nickname;
+        this.turn = turn;
+        this.my_shelfie = new Library();
+        this.scanner = new Scanner(System.in);
+        this.coordinates= new Coordinate();
     }
 
     /**
@@ -158,9 +175,11 @@ public class Player {
 
     /**
 
-     This method allows the player to pick up tiles from the playground.
-     @param p The playground from which the player wants to pick up the tiles.
-     @return A boolean value indicating whether the player's shelfie was able to successfully
+     Allows the player to pick up tiles from a given playground, up to a maximum of 3 tiles.
+     Prompts the player for the column and coordinates of each tile they want to pick up, and stores information about each picked tile in a Coordinate object.
+     Displays information about each picked tile, and calls the posix method of the player's shelfie to place the picked up tiles on their shelf.
+     @param p The playground from which the player will pick up tiles.
+     @return True if the picked up tiles are successfully placed on the player's shelf, false otherwise.
      */
     public Boolean pickUp(Playground p){
         // Initialize variables
@@ -176,16 +195,16 @@ public class Player {
             // Prompt the player for coordinates
             System.out.println("Scrivi le coordinate\n");
             System.out.println("X:");
-            tmpX = scanner.nextInt()-1;
+            tmpX = scanner.nextInt()-1;     //CLIENT FIX CHECK >0 && IN RANGE
             System.out.println("Y:");
-            tmpY=scanner.nextInt()-1;
+            tmpY=scanner.nextInt()-1;       //CLIENT FIX CHECK >0 && IN RANGE
             System.out.println("Per stop -1:");
             pick = scanner.nextInt();
             // Store the picked tile in the picked Vector
             this.coordinates.addALL(tmpX,tmpY,p.getGround()[tmpX][tmpY].getType());
             // Display information about the picked tile
-            System.out.print("Type: "+this.coordinates.getType().get(i)+"\t");
             try{
+                System.out.print("Type: "+this.coordinates.getTypeByIndex(i)+"\t");
                 System.out.print("X:"+this.coordinates.getXByIndex(i)+"\t");
                 System.out.println("Y:"+this.coordinates.getYByIndex(i));
             }catch (CoordinateStateException e){
@@ -201,4 +220,5 @@ public class Player {
             return false;
         }
     }
+
 }

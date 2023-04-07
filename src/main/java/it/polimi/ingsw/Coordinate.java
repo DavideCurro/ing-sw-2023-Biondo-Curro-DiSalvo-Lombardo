@@ -19,12 +19,9 @@ public class Coordinate {
         this.type = type;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Coordinate that)) return false;
 
-        return Objects.equals(type, that.type);
+    public boolean equals(int x, int y, int type,int index) {
+        return (this.type.get(index) == type) && (this.Y.get(index) == y) && (this.X.get(index) == x);
     }
 
     public Vector<Integer> getType() {

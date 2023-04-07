@@ -1,9 +1,9 @@
-package it.polimi.ingsw.commonStrategy;
+package it.polimi.ingsw.model.commonStrategy;
 
 //Goal 11 = Five tiles of the same type forming a diagonal.
 
 
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.model.player.Player;
 
 public class GoalC11 {
     private int count = 0;

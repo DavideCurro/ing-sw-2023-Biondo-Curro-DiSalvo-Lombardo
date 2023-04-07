@@ -1,6 +1,6 @@
-package it.polimi.ingsw.commonStrategy;
+package it.polimi.ingsw.model.commonStrategy;
 
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.model.player.Player;
 
 /* 5 tiles of the same type that make together an X */
 public class GoalC10 {

@@ -1,6 +1,6 @@
-package it.polimi.ingsw.commonStrategy;
+package it.polimi.ingsw.model.commonStrategy;
 
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.model.player.Player;
 
 /*Goal 8 = Four tiles of the same type in the four
            corners of the bookshelf.*/

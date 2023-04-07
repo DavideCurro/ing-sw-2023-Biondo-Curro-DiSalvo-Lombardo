@@ -1,6 +1,6 @@
-package it.polimi.ingsw.commonStrategy;
+package it.polimi.ingsw.model.commonStrategy;
 
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.model.player.Player;
 
 /* Six groups each containing at least 2 tiles of the same type (not necessarily
 in the depicted shape). The tiles of one group can be different from those of another group. */

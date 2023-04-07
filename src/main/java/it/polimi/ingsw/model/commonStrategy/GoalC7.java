@@ -1,7 +1,8 @@
-package it.polimi.ingsw.commonStrategy;
+package it.polimi.ingsw.model.commonStrategy;
 
 import java.util.*;
-import it.polimi.ingsw.Player;
+
+import it.polimi.ingsw.model.player.Player;
 
 /*Four lines each formed by 5 tiles of maximum three different types.
 One line can show the same or a different combination of another line. */

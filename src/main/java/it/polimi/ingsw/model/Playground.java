@@ -1,10 +1,13 @@
-package it.polimi.ingsw;
-import java.io.*;
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.model.exception.CoordinateStateException;
+import it.polimi.ingsw.model.exception.PlaygroundException;
+
 import java.util.Random;
 import java.lang.*;
 
 public class Playground {
-    private static int[][] mask2Player = new int[][]{{-1, -1,  -1, -1, -1, -1, -1, -1, -1},
+    private final static int[][] mask2Player = new int[][]{{-1, -1,  -1, -1, -1, -1, -1, -1, -1},
                                                      {-1, -1,  -1,  0,  0, -1, -1, -1, -1},
                                                      {-1, -1,  -1,  0,  0,  0, -1, -1, -1},
                                                      {-1, -1,   0,  0,  0,  0,  0,  0, -1},
@@ -14,7 +17,7 @@ public class Playground {
                                                      {-1, -1,  -1, -1,  0,  0, -1, -1, -1},
                                                      {-1, -1,  -1, -1, -1, -1, -1, -1, -1}
     };
-    private static int[][] mask3Player = new int[][]{{-1, -1, -1,  0, -1, -1, -1, -1, -1},
+    private final static int[][] mask3Player = new int[][]{{-1, -1, -1,  0, -1, -1, -1, -1, -1},
                                                      {-1, -1, -1,  0,  0, -1, -1, -1, -1},
                                                      {-1, -1,  0,  0,  0,  0,  0, -1, -1},
                                                      {-1, -1,  0,  0,  0,  0,  0,  0,  0},
@@ -24,7 +27,7 @@ public class Playground {
                                                      {-1, -1, -1, -1,  0,  0, -1, -1, -1},
                                                      {-1, -1, -1, -1, -1,  0, -1, -1, -1}
     };
-    private static int[][] mask4Player = new int[][]{{-1, -1, -1,  0, 0, -1, -1, -1, -1},
+    private final static int[][] mask4Player = new int[][]{{-1, -1, -1,  0, 0, -1, -1, -1, -1},
                                                      {-1, -1, -1,  0, 0,  0, -1, -1, -1},
                                                      {-1, -1,  0,  0, 0,  0,  0, -1, -1},
                                                      {-1,  0,  0,  0, 0,  0,  0,  0,  0},
@@ -34,36 +37,26 @@ public class Playground {
                                                      {-1, -1, -1,  0, 0,  0, -1, -1, -1},
                                                      {-1, -1, -1, -1, 0,  0, -1, -1, -1}
     };
-    private static int col = 9;
-    private static int row = 9;
-    private int num_tiles;
+
     private int num_players;
     private Tiles[][] ground;
 
     public Playground() {
-        num_tiles = 0;
         ground = new Tiles[0][0];
     }
 
-    public Playground(int num_tiles, int num_players) {
-        this.num_tiles = num_tiles;
+    public Playground(int num_tiles, int num_players) throws PlaygroundException {
         this.num_players = num_players;
         switch (num_players) {
-            case 2 -> {
-                maskSetup(mask2Player);
-            }
-            case 3 -> {
-                maskSetup(mask3Player);
-            }
-            case 4 -> {
-                maskSetup(mask4Player);
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + num_players);
+            case 2 -> maskSetup(mask2Player); 
+            case 3 -> maskSetup(mask3Player);
+            case 4 -> maskSetup(mask4Player);
+            
+            default -> throw new PlaygroundException("Unexpected value: " + num_players);
         }
     }
 
     public Playground(int num_tiles, Tiles[][] ground, int num_players) {
-        this.num_tiles = num_tiles;
         this.num_players = num_players;
         this.ground = ground;
         int row = this.ground.length;
@@ -89,15 +82,6 @@ public class Playground {
         setGround(g);
     }
 
-
-    public int getNum_tiles() {
-        return num_tiles;
-    }
-
-    public void setNum_tiles(int num_tiles) {
-        this.num_tiles = num_tiles;
-    }
-
     public Tiles[][] getGround() {
         return ground;
     }
@@ -115,18 +99,12 @@ public class Playground {
         }
     }
 
-    public void fillUP() {
+    public void fillUP() throws PlaygroundException {
         switch (num_players) {
-            case 2 -> {
-                maskSetup(mask2Player);
-            }
-            case 3 -> {
-                maskSetup(mask3Player);
-            }
-            case 4 -> {
-                maskSetup(mask4Player);
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + num_players);
+            case 2 -> maskSetup(mask2Player);
+            case 3 -> maskSetup(mask3Player);
+            case 4 -> maskSetup(mask4Player);
+            default -> throw new PlaygroundException("Unexpected value: " + num_players);
         }
     }
 
@@ -148,8 +126,8 @@ public class Playground {
             }else{
                 return false;
             }
-        } catch (IllegalStateException e) {
-            System.out.println(e.toString());
+        } catch (CoordinateStateException e) {
+            System.out.println(e.getMessage());
             return false;
         }
         return true;
@@ -166,15 +144,35 @@ public class Playground {
         } else return (x - 1) < 0 || x + 1 > this.ground.length || (y-1) < 0 || y + 1 > this.ground[0].length;
     }
     private boolean checkLeft(Coordinate c, int i ){
-        return c.getXByIndex(i - 1) == c.getXByIndex(i) - 1;
+        try {
+            return c.getXByIndex(i - 1) == c.getXByIndex(i) - 1;
+        }catch (CoordinateStateException e){
+            System.out.println("Tiles not Valid");
+            return false;
+        }
     }
     private boolean checkRight(Coordinate c, int i ){
-        return c.getXByIndex(i-1) == c.getXByIndex(i)+1;
+        try {
+            return c.getXByIndex(i - 1) == c.getXByIndex(i) + 1;
+        }catch (CoordinateStateException e){
+            System.out.println("Tiles not Valid");
+            return false;
+        }
     }
     private boolean checkUp(Coordinate c, int i ){
-        return c.getYByIndex(i-1)== c.getYByIndex(i)-1;
+        try {
+            return c.getYByIndex(i - 1) == c.getYByIndex(i) - 1;
+        }catch (CoordinateStateException e){
+            System.out.println("Tiles not Valid");
+            return false;
+        }
     }
     private boolean checkDown(Coordinate c, int i ){
-        return c.getYByIndex(i-1) == c.getYByIndex(i)+1;
+        try {
+            return c.getYByIndex(i - 1) == c.getYByIndex(i) + 1;
+        }catch (CoordinateStateException e){
+            System.out.println("Tiles not Valid");
+            return false;
+        }
     }
 }

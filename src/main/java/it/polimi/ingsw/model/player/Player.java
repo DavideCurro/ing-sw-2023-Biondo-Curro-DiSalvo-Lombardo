@@ -1,4 +1,8 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model.player;
+import it.polimi.ingsw.model.Coordinate;
+import it.polimi.ingsw.model.Playground;
+import it.polimi.ingsw.model.exception.CoordinateStateException;
+
 import java.util.*;
 /*
 * This class is used for manage all the aspect of the player.
@@ -181,11 +185,20 @@ public class Player {
             this.coordinates.addALL(tmpX,tmpY,p.getGround()[tmpX][tmpY].getType());
             // Display information about the picked tile
             System.out.print("Type: "+this.coordinates.getType().get(i)+"\t");
-            System.out.print("X:"+this.coordinates.getX().get(i)+"\t");
-            System.out.println("Y:"+this.coordinates.getY().get(i));
+            try{
+                System.out.print("X:"+this.coordinates.getXByIndex(i)+"\t");
+                System.out.println("Y:"+this.coordinates.getYByIndex(i));
+            }catch (CoordinateStateException e){
+                System.out.println(e.getMessage());
+            }
             i++;
         }while(((pick!= -1 )&&(i!=3))||(i<this.my_shelfie.available()[column]));
 // Call the posix method of the player's shelfie to place the picked up tiles on their shelf
-        return this.my_shelfie.posix(this.coordinates,column,this.coordinates.size(),p);
+        try {
+            return this.my_shelfie.posix(this.coordinates, column, this.coordinates.size(), p);
+        }catch (CoordinateStateException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }

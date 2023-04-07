@@ -1,10 +1,10 @@
-package it.polimi.ingsw.commonStrategy;
+package it.polimi.ingsw.model.commonStrategy;
 
 /*Goal 9 = Eight tiles of the same type. There’s no
 restriction about the position of these
 tiles  */
 
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.model.player.Player;
 
 public class GoalC9 {
     private int count1 = 0;

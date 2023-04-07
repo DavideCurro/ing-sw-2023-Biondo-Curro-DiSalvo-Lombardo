@@ -1,7 +1,10 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model.player;
 
-//import java.util.Arrays;
-import java.util.Vector;
+
+import it.polimi.ingsw.model.Coordinate;
+import it.polimi.ingsw.model.Playground;
+import it.polimi.ingsw.model.Tiles;
+import it.polimi.ingsw.model.exception.CoordinateStateException;
 
 public class Library {
     private Tiles[][] shelf;
@@ -38,22 +41,26 @@ public class Library {
      * @return A boolean value indicating whether the tiles were successfully placed on the shelf.
      */
     public Boolean posix(Coordinate t, int column, int len, Playground p) {
-// Initialize variables
+        // Initialize variables
         int[] count = this.available();
         int j = 0;
         Boolean tmp = p.adiacency(t);
         System.out.println(tmp);
-        //System.out.println(t.size());
-// Place the tiles on the shelf
+        // Place the tiles on the shelf
         for (int i = count[column]; i < len + count[column]; i++) {
             if (tmp) {
-// Set the type of the tile on the shelf and remove it from the playground
-                this.shelf[5 - i][column].setType(t.getTypeByIndex(j));
-               // System.out.println(this.shelf[5 - i][column].getType());
-                p.getGround()[t.getXByIndex(j)][t.getYByIndex(j)].setType(-1);
+                // Set the type of the tile on the shelf and remove it from the playground
+                try {
+                    this.shelf[5 - i][column].setType(t.getTypeByIndex(j));
+                    // System.out.println(this.shelf[5 - i][column].getType());
+                    p.getGround()[t.getXByIndex(j)][t.getYByIndex(j)].setType(-1);
+                } catch (CoordinateStateException e) {
+                    System.out.println(e.getMessage() + "SOME ERROR ON COORDINATE OBJECT OCCURRED");
+                }
+
                 j++;
             } else {
-// If the tiles cannot be placed, print an error message
+                // If the tiles cannot be placed, print an error message
                 System.out.println("NOT POSSIBLE");
             }
         }

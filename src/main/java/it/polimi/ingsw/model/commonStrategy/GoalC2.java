@@ -1,6 +1,6 @@
-package it.polimi.ingsw.commonStrategy;
+package it.polimi.ingsw.model.commonStrategy;
 
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.model.player.Player;
 
 /*Goal 2 = Two columns each formed by 6 different types of tiles.*/
 public class GoalC2 {

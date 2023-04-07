@@ -1,4 +1,4 @@
-package it.polimi.ingsw.commonStrategy;
+package it.polimi.ingsw.model.commonStrategy;
 
 public interface CommonObj {
     void check();

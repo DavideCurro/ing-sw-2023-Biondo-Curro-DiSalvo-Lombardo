@@ -1,16 +1,18 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
+
+import it.polimi.ingsw.model.exception.CoordinateStateException;
 
 import java.util.Vector;
-import java.util.*;
+
 public class Coordinate {
     Vector<Integer> X;
     Vector<Integer> Y;
     Vector<Integer> type;
 
     public Coordinate() {
-        this.X = new Vector<Integer>();
-        this.Y = new Vector<Integer>();
-        this.type = new Vector<Integer>();
+        this.X = new Vector<>();
+        this.Y = new Vector<>();
+        this.type = new Vector<>();
     }
 
     public Coordinate(Vector<Integer> x, Vector<Integer> y, Vector<Integer> type) {
@@ -44,16 +46,16 @@ public class Coordinate {
         this.Y.add(y);
         this.type.add(type);
     }
-    public Vector<Integer> getX() {
+    public Vector<Integer> getX() throws CoordinateStateException {
         if(checkConsistence())
             return X;
-        else throw new IllegalStateException("MISMATCH VECTOR: " + this.X.size());
+        else throw new CoordinateStateException("MISMATCH VECTOR: " + this.X.size());
 
     }
-    public int getXByIndex(int i) {
+    public int getXByIndex(int i) throws CoordinateStateException {
         if(checkConsistence())
             return X.get(i);
-        else throw new IllegalStateException("MISMATCH VECTOR: " + this.X.size());
+        else throw new CoordinateStateException("MISMATCH VECTOR: " + this.X.size());
 
     }
 
@@ -61,15 +63,15 @@ public class Coordinate {
         X = x;
     }
 
-    public Vector<Integer> getY() {
+    public Vector<Integer> getY() throws CoordinateStateException {
         if(checkConsistence())
             return Y;
-        else throw new IllegalStateException("MISMATCH VECTOR: " + this.Y.size());
+        else throw new CoordinateStateException("MISMATCH VECTOR: " + this.Y.size());
     }
-    public int getYByIndex(int i) {
+    public int getYByIndex(int i) throws CoordinateStateException {
         if(checkConsistence())
             return Y.get(i);
-        else throw new IllegalStateException("MISMATCH VECTOR: " + this.Y.size());
+        else throw new CoordinateStateException("MISMATCH VECTOR: " + this.Y.size());
     }
     private boolean checkConsistence(){
         return (this.type.size() == this.Y.size()) &&(this.Y.size() == this.X.size());
@@ -85,18 +87,18 @@ public class Coordinate {
                 ", Y=" + Y +
                 '}';
     }
-    public Integer size(){
+    public Integer size() throws CoordinateStateException {
         if(checkConsistence())
             return X.size();
-        else throw new IllegalStateException("MISMATCH VECTOR: " + this.Y.size());
+        else throw new CoordinateStateException("MISMATCH VECTOR: " + this.Y.size());
     }
 
 
-    public void bulkADD(int[] X, int[] Y, int[] type){
+    public void bulkADD(int[] X, int[] Y, int[] type) throws CoordinateStateException {
         if((X.length == Y.length)&& (Y.length == type.length)){
             for(int i = 0;i<X.length;i++){
                 this.addALL(X[i],Y[i],type[i]);
             }
-        }else throw new IllegalStateException("MISMATCH VECTOR: " + X.length);
+        }else throw new CoordinateStateException("MISMATCH VECTOR: " + X.length);
     }
 }

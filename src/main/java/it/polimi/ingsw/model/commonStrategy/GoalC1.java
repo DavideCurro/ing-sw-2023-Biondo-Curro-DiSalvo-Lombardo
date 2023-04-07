@@ -1,6 +1,6 @@
-package it.polimi.ingsw.commonStrategy;
+package it.polimi.ingsw.model.commonStrategy;
 
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.model.player.Player;
 /* Two groups each containing 4 tiles of the same type in a 2x2 square.
 The tiles of one square can be different from those of the other square. */
 

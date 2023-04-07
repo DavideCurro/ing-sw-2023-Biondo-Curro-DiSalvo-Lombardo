@@ -159,19 +159,17 @@ public class Player {
      @return A boolean value indicating whether the player's shelfie was able to successfully
      */
     public Boolean pickUp(Playground p){
-
-        int[] ciao = new int[]{4,4,4,4,4,4,4};
-
-// Initialize variables
+        // Initialize variables
+        this.coordinates = new Coordinate();
         int i = 0;
         int tmpX,tmpY;
         int pick;
         System.out.println("Scrivi la colonna\n");
-        int column = scanner.nextInt();
+        int column = scanner.nextInt()-1;
 
-// Allow the player to pick up to 3 tiles
+        // Allow the player to pick up to 3 tiles
         do {
-// Prompt the player for coordinates
+            // Prompt the player for coordinates
             System.out.println("Scrivi le coordinate\n");
             System.out.println("X:");
             tmpX = scanner.nextInt()-1;
@@ -179,17 +177,14 @@ public class Player {
             tmpY=scanner.nextInt()-1;
             System.out.println("Per stop -1:");
             pick = scanner.nextInt();
-// Store the picked tile in the picked Vector
-            System.out.println(this.coordinates.toString());
+            // Store the picked tile in the picked Vector
             this.coordinates.addALL(tmpX,tmpY,p.getGround()[tmpX][tmpY].getType());
-// Display information about the picked tile
-            System.out.println("Type: "+this.coordinates.getType().get(i));
-            System.out.println("X:"+this.coordinates.getX().get(i));
+            // Display information about the picked tile
+            System.out.print("Type: "+this.coordinates.getType().get(i)+"\t");
+            System.out.print("X:"+this.coordinates.getX().get(i)+"\t");
             System.out.println("Y:"+this.coordinates.getY().get(i));
             i++;
         }while(((pick!= -1 )&&(i!=3))||(i<this.my_shelfie.available()[column]));
-// Reset the coordinates variable
-        this.coordinates = new Coordinate();
 // Call the posix method of the player's shelfie to place the picked up tiles on their shelf
         return this.my_shelfie.posix(this.coordinates,column,this.coordinates.size(),p);
     }

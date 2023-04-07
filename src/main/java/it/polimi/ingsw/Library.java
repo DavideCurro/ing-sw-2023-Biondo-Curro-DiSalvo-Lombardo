@@ -41,15 +41,15 @@ public class Library {
 // Initialize variables
         int[] count = this.available();
         int j = 0;
-        Boolean tmp = this.adjacence(t, p);
+        Boolean tmp = p.adiacency(t);
         System.out.println(tmp);
-        System.out.println(t.size());
+        //System.out.println(t.size());
 // Place the tiles on the shelf
         for (int i = count[column]; i < len + count[column]; i++) {
             if (tmp) {
 // Set the type of the tile on the shelf and remove it from the playground
                 this.shelf[5 - i][column].setType(t.getTypeByIndex(j));
-                System.out.println(this.shelf[5 - i][column].getType());
+               // System.out.println(this.shelf[5 - i][column].getType());
                 p.getGround()[t.getXByIndex(j)][t.getYByIndex(j)].setType(-1);
                 j++;
             } else {
@@ -58,27 +58,6 @@ public class Library {
             }
         }
         return tmp;
-    }
-
-    /**
-     * This method checks if the tiles picked up by the player's shelfie are adjacent to each other.
-     *
-     * @param t The Vector of tiles picked up by the player's shelfie.
-     * @param p The playground from which the tiles were picked up.
-     * @return A boolean value indicating whether the tiles are adjacent to each other.
-     */
-    private Boolean adjacence(Coordinate t, Playground p) {
-// Initialize variables
-        boolean pick = false;
-// If only one tile is picked up, check its adjacency to other tiles on the playground
-        if (t.size() == 1) {
-            return p.checkAdjacency();
-        }
-// Check adjacency between consecutive pairs of tiles in the Vector
-        for (int i = 1; i < t.size(); i++) {
-            pick = p.checkAdjacency(t.get(i - 1).getX(), t.get(i - 1).getY(), t.get(i).getX(), t.get(i).getY());
-        }
-        return pick;
     }
 
     public void printOut(Library s) {

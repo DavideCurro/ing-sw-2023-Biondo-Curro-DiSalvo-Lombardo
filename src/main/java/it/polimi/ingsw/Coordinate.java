@@ -86,7 +86,9 @@ public class Coordinate {
                 '}';
     }
     public Integer size(){
-        return Math.max(X.size(), Y.size());
+        if(checkConsistence())
+            return X.size();
+        else throw new IllegalStateException("MISMATCH VECTOR: " + this.Y.size());
     }
 
 
@@ -95,6 +97,6 @@ public class Coordinate {
             for(int i = 0;i<X.length;i++){
                 this.addALL(X[i],Y[i],type[i]);
             }
-        }else throw new IllegalStateException("MISMATCH VECTOR: " + X.length));
+        }else throw new IllegalStateException("MISMATCH VECTOR: " + X.length);
     }
 }

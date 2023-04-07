@@ -12,11 +12,11 @@ public class GoalC1 {
         boolean correct = false;
 
         for(int j = 0; j<5; j++){
-            for(int i=0; i<6 || correct == true; i++){
+            for(int i = 0; i<6 || correct; i++){
                 type = p.getMy_shelfie().getShelf()[i][j].getType();
                 correct = squareCheck(i,j,type,p);
             }
-            if (correct == false)
+            if (!correct)
                 continue;
             else
                 return true;
@@ -25,9 +25,6 @@ public class GoalC1 {
     }
 
     public boolean squareCheck(int row, int column, int type, Player p){
-        if( ((p.getMy_shelfie().getShelf()[row+1][column+1].getType()) == type) && ((p.getMy_shelfie().getShelf()[row+1][column].getType()) == type) && ((p.getMy_shelfie().getShelf()[row][column+1].getType()) == type) )
-            return true;
-        else
-            return false;
+        return ((p.getMy_shelfie().getShelf()[row + 1][column + 1].getType()) == type) && ((p.getMy_shelfie().getShelf()[row + 1][column].getType()) == type) && ((p.getMy_shelfie().getShelf()[row][column + 1].getType()) == type);
     }
 }

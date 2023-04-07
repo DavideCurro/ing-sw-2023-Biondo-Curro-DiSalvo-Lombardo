@@ -4,13 +4,15 @@ import java.util.Random;
 import java.lang.*;
 
 public class Playground {
-    private  static  int [][] mask2Player = new int[][]{{-1, -1, 0, 0, -1,-1,-1},
-            {-1, -1, 0, 0, 0, -1, -1},
-            {-1, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, 0},
-            {0, 0, 0, 0, 0, 0, -1},
-            {-1, -1, 0, 0, 0, -1, -1},
-            {-1, -1, -1, 0, 0, -1, -1}
+    private  static  int [][] mask2Player = new int[][]{{-1,-1,-1,-1,-1,-1,-1,-1,-1},
+            {-1,-1, -1, 0, 0, -1,-1,-1,-1},
+            {-1,-1, -1, 0, 0, 0, -1, -1,-1},
+            {-1,-1, 0, 0, 0, 0, 0, 0,-1},
+            {-1,0, 0, 0, 0, 0, 0, 0,-1},
+            {-1,0, 0, 0, 0, 0, 0, -1,-1},
+            {-1, -1, 0, 0, 0, -1, -1,-1},
+            {-1,-1, -1, -1, 0, 0, -1, -1,-1},
+            {-1,-1, -1, -1, -1,-1,-1, -1,-1}
     };
     private  static  int [][] mask3Player = new int[][]{{-1, -1, -1, 0, -1, -1,-1,-1,-1},
             {-1,-1, -1, 0, 0, -1, -1,-1,-1},
@@ -32,8 +34,8 @@ public class Playground {
             {-1, -1, -1, 0, 0, 0, -1, -1, -1},
             {-1, -1, -1, -1, 0, 0, -1, -1, -1}
     };
-    private static int col = 7;
-    private static int row = 7;
+    private static int col = 9;
+    private static int row = 9;
     private int num_tiles;
     private int num_players;
     private Tiles[][] ground;
@@ -47,14 +49,19 @@ public class Playground {
         this.num_players = num_players;
         switch(num_players){
             case 2:{
-                setGround2Player();
+                maskSetup(mask2Player);
+                break;
             }
             case 3:{
-                setGround3Player();
+                maskSetup(mask3Player);
+                break;
             }
             case 4:{
-                setGround4Player();
+                maskSetup(mask4Player);
+                break;
             }
+            default:
+                throw new IllegalStateException("Unexpected value: " + num_players);
         }
     }
     public Playground(int num_tiles, Tiles[][] ground, int num_players) {
@@ -68,12 +75,12 @@ public class Playground {
             System.exit(-1);
         }
     }
-    public void setGround2Player(){
-        Tiles[][] g = new Tiles[7][7];
+    private void maskSetup(int[][] maskPlayer) {
+        Tiles[][] g = new Tiles[9][9];
         Random r = new Random();
-        for (int i = 0;i<7;i++){
-            for(int j = 0;j<7;j++){
-                if (mask2Player[i][j]!=-1) {
+        for (int i = 0;i<9;i++){
+            for(int j = 0;j<9;j++){
+                if (maskPlayer[i][j]!=-1) {
                     g[i][j] = new Tiles(r.nextInt(5), i, j);
                 }else{
                     g[i][j] = new Tiles(-1, i, j);
@@ -83,35 +90,7 @@ public class Playground {
         setGround(g);
     }
 
-    public void setGround3Player(){
-        Tiles[][] g = new Tiles[9][9];
-        Random r = new Random();
-        for (int i = 0;i<9;i++){
-            for(int j = 0;j<9;j++){
-                if (mask3Player[i][j]!=-1) {
-                    g[i][j] = new Tiles(r.nextInt(5), i, j);
-                }else{
-                    g[i][j] = new Tiles(-1, i, j);
-                }
-            }
-        }
-        setGround(g);
-    }
 
-    public void setGround4Player(){
-        Tiles[][] g = new Tiles[9][9];
-        Random r = new Random();
-        for (int i = 0;i<9;i++){
-            for(int j = 0;j<9;j++){
-                if (mask4Player[i][j]!=-1) {
-                    g[i][j] = new Tiles(r.nextInt(5), i, j);
-                }else{
-                    g[i][j] = new Tiles(-1, i, j);
-                }
-            }
-        }
-        setGround(g);
-    }
     public int getNum_tiles() {
         return num_tiles;
     }
@@ -136,52 +115,18 @@ public class Playground {
         }
     }
     public void fillUP(){
-        Random r = new Random();
-        Tiles[][] g = new Tiles[row][col];
-        for (int i = 0; i < row; i++) {
-            for (int j = 0; j < col; j++) {
-                if (j == 0) {
-                    if (i < 3 || i > 4) {
-                        g[i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                } else if (j == 1) {
-                    if (i < 2 || i > 4) {
-                        g[i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                }else if (j==2){
-                    if(i > 5 ){
-                        g [i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                } else if (j == 4) {
-                    if (i < 1) {
-                        g[i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                } else if (j == 5) {
-                    if (i < 2 || i > 4) {
-                        g[i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                } else if (j == 6) {
-                    if (i < 2 || i > 3) {
-                        g[i][j] = new Tiles(-1, i, j);
-                    } else {
-                        g[i][j] = new Tiles(r.nextInt(5), i, j);
-                    }
-                } else {
-                    g[i][j] = new Tiles(r.nextInt(5), i, j);
-                }
+        switch (num_players) {
+            case 2 -> {
+                maskSetup(mask2Player);
             }
+            case 3 -> {
+                maskSetup(mask3Player);
+            }
+            case 4 -> {
+                maskSetup(mask4Player);
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + num_players);
         }
-        this.setGround(g);
     }
 
     public boolean checkAdjacency(int x1, int y1){ // one tile picked

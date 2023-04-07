@@ -25,15 +25,36 @@ public class Coordinate {
     }
 
     public Vector<Integer> getType() {
-        return type;
+        if(checkConsistence())
+            return type;
+        else throw new IllegalStateException("MISMATCH VECTOR: " + this.type.size());
     }
+    public int getTypeByIndex(int i) {
+        if(checkConsistence())
+            return type.get(i);
+        else throw new IllegalStateException("MISMATCH VECTOR: " + this.type.size());
+    }
+
 
     public void setType(Vector<Integer> type) {
         this.type = type;
     }
-
+    public void addALL(int x,int y,int type){
+        this.X.add(x);
+        this.Y.add(y);
+        this.type.add(type);
+    }
     public Vector<Integer> getX() {
-        return X;
+        if(checkConsistence())
+            return X;
+        else throw new IllegalStateException("MISMATCH VECTOR: " + this.X.size());
+
+    }
+    public int getXByIndex(int i) {
+        if(checkConsistence())
+            return X.get(i);
+        else throw new IllegalStateException("MISMATCH VECTOR: " + this.X.size());
+
     }
 
     public void setX(Vector<Integer> x) {
@@ -41,9 +62,18 @@ public class Coordinate {
     }
 
     public Vector<Integer> getY() {
-        return Y;
+        if(checkConsistence())
+            return Y;
+        else throw new IllegalStateException("MISMATCH VECTOR: " + this.Y.size());
     }
-
+    public int getYByIndex(int i) {
+        if(checkConsistence())
+            return Y.get(i);
+        else throw new IllegalStateException("MISMATCH VECTOR: " + this.Y.size());
+    }
+    private boolean checkConsistence(){
+        return (this.type.size() == this.Y.size()) &&(this.Y.size() == this.X.size());
+    }
     public void setY(Vector<Integer> y) {
         Y = y;
     }
@@ -57,5 +87,14 @@ public class Coordinate {
     }
     public Integer size(){
         return Math.max(X.size(), Y.size());
+    }
+
+
+    public void bulkADD(int[] X, int[] Y, int[] type){
+        if((X.length == Y.length)&& (Y.length == type.length)){
+            for(int i = 0;i<X.length;i++){
+                this.addALL(X[i],Y[i],type[i]);
+            }
+        }else throw new IllegalStateException("MISMATCH VECTOR: " + X.length));
     }
 }

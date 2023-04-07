@@ -111,7 +111,7 @@ public class Playground {
             for (int j = 0;j<7; j++){
                 System.out.print(this.ground[i][j].getType()+"\t");
             }
-            System.out.println("");
+            System.out.println();
         }
     }
     public void fillUP(){
@@ -189,6 +189,12 @@ public class Playground {
             return true;
 
         return false;
+
+    }
+
+
+
+    public boolean adiacency(Coordinate c){
 
     }
 }

@@ -37,7 +37,7 @@ public class Library {
      * @param p      The playground from which the tiles were picked up.
      * @return A boolean value indicating whether the tiles were successfully placed on the shelf.
      */
-    public Boolean posix(Vector<Tiles> t, int column, int len, Playground p) {
+    public Boolean posix(Coordinate t, int column, int len, Playground p) {
 // Initialize variables
         int[] count = this.available();
         int j = 0;
@@ -48,9 +48,9 @@ public class Library {
         for (int i = count[column]; i < len + count[column]; i++) {
             if (tmp) {
 // Set the type of the tile on the shelf and remove it from the playground
-                this.shelf[5 - i][column].setType(t.get(j).getType());
+                this.shelf[5 - i][column].setType(t.getTypeByIndex(j));
                 System.out.println(this.shelf[5 - i][column].getType());
-                p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(-1);
+                p.getGround()[t.getXByIndex(j)][t.getYByIndex(j)].setType(-1);
                 j++;
             } else {
 // If the tiles cannot be placed, print an error message
@@ -67,12 +67,12 @@ public class Library {
      * @param p The playground from which the tiles were picked up.
      * @return A boolean value indicating whether the tiles are adjacent to each other.
      */
-    private Boolean adjacence(Vector<Tiles> t, Playground p) {
+    private Boolean adjacence(Coordinate t, Playground p) {
 // Initialize variables
         boolean pick = false;
 // If only one tile is picked up, check its adjacency to other tiles on the playground
         if (t.size() == 1) {
-            return p.checkAdjacency(t.get(0).getX(), t.get(0).getY());
+            return p.checkAdjacency();
         }
 // Check adjacency between consecutive pairs of tiles in the Vector
         for (int i = 1; i < t.size(); i++) {
@@ -86,7 +86,7 @@ public class Library {
             for (int j = 0; j < 5; j++) {
                 System.out.print(s.shelf[i][j].getType() + "\t");
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 

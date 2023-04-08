@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model.player;
-import it.polimi.ingsw.model.Coordinate;
 import it.polimi.ingsw.model.Playground;
+import it.polimi.ingsw.model.Tiles;
 import it.polimi.ingsw.model.exception.CoordinateStateException;
+import it.polimi.ingsw.model.exception.LibraryException;
 
 import java.util.*;
 /*
@@ -22,7 +23,7 @@ public class Player {
     private String nickname;
     private Boolean turn;
     private final Scanner scanner;
-    private Coordinate coordinates;
+    private Vector<Tiles> coordinates;
 
 
     /**
@@ -37,7 +38,7 @@ public class Player {
         this.my_shelfie = new Library();
         this.turn   = false;
         this.scanner = new Scanner(System.in);
-        this.coordinates= new Coordinate();
+        this.coordinates= new Vector<>();
 
     }
     /**
@@ -54,7 +55,7 @@ public class Player {
         this.turn = turn;
         this.my_shelfie = new Library();
         this.scanner = new Scanner(System.in);
-        this.coordinates= new Coordinate();
+        this.coordinates= new Vector<>();
     }
 
     /**
@@ -73,7 +74,7 @@ public class Player {
         this.nickname = nickname;
         this.scanner = new Scanner(System.in);
         this.turn = turn;
-        this.coordinates = new Coordinate();
+        this.coordinates = new Vector<>();
     }
 
 
@@ -181,44 +182,84 @@ public class Player {
      @param p The playground from which the player will pick up tiles.
      @return True if the picked up tiles are successfully placed on the player's shelf, false otherwise.
      */
-    public Boolean pickUp(Playground p){
+    public Boolean pickUp(Playground p) throws RuntimeException {
         // Initialize variables
-        this.coordinates = new Coordinate();
-        int i = 0;
+        this.coordinates = new Vector<>();
         int tmpX,tmpY;
-        int pick;
-        System.out.println("Scrivi la colonna\n");
-        int column = scanner.nextInt()-1;
-
+        int column = validateColumn();
         // Allow the player to pick up to 3 tiles
-        do {
+       for(int i = 0; i< calculateMaxTiles(column) ;i++){              //TODO : IMPROVE CHOOSE LOGIC
             // Prompt the player for coordinates
             System.out.println("Scrivi le coordinate\n");
-            System.out.println("X:");
-            tmpX = scanner.nextInt()-1;     //CLIENT FIX CHECK >0 && IN RANGE
-            System.out.println("Y:");
-            tmpY=scanner.nextInt()-1;       //CLIENT FIX CHECK >0 && IN RANGE
-            System.out.println("Per stop -1:");
-            pick = scanner.nextInt();
+            System.out.print("X:");
+            tmpX = validateInput();
+            System.out.println();
+            System.out.print("Y:");
+            tmpY = validateInput();
             // Store the picked tile in the picked Vector
-            this.coordinates.addALL(tmpX,tmpY,p.getGround()[tmpX][tmpY].getType());
+            this.coordinates.add(new Tiles(p.getGround()[tmpX][tmpY].getType(),tmpX,tmpY));
             // Display information about the picked tile
-            try{
-                System.out.print("Type: "+this.coordinates.getTypeByIndex(i)+"\t");
-                System.out.print("X:"+this.coordinates.getXByIndex(i)+"\t");
-                System.out.println("Y:"+this.coordinates.getYByIndex(i));
-            }catch (CoordinateStateException e){
-                System.out.println(e.getMessage());
-            }
-            i++;
-        }while(((pick!= -1 )&&(i!=3))||(i<this.my_shelfie.available()[column]));
-// Call the posix method of the player's shelfie to place the picked up tiles on their shelf
-        try {
-            return this.my_shelfie.posix(this.coordinates, column, this.coordinates.size(), p);
-        }catch (CoordinateStateException e){
-            System.out.println(e.getMessage());
-            return false;
+            System.out.println(this.coordinates.get(i).toString() );
         }
+// Call the posix method of the player's shelfie to place the picked up tiles on their shelf
+        return this.my_shelfie.posix(this.coordinates, column, this.coordinates.size(), p);
+    }
+    private void checkCoordinateValid(int x) throws CoordinateStateException{
+        if(x<0 || x>9) throw new CoordinateStateException("Impossible coordinate state");
     }
 
+    private void checkColValid(int col)throws CoordinateStateException{
+        if(col <0 || col > 5) throw new CoordinateStateException("Impossible Column");
+    }
+    private int calculateMaxTiles(int column){
+        int max;
+        try{
+            max = this.my_shelfie.available(column);
+        }catch (LibraryException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException();
+        }
+        if(max < 3){
+            max = 3;
+        }else{
+            max =  6 - max;
+        }
+        System.out.println(max);
+        int amount = scanner.nextInt();
+        return Math.min(amount, max);
+    }
+    private int validateColumn(){
+        int column ;
+        System.out.println("Scrivi la colonna\n");
+        try{
+            column = scanner.nextInt() - 1;
+            checkColValid(column);
+
+        }catch (java.util.InputMismatchException e){
+            scanner.next();
+            throw new RuntimeException(e);
+        }catch (CoordinateStateException e){
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return column;
+    }
+
+    /**
+     * @return tmp
+     */
+    private int validateInput(){
+        int tmp ;
+        try {
+            tmp = scanner.nextInt() - 1;
+            checkCoordinateValid(tmp);
+        }catch (java.util.InputMismatchException e){
+            scanner.next();
+            throw new RuntimeException(e);
+        } catch (CoordinateStateException e) {
+            System.out.println(e.getMessage());
+            throw new RuntimeException(e);
+        }
+        return tmp;
+    }
 }

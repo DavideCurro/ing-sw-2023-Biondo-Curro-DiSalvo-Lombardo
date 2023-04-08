@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 
+import it.polimi.ingsw.model.exception.CoordinateStateException;
+
 /**
  * The class Tiles
  */
@@ -131,11 +133,12 @@ public class Tiles {
      *
      * @return the  XY
      */
-    public int[] getXY(){
+    public int[] getXYType(){
 
-        int[] coordinate = new int[2];
-        coordinate[0] = this.getX();
-        coordinate[1] = this.getY();
+        int[] coordinate = new int[3];
+        coordinate[0] = this.x;
+        coordinate[1] = this.y;
+        coordinate[2] = this.type;
         return coordinate;
     }
 
@@ -154,5 +157,19 @@ public class Tiles {
                 ", x=" + x +
                 ", y=" + y +
                 '}';
+    }
+
+
+    /**
+
+     Adds a new coordinate to the collection.
+     @param x the x-coordinate of the new coordinate
+     @param y the y-coordinate of the new coordinate
+     @param type the type of the new coordinate
+     */
+    public void setALL(int x,int y,int type){
+        this.setX(x);
+        this.setY(y);
+        this.setType(type);
     }
 }

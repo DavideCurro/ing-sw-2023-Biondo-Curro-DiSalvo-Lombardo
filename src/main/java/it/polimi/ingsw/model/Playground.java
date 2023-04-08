@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.exception.CoordinateStateException;
+
 import it.polimi.ingsw.model.exception.PlaygroundException;
 
 import java.util.Random;
 import java.lang.*;
+import java.util.Vector;
 
 /**
  * The class Playground
@@ -156,7 +157,6 @@ public class Playground {
     }
 
     public void countSelected() throws PlaygroundException {
-        Coordinate tmp =new Coordinate();
         int count = 0;
         for(int i = 0;i<9;i++){
             for(int j = 0; j<9;j++){
@@ -181,26 +181,20 @@ public class Playground {
      * @param c  the coordinate of tiles.
      * @return boolean
      */
-    public boolean adiacency(Coordinate c) {
-        try {
-            int startX = c.getX().get(0);
-            int startY = c.getYByIndex(0);
-            if(isValid(startX,startY)){
-                for (int i = 1; i < c.size(); i++) {
-                    if(isValid(c.getXByIndex(i),c.getYByIndex(i))){
-                        if(!(checkLeft(c,i) || checkRight(c,i) || checkUp(c,i) || checkDown(c,i))){
-                            return  false;
-                        }
-                    }else{
-                        return false;
+    public boolean adiacency(Vector<Tiles> c) {
+        int startX = c.get(0).getX();
+        int startY = c.get(0).getY();
+        if(isValid(startX,startY)){
+            for (int i = 1; i < c.size(); i++) {
+                if(isValid(c.get(i).getX(),c.get(i).getY())){
+                    if(!(checkLeft(c,i) || checkRight(c,i) || checkUp(c,i) || checkDown(c,i))){
+                        return  false;
                     }
-
+                }else{
+                    return false;
                 }
-            }else{
-                return false;
             }
-        } catch (CoordinateStateException e) {
-            System.out.println(e.getMessage());
+        }else{
             return false;
         }
         return true;
@@ -235,13 +229,8 @@ public class Playground {
      * @param i  the index.
      * @return boolean, return true if the two tiles are next to each other on left side for the index one
      */
-    private boolean checkLeft(Coordinate c, int i ){
-        try {
-            return c.getXByIndex(i - 1) == c.getXByIndex(i) - 1;
-        }catch (CoordinateStateException e){
-            System.out.println("Tiles not Valid");
-            return false;
-        }
+    private boolean checkLeft(Vector<Tiles> c, int i ) {
+        return c.get(i - 1).getX() == c.get(i).getX() - 1;
     }
 
     /**
@@ -252,13 +241,8 @@ public class Playground {
      * @param i  the index.
      * @return boolean, return true if the two tiles are next to each other on right side for the index one
      */
-    private boolean checkRight(Coordinate c, int i ){
-        try {
-            return c.getXByIndex(i - 1) == c.getXByIndex(i) + 1;
-        }catch (CoordinateStateException e){
-            System.out.println("Tiles not Valid");
-            return false;
-        }
+    private boolean checkRight(Vector<Tiles> c, int i ){
+        return c.get(i - 1).getX() == c.get(i).getX()  + 1;
     }
 
     /**
@@ -269,13 +253,8 @@ public class Playground {
      * @param i  the index.
      * @return boolean, return true if the two tiles are next to each other on upper side for the index one
      */
-    private boolean checkUp(Coordinate c, int i ){
-        try {
-            return c.getYByIndex(i - 1) == c.getYByIndex(i) - 1;
-        }catch (CoordinateStateException e){
-            System.out.println("Tiles not Valid");
-            return false;
-        }
+    private boolean checkUp(Vector<Tiles> c, int i ){
+        return c.get(i - 1).getY() == c.get(i).getY()  - 1;
     }
 
     /**
@@ -286,12 +265,7 @@ public class Playground {
      * @param i  the index.
      * @return boolean, return true if the two tiles are next to each other on down side for the index one
      */
-    private boolean checkDown(Coordinate c, int i ){
-        try {
-            return c.getYByIndex(i - 1) == c.getYByIndex(i) + 1;
-        }catch (CoordinateStateException e){
-            System.out.println("Tiles not Valid");
-            return false;
-        }
+    private boolean checkDown(Vector<Tiles> c, int i ){
+        return c.get(i - 1).getY() == c.get(i).getY() + 1;
     }
 }

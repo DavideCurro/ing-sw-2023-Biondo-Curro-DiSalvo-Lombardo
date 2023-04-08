@@ -11,8 +11,6 @@ import java.util.Vector;
  *
  */
 public class App {
-    static final int col = 9;
-    static final int row = 9;
     public static void main( String[] args ) {
         Vector<Player> players = new Vector<>();
         players.add(new Player(true,"Claudio",true));
@@ -28,14 +26,29 @@ public class App {
         p.printOutPlayground();
         System.out.println("\n\n\n\n");
         int i = 0;
-        while(i < players.size()){
+        for(int j = 0; j < 9;j++){ // TODO: IMPROVE GAME PLAYER LOGIC --> TRY IMPLEMENT CIRCULAR LIST (MAYBE WORK)
+            players.get(i).getMy_shelfie().printOut();
             if(players.get(i).getTurn()){
                 System.out.println(players.get(i).getNickname()+ " Sta giocando");
-                players.get(i).pickUp(p);
+                try {
+                    if (!players.get(i).pickUp(p)) {
+                        j--;
+                        continue;
+                    }
+                }catch (RuntimeException e){
+                    j--;
+                    continue;
+                }
                 players.get(i).getMy_shelfie().printOut();
                 players.get(i).setTurn(false);
             }
             i++;
+
+
+            if(j == 2 || j == 4 || j==7 ){
+                i = 0;
+            }
+            players.get(i).setTurn(true);
             p.printOutPlayground();
             System.out.println("\n\n\n\n");
         }

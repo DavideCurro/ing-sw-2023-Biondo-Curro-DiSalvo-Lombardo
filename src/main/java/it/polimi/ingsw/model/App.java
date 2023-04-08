@@ -29,13 +29,14 @@ public class App {
         for(int j = 0; j < 9;j++){ // TODO: IMPROVE GAME PLAYER LOGIC --> TRY IMPLEMENT CIRCULAR LIST (MAYBE WORK)
             players.get(i).getMy_shelfie().printOut();
             if(players.get(i).getTurn()){
-                System.out.println(players.get(i).getNickname()+ " Sta giocando");
+                System.out.println(players.get(i).getNickname()+ " Is playing");
                 try {
                     if (!players.get(i).pickUp(p)) {
                         j--;
                         continue;
                     }
                 }catch (RuntimeException e){
+                    System.out.println(e.getMessage());
                     j--;
                     continue;
                 }

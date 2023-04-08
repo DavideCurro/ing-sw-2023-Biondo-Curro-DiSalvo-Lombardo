@@ -68,30 +68,26 @@ public class Library {
      @param p The playground object where the tiles were originally placed
      @return true if the tiles were successfully placed on the shelf, false otherwise
      */
-    public Boolean posix(Vector<Tiles> t, int column, int len, Playground p) {
+    public Boolean posix(Vector<Tiles> t, int column, int len, Playground p, int count) throws LibraryException {
         // Initialize variables
-        int count;
-        try {
-            count = this.available(column);
-        }catch (LibraryException e){
-            System.out.println("Impossible column, max number reached");
-            return false;
-        }
         int j = 0;
-        Boolean tmp = p.adiacency(t);
-        System.out.println(tmp);
+        Boolean tmp = p.adjacency(t);
+        //System.out.println(tmp);
         // Place the tiles on the shelf
         for (int i = count; i < len + count; i++) {
             if (tmp) {
                 // Set the type of the tile on the shelf and remove it from the playground
-                this.shelf[5 - i][column].setType(t.get(j).getType());
-                // System.out.println(this.shelf[5 - i][column].getType());
-                p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(-1);
+                if(t.get(j).checkSet()) {
+                    this.shelf[5 - i][column].setType(t.get(j).getType()); //todo: simplify this one, is a bit tricky for the reader (also for me)
+                    // System.out.println(this.shelf[5 - i][column].getType());
+                    p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(-1);
 
-                j++;
+                    j++;
+                }else throw new LibraryException("Already Picked");
             } else {
                 // If the tiles cannot be placed, print an error message
-                System.out.println("NOT POSSIBLE");
+                throw new LibraryException("Not adjacent");
+
             }
         }
         return tmp;
@@ -112,15 +108,15 @@ public class Library {
     }
 
     /**
-     * This method calculates the number of free spots available in each column of the player's shelfie.
+     * This method calculates the number of free spots available in each column of the player's shelf.
      *
-     * @return An array of integers representing the number of free spots in each column of the shelfie.
+     * @return An array of integers representing the number of free spots in each column of the shelf.
      */
-    public int available(int column) throws LibraryException {
+    public int available(int column) throws LibraryException { //Todo: simplify logic behind counting
 // Initialize variables
         int count = 0;
 
-// Check the number of free spots in each column of the player's shelfie
+// Check the number of free spots in each column of the player's shelf
         for (int i = 0; i < 6; i++) {
             if ((this.shelf[i][column]).getType() == -1)
                 count ++;

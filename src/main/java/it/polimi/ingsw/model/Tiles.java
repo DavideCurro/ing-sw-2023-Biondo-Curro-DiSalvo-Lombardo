@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 
-import it.polimi.ingsw.model.exception.CoordinateStateException;
 
 /**
  * The class Tiles
@@ -144,12 +143,6 @@ public class Tiles {
 
     @Override
 
-/**
- *
- * To string
- *
- * @return String
- */
     public String toString() {
 
         return "Tiles{" +
@@ -171,5 +164,8 @@ public class Tiles {
         this.setX(x);
         this.setY(y);
         this.setType(type);
+    }
+    public boolean checkSet(){
+        return this.type != -1;
     }
 }

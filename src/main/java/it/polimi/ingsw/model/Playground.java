@@ -58,10 +58,10 @@ public class Playground {
 
     /**
      *
-     * It is a constructor. It use num_players for setup mask
+     * It is a constructor. It uses num_players for setup mask
      *
      * @param num_players  the num_players.
-     * @throws   PlaygroundException
+     * @throws PlaygroundException throws an exception for unexpected value of num_player, is a check for 2 < num_player < 4
      */
     public Playground(int num_players) throws PlaygroundException {
         this.num_players = num_players;
@@ -145,7 +145,7 @@ public class Playground {
      *
      * FillUp the matrix when is empty
      *
-     * @throws   PlaygroundException
+     * @throws   PlaygroundException throws an exception for unexpected value of num_player, is a check for 2 < num_player < 4
      */
     private void fillUP() throws PlaygroundException {
         switch (num_players) {
@@ -176,12 +176,12 @@ public class Playground {
 
     /**
      *
-     * Adiacency
+     * Adjacency
      *
      * @param c  the coordinate of tiles.
      * @return boolean
      */
-    public boolean adiacency(Vector<Tiles> c) {
+    public boolean adjacency(Vector<Tiles> c) { //todo: maybe move in tiles? Doesn't use playground, just in isValid(x,y) but is possible to change it
         int startX = c.get(0).getX();
         int startY = c.get(0).getY();
         if(isValid(startX,startY)){
@@ -218,9 +218,11 @@ public class Playground {
             return true;
         } else if (this.ground[x][y+1].getType() == -1 && y+1 < this.ground[0].length) {
             return true;
-        } else return (x - 1) < 0 || x + 1 > this.ground.length || (y-1) < 0 || y + 1 > this.ground[0].length;
+        } else return (x - 1) < 0 || x + 1 > this.ground.length || (y - 1) < 0 || y + 1 > this.ground[0].length; //todo: investigate why (y-1) < 0 says "always false"
     }
 
+
+    //todo: try to compact those method in a modular one
     /**
      *
      * Check left
@@ -263,9 +265,10 @@ public class Playground {
      *
      * @param c  the coordinate.
      * @param i  the index.
-     * @return boolean, return true if the two tiles are next to each other on down side for the index one
+     * @return boolean, return true if the two tiles are next to each other on downside for the index one
      */
     private boolean checkDown(Vector<Tiles> c, int i ){
         return c.get(i - 1).getY() == c.get(i).getY() + 1;
     }
+
 }

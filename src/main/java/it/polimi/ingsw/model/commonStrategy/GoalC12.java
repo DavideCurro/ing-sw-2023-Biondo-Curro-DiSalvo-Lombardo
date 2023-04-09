@@ -2,7 +2,7 @@ package it.polimi.ingsw.model.commonStrategy;
 
 import it.polimi.ingsw.model.player.Player;
 
-public class GoalC12 {
+public class GoalC12 implements CommonObj{
     private int count = 0;
 
     public boolean check(Player p) {

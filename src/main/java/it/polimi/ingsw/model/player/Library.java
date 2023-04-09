@@ -1,10 +1,11 @@
 package it.polimi.ingsw.model.player;
 
 
-import it.polimi.ingsw.model.Playground;
-import it.polimi.ingsw.model.Tiles;
+import it.polimi.ingsw.model.Playground.Playground;
+import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.exception.LibraryException;
 
+import java.util.Random;
 import java.util.Vector;
 
 /**
@@ -126,5 +127,23 @@ public class Library {
 
 // Return the array of free spots in each column
         return 6-count;
+    }
+    public boolean isFull(){
+        for(int j = 0; j < 5; j++){
+            if(this.shelf[0][j].getType() == -1)
+                return false;
+        }
+        return true;
+    }
+    public void randomFill(){ //GOAL TEST
+        Random r = new Random();
+        for(int i = 0; i < 6; i++){
+            for(int j = 0; j<5; j++){
+                this.shelf[i][j].setType(r.nextInt(5));
+
+            }
+
+        }
+
     }
 }

@@ -5,10 +5,10 @@ package it.polimi.ingsw.model.commonStrategy;
 
 import it.polimi.ingsw.model.player.Player;
 
-public class GoalC11 {
+public class GoalC11 implements CommonObj{
     private int count = 0;
     //check secondary diagonal (where i+5 = j)
-    public void check(Player p) {
+    public boolean check(Player p) {
         for (int j = 0; j < 5; j++) {
             int i = 5;
             while (((p.getMy_shelfie().getShelf()[i][j]).getType() == (p.getMy_shelfie().getShelf()[i - 1][j]).getType())) {
@@ -17,6 +17,7 @@ public class GoalC11 {
             }
             if(count == 4){
                 System.out.println("The diagonal has been formed");
+                return true;
             }
         }
 
@@ -29,6 +30,7 @@ public class GoalC11 {
             }
             if(count == 4){
                 System.out.println("The diagonal has been formed");
+                return true;
             }
         }
 
@@ -40,6 +42,7 @@ public class GoalC11 {
                 }
                 if(count == 4){
                     System.out.println("The diagonal has been formed");
+                    return true;
                 }
             }
         }
@@ -51,8 +54,10 @@ public class GoalC11 {
                 }
                 if(count == 4){
                     System.out.println("The diagonal has been formed");
+                    return true;
                 }
             }
         }
+        return false;
     }
 }

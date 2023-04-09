@@ -2,11 +2,13 @@ package it.polimi.ingsw.model.commonStrategy;
 
 import it.polimi.ingsw.model.player.Player;
 
+import java.sql.Struct;
+
 //Goal 6 = Two lines each formed by 5 different types of tiles.
-public class GoalC6 {
+public class GoalC6 implements CommonObj{
     private int count;
 
-    public void check(Player p){
+    public boolean check(Player p){
         for(int i = 0; i < 6; i++ ){
             int j = 1;
             while(((p.getMy_shelfie().getShelf()[i][j]).getType() != (p.getMy_shelfie().getShelf()[i][j - 1]).getType()) && (j < 5)){
@@ -16,8 +18,9 @@ public class GoalC6 {
                 count++;
             }
             if(count == 2){ //we have 2 rows composed by 5 different types of tiles
-                break;
+                return true;
             }
         }
+        return false;
     }
 }

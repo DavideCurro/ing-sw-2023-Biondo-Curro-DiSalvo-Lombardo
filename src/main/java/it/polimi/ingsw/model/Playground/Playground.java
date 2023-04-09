@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.Playground;
 
 
 import it.polimi.ingsw.model.exception.PlaygroundException;

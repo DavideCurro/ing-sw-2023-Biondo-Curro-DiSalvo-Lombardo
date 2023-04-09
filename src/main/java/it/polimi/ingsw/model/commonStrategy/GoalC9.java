@@ -6,7 +6,7 @@ tiles  */
 
 import it.polimi.ingsw.model.player.Player;
 
-public class GoalC9 {
+public class GoalC9 implements CommonObj{
     private int count1 = 0;
     private int count2 = 0;
     private int count3 = 0;
@@ -20,48 +20,43 @@ public class GoalC9 {
             for (int i = 0; i < 6; i++) {
                 int type = p.getMy_shelfie().getShelf()[i][j].getType();
                 switch (type) {
-                    case 1:
+                    case 1 -> {
                         count1++;
                         if (count1 == 8) {
                             return true;
-                        } else {
-                            break;
-                        }
-                    case 2:
+                        } break;
+                    }
+                    case 2 -> {
                         count2++;
                         if (count2 == 8) {
                             return true;
-                        } else {
-                            break;
-                        }
-                    case 3:
+                        } break;
+                    }
+                    case 3 -> {
                         count3++;
                         if (count3 == 8) {
                             return true;
-                        } else {
-                            break;
-                        }
-                    case 4:
+                        } break;
+                    }
+                    case 4 -> {
                         count4++;
                         if (count4 == 8) {
                             return true;
-                        } else {
-                            break;
-                        }
-                    case 5:
+                        } break;
+                    }
+                    case 5 -> {
                         count5++;
                         if (count5 == 8) {
                             return true;
-                        } else {
-                            break;
-                        }
-                    case 6:
+                        } break;
+                    }
+                    case 6 -> {
                         count6++;
                         if (count6 == 8) {
                             return true;
-                        } else {
-                            break;
                         }
+                        break;
+                    }
                 }
             }
         }

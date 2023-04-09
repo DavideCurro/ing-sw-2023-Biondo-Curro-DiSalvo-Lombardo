@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.player;
-import it.polimi.ingsw.model.Playground;
-import it.polimi.ingsw.model.Tiles;
+import it.polimi.ingsw.model.Playground.Playground;
+import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.exception.CoordinateStateException;
 import it.polimi.ingsw.model.exception.LibraryException;
 
@@ -41,6 +41,14 @@ public class Player {
         this.scanner = new Scanner(System.in);
         this.coordinates= new Vector<>();
 
+    }
+    public Player(Library library){
+        this.my_shelfie = library;
+        this.is_first = false;
+        this.nickname = "";
+        this.turn   = false;
+        this.scanner = new Scanner(System.in);
+        this.coordinates= new Vector<>();
     }
     /**
      *

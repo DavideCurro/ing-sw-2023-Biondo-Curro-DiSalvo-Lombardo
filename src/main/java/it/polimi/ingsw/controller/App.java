@@ -1,10 +1,10 @@
 package it.polimi.ingsw.controller;
 
 
-import it.polimi.ingsw.model.commonStrategy.GoalC3;
-import it.polimi.ingsw.model.commonStrategy.ObjectiveCommonEXEC;
+import it.polimi.ingsw.model.Playground.Playground;
+//import it.polimi.ingsw.model.commonStrategy.GoalC3;
+//import it.polimi.ingsw.model.commonStrategy.ObjectiveCommonEXEC;
 import it.polimi.ingsw.model.exception.PlaygroundException;
-import it.polimi.ingsw.model.player.Library;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.Vector;
@@ -15,7 +15,7 @@ import java.util.Vector;
  */
 public class App {
     public static void main( String[] args ) {
-        /*Vector<Player> players = new Vector<>();
+        Vector<Player> players = new Vector<>();
         players.add(new Player(true,"Claudio",true));
         players.add(new Player(false,"Sibb",false));
         players.add(new Player(false,"Mati ",false));
@@ -61,13 +61,13 @@ public class App {
             players.get(i).getMy_shelfie().printOut();
             System.out.println("\n\n\n\n");
         }
-*/
+/*
         Library l = new Library();
         l.randomFill();
         l.printOut();
         ObjectiveCommonEXEC o = new ObjectiveCommonEXEC(new GoalC3());
         System.out.println(o.execCheck(new Player(l)));
-
+*/
 
     }
 }

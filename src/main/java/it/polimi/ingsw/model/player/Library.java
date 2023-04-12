@@ -4,9 +4,11 @@ package it.polimi.ingsw.model.player;
 import it.polimi.ingsw.model.Playground.Playground;
 import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.exception.LibraryException;
-
+import static it.polimi.ingsw.model.Playground.Tiles.*;
 import java.util.Random;
 import java.util.Vector;
+
+
 
 /**
  * The class Library
@@ -24,7 +26,7 @@ public class Library {
         this.shelf = new Tiles[6][5];
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
-                this.shelf[i][j] = new Tiles(-1, i, j);
+                this.shelf[i][j] = new Tiles(NOT_VALID, i, j);
             }
         }
     }
@@ -79,9 +81,9 @@ public class Library {
             if (tmp) {
                 // Set the type of the tile on the shelf and remove it from the playground
                 if(t.get(j).checkSet()) {
-                    this.shelf[5 - i][column].setType(t.get(j).getType()); //todo: simplify this one, is a bit tricky for the reader (also for me)
+                    this.shelf[6 - i][column].setType(t.get(j).getType()); //go to last element in column possible, 6 - i that's mean the last NOT_VALID tile
                     // System.out.println(this.shelf[5 - i][column].getType());
-                    p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(-1);
+                    p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(NOT_VALID);
 
                     j++;
                 }else throw new LibraryException("Already Picked");
@@ -113,13 +115,13 @@ public class Library {
      *
      * @return An array of integers representing the number of free spots in each column of the shelf.
      */
-    public int available(int column) throws LibraryException { //Todo: simplify logic behind counting
+    public int available(int column) throws LibraryException { //Count the NOT_VALID tiles, and reverse it to find the last significant tile
 // Initialize variables
         int count = 0;
 
 // Check the number of free spots in each column of the player's shelf
         for (int i = 0; i < 6; i++) {
-            if ((this.shelf[i][column]).getType() == -1)
+            if ((this.shelf[i][column]).getType() == NOT_VALID)
                 count ++;
              //   System.out.println(count);
         }
@@ -130,16 +132,21 @@ public class Library {
     }
     public boolean isFull(){
         for(int j = 0; j < 5; j++){
-            if(this.shelf[0][j].getType() == -1)
+            if(this.shelf[0][j].getType() == NOT_VALID)
                 return false;
         }
         return true;
     }
-    public void randomFill(){ //GOAL TEST
+    /*
+    *
+        GOAL TEST
+    *
+     */
+    public void randomFill(){
         Random r = new Random();
         for(int i = 0; i < 6; i++){
             for(int j = 0; j<5; j++){
-                this.shelf[i][j].setType(r.nextInt(5));
+                this.shelf[i][j].setType(r.nextInt(PINK));
 
             }
 

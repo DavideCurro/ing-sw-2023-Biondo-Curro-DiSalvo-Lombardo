@@ -7,6 +7,8 @@ import java.util.Random;
 import java.lang.*;
 import java.util.Vector;
 
+import static it.polimi.ingsw.model.Playground.Tiles.*;
+
 /**
  * The class Playground
  */
@@ -97,10 +99,10 @@ public class Playground {
         Random r = new Random();
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                if (maskPlayer[i][j] != -1) {
+                if (maskPlayer[i][j] != NOT_VALID) {
                     g[i][j] = new Tiles(r.nextInt(5), i, j);
                 } else {
-                    g[i][j] = new Tiles(-1, i, j);
+                    g[i][j] = new Tiles(NOT_VALID, i, j);
                 }
             }
         }
@@ -160,7 +162,7 @@ public class Playground {
         int count = 0;
         for(int i = 0;i<9;i++){
             for(int j = 0; j<9;j++){
-                if(this.ground[i][j].getType()!= -1){
+                if(this.ground[i][j].getType()!= NOT_VALID){
                     count++;
                 }
             }
@@ -181,13 +183,13 @@ public class Playground {
      * @param c  the coordinate of tiles.
      * @return boolean
      */
-    public boolean adjacency(Vector<Tiles> c) { //todo: maybe move in tiles? Doesn't use playground, just in isValid(x,y) but is possible to change it
+    public boolean adjacency(Vector<Tiles> c) {
         int startX = c.get(0).getX();
         int startY = c.get(0).getY();
         if(isValid(startX,startY)){
             for (int i = 1; i < c.size(); i++) {
                 if(isValid(c.get(i).getX(),c.get(i).getY())){
-                    if(!(checkLeft(c,i) || checkRight(c,i) || checkUp(c,i) || checkDown(c,i))){
+                    if(c.get(i).checkSides(c,i)){
                         return  false;
                     }
                 }else{
@@ -197,7 +199,7 @@ public class Playground {
         }else{
             return false;
         }
-        return true;
+            return true;
     }
 
 
@@ -209,66 +211,15 @@ public class Playground {
      * @param y  the y.
      * @return boolean, is true if the tile has at least one free spot adjacent it
      */
+    //todo: investigate why (y-1) > -1 is always true (I think is an error of Intellij)
     private boolean isValid(int x, int y){
-        if(x-1>0 && this.ground[x-1][y].getType() == -1){
-            return  true;
-        } else if (this.ground[x+1][y].getType() == -1 && x+1 < this.ground.length) {
-            return true;
-        } else if (this.ground[x][y-1].getType() == -1 && y-1 >0){
-            return true;
-        } else if (this.ground[x][y+1].getType() == -1 && y+1 < this.ground[0].length) {
-            return true;
-        } else return (x - 1) < 0 || x + 1 > this.ground.length || (y - 1) < 0 || y + 1 > this.ground[0].length; //todo: investigate why (y-1) < 0 says "always false"
+        if(x-1 > -1 && this.ground[x-1][y].getType() == NOT_VALID)                          return true;
+        else if (this.ground[x+1][y].getType() == NOT_VALID && x+1 < this.ground.length)    return true;
+        else if (this.ground[x][y-1].getType() == NOT_VALID && y-1 > -1)                    return true;
+        else if (this.ground[x][y+1].getType() == NOT_VALID && y+1 < this.ground[0].length) return true;
+        else    return x + 1 > this.ground.length || y + 1 > this.ground[0].length;
     }
 
 
-    //todo: try to compact those method in a modular one
-    /**
-     *
-     * Check left
-     *
-     * @param c  the coordinate.
-     * @param i  the index.
-     * @return boolean, return true if the two tiles are next to each other on left side for the index one
-     */
-    private boolean checkLeft(Vector<Tiles> c, int i ) {
-        return c.get(i - 1).getX() == c.get(i).getX() - 1;
-    }
-
-    /**
-     *
-     * Check right
-     *
-     * @param c  the coordinate.
-     * @param i  the index.
-     * @return boolean, return true if the two tiles are next to each other on right side for the index one
-     */
-    private boolean checkRight(Vector<Tiles> c, int i ){
-        return c.get(i - 1).getX() == c.get(i).getX()  + 1;
-    }
-
-    /**
-     *
-     * Check up
-     *
-     * @param c  the coordinate.
-     * @param i  the index.
-     * @return boolean, return true if the two tiles are next to each other on upper side for the index one
-     */
-    private boolean checkUp(Vector<Tiles> c, int i ){
-        return c.get(i - 1).getY() == c.get(i).getY()  - 1;
-    }
-
-    /**
-     *
-     * Check down
-     *
-     * @param c  the coordinate.
-     * @param i  the index.
-     * @return boolean, return true if the two tiles are next to each other on downside for the index one
-     */
-    private boolean checkDown(Vector<Tiles> c, int i ){
-        return c.get(i - 1).getY() == c.get(i).getY() + 1;
-    }
 
 }

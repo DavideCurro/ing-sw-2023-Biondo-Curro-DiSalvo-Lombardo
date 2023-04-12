@@ -1,8 +1,12 @@
 package it.polimi.ingsw.model.personalStrategy;
 
-import it.polimi.ingsw.Coordinate;
-import it.polimi.ingsw.Player;
+import it.polimi.ingsw.model.Playground.Tiles;
+import it.polimi.ingsw.model.player.Player;
+
+import static it.polimi.ingsw.model.Playground.Tiles.*;
+
 import java.util.Map;
+import java.util.Vector;
 
 
 /*
@@ -12,22 +16,18 @@ import java.util.Map;
 * White 3
 * Green 4
 * Pink 5 */
-public class GoalP1 {
+public class GoalP1 implements PersonalObj{
 
     Map<Integer,Integer> pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);
 
-
-    public void setCard(){
+    Vector<Tiles> position = new Vector<>();
+    private void setCard(){
 
         int[] x = new int[] {0,2,4,3,1,2};
         int[] y = new int[] {0,0,1,2,3,5};
-        int[] type = new int[] {5,0,4,3,2,1};
-
-        Coordinate c = new Coordinate();
-        try{
-            c.bulkADD(x, y, type);
-        }catch(Exception e){
-            System.out.println("Error:"+e);
+        int[] type = new int[] {PINK,BLUE,GREEN,WHITE,YELLOW,CYAN};
+        for(int i = 0; i < x.length; i++){
+            this.position.get(i).setALL(x[i],y[i],type[i]);
         }
 
 
@@ -35,14 +35,17 @@ public class GoalP1 {
 
 
     public int check(Player p){
+        setCard();
         int count = 0;
+        int [] coordinate;
         for(int i =0; i<5; i++){
-            if (p.getMy_shelfie().getShelf(([c.getX().get(i)][c.getY().get(i)]).getType(i)) == c.getType(i))
+            coordinate = position.get(i).getXYType();
+            if (p.getMy_shelfie().getShelf()[coordinate[0]][coordinate[1]].getType() == coordinate[2]) //you can also use all the get, by following le previous line code
                 count++;
         }
-        int points = pointMap.get(count);
         //System.out.println("you won"+points+" points");
 
-        return points;
+        return pointMap.get(count);
     }
+
 }

@@ -204,7 +204,7 @@ public class Player {
 
     //todo: when is moved in client-server logic simplify this one
     public Boolean pickUp(Playground p) throws RuntimeException {
-
+        if(this.my_shelfie.isFull()) throw new RuntimeException("FULL Shelfie");
         // Initialize variables
         this.coordinates = new Vector<>();
         int tmpX,tmpY;

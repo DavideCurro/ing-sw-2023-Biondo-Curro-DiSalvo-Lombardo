@@ -1,4 +1,4 @@
-package it.polimi.ingsw.personalStrategy;
+package it.polimi.ingsw.model.personalStrategy;
 
 import it.polimi.ingsw.Coordinate;
 import it.polimi.ingsw.Player;

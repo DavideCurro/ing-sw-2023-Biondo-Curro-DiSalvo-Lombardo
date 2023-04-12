@@ -1,11 +1,46 @@
 
-
-
 //todo: delete this! Rene ferretti is watching you
 /*
+*               USED FOR KEEP MAYBE GOOD IDEA
+*
+*
+
 *
 *
 *
+*         int i = 0;
+        for(int j = 0; j < 9;j++){ // TODO: IMPROVE GAME PLAYER LOGIC --> TRY IMPLEMENT CIRCULAR LIST (MAYBE WORK)
+            players.get(i).getMy_shelfie().printOut();
+            if(players.get(i).getTurn()){
+                System.out.println(players.get(i).getNickname()+ " Is playing");
+                try {
+                    if (!players.get(i).pickUp(p)) {
+                        j--;
+                        continue;
+                    }
+                }catch (RuntimeException e){
+                    System.out.println(e.getMessage());
+                    j--;
+                    continue;
+                }
+                players.get(i).getMy_shelfie().printOut();
+                players.get(i).setTurn(false);
+            }
+            i++;
+
+
+            if(j == 2 || j == 4 || j==7 ){
+                i = 0;
+            }
+            players.get(i).setTurn(true);
+            p.printOutPlayground();
+            System.out.println("\n\n\n\n");
+        }
+        System.out.println("CHECK");
+        for(i = 0; i< players.size();i++){
+            players.get(i).getMy_shelfie().printOut();
+            System.out.println("\n\n\n\n");
+        }
 *
 *
 *

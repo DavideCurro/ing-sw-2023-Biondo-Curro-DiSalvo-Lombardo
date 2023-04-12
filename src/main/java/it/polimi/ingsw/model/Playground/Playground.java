@@ -109,6 +109,15 @@ public class Playground {
         setGround(g);
     }
 
+
+    public int getNum_players() {
+        return num_players;
+    }
+
+    public void setNum_players(int num_players) {
+        this.num_players = num_players;
+    }
+
     /**
      *
      * Gets the ground

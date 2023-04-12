@@ -3,6 +3,8 @@ import it.polimi.ingsw.model.Playground.Playground;
 import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.exception.CoordinateStateException;
 import it.polimi.ingsw.model.exception.LibraryException;
+import it.polimi.ingsw.model.personalStrategy.ObjectivePersonalEXEC;
+import it.polimi.ingsw.model.personalStrategy.PersonalObj;
 
 import java.util.*;
 /*
@@ -24,7 +26,9 @@ public class Player {
     private Boolean turn;
     private final Scanner scanner;
     private Vector<Tiles> coordinates;
+    private int points;
 
+    private ObjectivePersonalEXEC personalObj;
 
     /**
      *
@@ -40,6 +44,8 @@ public class Player {
         this.turn   = false;
         this.scanner = new Scanner(System.in);
         this.coordinates= new Vector<>();
+        this.points = 0;
+
 
     }
     public Player(Library library){
@@ -49,45 +55,65 @@ public class Player {
         this.turn   = false;
         this.scanner = new Scanner(System.in);
         this.coordinates= new Vector<>();
+        this.points = 0;
     }
     /**
      *
      * It is a constructor.
      *
-     * @param is_first  the is_first
      * @param nickname  the nickname
      * @param turn  the turn
      */
-    public Player(Boolean is_first, String nickname, Boolean turn) {
-
-        this.is_first = is_first;
+    public Player(PersonalObj personalObj, String nickname, Boolean turn) {
+        this.personalObj = new ObjectivePersonalEXEC(personalObj);
+        this.is_first = false;
         this.nickname = nickname;
         this.turn = turn;
         this.my_shelfie = new Library();
         this.scanner = new Scanner(System.in);
         this.coordinates= new Vector<>();
+        this.points = 0;
+    }
+    public Player(PersonalObj personalObj, String nickname) {
+        this.personalObj = new ObjectivePersonalEXEC(personalObj);
+        this.is_first = false;
+        this.nickname = nickname;
+        this.turn = false;
+        this.my_shelfie = new Library();
+        this.scanner = new Scanner(System.in);
+        this.coordinates= new Vector<>();
+        this.points = 0;
     }
 
     /**
-     *
      * It is a constructor.
      *
-     * @param is_first  the is_first
+     * @param is_first    the is_first
      * @param my_shelfie  the my_shelfie
-     * @param nickname  the nickname
-     * @param turn  the turn
+     * @param nickname    the nickname
+     * @param turn        the turn
+     * @param personalObj define the personal OBJ
      */
-    public Player(Boolean is_first, Library my_shelfie, String nickname, Boolean turn) {
+    public Player(Boolean is_first, Library my_shelfie, String nickname, Boolean turn, ObjectivePersonalEXEC personalObj) {
 
 
         this.is_first = is_first;
         this.my_shelfie = my_shelfie;
         this.nickname = nickname;
+        this.personalObj = personalObj;
         this.scanner = new Scanner(System.in);
         this.turn = turn;
         this.coordinates = new Vector<>();
+        this.points = 0;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     /**
      *
@@ -307,5 +333,11 @@ public class Player {
             throw new RuntimeException(e);
         }
         return tmp;
+    }
+
+
+
+    public void checkPersonalOBJ(){
+        this.points +=this.personalObj.execCheck(this);
     }
 }

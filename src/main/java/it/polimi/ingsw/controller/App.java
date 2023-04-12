@@ -1,76 +1,76 @@
-package it.polimi.ingsw.controller;
+/*package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.model.Playground.Playground;
-//import it.polimi.ingsw.model.commonStrategy.GoalC3;
-//import it.polimi.ingsw.model.commonStrategy.ObjectiveCommonEXEC;
+import it.polimi.ingsw.model.commonStrategy.*;
 import it.polimi.ingsw.model.exception.PlaygroundException;
 import it.polimi.ingsw.model.player.Player;
 
-import java.util.Vector;
+import java.util.*;
 
 /**
  * Hello world!
  *
- */
+
 public class App {
+    private static Map<Integer,Integer> pointOBJ2player = Map.of(1,8,2,4);
+    private static Map<Integer,Integer> pointOBJ3player = Map.of(1,8,2,6,3,4);
+    private static Map<Integer,Integer> pointOBJ4player = Map.of(1,8,2,4,3,4,4,2);
+    private static int pointsCheck(int numPlayersDone,Map<Integer,Integer> pointOBJPlayer){
+        return pointOBJPlayer.get(numPlayersDone);
+
+    }
+    private static void pointSetter(Playground p, int objCount, Player nowPlaying){
+        switch (p.getNum_players()) {
+            case 2 -> {
+                nowPlaying.setPoints(nowPlaying.getPoints() + pointsCheck(objCount, pointOBJ2player));
+                objCount++;
+            }
+            case 3 -> {
+                nowPlaying.setPoints(nowPlaying.getPoints() + pointsCheck(objCount, pointOBJ3player));
+                objCount++;
+            }
+            case 4 -> {
+                nowPlaying.setPoints(nowPlaying.getPoints() + pointsCheck(objCount, pointOBJ4player));
+                objCount++;
+            }
+        }
+
+    }
     public static void main( String[] args ) {
-        Vector<Player> players = new Vector<>();
+        int objCount = 0;
+        Queue<Player> players = new LinkedList<>();
         players.add(new Player(true,"Claudio",true));
         players.add(new Player(false,"Sibb",false));
         players.add(new Player(false,"Mati ",false));
         Playground p = new Playground();
         try {
             p = new Playground(players.size());
-            p.countSelected();
         }catch (PlaygroundException e){
             System.out.println(e.getMessage());
         }
         p.printOutPlayground();
-        System.out.println("\n\n\n\n");
-        int i = 0;
-        for(int j = 0; j < 9;j++){ // TODO: IMPROVE GAME PLAYER LOGIC --> TRY IMPLEMENT CIRCULAR LIST (MAYBE WORK)
-            players.get(i).getMy_shelfie().printOut();
-            if(players.get(i).getTurn()){
-                System.out.println(players.get(i).getNickname()+ " Is playing");
-                try {
-                    if (!players.get(i).pickUp(p)) {
-                        j--;
-                        continue;
-                    }
-                }catch (RuntimeException e){
-                    System.out.println(e.getMessage());
-                    j--;
-                    continue;
-                }
-                players.get(i).getMy_shelfie().printOut();
-                players.get(i).setTurn(false);
-            }
-            i++;
-
-
-            if(j == 2 || j == 4 || j==7 ){
-                i = 0;
-            }
-            players.get(i).setTurn(true);
-            p.printOutPlayground();
-            System.out.println("\n\n\n\n");
-        }
-        System.out.println("CHECK");
-        for(i = 0; i< players.size();i++){
-            players.get(i).getMy_shelfie().printOut();
-            System.out.println("\n\n\n\n");
-        }
-/*
-        Library l = new Library();
-        l.randomFill();
-        l.printOut();
         ObjectiveCommonEXEC o = new ObjectiveCommonEXEC(new GoalC3());
-        System.out.println(o.execCheck(new Player(l)));
-*/
+        Player nowPlaying;
+        while(true){
+            nowPlaying = players.remove();
+            players.add(nowPlaying);
+            try{
+                if(nowPlaying.pickUp(p)) {
+                    if(o.execCheck(nowPlaying))
+                        pointSetter(p,objCount,nowPlaying);
+                    // personal obj still missing
+                    if (nowPlaying.getMy_shelfie().isFull())
+                        break;
+                }p.countSelected();
+            }catch (RuntimeException | PlaygroundException e) {
+                System.out.println(e.getMessage());
+            }
+
+        }
 
     }
 }
-
+*/
 
 

@@ -9,29 +9,21 @@ import java.util.Map;
 import java.util.Vector;
 
 
-/*
-* Blue 0
-* Light blue 1
-* Yellow 2
-* White 3
-* Green 4
-* Pink 5 */
-public class GoalP1 implements PersonalObj{
-
+public class GoalP7 implements PersonalObj{
     Map<Integer,Integer> pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);
 
     Vector<Tiles> position = new Vector<>();
     private void setCard(){
 
-        int[] x = new int[] {0,0,1,2,3,5}; //rows
-        int[] y = new int[] {0,2,4,3,1,2}; //columns
-        int[] type = new int[] {PINK,BLUE,GREEN,WHITE,YELLOW,CYAN};
+        int[] x = new int[] {0,1,2,3,4,5};
+        int[] y = new int[] {0,3,1,0,4,2};
+        int[] type = new int[] {GREEN,BLUE,PINK,CYAN,YELLOW,WHITE};
         for(int i = 0; i < x.length; i++){
             this.position.get(i).setALL(x[i],y[i],type[i]);
         }
 
 
-}
+    }
 
 
     public int check(Player p){

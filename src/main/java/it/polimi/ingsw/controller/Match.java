@@ -45,10 +45,22 @@ public class Match {
 
 
     }
-    private PersonalObj personalOBJChooser(){
+
+    private PersonalObj personalOBJChooser() throws MatchExeception{
         Random random = new Random();
         return switch (random.nextInt(12) + 1) { //TODO: Expand
             case 1 -> new GoalP1();
+            case 2 -> new GoalP2();
+            case 3 -> new GoalP3();
+            case 4 -> new GoalP4();
+            case 5 -> new GoalP5();
+            case 6 -> new GoalP6();
+            case 7 -> new GoalP7();
+            case 8 -> new GoalP8();
+            case 9 -> new GoalP9();
+            case 10 -> new GoalP10();
+            case 11 -> new GoalP11();
+            case 12 -> new GoalP12();
             default -> throw new RuntimeException("ERRORE generazione persona OBJ");
         };
     }

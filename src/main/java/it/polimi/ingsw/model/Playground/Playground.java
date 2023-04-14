@@ -138,19 +138,7 @@ public class Playground {
         this.ground = ground;
     }
 
-    /**
-     *
-     * Print output playground
-     *
-     */
-    public void printOutPlayground() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                System.out.print(this.ground[i][j].getType() + "\t");
-            }
-            System.out.println();
-        }
-    }
+
 
     /**
      *

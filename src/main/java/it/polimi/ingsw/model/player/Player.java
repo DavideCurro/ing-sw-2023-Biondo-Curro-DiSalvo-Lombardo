@@ -230,10 +230,12 @@ public class Player {
 
     //todo: when is moved in client-server logic simplify this one
     public Boolean pickUp(Playground p) throws RuntimeException {
+        System.out.println(this.nickname);
         if(this.my_shelfie.isFull()) throw new RuntimeException("FULL Shelfie");
         // Initialize variables
         this.coordinates = new Vector<>();
         int tmpX,tmpY;
+        System.out.println("Choose Column");
         int column = validateInput(true);
         int max = calculateMaxTiles(column);
         // Allow the player to pick up to 3 tiles

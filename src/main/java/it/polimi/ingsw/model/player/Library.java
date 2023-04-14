@@ -96,19 +96,7 @@ public class Library {
         return tmp;
     }
 
-    /**
-     *
-     * Print output*
-     *
-     */
-    public void printOut() {
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 5; j++) {
-                System.out.print(this.shelf[i][j].getType() + "\t");
-            }
-            System.out.println();
-        }
-    }
+
 
     /**
      * This method calculates the number of free spots available in each column of the player's shelf.

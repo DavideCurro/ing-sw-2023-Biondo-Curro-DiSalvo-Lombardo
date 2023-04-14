@@ -4,7 +4,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.model.Playground.Playground;
 import it.polimi.ingsw.model.commonStrategy.*;
 import it.polimi.ingsw.model.exception.PlaygroundException;
-import it.polimi.ingsw.model.personalStrategy.GoalP1;
+import it.polimi.ingsw.model.personalStrategy.*;
 import it.polimi.ingsw.model.personalStrategy.PersonalObj;
 import it.polimi.ingsw.model.player.Player;
 
@@ -19,16 +19,20 @@ public class Match {
     private static final Map<Integer,Integer> pointOBJ3player = Map.of(1,8,2,6,3,4);
     private static final Map<Integer,Integer> pointOBJ4player = Map.of(1,8,2,4,3,4,4,2);
     private static Playground p = new Playground();
-    private final ObjectiveCommonEXEC o ;
+    private ObjectiveCommonEXEC o ;
     private int objCount = 0;
-    private Queue<Player> players;
+    private static LinkedList<Player> players;
 
-    public Match(CommonObj o){
+    public Match(){
         this.players = new LinkedList<>();
+
+       // this.o = new ObjectiveCommonEXEC(o);
+    }
+    public Match(LinkedList<Player>p, CommonObj o){
+        this.players = p;
         this.o = new ObjectiveCommonEXEC(o);
     }
-    public Match(Queue<Player>p, CommonObj o){
-        this.players = p;
+    public void setObjectiveCommonEXEC(CommonObj o){
         this.o = new ObjectiveCommonEXEC(o);
     }
     private static int pointsCheck(int numPlayersDone,Map<Integer,Integer> pointOBJPlayer){
@@ -45,7 +49,6 @@ public class Match {
 
 
     }
-
     private PersonalObj personalOBJChooser() throws MatchExeception{
         Random random = new Random();
         return switch (random.nextInt(12) + 1) { //TODO: Expand
@@ -64,21 +67,17 @@ public class Match {
             default -> throw new RuntimeException("ERRORE generazione persona OBJ");
         };
     }
-    //JUST TEST
-    public void main( String[] args ) {
+    public void newPlayer(String nick) throws  MatchExeception{
+        if(players.size()<4)
+            try {
+                players.add(new Player(personalOBJChooser(),nick));
+            }catch (MatchExeception exeception){
+                throw new MatchExeception(exeception.getMessage());
+            }
 
-        this.newPlayer("Claudio");
-        this.newPlayer("Sibb");
-        this.newPlayer("Mati");
-
-        this.setupPlayground();
-        p.printOutPlayground();
-
-        this.game();
-
-    }
-    public void newPlayer(String nick){
-        players.add(new Player(personalOBJChooser(),nick));
+        else {
+            throw new MatchExeception("Max Player reached");
+        }
     }
     public void setupPlayground(){
         try {
@@ -87,28 +86,37 @@ public class Match {
             System.out.println(e.getMessage());
         }
     }
-    public void game(){
-        Player nowPlaying;
-        while(true){
-            nowPlaying = players.remove();
-            players.add(nowPlaying);
-            try{
-                if(nowPlaying.pickUp(p)) {
-                    if(o.execCheck(nowPlaying)){
-                        pointSetter(objCount,nowPlaying);
-                        objCount++;
-                    }
-                    // personal obj still missing
-                    //nowPlaying.checkPersonalOBJ
-                    if (nowPlaying.getMy_shelfie().isFull())
-                        break;
-                }p.countSelected();
-            }catch (RuntimeException | PlaygroundException e) {
-                System.out.println(e.getMessage());
-            }
 
+    public int newTurn() {
+        Player nowPlaying = players.remove();
+        players.addLast(nowPlaying);
+        try{
+            if(nowPlaying.pickUp(p)) {
+                if(o.execCheck(nowPlaying)){
+                    pointSetter(objCount,nowPlaying);
+                    objCount++;
+                }
+                // personal obj still missing
+                //nowPlaying.checkPersonalOBJ
+                if (nowPlaying.getMy_shelfie().isFull())
+                    return 1;
+            }
+            p.countSelected();
+        }catch (RuntimeException | PlaygroundException e) {
+            System.out.println(e.getMessage());
         }
+        return 0;
     }
+
+    public static Playground getP() {
+        return p;
+    }
+    public static Player getLastPlayer(){
+
+        return players.peekLast();
+    }
+
+
 }
 
 

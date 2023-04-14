@@ -187,8 +187,9 @@ public class Playground {
             for (int i = 1; i < c.size(); i++) {
                 if(isValid(c.get(i).getX(),c.get(i).getY())){
                     if(c.get(i).checkSides(c,i)){
-                        return  false;
+                        return  true;
                     }
+
                 }else{
                     return false;
                 }
@@ -196,7 +197,7 @@ public class Playground {
         }else{
             return false;
         }
-            return true;
+        return false;
     }
 
 

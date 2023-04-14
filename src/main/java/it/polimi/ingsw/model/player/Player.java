@@ -217,7 +217,9 @@ public class Player {
 
         this.turn = turn;
     }
-
+    public ObjectivePersonalEXEC getPersonalObj(){
+        return personalObj;
+    }
 
     /**
 
@@ -228,7 +230,7 @@ public class Player {
      @return True if the picked up tiles are successfully placed on the player's shelf, false otherwise.
      */
 
-    //todo: when is moved in client-server logic simplify this one
+
     public Boolean pickUp(Playground p) throws RuntimeException {
         System.out.println(this.nickname);
         if(this.my_shelfie.isFull()) throw new RuntimeException("FULL Shelfie");
@@ -239,7 +241,7 @@ public class Player {
         int column = validateInput(true);
         int max = calculateMaxTiles(column);
         // Allow the player to pick up to 3 tiles
-        for(int i = 0; i< max ;i++){              //TODO : IMPROVE CHOOSE LOGIC
+        for(int i = 0; i< max ;i++){
             // Prompt the player for coordinates
             System.out.println("Write your chosen coordinate\n");
             System.out.print("X:");

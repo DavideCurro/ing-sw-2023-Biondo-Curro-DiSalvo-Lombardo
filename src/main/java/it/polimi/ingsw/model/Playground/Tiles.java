@@ -178,10 +178,9 @@ public class Tiles {
     }
 
     public boolean checkSides(Vector<Tiles> c, int i){
-        return !(checkLeft(c,i) || checkRight(c,i) || checkUp(c,i) || checkDown(c,i));
+        return (checkLeft(c,i) || checkRight(c,i) || checkUp(c,i) || checkDown(c,i));
     }
 
-    //todo: try to compact those method in a modular one, unless the check of both side is barely impossible
     /**
      *
      * Check left
@@ -190,8 +189,8 @@ public class Tiles {
      * @param i  the index.
      * @return boolean, return true if the two tiles are next to each other on left side for the index one
      */
-    private boolean checkLeft(Vector<Tiles> c, int i ) {
-        return c.get(i - 1).getX() == c.get(i).getX() - 1;
+    private boolean checkUp(Vector<Tiles> c, int i ) {
+        return c.get(i - 1).getX()-1 == c.get(i).getX() && c.get(i-1).getY() == c.get(i).getY();
     }
 
     /**
@@ -202,8 +201,8 @@ public class Tiles {
      * @param i  the index.
      * @return boolean, return true if the two tiles are next to each other on right side for the index one
      */
-    private boolean checkRight(Vector<Tiles> c, int i ){
-        return c.get(i - 1).getX() == c.get(i).getX()  + 1;
+    private boolean checkDown(Vector<Tiles> c, int i ){
+        return c.get(i - 1).getX()+1 == c.get(i).getX()  && c.get(i-1).getY() == c.get(i).getY();
     }
 
     /**
@@ -214,8 +213,8 @@ public class Tiles {
      * @param i  the index.
      * @return boolean, return true if the two tiles are next to each other on upper side for the index one
      */
-    private boolean checkUp(Vector<Tiles> c, int i ){
-        return c.get(i - 1).getY() == c.get(i).getY()  - 1;
+    private boolean checkLeft(Vector<Tiles> c, int i ){
+        return c.get(i - 1).getY() -1 == c.get(i).getY() && c.get(i-1).getX() == c.get(i).getX();
     }
 
     /**
@@ -226,8 +225,8 @@ public class Tiles {
      * @param i  the index.
      * @return boolean, return true if the two tiles are next to each other on downside for the index one
      */
-    private boolean checkDown(Vector<Tiles> c, int i ){
-        return c.get(i - 1).getY() == c.get(i).getY() + 1;
+    private boolean checkRight(Vector<Tiles> c, int i ){
+        return c.get(i - 1).getY() +1 == c.get(i).getY()&& c.get(i-1).getX() == c.get(i).getX();
     }
 
 

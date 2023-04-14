@@ -33,17 +33,29 @@ public class Controller {
         }catch (MatchExeception e){
             System.out.println(e.getMessage());
         }
+
     }
     public void startGame(){
         this.match.setupPlayground();
         this.view.printPlayground();
-        while(this.match.newTurn()== 0){
-            this.view.printPlayerLibrary();
-            this.view.printOutPointsPerPlayer(Match.getLastPlayer());
-            //this.view.//todo: put userinterface in client side
+        int stop = 0;
+
+            while (stop == 0) {
+                try {
+                    stop = this.match.newTurn();
+                }catch (RuntimeException e) {
+                    System.out.println(e.getMessage());
+                }
+                this.view.printPlayerLibrary();
+                this.view.printOutPointsPerPlayer(Match.getLastPlayer());
+                this.view.printPlayground();
+                //todo: put userinterface in client side
+            }
+
+
         }
 
     }
 
 
-}
+

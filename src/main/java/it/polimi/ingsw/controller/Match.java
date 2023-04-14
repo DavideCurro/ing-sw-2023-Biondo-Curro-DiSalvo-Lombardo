@@ -24,12 +24,12 @@ public class Match {
     private static LinkedList<Player> players;
 
     public Match(){
-        this.players = new LinkedList<>();
+        players = new LinkedList<>();
 
        // this.o = new ObjectiveCommonEXEC(o);
     }
     public Match(LinkedList<Player>p, CommonObj o){
-        this.players = p;
+        players = p;
         this.o = new ObjectiveCommonEXEC(o);
     }
     public void setObjectiveCommonEXEC(CommonObj o){
@@ -51,7 +51,7 @@ public class Match {
     }
     private PersonalObj personalOBJChooser() throws MatchExeception{
         Random random = new Random();
-        return switch (random.nextInt(12) + 1) { //TODO: Expand
+        return switch (random.nextInt(12) + 1) {
             case 1 -> new GoalP1();
             case 2 -> new GoalP2();
             case 3 -> new GoalP3();
@@ -68,16 +68,23 @@ public class Match {
         };
     }
     public void newPlayer(String nick) throws  MatchExeception{
-        if(players.size()<4)
+        if(players.isEmpty()){
+            players.add(new Player(personalOBJChooser(),nick,true));
+            VirtualView.printPersonalOBJ(players.getLast());
+            return;
+        }
+        if(players.size()<4) {
             try {
-                players.add(new Player(personalOBJChooser(),nick));
-            }catch (MatchExeception exeception){
-                throw new MatchExeception(exeception.getMessage());
-            }
+                players.add(new Player(personalOBJChooser(), nick, false));
 
-        else {
+
+            } catch (MatchExeception exception) {
+                throw new MatchExeception(exception.getMessage());
+            }
+        }else {
             throw new MatchExeception("Max Player reached");
         }
+        VirtualView.printPersonalOBJ(players.getLast());
     }
     public void setupPlayground(){
         try {
@@ -87,17 +94,22 @@ public class Match {
         }
     }
 
-    public int newTurn() {
+    public int newTurn() throws RuntimeException{
         Player nowPlaying = players.remove();
         players.addLast(nowPlaying);
+
+        /*      //todo: how to get the real player?
+        if(!nowPlaying.getTurn()) throw new RuntimeException("NOT Your turn");
+        players.peekLast().setTurn(false);
+        players.peekFirst().setTurn(true);
+        */
         try{
             if(nowPlaying.pickUp(p)) {
                 if(o.execCheck(nowPlaying)){
                     pointSetter(objCount,nowPlaying);
                     objCount++;
                 }
-                // personal obj still missing
-                //nowPlaying.checkPersonalOBJ
+                nowPlaying.checkPersonalOBJ();
                 if (nowPlaying.getMy_shelfie().isFull())
                     return 1;
             }
@@ -115,6 +127,7 @@ public class Match {
 
         return players.peekLast();
     }
+
 
 
 }

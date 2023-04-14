@@ -10,4 +10,7 @@ public class ObjectivePersonalEXEC {
     public int execCheck(Player l){
         return personalObj.check(l);
     }
+    public PersonalObj getPersonalObj(){
+        return personalObj;
+    }
 }

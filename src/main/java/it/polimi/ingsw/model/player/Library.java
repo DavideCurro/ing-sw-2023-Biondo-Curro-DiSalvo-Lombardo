@@ -77,13 +77,19 @@ public class Library {
         Boolean tmp = p.adjacency(t);
         //System.out.println(tmp);
         // Place the tiles on the shelf
-        for (int i = count; i < len + count; i++) {
+        for (int i =5; i > len-1; i--) {
             if (tmp) {
+                if(j == len)
+                    return true;
                 // Set the type of the tile on the shelf and remove it from the playground
                 if(t.get(j).checkSet()) {
-                    this.shelf[6 - i][column].setType(t.get(j).getType()); //go to last element in column possible, 6 - i that's mean the last NOT_VALID tile
+                    if(this.shelf[i][column].getType() == NOT_VALID)
+                        this.shelf[i][column].setType(t.get(j).getType()); //go to last element in column possible, 6 - i that's mean the last NOT_VALID tile
+                    else
+                        this.shelf[i-(count+1)][column].setType(t.get(j).getType());
                     // System.out.println(this.shelf[5 - i][column].getType());
                     p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(NOT_VALID);
+
 
                     j++;
                 }else throw new LibraryException("Already Picked");

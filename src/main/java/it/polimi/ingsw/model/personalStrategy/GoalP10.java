@@ -9,28 +9,31 @@ import java.util.Map;
 import java.util.Vector;
 
 public class GoalP10 implements PersonalObj{
-    Map<Integer,Integer> pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);
+    private final Map<Integer,Integer> pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);
 
-    Vector<Tiles> position = new Vector<>();
-    private void setCard(){
+    private final Vector<Tiles> position = new Vector<>();
+    public GoalP10(){
 
         int[] x = new int[] {0,1,2,3,4,5};
         int[] y = new int[] {4,1,0,3,1,3};
         int[] type = new int[] {CYAN,YELLOW,WHITE,GREEN,BLUE,PINK};
         for(int i = 0; i < x.length; i++){
-            this.position.get(i).setALL(x[i],y[i],type[i]);
+            this.position.add(new Tiles(type[i],x[i],y[i]));
+
         }
 
 
     }
-
+    @Override
+    public Vector<Tiles> getPosition() {
+        return position;
+    }
 
     public int check(Player p){
-        setCard();
         int count = 0;
         int [] coordinate;
-        for(int i =0; i<5; i++){
-            coordinate = position.get(i).getXYType();
+        for(Tiles tmp : position){
+            coordinate = tmp.getXYType();
             if (p.getMy_shelfie().getShelf()[coordinate[0]][coordinate[1]].getType() == coordinate[2]) //you can also use all the get, by following le previous line code
                 count++;
         }

@@ -1,5 +1,5 @@
 package it.polimi.ingsw.controller;
-
+//Rene Ferretti MVC
 
 import it.polimi.ingsw.model.commonStrategy.CommonObj;
 import it.polimi.ingsw.model.commonStrategy.GoalC3;

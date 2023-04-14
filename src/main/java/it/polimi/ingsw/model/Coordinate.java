@@ -1,5 +1,5 @@
 
-//todo: delete this! Rene ferretti is watching you
+//delete this! Rene ferretti is watching you
 /*
 *               USED FOR KEEP MAYBE GOOD IDEA
 *
@@ -9,7 +9,7 @@
 *
 *
 *         int i = 0;
-        for(int j = 0; j < 9;j++){ // TODO: IMPROVE GAME PLAYER LOGIC --> TRY IMPLEMENT CIRCULAR LIST (MAYBE WORK)
+        for(int j = 0; j < 9;j++){
             players.get(i).getMy_shelfie().printOut();
             if(players.get(i).getTurn()){
                 System.out.println(players.get(i).getNickname()+ " Is playing");

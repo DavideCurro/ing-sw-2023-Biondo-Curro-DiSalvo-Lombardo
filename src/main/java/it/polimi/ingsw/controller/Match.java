@@ -67,10 +67,31 @@ public class Match {
             default -> throw new RuntimeException("ERRORE generazione persona OBJ");
         };
     }
+
+    private CommonObj CommonOBJChooser() throws MatchExeception{
+        Random random = new Random();
+        return switch (random.nextInt(12) + 1) {
+            case 1 -> new GoalC1();
+            case 2 -> new GoalC2();
+            case 3 -> new GoalC3();
+            case 4 -> new GoalC4();
+            case 5 -> new GoalC5();
+            case 6 -> new GoalC6();
+            case 7 -> new GoalC7();
+            case 8 -> new GoalC8();
+            case 9 -> new GoalC9();
+            case 10 -> new GoalC10();
+            case 11 -> new GoalC11();
+            case 12 -> new GoalC12();
+            default -> throw new RuntimeException("ERRORE generazione persona OBJ");
+        };
+    }
+
     public void newPlayer(String nick) throws  MatchExeception{
         if(players.isEmpty()){
             players.add(new Player(personalOBJChooser(),nick,true));
             VirtualView.printPersonalOBJ(players.getLast());
+            setObjectiveCommonEXEC(CommonOBJChooser());
             return;
         }
         if(players.size()<4) {

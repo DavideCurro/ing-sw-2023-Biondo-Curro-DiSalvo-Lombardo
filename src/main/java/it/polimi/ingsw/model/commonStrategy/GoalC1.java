@@ -11,8 +11,8 @@ public class GoalC1 implements CommonObj{
         int type;
         boolean correct = false;
 
-        for(int j = 0; j<5; j++){
-            for(int i = 0; i<6 || correct; i++){
+        for(int j = 0; j<4; j++){
+            for(int i = 0; i<4 || correct; i++){
                 type = p.getMy_shelfie().getShelf()[i][j].getType();
                 correct = squareCheck(i,j,type,p);
             }

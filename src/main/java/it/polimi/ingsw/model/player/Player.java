@@ -200,8 +200,6 @@ public class Player {
      * @return the turn
      */
     public Boolean getTurn() {
-
-
         return turn;
     }
 
@@ -213,8 +211,6 @@ public class Player {
      * @param turn  the turn
      */
     public void setTurn(Boolean turn) {
-
-
         this.turn = turn;
     }
     public ObjectivePersonalEXEC getPersonalObj(){
@@ -231,26 +227,21 @@ public class Player {
      */
 
 
-    public Boolean pickUp(Playground p) throws RuntimeException {
+    public Boolean pickUp(Playground p, int column, int X[],int Y[]) throws RuntimeException, CoordinateStateException {
         System.out.println(this.nickname);
         if(this.my_shelfie.isFull()) throw new RuntimeException("FULL Shelfie");
         // Initialize variables
         this.coordinates = new Vector<>();
-        int tmpX,tmpY;
-        System.out.println("Choose Column");
-        int column = validateInput(true);
-        int max = calculateMaxTiles(column);
+        if(!checkColValid(column))
+            return false;
+        if(X.length != Y.length)    return false;
+        int max = calculateMaxTiles(column,X.length);
         // Allow the player to pick up to 3 tiles
         for(int i = 0; i< max ;i++){
             // Prompt the player for coordinates
-            System.out.println("Write your chosen coordinate\n");
-            System.out.print("X:");
-            tmpX = validateInput(false);
-            System.out.println();
-            System.out.print("Y:");
-            tmpY = validateInput(false);
             // Store the picked tile in the picked Vector
-            this.coordinates.add(new Tiles(p.getGround()[tmpX][tmpY].getType(),tmpX,tmpY));
+            if(!(checkCoordinateValid(X[i])||checkCoordinateValid(Y[i]))) return false;
+            this.coordinates.add(new Tiles(p.getGround()[X[i]][Y[i]].getType(),X[i],Y[i]));
             // Display information about the picked tile
             System.out.println(this.coordinates.get(i).toString() );
         }
@@ -263,10 +254,6 @@ public class Player {
     }
 
 
-
-
-
-    //TODO: MOVE THIS CLIENT SIDE, THE INPUT CHECK SHOULD BE IN CLIENT SIDE, THE SERVER NEEDS TO CHECK IF THE VALID INPUT IS POSSIBLE FOR THE GAME
     /**
      *
      * Check coordinate valid
@@ -274,9 +261,10 @@ public class Player {
      * @param x  the x.
      * @throws   CoordinateStateException, throws exception for wrong coordinate choose
      */
-    private void checkCoordinateValid(int x) throws CoordinateStateException{
+    private boolean checkCoordinateValid(int x) throws CoordinateStateException{
 
         if(x<0 || x>9) throw new CoordinateStateException("Impossible coordinate state");
+        return true;
     }
 
 
@@ -287,9 +275,10 @@ public class Player {
      * @param col  the col.
      * @throws  CoordinateStateException, throws an exception for wrong column choose
      */
-    private void checkColValid(int col)throws CoordinateStateException{
+    private boolean checkColValid(int col)throws CoordinateStateException{
 
         if(col <0 || col > 5) throw new CoordinateStateException("Impossible Column");
+        return true;
     }
 
     /**
@@ -299,7 +288,7 @@ public class Player {
      * @param column  the column.
      * @return int
      */
-    private int calculateMaxTiles(int column){
+    private int calculateMaxTiles(int column, int len){
 
         int max;
         try{
@@ -313,15 +302,13 @@ public class Player {
         }else{
             max =  6 - max;
         }
-        System.out.println("Choose amount of Tiles");
-        int amount = scanner.nextInt();
-        return Math.min(amount, max);
+        return Math.min(len, max);
     }
     /**
      * Validate the coordinate input
      * @return tmp
-     */
-    private int validateInput(boolean column){
+     *
+    public int validateInput(boolean column){
 
         int tmp ;
         try {
@@ -338,7 +325,7 @@ public class Player {
         }
         return tmp;
     }
-
+*/
 
 
     public void checkPersonalOBJ(){

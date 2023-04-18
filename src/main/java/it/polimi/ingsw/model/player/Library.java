@@ -51,15 +51,7 @@ public class Library {
         return shelf;
     }
 
-    /**
-     *
-     * Sets the shelf
-     *
-     * @param shelf  the shelf.
-     */
-    public void setShelf(Tiles[][] shelf) {
-        this.shelf = shelf;
-    }
+
 
     /**
 
@@ -79,18 +71,13 @@ public class Library {
         // Place the tiles on the shelf
         for (int i =5; i > len-1; i--) {
             if (tmp) {
-                if(j == len)
-                    return true;
-                // Set the type of the tile on the shelf and remove it from the playground
+                if(j == len) return true;
                 if(t.get(j).checkSet()) {
                     if(this.shelf[i][column].getType() == NOT_VALID)
                         this.shelf[i][column].setType(t.get(j).getType()); //go to last element in column possible, 6 - i that's mean the last NOT_VALID tile
                     else
                         this.shelf[i-(count+1)][column].setType(t.get(j).getType());
-                    // System.out.println(this.shelf[5 - i][column].getType());
-                    p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(NOT_VALID);
-
-
+                    p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(NOT_VALID);// Set the type of the tile on the shelf and remove it from the playground
                     j++;
                 }else throw new LibraryException("Already Picked");
             } else {
@@ -130,21 +117,5 @@ public class Library {
                 return false;
         }
         return true;
-    }
-    /*
-    *
-        GOAL TEST
-    *
-     */
-    public void randomFill(){
-        Random r = new Random();
-        for(int i = 0; i < 6; i++){
-            for(int j = 0; j<5; j++){
-                this.shelf[i][j].setType(r.nextInt(PINK));
-
-            }
-
-        }
-
     }
 }

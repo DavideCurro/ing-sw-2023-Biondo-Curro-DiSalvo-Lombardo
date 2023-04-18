@@ -27,7 +27,6 @@ public class Tiles {
      *
      */
     public Tiles(){
-
         type=NOT_VALID;
         x=0;
         y=0;
@@ -105,7 +104,6 @@ public class Tiles {
      * @param x  the x.
      */
     public void setX(int x) {
-
         this.x = x;
     }
 
@@ -161,18 +159,6 @@ public class Tiles {
     }
 
 
-    /**
-
-     Adds a new coordinate to the collection.
-     @param x the x-coordinate of the new coordinate
-     @param y the y-coordinate of the new coordinate
-     @param type the type of the new coordinate
-     */
-    public void setALL(int x,int y,int type){
-        this.setX(x);
-        this.setY(y);
-        this.setType(type);
-    }
     public boolean checkSet(){
         return this.type != NOT_VALID;
     }

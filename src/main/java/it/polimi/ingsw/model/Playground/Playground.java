@@ -67,22 +67,15 @@ public class Playground {
      */
     public Playground(int num_players) throws PlaygroundException {
         this.num_players = num_players;
-        switch (num_players) {
-            case 2 -> maskSetup(mask2Player); 
-            case 3 -> maskSetup(mask3Player);
-            case 4 -> maskSetup(mask4Player);
-            
-            default -> throw new PlaygroundException("Unexpected value: " + num_players);
-        }
+        this.fillUP();
     }
 
     /**
      *
      * It is a constructor.
      *
-     * @param ground  the ground.
-     * @param num_players  the num_players.
-     */
+     *
+     *
     public Playground(Tiles[][] ground, int num_players) {
         this.num_players = num_players;
         this.ground = ground;
@@ -189,15 +182,14 @@ public class Playground {
                     if(c.get(i).checkSides(c,i)){
                         return  true;
                     }
-
                 }else{
                     return false;
                 }
             }
+            return true;
         }else{
             return false;
         }
-        return false;
     }
 
 

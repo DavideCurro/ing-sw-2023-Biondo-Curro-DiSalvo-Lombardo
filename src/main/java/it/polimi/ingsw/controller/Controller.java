@@ -1,9 +1,10 @@
 package it.polimi.ingsw.controller;
 
+import java.util.Random;
+import java.util.Scanner;
+
 public class Controller {
     private Match match;
-
-
 
     private VirtualView view;
 
@@ -42,7 +43,8 @@ public class Controller {
 
             while (stop == 0) {
                 try {
-                    stop = this.match.newTurn();
+
+                    stop = this.match.newTurn(validateInput(),new int[]{validateInput()},new int[]{validateInput()});
                 }catch (RuntimeException e) {
                     System.out.println(e.getMessage());
                 }
@@ -54,7 +56,18 @@ public class Controller {
 
 
         }
+    private int validateInput(){
 
+        int tmp ;
+        Scanner scanner = new Scanner(System.in);
+        try {
+            tmp = scanner.nextInt() - 1;
+        }catch (java.util.InputMismatchException e){
+            scanner.next();
+            throw new RuntimeException(e);
+        }
+        return tmp;
+    }
     }
 
 

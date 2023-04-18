@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Playground.Playground;
 import it.polimi.ingsw.model.commonStrategy.*;
+import it.polimi.ingsw.model.exception.CoordinateStateException;
 import it.polimi.ingsw.model.exception.PlaygroundException;
 import it.polimi.ingsw.model.personalStrategy.*;
 import it.polimi.ingsw.model.personalStrategy.PersonalObj;
@@ -20,7 +21,7 @@ public class Match {
     private static final Map<Integer,Integer> pointOBJ4player = Map.of(1,8,2,4,3,4,4,2);
     private static Playground p = new Playground();
     private ObjectiveCommonEXEC o ;
-    private int objCount = 0;
+    private int objCount = 1;
     private static LinkedList<Player> players;
 
     public Match(){
@@ -49,7 +50,7 @@ public class Match {
 
 
     }
-    private PersonalObj personalOBJChooser() throws MatchExeception{
+    public PersonalObj personalOBJChooser() throws MatchExeception{
         Random random = new Random();
         return switch (random.nextInt(12) + 1) {
             case 1 -> new GoalP1();
@@ -115,17 +116,13 @@ public class Match {
         }
     }
 
-    public int newTurn() throws RuntimeException{
+    public int newTurn(int column,int[]X,int[]Y) throws RuntimeException{
         Player nowPlaying = players.remove();
         players.addLast(nowPlaying);
 
-        /*      //todo: how to get the real player?
-        if(!nowPlaying.getTurn()) throw new RuntimeException("NOT Your turn");
-        players.peekLast().setTurn(false);
-        players.peekFirst().setTurn(true);
-        */
+
         try{
-            if(nowPlaying.pickUp(p)) {
+            if(nowPlaying.pickUp(p,column,X,Y)) {
                 if(o.execCheck(nowPlaying)){
                     pointSetter(objCount,nowPlaying);
                     objCount++;
@@ -135,7 +132,7 @@ public class Match {
                     return 1;
             }
             p.countSelected();
-        }catch (RuntimeException | PlaygroundException e) {
+        }catch (RuntimeException | PlaygroundException |CoordinateStateException e) {
             System.out.println(e.getMessage());
         }
         return 0;

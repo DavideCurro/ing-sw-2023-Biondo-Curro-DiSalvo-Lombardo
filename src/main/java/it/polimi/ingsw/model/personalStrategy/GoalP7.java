@@ -36,7 +36,7 @@ public class GoalP7 implements PersonalObj{
                 count++;
         }
         //System.out.println("you won"+points+" points");
-
+        if(count == 0) return 0;
         return pointMap.get(count);
     }
 

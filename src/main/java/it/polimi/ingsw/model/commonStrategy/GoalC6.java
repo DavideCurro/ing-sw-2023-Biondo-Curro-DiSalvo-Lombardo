@@ -3,24 +3,25 @@ package it.polimi.ingsw.model.commonStrategy;
 import it.polimi.ingsw.model.player.Player;
 
 import java.sql.Struct;
+import java.util.Vector;
 
 //Goal 6 = Two lines each formed by 5 different types of tiles.
 public class GoalC6 implements CommonObj{
-    private int count;
-
+    private int count=1;
+    private Vector<Integer> types = new Vector<>();
     public boolean check(Player p){
+        int differentColumn=0;
         for(int i = 0; i < 6; i++ ){
-            int j = 1;
-            while(((p.getMy_shelfie().getShelf()[i][j]).getType() != (p.getMy_shelfie().getShelf()[i][j - 1]).getType()) && (j < 5)){
-                j++;
+            for (int j = 0; j<5; j++) {
+                if (types.contains(p.getMy_shelfie().getShelf()[i][j].getType()))   break;
+                else types.add(p.getMy_shelfie().getShelf()[i][j].getType());
             }
-            if(j==4){ //if j==4 we have completed a row with 5 different types of tiles
-                count++;
+            if(types.size() == 5){
+                differentColumn++;
             }
-            if(count == 2){ //we have 2 rows composed by 5 different types of tiles
-                return true;
-            }
+            types.clear();
         }
+        if(differentColumn >1) return true;
         return false;
     }
 }

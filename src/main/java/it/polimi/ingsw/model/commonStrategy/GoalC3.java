@@ -8,7 +8,7 @@ public class GoalC3 implements CommonObj{
 
     }
     public boolean check(Player p) {
-        int column=0;   //todo: simplify, try to merge
+        int column=0;
         for(int i = 0; i < 6; i++){
             if(checkRight(p.getMy_shelfie(),i) % 4 == 0){
                 column ++;
@@ -18,13 +18,9 @@ public class GoalC3 implements CommonObj{
                     column ++;
                 }
         }
-        if(column == 4){
+        if(column >= 4){
             return true;
         }
-        /*
-        for(int j= 0, i = 0; (j<5 && i<6); i++,j++){
-            int[] count = checkRightAndDown(p.getMy_shelfie(),i,j);
-        }*/
         return false;
     }
     private int checkRight(Library l, int i){
@@ -69,34 +65,5 @@ public class GoalC3 implements CommonObj{
         }
         return  count;
     }
-/* todo: check if is correct
-    private int[] checkRightAndDown(Library l, int i, int j) {
-        int[] count = new int[2];
-        int k = 0;
-        int y = 1;
-        int r = 1;
-        while (k < 5 && y < 6 && r <5) {
-            if (l.getShelf()[i][k].getType() == l.getShelf()[i][r].getType()) {
-                if (count[0] < 4)
-                    count[0]++;
-                else
-                    return count;
-            } else {
-                count[0]= 1;
-            }
-            if (l.getShelf()[k][j].getType() == l.getShelf()[y][j].getType()) {
-                if (count[1] < 4)
-                    count[1]++;
-                else
-                    return count;
-            } else {
-                count[1] = 1;
-            }
-            k++;
-            r++;
-            y++;
-        }
-        return count;
-    }
-    */
+
 }

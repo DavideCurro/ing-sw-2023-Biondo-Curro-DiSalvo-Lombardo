@@ -18,9 +18,7 @@ public class GoalC5 implements CommonObj {
                     break;
                 else {
                     int type = p.getMy_shelfie().getShelf()[i][j].getType();
-                    if (v.contains(type))
-                        continue;
-                    else
+                    if (!v.contains(type))
                         v.add(type);//new type read in the column
                 }
             }

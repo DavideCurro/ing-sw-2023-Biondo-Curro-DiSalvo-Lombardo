@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.MatchTest.goalTest;
+package it.polimi.ingsw.model.MatchTest.goalTest.goalTestAchieved;
 
 import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.commonStrategy.GoalC2;
@@ -13,15 +13,15 @@ import java.util.Random;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class goal2Test {
+public class goal2TestAchieved {
     private ObjectiveCommonEXEC objectiveCommonEXEC = new ObjectiveCommonEXEC(new GoalC2());
     private Library library = new Library();
     @Before
     public void setUp(){
-        Random random = new Random();
+
         for(int i = 0; i<6;i++){
             for(int j = 0; j <5; j++){
-                library.getShelf()[i][j]=new Tiles(random.nextInt(5));
+                library.getShelf()[i][j]=new Tiles(i);
             }
 
         }
@@ -35,8 +35,7 @@ public class goal2Test {
     }
     @Test
     public void validateGoal1(){
-        assertFalse(objectiveCommonEXEC.execCheck(new Player(library)));
-
+        assertTrue(objectiveCommonEXEC.execCheck(new Player(library)));
     }
 
 

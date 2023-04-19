@@ -107,9 +107,6 @@ public class Playground {
         return num_players;
     }
 
-    public void setNum_players(int num_players) {
-        this.num_players = num_players;
-    }
 
     /**
      *
@@ -174,22 +171,20 @@ public class Playground {
      * @return boolean
      */
     public boolean adjacency(Vector<Tiles> c) {
-        int startX = c.get(0).getX();
-        int startY = c.get(0).getY();
-        if(isValid(startX,startY)){
-            for (int i = 1; i < c.size(); i++) {
-                if(isValid(c.get(i).getX(),c.get(i).getY())){
-                    if(c.get(i).checkSides(c,i)){
-                        return  true;
-                    }
-                }else{
-                    return false;
-                }
-            }
-            return true;
-        }else{
-            return false;
+        boolean done = false;
+        for (Tiles tiles : c) {
+            if (!isValid(tiles.getX(), tiles.getY())) return false;
         }
+        for (int i = 0;i<c.size();i++) {
+            if(!done)
+                for(int j = i; j< c.size();j ++){
+                    if(j == i)  continue;
+                    done = c.get(j).checkSides(c, j, c.get(i).getX(), c.get(i).getY());
+                }
+            else break;
+        }
+        return done;
+
     }
 
 

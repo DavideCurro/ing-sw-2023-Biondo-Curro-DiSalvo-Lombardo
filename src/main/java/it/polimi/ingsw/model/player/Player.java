@@ -85,27 +85,6 @@ public class Player {
         this.points = 0;
     }
 
-    /**
-     * It is a constructor.
-     *
-     * @param is_first    the is_first
-     * @param my_shelfie  the my_shelfie
-     * @param nickname    the nickname
-     * @param turn        the turn
-     * @param personalObj define the personal OBJ
-     */
-    public Player(Boolean is_first, Library my_shelfie, String nickname, Boolean turn, ObjectivePersonalEXEC personalObj) {
-
-
-        this.is_first = is_first;
-        this.my_shelfie = my_shelfie;
-        this.nickname = nickname;
-        this.personalObj = personalObj;
-        this.scanner = new Scanner(System.in);
-        this.turn = turn;
-        this.coordinates = new Vector<>();
-        this.points = 0;
-    }
 
     public int getPoints() {
         return points;
@@ -114,32 +93,6 @@ public class Player {
     public void setPoints(int points) {
         this.points = points;
     }
-
-    /**
-     *
-     * Gets the is_first
-     *
-     * @return the is_first
-     */
-    public Boolean getIs_first() {
-
-
-        return is_first;
-    }
-
-
-    /**
-     *
-     * Sets the is_first
-     *
-     * @param is_first  the is_first
-     */
-    public void setIs_first(Boolean is_first) {
-
-
-        this.is_first = is_first;
-    }
-
 
     /**
      *
@@ -193,26 +146,6 @@ public class Player {
     }
 
 
-    /**
-     *
-     * Gets the turn
-     *
-     * @return the turn
-     */
-    public Boolean getTurn() {
-        return turn;
-    }
-
-
-    /**
-     *
-     * Sets the turn
-     *
-     * @param turn  the turn
-     */
-    public void setTurn(Boolean turn) {
-        this.turn = turn;
-    }
     public ObjectivePersonalEXEC getPersonalObj(){
         return personalObj;
     }
@@ -232,10 +165,10 @@ public class Player {
         if(this.my_shelfie.isFull()) throw new RuntimeException("FULL Shelfie");
         // Initialize variables
         this.coordinates = new Vector<>();
-        if(!checkColValid(column))
-            return false;
+        checkColValid(column);
         if(X.length != Y.length)    return false;
         int max = calculateMaxTiles(column,X.length);
+        System.out.println("Number of Tiles PICKED : "+max);
         // Allow the player to pick up to 3 tiles
         for(int i = 0; i< max ;i++){
             // Prompt the player for coordinates
@@ -288,7 +221,7 @@ public class Player {
      * @param column  the column.
      * @return int
      */
-    private int calculateMaxTiles(int column, int len){
+    public int calculateMaxTiles(int column, int len){
 
         int max;
         try{

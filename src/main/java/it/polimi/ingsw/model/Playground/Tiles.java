@@ -20,18 +20,6 @@ public class Tiles {
     private int y;
 
 
-
-    /**
-     *
-     * It is a constructor.
-     *
-     */
-    public Tiles(){
-        type=NOT_VALID;
-        x=0;
-        y=0;
-    }
-
     /**
      *
      * It is a constructor.
@@ -99,17 +87,6 @@ public class Tiles {
 
     /**
      *
-     * Sets the X
-     *
-     * @param x  the x.
-     */
-    public void setX(int x) {
-        this.x = x;
-    }
-
-
-    /**
-     *
      * Gets the Y
      *
      * @return the  Y
@@ -119,17 +96,6 @@ public class Tiles {
         return y;
     }
 
-
-    /**
-     *
-     * Sets the Y
-     *
-     * @param y  the y.
-     */
-    public void setY(int y) {
-
-        this.y = y;
-    }
 
 
     /**
@@ -163,32 +129,8 @@ public class Tiles {
         return this.type != NOT_VALID;
     }
 
-    public boolean checkSides(Vector<Tiles> c, int i){
-        return (checkLeft(c,i) || checkRight(c,i) || checkUp(c,i) || checkDown(c,i));
-    }
-
-    /**
-     *
-     * Check left
-     *
-     * @param c  the coordinate.
-     * @param i  the index.
-     * @return boolean, return true if the two tiles are next to each other on left side for the index one
-     */
-    private boolean checkUp(Vector<Tiles> c, int i ) {
-        return c.get(i - 1).getX()-1 == c.get(i).getX() && c.get(i-1).getY() == c.get(i).getY();
-    }
-
-    /**
-     *
-     * Check right
-     *
-     * @param c  the coordinate.
-     * @param i  the index.
-     * @return boolean, return true if the two tiles are next to each other on right side for the index one
-     */
-    private boolean checkDown(Vector<Tiles> c, int i ){
-        return c.get(i - 1).getX()+1 == c.get(i).getX()  && c.get(i-1).getY() == c.get(i).getY();
+    public boolean checkSides(Vector<Tiles> c, int i, int x, int y){
+        return (checkLeft(c,i,x,y) || checkRight(c,i,x,y) || checkUp(c,i,x,y) || checkDown(c,i,x,y));
     }
 
     /**
@@ -197,10 +139,10 @@ public class Tiles {
      *
      * @param c  the coordinate.
      * @param i  the index.
-     * @return boolean, return true if the two tiles are next to each other on upper side for the index one
+     * @return boolean, return true if the two tiles are next to each other on left side for the index one
      */
-    private boolean checkLeft(Vector<Tiles> c, int i ){
-        return c.get(i - 1).getY() -1 == c.get(i).getY() && c.get(i-1).getX() == c.get(i).getX();
+    private boolean checkUp(Vector<Tiles> c, int i , int x, int y) {
+        return c.get(i).getX() == x-1 && c.get(i).getY() == y;
     }
 
     /**
@@ -209,10 +151,34 @@ public class Tiles {
      *
      * @param c  the coordinate.
      * @param i  the index.
+     * @return boolean, return true if the two tiles are next to each other on right side for the index one
+     */
+    private boolean checkDown(Vector<Tiles> c, int i, int x, int y ){
+        return c.get(i ).getX() == x+1  && c.get(i).getY() == y;
+    }
+
+    /**
+     *
+     * Check left
+     *
+     * @param c  the coordinate.
+     * @param i  the index.
+     * @return boolean, return true if the two tiles are next to each other on upper side for the index one
+     */
+    private boolean checkLeft(Vector<Tiles> c, int i , int x, int y ){
+        return c.get(i).getY()  == y-1 && c.get(i).getX() == x;
+    }
+
+    /**
+     *
+     * Check right
+     *
+     * @param c  the coordinate.
+     * @param i  the index.
      * @return boolean, return true if the two tiles are next to each other on downside for the index one
      */
-    private boolean checkRight(Vector<Tiles> c, int i ){
-        return c.get(i - 1).getY() +1 == c.get(i).getY()&& c.get(i-1).getX() == c.get(i).getX();
+    private boolean checkRight(Vector<Tiles> c, int i , int x, int y ){
+        return c.get(i).getY()  == y+1 && c.get(i).getX() == x;
     }
 
 

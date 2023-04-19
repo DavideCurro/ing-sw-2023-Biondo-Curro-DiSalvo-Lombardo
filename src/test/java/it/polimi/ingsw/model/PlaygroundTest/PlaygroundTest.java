@@ -24,7 +24,7 @@ public class PlaygroundTest{
     public PlaygroundTest() throws PlaygroundException {
     }
 
-    @Before
+
 
     /**
      * Rigourous Test :-)
@@ -56,12 +56,33 @@ public class PlaygroundTest{
 
     @Test
     public void validateValidTiles(){
+        for(int i =0 ;i < 9; i++){
+            for(int j = 0 ; j<9;j++){
+                p.getGround()[i][j].setType(-1);
+            }
+        }
+        p.getGround()[2][3].setType(1);
+        p.getGround()[2][4].setType(2);
+        p.getGround()[1][4].setType(2);
+        p.getGround()[3][2].setType(2);
         Vector<Tiles> tiles = new Vector<>();
         tiles.add(new Tiles(1,2,3));
         tiles.add(new Tiles(2,2,4));
-        tiles.add(new Tiles(2,3,4));
+        tiles.add(new Tiles(2,3,2));
+        tiles.add(new Tiles(2,1,4));
+
 
         assertTrue(p.adjacency(tiles));
+    }
+    @Test
+    public void invalidNumberPlayer(){
+        boolean thrown = false;
+        try {
+            p = new Playground(5);
+        }catch (PlaygroundException e){
+            thrown = true;
+        }
+        assertTrue(thrown);
     }
 
 }

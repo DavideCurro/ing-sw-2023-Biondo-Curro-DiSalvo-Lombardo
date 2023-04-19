@@ -11,7 +11,7 @@ public class GoalC2 implements CommonObj{
         for (int j = 0; j < 5; j++) {
             int different = 1;
             for(int i = 1;i<6;i++){
-                if(p.getMy_shelfie().getShelf()[i][j].getType() != p.getMy_shelfie().getShelf()[i][j].getType())
+                if(p.getMy_shelfie().getShelf()[i][j].getType() != p.getMy_shelfie().getShelf()[i-1][j].getType())
                     different++;
             }
             if(different == 6)

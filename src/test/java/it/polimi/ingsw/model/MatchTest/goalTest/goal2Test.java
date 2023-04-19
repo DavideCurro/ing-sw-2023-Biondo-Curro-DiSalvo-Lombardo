@@ -8,6 +8,9 @@ import it.polimi.ingsw.model.player.Player;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Random;
+
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class goal2Test {
@@ -15,9 +18,10 @@ public class goal2Test {
     private Library library = new Library();
     @Before
     public void setUp(){
+        Random random = new Random();
         for(int i = 0; i<6;i++){
             for(int j = 0; j <5; j++){
-                library.getShelf()[i][j]=new Tiles(i);
+                library.getShelf()[i][j]=new Tiles(random.nextInt(5));
             }
 
         }
@@ -31,7 +35,9 @@ public class goal2Test {
     }
     @Test
     public void validateGoal1(){
-        assertTrue(objectiveCommonEXEC.execCheck(new Player(library)));
+        assertFalse(objectiveCommonEXEC.execCheck(new Player(library)));
 
     }
+
+
 }

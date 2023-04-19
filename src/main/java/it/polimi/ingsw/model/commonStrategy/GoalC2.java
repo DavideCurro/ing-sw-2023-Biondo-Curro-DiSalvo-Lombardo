@@ -7,18 +7,18 @@ public class GoalC2 implements CommonObj{
     private int count = 0;
 
     public boolean check(Player p) {
+        int column = 0;
         for (int j = 0; j < 5; j++) {
-            int i = 1;
-            while (((p.getMy_shelfie().getShelf()[i][j]).getType() != (p.getMy_shelfie().getShelf()[ i - 1][j]).getType())) {
-                i++;
-                if (i == 5) {
-                    count++;
-                    break;
-                }
+            int different = 1;
+            for(int i = 1;i<6;i++){
+                if(p.getMy_shelfie().getShelf()[i][j].getType() != p.getMy_shelfie().getShelf()[i][j].getType())
+                    different++;
             }
-            if (count == 2) //count how many columns are fill with 6 equal rows
-                return true;
+            if(different == 6)
+                column ++;
+
         }
+        if(column>1) return true;
         return false;
 
     }

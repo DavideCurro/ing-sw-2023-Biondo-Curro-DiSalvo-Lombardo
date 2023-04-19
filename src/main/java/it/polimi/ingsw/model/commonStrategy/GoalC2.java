@@ -9,14 +9,15 @@ public class GoalC2 implements CommonObj{
     public boolean check(Player p) {
         for (int j = 0; j < 5; j++) {
             int i = 1;
-            while (((p.getMy_shelfie().getShelf()[i][j]).getType() != (p.getMy_shelfie().getShelf()[ i - 1][j]).getType()) && (i < 6)) {
+            while (((p.getMy_shelfie().getShelf()[i][j]).getType() != (p.getMy_shelfie().getShelf()[ i - 1][j]).getType())) {
                 i++;
+                if (i == 5) {
+                    count++;
+                    break;
+                }
             }
-            if (i == 5)
-                count++;
             if (count == 2) //count how many columns are fill with 6 equal rows
                 return true;
-
         }
         return false;
 

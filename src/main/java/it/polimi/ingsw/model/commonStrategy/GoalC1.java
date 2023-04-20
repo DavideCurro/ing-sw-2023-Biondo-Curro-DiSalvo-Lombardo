@@ -1,30 +1,41 @@
 package it.polimi.ingsw.model.commonStrategy;
 
+import it.polimi.ingsw.model.Playground.Tiles;
+import it.polimi.ingsw.model.player.Library;
 import it.polimi.ingsw.model.player.Player;
+
+import java.util.Timer;
+import java.util.Vector;
 /* Two groups each containing 4 tiles of the same type in a 2x2 square.
 The tiles of one square can be different from those of the other square. */
 
 public class GoalC1 implements CommonObj{
 
     public boolean check(Player p){
-
-        int type;
+        Vector<Tiles> square = new Vector<>();
         boolean correct = false;
-
+        int count = 0;
         for(int j = 0; j<4; j++){
-            for(int i = 0; i<4 || correct; i++){
-                type = p.getMy_shelfie().getShelf()[i][j].getType();
-                correct = squareCheck(i,j,type,p);
+            for(int i = 0; i<5; i++){
+                square.add(p.getMy_shelfie().getShelf()[i][j]);
+                square.add(p.getMy_shelfie().getShelf()[i][j+1]);
+                square.add(p.getMy_shelfie().getShelf()[i+1][j]);
+                square.add(p.getMy_shelfie().getShelf()[i+1][j+1]);
+                correct = squareCheck(square);
+                square = new Vector<>();
+                if(correct){
+                    count++;
+                    if(count>1) return true;
+                }
             }
-            if (!correct)
-                continue;
-            else
-                return true;
         }
-        return false;
+        return correct;
     }
 
-    public boolean squareCheck(int row, int column, int type, Player p){
-        return ((p.getMy_shelfie().getShelf()[row + 1][column + 1].getType()) == type) && ((p.getMy_shelfie().getShelf()[row + 1][column].getType()) == type) && ((p.getMy_shelfie().getShelf()[row][column + 1].getType()) == type);
+    public boolean squareCheck(Vector<Tiles>c){
+        for (int i = 1;i<c.size();i++){
+            if(c.get(i).getType() != c.get(i-1).getType())  return false;
+        }
+        return true;
     }
 }

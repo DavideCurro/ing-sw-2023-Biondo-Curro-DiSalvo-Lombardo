@@ -22,6 +22,7 @@ public class Match {
     private static Playground p = new Playground();
     private ObjectiveCommonEXEC o ;
     private int objCount = 1;
+    private static boolean thrown = false;
     private static LinkedList<Player> players;
 
     public Match(){

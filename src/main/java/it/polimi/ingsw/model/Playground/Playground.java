@@ -19,7 +19,7 @@ public class Playground {
                                                            {-1, -1,   0,  0,  0,  0,  0,  0, -1},
                                                            {-1,  0,   0,  0,  0,  0,  0,  0, -1},
                                                            {-1,  0,   0,  0,  0,  0,  0, -1, -1},
-                                                           {-1, -1,   0,  0,  0, -1, -1, -1, -1},
+                                                           {-1, -1,  -1,  0,  0,  0, -1, -1, -1},
                                                            {-1, -1,  -1, -1,  0,  0, -1, -1, -1},
                                                            {-1, -1,  -1, -1, -1, -1, -1, -1, -1}
     };
@@ -174,6 +174,7 @@ public class Playground {
         boolean done = false;
         for (Tiles tiles : c) {
             if (!isValid(tiles.getX(), tiles.getY())) return false;
+            if(c.size() == 1)   return true;
         }
         for (int i = 0;i<c.size();i++) {
             if(!done)
@@ -181,7 +182,9 @@ public class Playground {
                     if(j == i)  continue;
                     done = c.get(j).checkSides(c, j, c.get(i).getX(), c.get(i).getY());
                 }
-            else break;
+            else{
+                break;
+            }
         }
         return done;
 

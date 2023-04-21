@@ -26,6 +26,6 @@ public class newTurnTest {
 
     @Test
     public void validateNewTurnTest() throws MatchExeception {
-        assertEquals(0,match.newTurn(1, new int[]{1,1,2},new int[]{3,4,3}));
+        assertEquals(0,match.newTurn(1, new int[]{1,1,2},new int[]{3,4,3},false));
     }
 }

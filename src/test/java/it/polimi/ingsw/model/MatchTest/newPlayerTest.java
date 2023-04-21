@@ -28,6 +28,9 @@ public class newPlayerTest {
         Player tmp = new Player();
         tmp.setNickname("c");
         assertEquals(tmp.getNickname(),Match.getLastPlayer().getNickname());
+        match.newPlayer("a");
+        tmp.setNickname("a");
+        assertEquals(tmp.getNickname(),Match.getLastPlayer().getNickname());
     }
 
 

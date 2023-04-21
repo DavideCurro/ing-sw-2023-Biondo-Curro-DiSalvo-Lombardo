@@ -9,61 +9,50 @@ public class GoalC3 implements CommonObj{
     }
     public boolean check(Player p) {
         int column=0;
-        for(int i = 0; i < 6; i++){
-            if(checkRight(p.getMy_shelfie(),i) % 4 == 0){
-                column ++;
-           }
-            if(i != 5)
-                if(checkDown(p.getMy_shelfie(),i) % 4 == 0){
-                    column ++;
+        boolean right = false;
+        boolean down = false;
+        for(int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
+                if (right(p.getMy_shelfie(), i, j)&& !right) {
+                    column++;
+                    right = true;
                 }
-        }
-        if(column >= 4){
-            return true;
-        }
-        return false;
-    }
-    private int checkRight(Library l, int i){
-        int count = 1;
-        int j=0;
-        for(int k = 1;  k<5; k++){
-            if(l.getShelf()[i][k].getType() == l.getShelf()[i][j].getType()){
-                if(count < 4)
-                    count ++;
-                else return count;
+                if(down(p.getMy_shelfie(),i,j)&& !down){
+                    if(i>0)
+                        if(down(p.getMy_shelfie(),i-1,j))
+                            continue;
+                    column++;
+                    down = true;
+                }
             }
-            else{
-                if(k >= 2){
-                    return 0;
-                }
-                j++;
-                k = j;
-                count = 1;
+            right = false;
+            down = false;
+        }
+        return column >=4;
+    }
 
-            }
-        }
-        return  count;
-    }
-    private int checkDown(Library l, int j){
+    private boolean right(Library l,int i,int j){
         int count = 0;
-        int i=0;
-        for(int k = 1;  k<6; k++){
-            if(l.getShelf()[i][j].getType() == l.getShelf()[k][j].getType()){
-                if(count < 4)
-                    count ++;
-                else return count;
-            }
-            else{
-                if(k >= 2){
-                    return 0;
-                }
-                i++;
-                k = i;
-                count = 0;
-
+        for(int k = j; k<5;k++){
+            if(l.getShelf()[i][j].getType() == l.getShelf()[i][k].getType()){
+                count++;
+            }else{
+                break;
             }
         }
-        return  count;
+        return count>=4;
+    }
+
+    private boolean down(Library l, int i, int j){
+        int count = 0;
+        for(int k = i; k <6;k++){
+            if(l.getShelf()[i][j].getType() == l.getShelf()[k][j].getType()){
+                count++;
+            }else{
+                break;
+            }
+        }
+        return count>=4;
     }
 
 }

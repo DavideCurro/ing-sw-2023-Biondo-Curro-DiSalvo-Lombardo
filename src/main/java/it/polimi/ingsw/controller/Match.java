@@ -134,6 +134,8 @@ public class Match {
             p.countSelected();
         }catch (RuntimeException | PlaygroundException |CoordinateStateException e) {
             System.out.println(e.getMessage());
+            players.addFirst(players.pollLast());
+            thrown = true;
         }
         return 0;
     }
@@ -143,9 +145,12 @@ public class Match {
     }
     public static Player getLastPlayer(){
 
-        return players.peekLast();
+        return thrown ? players.peekFirst() : players.peekLast();
     }
 
+    public static LinkedList<Player> getPlayer(){
+        return players;
+    }
 
 
 }

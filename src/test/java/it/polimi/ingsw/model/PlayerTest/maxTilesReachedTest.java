@@ -27,7 +27,11 @@ public class maxTilesReachedTest {
     public void maxTilesReached(){
         boolean thrown = false;
         try{
-            player.pickUp(playground,1,new int[]{1,1,1},new int[]{1,2,3});
+            Vector<Tiles> tmp = new Vector<>();
+            tmp.add(new Tiles(-1,1,1));
+            tmp.add(new Tiles(-1,1,2));
+            tmp.add(new Tiles(-1,1,3));
+            player.pickUp(playground,1,tmp);
         }catch (Exception e ){
             thrown = true;
         }

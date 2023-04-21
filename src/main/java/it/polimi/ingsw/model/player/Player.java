@@ -6,12 +6,13 @@ import it.polimi.ingsw.model.exception.LibraryException;
 import it.polimi.ingsw.model.personalStrategy.ObjectivePersonalEXEC;
 import it.polimi.ingsw.model.personalStrategy.PersonalObj;
 
+import java.io.Serializable;
 import java.util.*;
 /*
  * This class is used for manage all the aspect of the player.
  *
  * */
-public class Player {
+public class Player implements Serializable {
     /*
      *  Determine if the player is the first.
      *   TRUE => First player
@@ -24,7 +25,6 @@ public class Player {
     private Library my_shelfie;
     private String nickname;
     private Boolean turn;
-    private final Scanner scanner;
     private Vector<Tiles> coordinates;
     private int points;
 
@@ -42,7 +42,6 @@ public class Player {
         this.nickname = "";
         this.my_shelfie = new Library();
         this.turn   = false;
-        this.scanner = new Scanner(System.in);
         this.coordinates= new Vector<>();
         this.points = 0;
 
@@ -53,7 +52,7 @@ public class Player {
         this.is_first = false;
         this.nickname = "";
         this.turn   = false;
-        this.scanner = new Scanner(System.in);
+
         this.coordinates= new Vector<>();
         this.points = 0;
     }
@@ -70,7 +69,7 @@ public class Player {
         this.nickname = nickname;
         this.turn = turn;
         this.my_shelfie = new Library();
-        this.scanner = new Scanner(System.in);
+
         this.coordinates= new Vector<>();
         this.points = 0;
     }
@@ -80,7 +79,7 @@ public class Player {
         this.nickname = nickname;
         this.turn = false;
         this.my_shelfie = new Library();
-        this.scanner = new Scanner(System.in);
+
         this.coordinates= new Vector<>();
         this.points = 0;
     }
@@ -160,27 +159,24 @@ public class Player {
      */
 
 
-    public Boolean pickUp(Playground p, int column, int X[],int Y[]) throws RuntimeException, CoordinateStateException {
+    public Boolean pickUp(Playground p, int column, Vector<Tiles> coordinates) throws RuntimeException, CoordinateStateException {
         System.out.println(this.nickname);
         if(this.my_shelfie.isFull()) throw new RuntimeException("FULL Shelfie");
         // Initialize variables
-        this.coordinates = new Vector<>();
+        this.coordinates = coordinates;
         checkColValid(column);
-        if(X.length != Y.length)    return false;
-        int max = calculateMaxTiles(column,X.length);
+        if(coordinates.size() > 3) // Allow the player to pick up to 3 tiles
+            coordinates.setSize(3);
+        int max = calculateMaxTiles(column,coordinates.size());
         System.out.println("Number of Tiles PICKED : "+max);
-        // Allow the player to pick up to 3 tiles
-        for(int i = 0; i< max ;i++){
-            // Prompt the player for coordinates
-            // Store the picked tile in the picked Vector
-            if(!(checkCoordinateValid(X[i])||checkCoordinateValid(Y[i]))) return false;
-            this.coordinates.add(new Tiles(p.getGround()[X[i]][Y[i]].getType(),X[i],Y[i]));
-            // Display information about the picked tile
-            System.out.println(this.coordinates.get(i).toString() );
+
+        for(Tiles tile:coordinates){
+            if(!(checkCoordinateValid(tile.getX())||checkCoordinateValid(tile.getY()))) return false;
+            tile.setType(p.getGround()[tile.getX()][tile.getY()].getType());
+            System.out.println(tile); // Display information about the picked tile
         }
-// Call the posix method of the player's shelfie to place the picked up tiles on their shelf
         try {
-            return this.my_shelfie.posix(this.coordinates, column, this.coordinates.size(), p, max);
+            return this.my_shelfie.posix(this.coordinates, column, this.coordinates.size(), p, max);// Call the posix method of the player's shelfie to place the picked up tiles on their shelf
         }catch (LibraryException e){
             throw new RuntimeException(e);
         }
@@ -208,10 +204,9 @@ public class Player {
      * @param col  the col.
      * @throws  CoordinateStateException, throws an exception for wrong column choose
      */
-    private boolean checkColValid(int col)throws CoordinateStateException{
+    private void checkColValid(int col)throws CoordinateStateException{
 
         if(col <0 || col > 5) throw new CoordinateStateException("Impossible Column");
-        return true;
     }
 
     /**
@@ -237,28 +232,7 @@ public class Player {
         }
         return Math.min(len, max);
     }
-    /**
-     * Validate the coordinate input
-     * @return tmp
-     *
-    public int validateInput(boolean column){
 
-        int tmp ;
-        try {
-            tmp = scanner.nextInt() - 1;
-            if(column)
-                checkColValid(tmp);
-            else
-                checkCoordinateValid(tmp);
-        }catch (java.util.InputMismatchException e){
-            scanner.next();
-            throw new RuntimeException(e);
-        } catch (CoordinateStateException e){
-            throw new RuntimeException(e);
-        }
-        return tmp;
-    }
-*/
 
 
     public void checkPersonalOBJ(){

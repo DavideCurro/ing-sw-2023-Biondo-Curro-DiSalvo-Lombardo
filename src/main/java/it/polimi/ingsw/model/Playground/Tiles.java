@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model.Playground;
 
 
+import java.io.Serializable;
 import java.util.Vector;
 
 /**
  * The class Tiles
  */
-public class Tiles {
+public class Tiles implements Serializable {
     public static final int NOT_VALID = -1;
     public static final int BLUE = 0;
     public static final int CYAN = 1;

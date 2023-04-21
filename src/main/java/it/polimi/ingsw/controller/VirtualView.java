@@ -23,7 +23,7 @@ public class VirtualView {
     public void printPlayerLibrary(){
         printOutLibrary(Match.getLastPlayer());
     }
-    private static void colorChange(int type){
+    static void colorChange(int type){
         switch (type) {
             case 0 -> System.out.print(Color.BLUE.toString());
             case 1 -> System.out.print(Color.CYAN_BRIGHT.toString());

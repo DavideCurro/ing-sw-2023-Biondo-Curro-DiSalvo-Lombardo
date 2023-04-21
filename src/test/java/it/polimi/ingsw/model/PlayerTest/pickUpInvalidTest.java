@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.PlayerTest;
 
 import it.polimi.ingsw.model.Playground.Playground;
+import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.exception.CoordinateStateException;
 import it.polimi.ingsw.model.exception.PlaygroundException;
 import it.polimi.ingsw.model.personalStrategy.GoalP1;
@@ -8,6 +9,8 @@ import it.polimi.ingsw.model.player.Player;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
+
+import java.util.Vector;
 
 import static org.junit.Assert.assertTrue;
 
@@ -24,7 +27,9 @@ public class pickUpInvalidTest {
     public void alreadyPickedTest(){
         boolean thrown = false;
         try{
-            player.pickUp(playground,1,new int[]{0},new int[]{0});
+            Vector<Tiles> tmp = new Vector<>();
+            tmp.add(new Tiles(-1,0,0));
+            player.pickUp(playground,1,tmp);
         }catch (Exception e){
             thrown = true;
 
@@ -35,7 +40,11 @@ public class pickUpInvalidTest {
     public void notAdjacentTest(){
         boolean thrown = false;
         try {
-            player.pickUp(playground,1,new int[]{1,4},new int[]{1,4});
+            Vector<Tiles> tmp = new Vector<>();
+            tmp.add(new Tiles(-1,1,1));
+            tmp.add(new Tiles(-1,4,4));
+
+            player.pickUp(playground,1,tmp);
         }catch (Exception e){
             thrown = true;
         }

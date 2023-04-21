@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.Playground.Playground;
 import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.exception.LibraryException;
 import static it.polimi.ingsw.model.Playground.Tiles.*;
+
+import java.io.Serializable;
 import java.util.Random;
 import java.util.Vector;
 
@@ -13,7 +15,7 @@ import java.util.Vector;
 /**
  * The class Library
  */
-public class Library {
+public class Library implements Serializable {
     private Tiles[][] shelf;
 
     /**
@@ -73,10 +75,7 @@ public class Library {
             if (tmp) {
                 if(j == len) return true;
                 if(t.get(j).checkSet()) {
-                    if(this.shelf[i][column].getType() == NOT_VALID)
-                        this.shelf[i][column].setType(t.get(j).getType()); //go to last element in column possible, 6 - i that's mean the last NOT_VALID tile
-                    else
-                        this.shelf[i-(count+1)][column].setType(t.get(j).getType());
+                    this.shelf[lastFree(column)][column].setType(t.get(j).getType()); //go to last element in column possible, 6 - i that's mean the last NOT_VALID tile
                     p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(NOT_VALID);// Set the type of the tile on the shelf and remove it from the playground
                     j++;
                 }else throw new LibraryException("Already Picked");
@@ -117,5 +116,13 @@ public class Library {
                 return false;
         }
         return true;
+    }
+    private int lastFree(int column){
+        for(int i = 5; i>=0; i--){
+            if(this.shelf[i][column].getType() == NOT_VALID){
+                return i;
+            }
+        }
+        return -1;
     }
 }

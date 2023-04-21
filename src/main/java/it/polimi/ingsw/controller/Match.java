@@ -2,6 +2,7 @@ package it.polimi.ingsw.controller;
 
 
 import it.polimi.ingsw.model.Playground.Playground;
+import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.commonStrategy.*;
 import it.polimi.ingsw.model.exception.CoordinateStateException;
 import it.polimi.ingsw.model.exception.PlaygroundException;
@@ -9,13 +10,14 @@ import it.polimi.ingsw.model.personalStrategy.*;
 import it.polimi.ingsw.model.personalStrategy.PersonalObj;
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serializable;
 import java.util.*;
 
 /**
  * Hello world!
  *
  */
-public class Match {
+public class Match implements Serializable {
     private static final Map<Integer,Integer> pointOBJ2player = Map.of(1,8,2,4);
     private static final Map<Integer,Integer> pointOBJ3player = Map.of(1,8,2,6,3,4);
     private static final Map<Integer,Integer> pointOBJ4player = Map.of(1,8,2,4,3,4,4,2);
@@ -99,8 +101,6 @@ public class Match {
         if(players.size()<4) {
             try {
                 players.add(new Player(personalOBJChooser(), nick, false));
-
-
             } catch (MatchExeception exception) {
                 throw new MatchExeception(exception.getMessage());
             }
@@ -109,15 +109,15 @@ public class Match {
         }
         VirtualView.printPersonalOBJ(players.getLast());
     }
-    public void setupPlayground(){
+    public void setupPlayground(int numPlayer){
         try {
-            p = new Playground(players.size());
+            p = new Playground(numPlayer);
         }catch (PlaygroundException e){
             System.out.println(e.getMessage());
         }
     }
 
-    public int newTurn(int column,int[]X,int[]Y) throws RuntimeException{
+    public int newTurn(int column, Vector<Tiles> picked, boolean test) throws RuntimeException{
         Player nowPlaying = players.remove();
         players.addLast(nowPlaying);
 
@@ -149,7 +149,7 @@ public class Match {
         return thrown ? players.peekFirst() : players.peekLast();
     }
 
-    public static LinkedList<Player> getPlayer(){
+    public  LinkedList<Player> getPlayer(){
         return players;
     }
 

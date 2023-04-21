@@ -23,7 +23,7 @@ public class goal7TestAchieved {
             library.getShelf()[i][1] = new Tiles(random.nextInt(3));
             library.getShelf()[i][3] = new Tiles(random.nextInt(3));
             library.getShelf()[i][4] = new Tiles(random.nextInt(3));
-            library.getShelf()[i][2] = new Tiles(random.nextInt(5));
+            library.getShelf()[i][2] = new Tiles(random.nextInt(3));
             library.getShelf()[i][0] = new Tiles(random.nextInt(5));
 
         }

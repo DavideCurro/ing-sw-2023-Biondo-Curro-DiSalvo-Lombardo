@@ -41,7 +41,7 @@ public class Match {
         return pointOBJPlayer.get(numPlayersDone);
 
     }
-    private static void pointSetter(int objCount, Player nowPlaying){
+    public static void pointSetter(int objCount, Player nowPlaying){
         switch (p.getNum_players()) {
             case 2 -> nowPlaying.setPoints(nowPlaying.getPoints() + pointsCheck(objCount, pointOBJ2player));
             case 3 -> nowPlaying.setPoints(nowPlaying.getPoints() + pointsCheck(objCount, pointOBJ3player));
@@ -53,7 +53,7 @@ public class Match {
     }
     public PersonalObj personalOBJChooser() throws MatchExeception{
         Random random = new Random();
-        return switch (random.nextInt(12) + 1) {
+        return switch (random.nextInt(12)+1) {
             case 1 -> new GoalP1();
             case 2 -> new GoalP2();
             case 3 -> new GoalP3();
@@ -66,13 +66,13 @@ public class Match {
             case 10 -> new GoalP10();
             case 11 -> new GoalP11();
             case 12 -> new GoalP12();
-            default -> throw new RuntimeException("ERRORE generazione persona OBJ");
+            default -> throw new IllegalStateException("Unexpected value: " + random.nextInt(12) + 1);
         };
     }
 
     private CommonObj CommonOBJChooser() throws MatchExeception{
         Random random = new Random();
-        return switch (random.nextInt(12) + 1) {
+        return switch (random.nextInt(12)+1) {
             case 1 -> new GoalC1();
             case 2 -> new GoalC2();
             case 3 -> new GoalC3();

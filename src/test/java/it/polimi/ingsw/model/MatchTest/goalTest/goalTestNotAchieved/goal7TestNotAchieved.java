@@ -20,16 +20,14 @@ public class goal7TestNotAchieved {
     public void setUp(){
         Random random = new Random();
         for(int i = 0;i<6; i++){
-            for(int j = 0;j<5;j++){
-                library.getShelf()[i][1] = new Tiles(random.nextInt(3));
+
                 library.getShelf()[i][3] = new Tiles(random.nextInt(3));
                 library.getShelf()[i][4] = new Tiles(random.nextInt(5));
                 library.getShelf()[i][2] = new Tiles(random.nextInt(5));
                 library.getShelf()[i][0] = new Tiles(random.nextInt(5));
-            }
 
 
-
+            library.getShelf()[i][1] = new Tiles(-1);
         }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {

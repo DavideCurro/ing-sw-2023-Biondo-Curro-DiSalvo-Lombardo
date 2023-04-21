@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.personalStrategy;
 
 import it.polimi.ingsw.model.player.Player;
 
-public class ObjectivePersonalEXEC {
+import java.io.Serializable;
+
+public class ObjectivePersonalEXEC implements Serializable {
     private final PersonalObj personalObj;
     public ObjectivePersonalEXEC(PersonalObj personalObj) {
         this.personalObj = personalObj;

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.Playground;
 
 import it.polimi.ingsw.model.exception.PlaygroundException;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.lang.*;
 import java.util.Vector;
@@ -12,7 +13,7 @@ import static it.polimi.ingsw.model.Playground.Tiles.*;
 /**
  * The class Playground
  */
-public class Playground {
+public class Playground implements Serializable {
     private final static int[][] mask2Player = new int[][]{{-1, -1,  -1, -1, -1, -1, -1, -1, -1},
                                                            {-1, -1,  -1,  0,  0, -1, -1, -1, -1},
                                                            {-1, -1,  -1,  0,  0,  0, -1, -1, -1},

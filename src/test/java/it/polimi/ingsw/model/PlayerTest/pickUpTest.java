@@ -22,13 +22,16 @@ public class pickUpTest {
     Playground playground;
     @Before
     public void setPlayground() throws PlaygroundException {
-        playground = new Playground(4);
+        playground = new Playground(2);
         player = new Player(new GoalP1(),"Claudio");
     }
 
     @Test
     public void validatePickUp() throws CoordinateStateException {
-       assertTrue( player.pickUp(playground,1,new int[]{0,0,1},new int[]{3,4,3}));
+        Vector<Tiles> tmp = new Vector<>();
+        tmp.add(new Tiles(-1,1,3));
+        tmp.add(new Tiles(-1,1,4));
+       assertTrue( player.pickUp(playground,1,tmp));
     }
     @AfterEach
     public void reset(){

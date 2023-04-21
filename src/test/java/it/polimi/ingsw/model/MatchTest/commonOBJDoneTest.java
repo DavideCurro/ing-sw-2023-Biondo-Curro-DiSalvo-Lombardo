@@ -27,7 +27,7 @@ public class commonOBJDoneTest {
         players.add((new Player(match.personalOBJChooser(),"s")));
         players.add((new Player(match.personalOBJChooser(),"m")));
         match = new Match(players, new GoalC1());
-        match.setupPlayground();
+        match.setupPlayground(3);
         setLibrary();
     }
 

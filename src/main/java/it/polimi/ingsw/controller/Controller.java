@@ -32,20 +32,26 @@ public class Controller {
     public void setMatch(Match match) {
         this.match = match;
     }
-    public void newPlayer(String nick){
+
+    public void newPlayer(String nick) {
         try {
             this.match.newPlayer(nick);
-        }catch (MatchExeception e){
+        } catch (MatchExeception e) {
             System.out.println(e.getMessage());
         }
 
     }
-    public void startGame(){
+
+    public void startGame() {
         this.match.setupPlayground(this.match.getPlayer().size());
     }
-        public int newTurn(int column, Vector<Tiles> picked){
-            return this.match.newTurn(column,picked,false);
-        }
+
+    public int newTurn(int column, Vector<Tiles> picked) {
+        return this.match.newTurn(column, picked, false);
+    }
+}
+
+
         /*
     private int validateInput(){
 
@@ -60,7 +66,7 @@ public class Controller {
         return tmp;
 
     }
-    }
+    }*/
 
 
 

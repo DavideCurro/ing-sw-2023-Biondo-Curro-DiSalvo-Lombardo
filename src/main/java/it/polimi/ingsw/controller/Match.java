@@ -123,7 +123,7 @@ public class Match implements Serializable {
 
 
         try{
-            if(nowPlaying.pickUp(p,column,X,Y)) {
+            if(nowPlaying.pickUp(p,column,picked)) {
                 if(o.execCheck(nowPlaying)){
                     pointSetter(objCount,nowPlaying);
                     objCount++;

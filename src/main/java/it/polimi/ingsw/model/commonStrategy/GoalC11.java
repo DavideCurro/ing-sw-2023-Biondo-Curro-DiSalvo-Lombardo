@@ -34,8 +34,8 @@ public class GoalC11 implements CommonObj{
             if (p.getMy_shelfie().getShelf()[tiles.getX()][tiles.getY()].getType() != type) {
                 return false;
             }
-            return true;
         }
+
 
         tmp1.add(new Tiles(p.getMy_shelfie().getShelf()[1][0].getType(), 1, 0));
         tmp1.add(new Tiles(p.getMy_shelfie().getShelf()[2][1].getType(), 2, 1));
@@ -43,13 +43,13 @@ public class GoalC11 implements CommonObj{
         tmp1.add(new Tiles(p.getMy_shelfie().getShelf()[4][3].getType(), 4, 3));
         tmp1.add(new Tiles(p.getMy_shelfie().getShelf()[5][4].getType(), 5, 4));
 
-        int type1 = tmp.get(1).getType();
+        int type1 = tmp1.get(1).getType();
 
-        for (Tiles tiles : tmp) {
-            if (tiles.getType() != type1) {
+        for (Tiles tiles : tmp1) {
+            if (p.getMy_shelfie().getShelf()[tiles.getX()][tiles.getY()].getType() != type1) {
                 return false;
             }
-            return true;
+
         }
 
       /*  //check secondary diagonal (where i+5 = j) gialla (sbagliata)
@@ -66,8 +66,23 @@ public class GoalC11 implements CommonObj{
             }
         }*/
 
+        tmp2.add(new Tiles(p.getMy_shelfie().getShelf()[0][4].getType(), 0, 4));
+        tmp2.add(new Tiles(p.getMy_shelfie().getShelf()[3][1].getType(), 3, 1));
+        tmp2.add(new Tiles(p.getMy_shelfie().getShelf()[3][2].getType(), 3, 2));
+        tmp2.add(new Tiles(p.getMy_shelfie().getShelf()[1][3].getType(), 1, 3));
+        tmp2.add(new Tiles(p.getMy_shelfie().getShelf()[0][4].getType(), 0, 4));
 
-        //check secondary diagonal (where i = j+4) (giusta verde)
+        int type2 = tmp2.get(1).getType();
+
+        for (Tiles tiles : tmp2) {
+            if (p.getMy_shelfie().getShelf()[tiles.getX()][tiles.getY()].getType() != type2) {
+                return false;
+            }
+
+        }
+
+
+   /*     //check secondary diagonal (where i = j+4) (giusta verde)
         for (int i = 0; i < 6; i++) {
             int j = 4;
             while (((p.getMy_shelfie().getShelf()[i][j]).getType() == (p.getMy_shelfie().getShelf()[i+1][j-1]).getType())) {
@@ -80,7 +95,24 @@ public class GoalC11 implements CommonObj{
             }
         }
 
-        //check primary diagonal (where i=j) (giusta blu)
+    */
+        tmp3.add(new Tiles(p.getMy_shelfie().getShelf()[0][0].getType(), 0, 0));
+        tmp3.add(new Tiles(p.getMy_shelfie().getShelf()[1][1].getType(), 1, 1));
+        tmp3.add(new Tiles(p.getMy_shelfie().getShelf()[2][2].getType(), 2, 2));
+        tmp3.add(new Tiles(p.getMy_shelfie().getShelf()[3][3].getType(), 3, 3));
+        tmp3.add(new Tiles(p.getMy_shelfie().getShelf()[4][4].getType(), 4, 4));
+
+        int type3 = tmp3.get(1).getType();
+
+        for (Tiles tiles : tmp3) {
+            if (p.getMy_shelfie().getShelf()[tiles.getX()][tiles.getY()].getType() != type3) {
+                return false;
+            }
+
+        }
+
+
+    /*    //check primary diagonal (where i=j) (giusta blu)
         for(int j = 0; j < 5; j++){
             for(int i = 0; i < 6; i++){
                 while((p.getMy_shelfie().getShelf()[i][j]).getType() == (p.getMy_shelfie().getShelf()[i][j]).getType()){
@@ -106,6 +138,6 @@ public class GoalC11 implements CommonObj{
                 }
             }
         }*/
-        return false;
+        return true;
     }
 }

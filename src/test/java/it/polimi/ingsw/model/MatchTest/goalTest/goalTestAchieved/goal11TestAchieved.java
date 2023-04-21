@@ -61,7 +61,7 @@ public class goal11TestAchieved {
 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
-                System.out.print(library.getShelf()[i][j].getType()+ "\t");
+                System.out.print(library1.getShelf()[i][j].getType()+ "\t");
             }
             System.out.println();
         }

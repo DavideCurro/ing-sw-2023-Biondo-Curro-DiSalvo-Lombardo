@@ -28,6 +28,9 @@ public class GameHandler {
     public void handleNewTurn(int column, Vector<Tiles> picked){
         this.controller.newTurn(column,picked);
     }
+
+    //gli arrivano le coordinate di dove vuole mettere le tiles che ha preso
+
     public void handleStartGame(){
         this.controller.startGame();
     }

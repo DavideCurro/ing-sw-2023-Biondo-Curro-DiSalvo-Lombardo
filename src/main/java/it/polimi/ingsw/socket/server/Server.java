@@ -1,8 +1,6 @@
 package it.polimi.ingsw.socket.server;
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Match;
 import it.polimi.ingsw.controller.MatchExeception;
-import it.polimi.ingsw.controller.VirtualView;
 import it.polimi.ingsw.model.player.Player;
 
 import java.net.*;
@@ -17,12 +15,11 @@ public class Server {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, MatchExeception {
         ArrayList<ServerThread>serverThreadArrayList = new ArrayList<>();
-        GameHandler gameHandler = new GameHandler(new Controller(new Match(),new VirtualView()));
         try(ServerSocket serverSocket = new ServerSocket(2000)){
             while (true){
                 if(serverThreadArrayList.size()<4){
                     Socket socket = serverSocket.accept();
-                    ServerThread serverThread = new ServerThread(socket,serverThreadArrayList,gameHandler);
+                    ServerThread serverThread = new ServerThread(socket,serverThreadArrayList);
                     serverThreadArrayList.add(serverThread);
                     serverThread.start();
                 }

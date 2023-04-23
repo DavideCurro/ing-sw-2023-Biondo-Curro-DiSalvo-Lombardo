@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.commonStrategy;
 
 import it.polimi.ingsw.model.player.Player;
 
-public class GoalC12 implements CommonObj{
+import java.io.Serializable;
+
+public class GoalC12 implements CommonObj, Serializable {
 
 
     public boolean check(Player p) {
@@ -58,13 +60,13 @@ public class GoalC12 implements CommonObj{
     }*/
 
     private boolean scalaRightToLeft(int y, Player p) {
-        int offset = 0;
+        int offset = 1;
         if (p.getMy_shelfie().getShelf()[0][4].getType() == -1) {
-            offset = 1;
+            offset = 0;
         }
-        for (int j = 5; j > 0; j--) {
+        for (int j = 3; j > 0; j--) {
             for (int i = offset; i < 6; i++) {
-                if (p.getMy_shelfie().getShelf()[i][j-1].getType() != -1) return false;
+                if (p.getMy_shelfie().getShelf()[i+1][j].getType() != -1) return false;
                 while (i == j) {
                     return true;
                 }

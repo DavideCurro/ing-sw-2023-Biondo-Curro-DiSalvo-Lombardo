@@ -3,13 +3,14 @@ package it.polimi.ingsw.model.personalStrategy;
 import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Vector;
 
 import static it.polimi.ingsw.model.Playground.Tiles.*;
 import static it.polimi.ingsw.model.Playground.Tiles.YELLOW;
 
-public class GoalP11 implements PersonalObj{
+public class GoalP11 implements PersonalObj, Serializable {
     private final Map<Integer,Integer> pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);
 
     private final Vector<Tiles> position = new Vector<>();

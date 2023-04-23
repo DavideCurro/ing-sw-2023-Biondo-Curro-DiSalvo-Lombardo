@@ -1,15 +1,12 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.model.Playground.Tiles;
-import it.polimi.ingsw.model.player.Library;
 
-import java.util.Random;
-import java.util.Scanner;
 import java.util.Vector;
 
 public class Controller {
     private Match match;
-
+    private int numPlayer;
     private VirtualView view;
 
     public Controller(Match match, VirtualView view) {
@@ -43,11 +40,15 @@ public class Controller {
     }
 
     public void startGame() {
-        this.match.setupPlayground(this.match.getPlayer().size());
+        this.match.setupPlayground(numPlayer);
+        this.view.printPlayground(this.match.getP());
     }
 
     public int newTurn(int column, Vector<Tiles> picked) {
         return this.match.newTurn(column, picked, false);
+    }
+    public void setNumPlayer(int numPlayer){
+        this.numPlayer = numPlayer;
     }
 }
 

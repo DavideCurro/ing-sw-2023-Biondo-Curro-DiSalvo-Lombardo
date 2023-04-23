@@ -6,9 +6,10 @@ package it.polimi.ingsw.model.commonStrategy;
 import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serializable;
 import java.util.Vector;
 
-public class GoalC11 implements CommonObj {
+public class GoalC11 implements CommonObj , Serializable {
 
         Vector<Tiles> tmp = new Vector<>();
         Vector<Tiles> tmp1 = new Vector<>();

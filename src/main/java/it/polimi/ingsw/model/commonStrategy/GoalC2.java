@@ -2,8 +2,10 @@ package it.polimi.ingsw.model.commonStrategy;
 
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serializable;
+
 /*Goal 2 = Two columns each formed by 6 different types of tiles.*/
-public class GoalC2 implements CommonObj{
+public class GoalC2 implements CommonObj, Serializable {
     private int count = 0;
 
     public boolean check(Player p) {

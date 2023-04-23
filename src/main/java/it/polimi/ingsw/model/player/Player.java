@@ -47,6 +47,18 @@ public class Player implements Serializable {
 
 
     }
+    public Player(String nickname) {
+
+
+        this.is_first = false;
+        this.nickname = nickname;
+        this.my_shelfie = new Library();
+        this.turn   = false;
+        this.coordinates= new Vector<>();
+        this.points = 0;
+
+
+    }
     public Player(Library library){
         this.my_shelfie = library;
         this.is_first = false;
@@ -118,7 +130,10 @@ public class Player implements Serializable {
         this.my_shelfie = my_shelfie;
     }
 
-
+    public void setTurn(boolean turn){
+        this.turn = turn;
+    }
+    public boolean getTurn(){return turn;}
     /**
      *
      * Gets the nickname

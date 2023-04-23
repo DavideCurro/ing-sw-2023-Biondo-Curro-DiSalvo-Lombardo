@@ -5,10 +5,11 @@ import it.polimi.ingsw.model.player.Player;
 
 import static it.polimi.ingsw.model.Playground.Tiles.*;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Vector;
 
-public class GoalP8 implements PersonalObj{
+public class GoalP8 implements PersonalObj, Serializable {
     private final Map<Integer,Integer> pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);
 
     private final Vector<Tiles> position = new Vector<>();

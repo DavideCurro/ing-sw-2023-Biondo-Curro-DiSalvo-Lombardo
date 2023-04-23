@@ -141,7 +141,7 @@ public class Match implements Serializable {
         return 0;
     }
 
-    public static Playground getP() {
+    public Playground getP() {
         return p;
     }
     public static Player getLastPlayer(){

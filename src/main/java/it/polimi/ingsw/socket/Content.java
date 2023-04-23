@@ -10,5 +10,11 @@ public enum Content {
     POINTS,
     NEWPOINTSMAX,
     TILESPICKED,
-    COORDINATE
+    COORDINATE,
+    SUCCESS,
+    FAIL,
+    PING,
+    ACK,
+    GAMECREATED,
+    NEWTURN
 }

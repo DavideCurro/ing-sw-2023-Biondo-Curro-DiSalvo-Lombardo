@@ -27,10 +27,10 @@ public class newPlayerTest {
         match.newPlayer("c");
         Player tmp = new Player();
         tmp.setNickname("c");
-        assertEquals(tmp.getNickname(),Match.getLastPlayer().getNickname());
+        assertEquals(tmp.getNickname(),match.getLastPlayer().getNickname());
         match.newPlayer("a");
         tmp.setNickname("a");
-        assertEquals(tmp.getNickname(),Match.getLastPlayer().getNickname());
+        assertEquals(tmp.getNickname(),match.getLastPlayer().getNickname());
     }
 
 

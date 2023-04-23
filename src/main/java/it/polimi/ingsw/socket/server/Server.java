@@ -12,12 +12,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import static java.lang.Thread.sleep;
+
 public class Server {
 
 
 
     public static void main(String[] args){
-        ArrayList<ServerThread>serverThreadArrayList = new ArrayList<>();
+        LinkedList<ServerThread>serverThreadArrayList = new LinkedList<>();
         GameHandler gameHandler = new GameHandler(new Controller(new Match(),new VirtualView()));
         LinkedList<Player> players = new LinkedList<>();
         try(ServerSocket serverSocket = new ServerSocket(2000)){
@@ -27,6 +29,7 @@ public class Server {
                     ServerThread serverThread = new ServerThread(socket,serverThreadArrayList,gameHandler, players);
                     serverThreadArrayList.add(serverThread);
                     serverThread.start();
+                    sleep(10000);
                 }
             }
         }catch (Exception e){

@@ -11,9 +11,10 @@ public class VirtualView {
 
     public VirtualView() {
     }
-    public void printPlayerLibrary(){
-        printOutLibrary(Match.getLastPlayer());
+    public void printPlayerLibrary(Player player){
+        printOutLibrary(player);
     }
+
     static void colorChange(int type){
         switch (type) {
             case 0 -> System.out.print(Color.BLUE.toString());

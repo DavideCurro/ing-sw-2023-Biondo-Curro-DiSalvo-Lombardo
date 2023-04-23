@@ -117,10 +117,9 @@ public class Match implements Serializable {
         }
     }
 
-    public int newTurn(int column, Vector<Tiles> picked, boolean test) throws RuntimeException{
+    public int newTurn(int column, Vector<Tiles> picked) throws RuntimeException{
         Player nowPlaying = players.remove();
         players.addLast(nowPlaying);
-
 
         try{
             if(nowPlaying.pickUp(p,column,picked)) {
@@ -144,7 +143,7 @@ public class Match implements Serializable {
     public Playground getP() {
         return p;
     }
-    public static Player getLastPlayer(){
+    public Player getLastPlayer(){
 
         return thrown ? players.peekFirst() : players.peekLast();
     }

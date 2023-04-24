@@ -10,6 +10,7 @@ public class Controller {
     private VirtualView view;
 
     public Controller(Match match, VirtualView view) {
+        this.numPlayer = -1;
         this.match = match;
         this.view = view;
     }

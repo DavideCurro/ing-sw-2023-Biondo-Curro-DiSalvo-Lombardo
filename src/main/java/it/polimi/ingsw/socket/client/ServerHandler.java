@@ -16,6 +16,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 import static it.polimi.ingsw.socket.Content.*;
+import static java.lang.Thread.sleep;
 
 public class ServerHandler {
 
@@ -37,15 +38,15 @@ public class ServerHandler {
         scanner = new Scanner(System.in);
         nickname = scanner.nextLine();
     }
-    public void cli() throws IOException, ClassNotFoundException {
+    public void cli() throws IOException, ClassNotFoundException, InterruptedException {
         view.welcome();
         //Input name()
         try {
-            objectOutputStream.writeObject(new Message("Server", NICKNAME,nickname));
+            objectOutputStream.writeObject(new Message("Server",nickname, NICKNAME,2));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        while (socket.isConnected()){
+       /* while (socket.isConnected()){
             Message message = null;
             try {
                 message = (Message) objectInputStream.readObject();
@@ -54,7 +55,8 @@ public class ServerHandler {
                 throw new RuntimeException(e);
             }
 
-        }
+        }*/
+        sleep(500000);
     }
 
     private void handleNewMessage(Message message) throws IOException {
@@ -80,6 +82,7 @@ public class ServerHandler {
             }
             case SUCCESS -> {
                 Player tmp = (Player) message.getPayload();
+                System.out.println(tmp.getPoints());
                 view.printPlayerLibrary(tmp);
             }
 

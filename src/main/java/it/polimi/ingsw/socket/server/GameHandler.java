@@ -1,40 +1,76 @@
 package it.polimi.ingsw.socket.server;
 
 import it.polimi.ingsw.controller.Controller;
+import it.polimi.ingsw.controller.Match;
+import it.polimi.ingsw.controller.MatchExeception;
+import it.polimi.ingsw.controller.VirtualView;
+import it.polimi.ingsw.model.Playground.Playground;
 import it.polimi.ingsw.model.Playground.Tiles;
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.socket.Message;
 
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.util.LinkedList;
 import java.util.Vector;
+import java.util.logging.Logger;
 
-public class GameHandler {
+public class GameHandler implements Runnable {
+    private Socket[] players;
+    private String[] usernames;
+    private MessageDispatcher[] messageDispatchers;
+    private ObjectInputStream[] inputStreams;
+    private ObjectOutputStream[] objectOutputStreams;
+    private Match match;
     private Controller controller;
+    private Vector<String> validName;
+    private Message message;
 
-    public GameHandler(Controller controller) {
-        this.controller = controller;
+    private static final Logger log = Logger.getLogger(GameHandler.class.getName());
+    public GameHandler(Socket[] players, String[] usernames, ObjectOutputStream[] objectOutputStreams, ObjectInputStream[] objectInputStream) {
+        this.players = players;
+        this.usernames = usernames;
+        this.objectOutputStreams = objectOutputStreams;
+        this.inputStreams = objectInputStream;
+        match = new Match();
+        controller = new Controller(match, new VirtualView());
+        validName = new Vector<>();
     }
 
-    public Controller getController() {
-        return controller;
+    @Override
+    public void run() {
+        log.info("Game for started");
+        for(int i = 0; i< usernames.length; i++){
+            if(!valid_Name(usernames[i])){
+                do {
+                    log.warning("Same Nickname");
+                    messageDispatchers[i].send(SenderCode.ERROR_CODE, usernames[i]);
+                    message = readMessage(i);
+                    usernames[i] = (String) message.getPayload();
+                }while (!valid_Name(usernames[i]));
+            }
+        }
+        setPlayer();
+        match.setupPlayground(2);
+        log.info("New Match started");
     }
 
-    public void setController(Controller controller) {
-        this.controller = controller;
+    private Message readMessage(int i){
+      return this.messageDispatchers[i].read();
     }
-
-    public void handleNewPlayer(String nickname){
-        this.controller.newPlayer(nickname);
+    private boolean valid_Name(String name){
+        if(validName.contains(name)) return false;
+        return validName.add(name);
     }
+    private void setPlayer(){
+        for(String tmp : usernames) {
+            try {
+                match.newPlayer(tmp);
+            }catch (MatchExeception exeception){
+                log.warning("ERROR In add player");
+            }
+        }
 
-    public int handleNewTurn(int column, Vector<Tiles> picked){
-       return this.controller.newTurn(column,picked);
     }
-
-    //gli arrivano le coordinate di dove vuole mettere le tiles che ha preso
-
-    public void handleStartGame(){
-        this.controller.startGame();
-    }
-    public void setNumOfPlayers(int numOfPlayers){
-        this.controller.setNumPlayer(numOfPlayers);
-    }
-
 }

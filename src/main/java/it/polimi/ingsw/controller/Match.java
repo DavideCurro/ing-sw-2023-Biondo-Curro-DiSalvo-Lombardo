@@ -21,7 +21,7 @@ public class Match implements Serializable {
     private static final Map<Integer,Integer> pointOBJ2player = Map.of(1,8,2,4);
     private static final Map<Integer,Integer> pointOBJ3player = Map.of(1,8,2,6,3,4);
     private static final Map<Integer,Integer> pointOBJ4player = Map.of(1,8,2,4,3,4,4,2);
-    private static Playground p = new Playground();
+    private static Playground p;
     private ObjectiveCommonEXEC o ;
     private int objCount = 1;
     private static boolean thrown = false;
@@ -111,7 +111,7 @@ public class Match implements Serializable {
     }
     public void setupPlayground(int numPlayer){
         try {
-            p = new Playground(numPlayer);
+            p = new Playground(players.size());
         }catch (PlaygroundException e){
             System.out.println(e.getMessage());
         }

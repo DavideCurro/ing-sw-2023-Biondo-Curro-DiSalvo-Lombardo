@@ -12,98 +12,74 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Objects;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import static it.polimi.ingsw.socket.Content.*;
 
 public class ServerThread extends Thread{
     private Socket socket;
-    private LinkedList<ServerThread> serverThreadArrayList;
-    private GameHandler gameHandler;
-    private ObjectInputStream objectInputStream;
-    private ObjectOutputStream objectOutputStream;
-    private LinkedList<Player> players;
-    private int column;
-    private Vector<Tiles> tilesVector;
-    public ServerThread(Socket socket, LinkedList<ServerThread> serverThreadArrayList, GameHandler gameHandler, LinkedList<Player> players) throws IOException {
-        this.serverThreadArrayList = serverThreadArrayList;
+
+    private WaitingRoom waitingRoom2Player;
+    private WaitingRoom waitingRoom3Player;
+    private WaitingRoom waitingRoom4Player;
+    private ObjectInputStream inputStream;
+    private ObjectOutputStream outputStream;
+    private static final Logger log = Logger.getLogger(ServerThread.class.getName());
+    public ServerThread( WaitingRoom waitingRoom2Player, WaitingRoom waitingRoom3Player, WaitingRoom waitingRoom4Player, Socket socket)  {
+
         this.socket = socket;
-        objectInputStream = new ObjectInputStream(socket.getInputStream());
-        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-        this.gameHandler = gameHandler;
-        this.players = players;
-        column = -1;
-        tilesVector = new Vector<>();
+        this.waitingRoom2Player = waitingRoom2Player;
+        this.waitingRoom3Player = waitingRoom3Player;
+        this.waitingRoom4Player = waitingRoom4Player;
+        try {
+            this.inputStream = new ObjectInputStream(socket.getInputStream());
+            this.outputStream = new ObjectOutputStream(socket.getOutputStream());
+            outputStream.flush();
+            outputStream.reset();
+        }catch (IOException e){
+            log.info("Can't create serverThread");
+        }
+    }
+    private void connect(WaitingRoom waitingRoom, String username){
+        log.info("Doing stuff for log in waiting room");
+        waitingRoom.connection(socket, outputStream, inputStream, username);
+
+
     }
     @Override
     public void run(){
         Message message = null;
         while(socket.isConnected()){
             try {
-                message = (Message) objectInputStream.readObject();
-                handleNewMessage(message);
-            } catch (IOException | ClassNotFoundException | InterruptedException e) {
+                synchronized (inputStream) {
+                    message = (Message) inputStream.readObject();
+                }
+                switch ((int)message.getPayload()){
+                    case 2->{
+                        log.info("Connecting in 2 player room");
+                        connect(waitingRoom2Player,message.getSender());
+
+                    }
+                    case 3->{
+                        log.info("Connecting in 3 player room");
+                        connect(waitingRoom3Player,message.getSender());
+
+                    }
+                    case 4->{
+                        log.info("Connecting in 4 player room");
+                        connect(waitingRoom4Player,message.getSender());
+                    }
+                    default->{
+                        log.info("ERROR wrong number");
+                        socket.close();
+                    }
+                }
+            } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
     }
-    private void handleNewMessage(Message message) throws IOException, ClassNotFoundException, InterruptedException {
-        switch (message.getMessageType()){
-            case ACK ->{
-                socket.setSoTimeout(0);
-                System.out.println(socket.toString()+ " is Alive, handling NEW turn");
-                objectOutputStream.writeObject(new Message(message.getSender(),PICKTILES,""));
-               // handleNewTurn();
-            }
-            case NICKNAME -> {
-                gameHandler.handleNewPlayer((String) message.getPayload());
-                players.add(new Player(message.getSender()));
-                objectOutputStream.writeObject(new Message(message.getSender(),Content.GAMEJOIN,this.gameHandler.getController().getMatch().getPlayer().getLast()));
-                if(serverThreadArrayList.size() == 1){
-                    objectOutputStream.writeObject(new Message(message.getSender(), NEWGAME,"Choose number of player"));
-                }else{
-                    objectOutputStream.writeObject(new Message(message.getSender(),GAMECREATED,this.gameHandler.getController().getMatch().getP()));
-                }
 
-            }
-            case NEWGAME -> {
-                gameHandler.setNumOfPlayers((int)message.getPayload());
-                gameHandler.handleStartGame();
-                objectOutputStream.writeObject(new Message(message.getSender(),GAMECREATED,this.gameHandler.getController().getMatch().getP()));
-                while(serverThreadArrayList.size() != this.gameHandler.getController().getNumPlayer()) sleep(50);
-                socket.setSoTimeout(15000);
-                objectOutputStream.writeObject(new Message(message.getSender(),PING,""));
-            }
-            case TILESPICKED -> {
-                tilesVector = (Vector<Tiles>) message.getPayload();
-                while (serverThreadArrayList.size() != gameHandler.getController().getNumPlayer()) sleep(50);
-                gameHandler.handleNewTurn(column,tilesVector);
-                Player tmp = gameHandler.getController().getMatch().getLastPlayer();
-                gameHandler.getController().getView().printPlayerLibrary(tmp);
-                gameHandler.getController().getView().printPlayground(gameHandler.getController().getMatch().getP());
-                objectOutputStream.reset();
-                objectOutputStream.writeObject(new Message(message.getSender(), SUCCESS ,tmp));
-                objectOutputStream.writeObject(new Message(message.getSender(), PLAYGROUND, gameHandler.getController().getMatch().getP()));
-                ServerThread alreadyPlayed = serverThreadArrayList.pollFirst();
-                serverThreadArrayList.addLast(alreadyPlayed);
-                serverThreadArrayList.peekFirst().ping();
-                Message tmpMessage;
-                while (true){
-                    tmpMessage = (Message) objectInputStream.readObject();
-                    if(tmpMessage.getMessageType() == PING) break;
-                    sleep(2000);
-                }
-            }
-            case COORDINATE -> {
-                column = (int)message.getPayload();
-            }
-
-        }
     }
 
-    public void ping() throws IOException {
-        objectOutputStream.writeObject(new Message("player",PING));
-        socket.setSoTimeout(15000);
-    }
-
-}
 

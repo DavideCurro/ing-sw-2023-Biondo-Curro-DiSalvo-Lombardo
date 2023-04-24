@@ -2,8 +2,10 @@ package it.polimi.ingsw.model.commonStrategy;
 
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serializable;
+
 /* 5 tiles of the same type that make together an X */
-public class GoalC10 implements CommonObj{
+public class GoalC10 implements CommonObj, Serializable {
 
 
     public boolean check(Player p){

@@ -11,18 +11,10 @@ public class VirtualView {
 
     public VirtualView() {
     }
+    public void printPlayerLibrary(Player player){
+        printOutLibrary(player);
+    }
 
-
-    public void execeptionOccurred(MatchExeception e) {
-            System.out.println(e.getMessage());
-            System.exit(-1);
-    }
-    public void printPlayground(){
-        printOutPlayground(Match.getP());
-    }
-    public void printPlayerLibrary(){
-        printOutLibrary(Match.getLastPlayer());
-    }
     static void colorChange(int type){
         switch (type) {
             case 0 -> System.out.print(Color.BLUE.toString());
@@ -35,22 +27,6 @@ public class VirtualView {
             default -> System.out.print(Color.BLACK.toString());
         }
     }
-    /**
-     *
-     * Print output playground
-     *
-     */
-    private void printOutPlayground(Playground ground) {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                colorChange(ground.getGround()[i][j].getType());
-                System.out.print("■" + "\t");
-            }
-            System.out.println();
-        }
-        colorChange(6);
-    }
-
 
     /**
      *
@@ -67,6 +43,7 @@ public class VirtualView {
         }
         colorChange(6);
     }
+
     public void printOutPointsPerPlayer(Player player){
         System.out.println(player.getNickname() + " achieved : "+ player.getPoints()+" points" );
     }
@@ -78,6 +55,7 @@ public class VirtualView {
         printOutLibrary(new Player(tmp));
         System.out.println();
     }
+
     private static Library buildLibrarybyPosition(Vector<Tiles> position){
         Library tmp = new Library();
         for (Tiles tiles : position) {
@@ -85,4 +63,15 @@ public class VirtualView {
         }
         return tmp;
     }
-}
+        public void printPlayground(Playground ground){
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    colorChange(ground.getGround()[i][j].getType());
+                    System.out.print("■" + "\t");
+                }
+                System.out.println();
+            }
+            colorChange(6);
+        }
+    }
+

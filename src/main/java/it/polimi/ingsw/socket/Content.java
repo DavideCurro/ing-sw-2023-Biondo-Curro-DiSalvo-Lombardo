@@ -1,6 +1,8 @@
 package it.polimi.ingsw.socket;
 
-public enum Content {
+import java.io.Serializable;
+
+public enum Content implements Serializable {
 
     NICKNAME,
     NEWGAME,
@@ -10,5 +12,12 @@ public enum Content {
     POINTS,
     NEWPOINTSMAX,
     TILESPICKED,
-    COORDINATE
+    COORDINATE,
+    SUCCESS,
+    FAIL,
+    PING,
+    ACK,
+    GAMECREATED,
+    NEWTURN,
+    PLAYGROUND
 }

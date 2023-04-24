@@ -2,7 +2,9 @@ package it.polimi.ingsw.model.commonStrategy;
 
 import it.polimi.ingsw.model.player.Player;
 
-public class ObjectiveCommonEXEC {
+import java.io.Serializable;
+
+public class ObjectiveCommonEXEC implements Serializable {
         private CommonObj commonObj;
         public ObjectiveCommonEXEC(CommonObj commonObj) {
             this.commonObj = commonObj;

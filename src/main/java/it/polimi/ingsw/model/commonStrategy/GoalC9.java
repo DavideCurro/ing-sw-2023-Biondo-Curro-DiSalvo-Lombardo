@@ -6,7 +6,9 @@ tiles  */
 
 import it.polimi.ingsw.model.player.Player;
 
-public class GoalC9 implements CommonObj{
+import java.io.Serializable;
+
+public class GoalC9 implements CommonObj, Serializable {
     private int count1 = 0;
     private int count2 = 0;
     private int count3 = 0;

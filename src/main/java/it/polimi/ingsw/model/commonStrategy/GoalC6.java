@@ -2,11 +2,12 @@ package it.polimi.ingsw.model.commonStrategy;
 
 import it.polimi.ingsw.model.player.Player;
 
+import java.io.Serializable;
 import java.sql.Struct;
 import java.util.Vector;
 
 //Goal 6 = Two lines each formed by 5 different types of tiles.
-public class GoalC6 implements CommonObj{
+public class GoalC6 implements CommonObj, Serializable {
     private int count=1;
     private Vector<Integer> types = new Vector<>();
     public boolean check(Player p){

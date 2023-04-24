@@ -1,12 +1,13 @@
 package it.polimi.ingsw.model.commonStrategy;
 
+import java.io.Serializable;
 import java.util.*;
 
 import it.polimi.ingsw.model.player.Player;
 
 /* Three columns each formed by 6 tiles of maximum three different types.
 One column can show the same or a different combination of another column. */
-public class GoalC5 implements CommonObj {
+public class GoalC5 implements CommonObj, Serializable {
 
     public boolean check(Player p) {
         Vector<Integer> v = new Vector<Integer>();//vector used to count how many types I have in one column

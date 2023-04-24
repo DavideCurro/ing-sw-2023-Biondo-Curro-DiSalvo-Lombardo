@@ -34,7 +34,7 @@ public class goal11TestNotAchieved {
         library.getShelf()[4][4].setType(2);
 
         //test secondary diagonal ok
-        library1.getShelf()[0][4].setType(2);
+        library1.getShelf()[1][4].setType(2);
         library1.getShelf()[1][3].setType(2);
         library1.getShelf()[2][2].setType(2);
         library1.getShelf()[3][1].setType(2);

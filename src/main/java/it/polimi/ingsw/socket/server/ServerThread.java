@@ -19,24 +19,25 @@ import static it.polimi.ingsw.socket.Content.*;
 public class ServerThread extends Thread{
     private Socket socket;
 
-    private Lobby lobby2Player;
-    private Lobby lobby3Player;
-    private Lobby lobby4Player;
+    private LinkedList<Lobby> lobby2Player;
+    private LinkedList<Lobby> lobby3Player;
+    private LinkedList<Lobby> lobby4Player;
 
 
     private static final Logger log = Logger.getLogger(ServerThread.class.getName());
-    public ServerThread( Lobby waitingRoom2Player, Lobby waitingRoom3Player, Lobby waitingRoom4Player, Socket socket)  {
+    public ServerThread( LinkedList<Lobby> lobby2Player, LinkedList<Lobby> lobby3Player, LinkedList<Lobby> lobby4Player, Socket socket)  {
 
         this.socket = socket;
-        this.lobby2Player = waitingRoom2Player;
-        this.lobby3Player = waitingRoom3Player;
-        this.lobby4Player = waitingRoom4Player;
+        this.lobby2Player = lobby2Player;
+        this.lobby3Player = lobby3Player;
+        this.lobby4Player = lobby4Player;
     }
-    private void connect(Lobby lobby, String username, ObjectOutputStream outputStream, ObjectInputStream inputStream){
+    private void connect(LinkedList<Lobby> lobbyList, String username, ObjectOutputStream outputStream, ObjectInputStream inputStream){
         log.info("Doing stuff for log in waiting room");
-        lobby.connection(socket, outputStream, inputStream, username);
-
-
+        Lobby lobby1 = lobbyList.getLast();
+        lobby1.connection(socket,outputStream,inputStream,username);
+        if(lobby1.isFull())
+            lobbyList.add(new Lobby(lobby1.maxConnection()));
     }
     @Override
     public void run(){

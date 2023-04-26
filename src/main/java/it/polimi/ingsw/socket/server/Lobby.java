@@ -25,8 +25,8 @@ public class Lobby {
         usernames = new String[nPlayer];
         index = 0;
     }
-    public int getNumConnection(){
-        return  index;
+    public boolean isFull(){
+        return clients.length == index;
     }
     public int maxConnection(){
         return clients.length;

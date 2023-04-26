@@ -61,31 +61,23 @@ public class Library implements Serializable {
 
      @param t The coordinates of the picked tiles
      @param column The column on the player's shelf to place the tiles in
-     @param len The number of tiles to place on the shelf
      @param p The playground object where the tiles were originally placed
      @return true if the tiles were successfully placed on the shelf, false otherwise
      */
-    public Boolean posix(Vector<Tiles> t, int column, int len, Playground p, int count) throws LibraryException {
+    public Boolean posix(Vector<Tiles> t, int column, Playground p){
         // Initialize variables
         int j = 0;
-        Boolean tmp = p.adjacency(t);
+        boolean tmp = p.adjacency(t);
         //System.out.println(tmp);
         // Place the tiles on the shelf
-        for (int i =5; i > len-1; i--) {
-            if (tmp) {
-                if(j == len) return true;
-                if(t.get(j).checkSet()) {
-                    this.shelf[lastFree(column)][column].setType(t.get(j).getType()); //go to last element in column possible, 6 - i that's mean the last NOT_VALID tile
-                    p.getGround()[t.get(j).getX()][t.get(j).getY()].setType(NOT_VALID);// Set the type of the tile on the shelf and remove it from the playground
-                    j++;
-                }else throw new LibraryException("Already Picked");
-            } else {
-                // If the tiles cannot be placed, print an error message
-                throw new LibraryException("Not adjacent");
-
-            }
+        if(!tmp) return false;
+        for (Tiles tile : t) {
+            if(tile.checkSet()) {
+                this.shelf[lastFree(column)][column].setType(tile.getType()); //go to last element in column possible, 6 - i that's mean the last NOT_VALID tile
+                p.getGround()[tile.getX()][tile.getY()].setType(NOT_VALID);// Set the type of the tile on the shelf and remove it from the playground
+            }else return false;
         }
-        return tmp;
+        return true;
     }
 
 

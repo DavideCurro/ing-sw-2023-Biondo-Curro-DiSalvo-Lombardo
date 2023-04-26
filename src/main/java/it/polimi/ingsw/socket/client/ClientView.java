@@ -45,6 +45,7 @@ public class ClientView {
      *
      */
     private static void printOutLibrary(Player player) {
+        System.out.println(player.getNickname() +"'s Library");
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
                 colorChange(player.getMy_shelfie().getShelf()[i][j].getType());
@@ -59,7 +60,6 @@ public class ClientView {
     }
 
     public void printPersonalOBJ(Player player){
-        System.out.println(player.getNickname()+ " Personal OBJ");
         Vector<Tiles> position = player.getPersonalObj().getPersonalObj().getPosition();
         Library tmp = buildLibrarybyPosition(position);
         printOutLibrary(new Player(tmp));

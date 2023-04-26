@@ -7,6 +7,7 @@ public class Message implements Serializable {
     private String sender;
     private final Content messageType;
     private Object payload;
+    private Object payload2;
 
     public void setSender(String sender){
         this.sender = sender;
@@ -27,6 +28,13 @@ public class Message implements Serializable {
         this.messageType = messageType;
         this.payload = payload;
     }
+    public Message(String receiverName, String sender, Content messageType, Object payload, Object payload2){
+        this.receiverName = receiverName;
+        this.messageType = messageType;
+        this.sender = sender;
+        this.payload = payload;
+        this.payload2 = payload2;
+    }
 
     public String getReceiverName(){
         return receiverName;
@@ -40,6 +48,7 @@ public class Message implements Serializable {
         return messageType;
     }
     public Object getPayload(){return payload;}
+    public Object getPayload2(){return payload2;}
     @Override
     public String toString(){
         String receivedMess;

@@ -6,18 +6,9 @@ public enum Content implements Serializable {
 
     NICKNAME,
     NEWGAME,
-    PICKTILES,
-    GAMEJOIN,
-    WINNER,
-    POINTS,
-    NEWPOINTSMAX,
-    TILESPICKED,
-    COORDINATE,
-    SUCCESS,
+    PLAYERDATA,
     FAIL,
-    PING,
-    ACK,
-    GAMECREATED,
-    NEWTURN,
-    PLAYGROUND
+    PICKTILE,
+    PICKEDTILE,
+    MATCH
 }

@@ -190,11 +190,7 @@ public class Player implements Serializable {
             tile.setType(p.getGround()[tile.getX()][tile.getY()].getType());
             System.out.println(tile); // Display information about the picked tile
         }
-        try {
-            return this.my_shelfie.posix(this.coordinates, column, this.coordinates.size(), p, max);// Call the posix method of the player's shelfie to place the picked up tiles on their shelf
-        }catch (LibraryException e){
-            throw new RuntimeException(e);
-        }
+        return this.my_shelfie.posix(this.coordinates, column, p);// Call the posix method of the player's shelfie to place the picked up tiles on their shelf
     }
 
 

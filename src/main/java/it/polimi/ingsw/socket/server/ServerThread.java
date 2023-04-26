@@ -19,37 +19,39 @@ import static it.polimi.ingsw.socket.Content.*;
 public class ServerThread extends Thread{
     private Socket socket;
 
-    private WaitingRoom waitingRoom2Player;
-    private WaitingRoom waitingRoom3Player;
-    private WaitingRoom waitingRoom4Player;
-    private ObjectInputStream inputStream;
-    private ObjectOutputStream outputStream;
+    private Lobby lobby2Player;
+    private Lobby lobby3Player;
+    private Lobby lobby4Player;
+
+
     private static final Logger log = Logger.getLogger(ServerThread.class.getName());
-    public ServerThread( WaitingRoom waitingRoom2Player, WaitingRoom waitingRoom3Player, WaitingRoom waitingRoom4Player, Socket socket)  {
+    public ServerThread( Lobby waitingRoom2Player, Lobby waitingRoom3Player, Lobby waitingRoom4Player, Socket socket)  {
 
         this.socket = socket;
-        this.waitingRoom2Player = waitingRoom2Player;
-        this.waitingRoom3Player = waitingRoom3Player;
-        this.waitingRoom4Player = waitingRoom4Player;
-        try {
-            this.inputStream = new ObjectInputStream(socket.getInputStream());
-            this.outputStream = new ObjectOutputStream(socket.getOutputStream());
-            outputStream.flush();
-            outputStream.reset();
-        }catch (IOException e){
-            log.info("Can't create serverThread");
-        }
+        this.lobby2Player = waitingRoom2Player;
+        this.lobby3Player = waitingRoom3Player;
+        this.lobby4Player = waitingRoom4Player;
     }
-    private void connect(WaitingRoom waitingRoom, String username){
+    private void connect(Lobby lobby, String username, ObjectOutputStream outputStream, ObjectInputStream inputStream){
         log.info("Doing stuff for log in waiting room");
-        waitingRoom.connection(socket, outputStream, inputStream, username);
+        lobby.connection(socket, outputStream, inputStream, username);
 
 
     }
     @Override
     public void run(){
+        ObjectOutputStream outputStream = null;
+        ObjectInputStream inputStream = null;
+        try{
+            outputStream = new ObjectOutputStream(socket.getOutputStream());
+            outputStream.flush();
+            outputStream.reset();
+            inputStream = new ObjectInputStream(socket.getInputStream());
+        }catch (IOException e){
+            e.printStackTrace();
+            System.exit(-1);
+        }
         Message message = null;
-        while(socket.isConnected()){
             try {
                 synchronized (inputStream) {
                     message = (Message) inputStream.readObject();
@@ -57,17 +59,17 @@ public class ServerThread extends Thread{
                 switch ((int)message.getPayload()){
                     case 2->{
                         log.info("Connecting in 2 player room");
-                        connect(waitingRoom2Player,message.getSender());
+                        connect(lobby2Player,message.getSender(),outputStream,inputStream);
 
                     }
                     case 3->{
                         log.info("Connecting in 3 player room");
-                        connect(waitingRoom3Player,message.getSender());
+                        connect(lobby3Player,message.getSender(),outputStream,inputStream);
 
                     }
                     case 4->{
                         log.info("Connecting in 4 player room");
-                        connect(waitingRoom4Player,message.getSender());
+                        connect(lobby4Player,message.getSender(),outputStream,inputStream);
                     }
                     default->{
                         log.info("ERROR wrong number");
@@ -80,6 +82,5 @@ public class ServerThread extends Thread{
         }
     }
 
-    }
 
 

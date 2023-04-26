@@ -14,15 +14,15 @@ import java.util.logging.Logger;
 
 public class StarterServer {
     public static final int PORT = 2000;
-    private final WaitingRoom waitingRoom2Player;
-    private final WaitingRoom waitingRoom3Player;
-    private final WaitingRoom waitingRoom4Player;
+    private final Lobby lobby2Player;
+    private final Lobby lobby3Player;
+    private final Lobby lobby4Player;
     private static final Logger log = Logger.getLogger(StarterServer.class.getName());
 
     public StarterServer(){
-        waitingRoom2Player = new WaitingRoom(2);
-        waitingRoom3Player = new WaitingRoom(3);
-        waitingRoom4Player = new WaitingRoom(4);
+        lobby2Player = new Lobby(2);
+        lobby3Player = new Lobby(3);
+        lobby4Player = new Lobby(4);
     }
     public void start() {
         ServerSocket serverSocket;
@@ -37,7 +37,7 @@ public class StarterServer {
             try {
                 Socket socket = serverSocket.accept();
                 log.info("New Connection");
-                new ServerThread(waitingRoom2Player,waitingRoom3Player,waitingRoom4Player,socket).start();
+                new ServerThread(lobby2Player,lobby3Player,lobby4Player,socket).start();
             } catch (IOException e) {
                 break;
             }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.socket.client;
 
+import it.polimi.ingsw.controller.Match;
 import it.polimi.ingsw.model.Playground.Playground;
 import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.player.Library;
@@ -12,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Vector;
 
@@ -43,10 +45,12 @@ public class ServerHandler {
         //Input name()
         try {
             objectOutputStream.writeObject(new Message("Server",nickname, NICKNAME,2));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-       /* while (socket.isConnected()){
+        sleep(10000);
+        while (socket.isConnected()) {
             Message message = null;
             try {
                 message = (Message) objectInputStream.readObject();
@@ -54,36 +58,35 @@ public class ServerHandler {
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
-        }*/
+        }
         sleep(500000);
     }
 
     private void handleNewMessage(Message message) throws IOException {
         switch (message.getMessageType()){
-            case GAMEJOIN ->{
-                view.printPersonalOBJ((Player) message.getPayload());
-            }
-            case PING ->{
-                System.out.println("Ping received from Server");
-                objectOutputStream.writeObject(new Message("Server",nickname,ACK,""));
-            }
             case NEWGAME -> {
-                System.out.println((String) message.getPayload());
-                objectOutputStream.writeObject(new Message("Server",nickname,NEWGAME,2));
-            }
-            case GAMECREATED, PLAYGROUND -> {
                 view.printPlayground((Playground)message.getPayload());
             }
-            case PICKTILES -> {
-                objectOutputStream.writeObject((new Message("Server",nickname,COORDINATE,1)));
-                tilesVector.add(new Tiles(-1,1,3));
-                objectOutputStream.writeObject((new Message("Server",nickname,TILESPICKED,tilesVector)));
-            }
-            case SUCCESS -> {
+            case PLAYERDATA -> {
                 Player tmp = (Player) message.getPayload();
-                System.out.println(tmp.getPoints());
-                view.printPlayerLibrary(tmp);
+                System.out.println("Il tuo obiettivo personale è");
+                view.printPersonalOBJ(tmp);
+            }
+            case PICKTILE ->{
+                tilesVector.add(new Tiles(-1,1,4));
+                objectOutputStream.flush();
+                objectOutputStream.reset();
+                objectOutputStream.writeObject(new Message("server",nickname,PICKEDTILE,1, tilesVector));
+                tilesVector.clear();
+            }
+            case PICKEDTILE -> {
+                Playground playground = (Playground) message.getPayload();
+                LinkedList<Player> vectorLinkedList = (LinkedList<Player>) message.getPayload2();
+               // view.printPlayerLibrary(match.getLastPlayer());
+                view.printPlayground(playground);
+                for(Player player : vectorLinkedList){
+                    view.printPlayerLibrary(player);
+                }
             }
 
         }

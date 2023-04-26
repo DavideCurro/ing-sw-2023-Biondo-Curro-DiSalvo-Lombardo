@@ -5,19 +5,18 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-public class WaitingRoom {
+public class Lobby {
     private Socket[] clients;
     private String[] usernames;
     private ObjectInputStream[] objectInputStreams;
     private ObjectOutputStream[] objectOutputStreams;
     private int index;
-    private static final Logger log = Logger.getLogger(WaitingRoom.class.getName());
+    private static final Logger log = Logger.getLogger(Lobby.class.getName());
     private final ExecutorService launcher;
 
-    public WaitingRoom(int nPlayer){
+    public Lobby(int nPlayer){
         log.info("New Room created the capacity is" + nPlayer);
         clients = new Socket[nPlayer];
         launcher = Executors.newCachedThreadPool();

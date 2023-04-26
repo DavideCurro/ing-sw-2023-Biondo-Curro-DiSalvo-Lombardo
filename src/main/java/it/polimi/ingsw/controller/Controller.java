@@ -41,7 +41,7 @@ public class Controller {
     }
 
     public void startGame() {
-        this.match.setupPlayground(numPlayer);
+        this.match.setupPlayground();
         this.view.printPlayground(this.match.getP());
     }
 

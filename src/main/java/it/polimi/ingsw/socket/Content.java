@@ -10,5 +10,9 @@ public enum Content implements Serializable {
     FAIL,
     PICKTILE,
     PICKEDTILE,
-    MATCH
+    PICKUPFAIL,
+    PERSONALOBJDONE,
+    COMMONOBJDONE,
+    NICKNAME_DUPLICATE,
+    WRONG_PLAYER
 }

@@ -1,16 +1,11 @@
 package it.polimi.ingsw.socket.server;
 
-import it.polimi.ingsw.controller.Controller;
-import it.polimi.ingsw.controller.Match;
-import it.polimi.ingsw.controller.VirtualView;
-import it.polimi.ingsw.model.player.Player;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.logging.LogManager;
+
 import java.util.logging.Logger;
 
 public class StarterServer {
@@ -20,14 +15,21 @@ public class StarterServer {
     private final LinkedList<Lobby> lobby4Player;
     private static final Logger log = Logger.getLogger(StarterServer.class.getName());
 
+    /**
+     * It's me a constructor, not Mario
+     */
     public StarterServer(){
-        lobby2Player = new LinkedList<Lobby>();
+        lobby2Player = new LinkedList<>();
         lobby2Player.add(new Lobby(2));
-        lobby3Player = new LinkedList<Lobby>();
+        lobby3Player = new LinkedList<>();
         lobby3Player.add(new Lobby(3));
-        lobby4Player = new LinkedList<Lobby>();
+        lobby4Player = new LinkedList<>();
         lobby4Player.add(new Lobby(4));
     }
+
+    /**
+     * This method handle new connection by passing it to dispatcher
+     */
     public void start() {
         ServerSocket serverSocket;
         try {

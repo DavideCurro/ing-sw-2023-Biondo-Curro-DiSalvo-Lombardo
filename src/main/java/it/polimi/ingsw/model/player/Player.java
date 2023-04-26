@@ -130,10 +130,6 @@ public class Player implements Serializable {
         this.my_shelfie = my_shelfie;
     }
 
-    public void setTurn(boolean turn){
-        this.turn = turn;
-    }
-    public boolean getTurn(){return turn;}
     /**
      *
      * Gets the nickname
@@ -244,9 +240,17 @@ public class Player implements Serializable {
         return Math.min(len, max);
     }
 
+    /**
+     * check for personal goal
+     * @return true if is done, false otherwise
+     */
 
-
-    public void checkPersonalOBJ(){
-        this.points +=this.personalObj.execCheck(this);
+    public boolean checkPersonalOBJ(){
+        int result = this.personalObj.execCheck(this);
+        if(result > 0) {
+            this.points += result;
+            return true;
+        }
+        return false;
     }
 }

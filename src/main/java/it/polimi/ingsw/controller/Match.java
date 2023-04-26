@@ -27,6 +27,9 @@ public class Match implements Serializable {
     private static boolean thrown = false;
     private static LinkedList<Player> players;
 
+    /**
+     * It's a constructor
+     */
     public Match(){
         players = new LinkedList<>();
 
@@ -36,13 +39,32 @@ public class Match implements Serializable {
         players = p;
         this.o = new ObjectiveCommonEXEC(o);
     }
+
+    /**
+     * Set the common objective
+     * @param o CommonOBJ
+     */
     public void setObjectiveCommonEXEC(CommonObj o){
         this.o = new ObjectiveCommonEXEC(o);
     }
+
+    /**
+     * retrieve from a map how many points should assign
+     * @param numPlayersDone, how many people made this goal
+     * @param pointOBJPlayer, depends on how many player is the match
+     * @return int that represent the point made
+     */
+
     private static int pointsCheck(int numPlayersDone,Map<Integer,Integer> pointOBJPlayer){
         return pointOBJPlayer.get(numPlayersDone);
 
     }
+
+    /**
+     * assign point to current player
+     * @param objCount how many people made this goal
+     * @param nowPlaying who made the goal
+     */
     public static void pointSetter(int objCount, Player nowPlaying){
         switch (p.getNum_players()) {
             case 2 -> nowPlaying.setPoints(nowPlaying.getPoints() + pointsCheck(objCount, pointOBJ2player));
@@ -50,9 +72,13 @@ public class Match implements Serializable {
             case 4 -> nowPlaying.setPoints(nowPlaying.getPoints() + pointsCheck(objCount, pointOBJ4player));
             default -> throw new IllegalStateException("Unexpected value: " + p.getNum_players());
         }
-
-
     }
+
+    /**
+     * Random select the personal goal
+     * @return personal goal
+     * @throws MatchExeception, if random fails
+     */
     public PersonalObj personalOBJChooser() throws MatchExeception{
         Random random = new Random();
         return switch (random.nextInt(12)+1) {
@@ -72,6 +98,12 @@ public class Match implements Serializable {
         };
     }
 
+
+    /**
+     * Random select the common goal
+     * @return common goal
+     * @throws MatchExeception, if random fails
+     */
     private CommonObj CommonOBJChooser() throws MatchExeception{
         Random random = new Random();
         return switch (random.nextInt(12)+1) {
@@ -87,10 +119,16 @@ public class Match implements Serializable {
             case 10 -> new GoalC10();
             case 11 -> new GoalC11();
             case 12 -> new GoalC12();
-            default -> throw new RuntimeException("ERRORE generazione persona OBJ");
+            default -> throw new MatchExeception("ERRORE generazione persona OBJ");
         };
     }
 
+
+    /**
+     * Handle the joining of a new player in the game
+     * @param nick of player
+     * @throws MatchExeception, some error occurs on personal or common objective appear
+     */
     public void newPlayer(String nick) throws  MatchExeception{
         if(players.isEmpty()){
             players.add(new Player(personalOBJChooser(),nick,true));
@@ -109,7 +147,11 @@ public class Match implements Serializable {
         }
         VirtualView.printPersonalOBJ(players.getLast());
     }
-    public void setupPlayground(int numPlayer){
+
+    /**
+     * Just initialize playground
+     */
+    public void setupPlayground(){
         try {
             p = new Playground(players.size());
         }catch (PlaygroundException e){
@@ -117,41 +159,74 @@ public class Match implements Serializable {
         }
     }
 
+    /**
+     * Handle new turn
+     * @param column in which column should appear the tiles
+     * @param picked tiles picked
+     * @return 0 if everything went well, 1 otherwise
+     * @throws RuntimeException, if some error occur while pickup
+     */
     public int newTurn(int column, Vector<Tiles> picked) throws RuntimeException{
         Player nowPlaying = players.remove();
         players.addLast(nowPlaying);
-
         try{
             if(nowPlaying.pickUp(p,column,picked)) {
-                if(o.execCheck(nowPlaying)){
-                    pointSetter(objCount,nowPlaying);
-                    objCount++;
-                }
-                nowPlaying.checkPersonalOBJ();
-                if (nowPlaying.getMy_shelfie().isFull())
-                    return 1;
+                return 0;
             }
             p.countSelected();
         }catch (RuntimeException | PlaygroundException |CoordinateStateException e) {
             System.out.println(e.getMessage());
             players.addFirst(players.pollLast());
             thrown = true;
+            return 1;
         }
-        return 0;
+        return 1;
     }
 
+    /**
+     *  get playground
+     * @return Playground
+     */
     public Playground getP() {
         return p;
     }
+
+    /**
+     * Return who played last
+     * @return player
+     */
     public Player getLastPlayer(){
 
         return thrown ? players.peekFirst() : players.peekLast();
     }
 
+    /**
+     * Return all player
+     * @return players
+     */
     public  LinkedList<Player> getPlayer(){
         return players;
     }
 
+    /**
+     * Test the common goal
+     * @param nowPlaying, who is playing
+     * @return the result[0]=1 means the goal has been passed, result[1] represent how many people made this
+     */
+    public int[] commonOBJTesting(Player nowPlaying){
+        int[] result = new int[2];
+        result[1] = -1;
+        if(o.execCheck(nowPlaying)){
+            pointSetter(objCount,nowPlaying);
+            objCount++;
+            result[0] = 1;
+            result[1] = objCount;
+
+            return result;
+        }
+        return result;
+
+    }
 
 }
 

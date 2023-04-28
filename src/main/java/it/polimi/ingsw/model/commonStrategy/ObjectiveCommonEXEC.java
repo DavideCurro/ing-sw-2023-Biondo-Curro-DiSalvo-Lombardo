@@ -9,6 +9,7 @@ public class ObjectiveCommonEXEC implements Serializable {
         public ObjectiveCommonEXEC(CommonObj commonObj) {
             this.commonObj = commonObj;
         }
+        public CommonObj getCommonObj(){return commonObj;}
         public boolean execCheck(Player l){
             return commonObj.check(l);
         }

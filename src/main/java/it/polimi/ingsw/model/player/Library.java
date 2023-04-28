@@ -117,4 +117,10 @@ public class Library implements Serializable {
         }
         return -1;
     }
+    public boolean isEmpty(){
+        for(int j = 0; j<5; j++){
+            if(this.shelf[5][j].getType() != NOT_VALID) return false;
+        }
+        return true;
+    }
 }

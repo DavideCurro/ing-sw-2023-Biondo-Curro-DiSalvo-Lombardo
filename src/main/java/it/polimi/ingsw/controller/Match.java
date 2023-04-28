@@ -59,6 +59,9 @@ public class Match implements Serializable {
         return pointOBJPlayer.get(numPlayersDone);
 
     }
+    public CommonObj getCommonOBJ(){
+        return o.getCommonObj();
+    }
 
     /**
      * assign point to current player
@@ -215,8 +218,10 @@ public class Match implements Serializable {
      */
     public int[] commonOBJTesting(Player nowPlaying){
         int[] result = new int[2];
+        result[0] = -1;
         result[1] = -1;
         if(o.execCheck(nowPlaying)){
+            System.out.println("CIAO");
             pointSetter(objCount,nowPlaying);
             objCount++;
             result[0] = 1;

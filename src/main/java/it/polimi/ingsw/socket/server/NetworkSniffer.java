@@ -42,15 +42,18 @@ public class NetworkSniffer extends Thread{
                 for (ObjectInputStream inputStream : inputStreams) {
                     log.info("Waiting");
                     log.info("Message arrived");
-                    if(inputStream.available()>0) {
+
                         received = (Message) inputStream.readObject();
                         System.out.println(received.getSender());
                         game_handler.handleTurn((Integer) received.getPayload(), (Vector<Tiles>) received.getPayload2(), received.getSender()); //column, vector
-                    }
+
+                    sleep(500);
                 }
             }catch (ClassNotFoundException | IOException exception){
                 exception.printStackTrace();
 
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
         }
     }

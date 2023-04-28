@@ -245,12 +245,8 @@ public class Player implements Serializable {
      * @return true if is done, false otherwise
      */
 
-    public boolean checkPersonalOBJ(){
-        int result = this.personalObj.execCheck(this);
-        if(result > 0) {
-            this.points += result;
-            return true;
-        }
-        return false;
+    public int checkPersonalOBJ(){
+
+        return this.personalObj.execCheck(this);
     }
 }

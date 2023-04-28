@@ -114,6 +114,7 @@ public class GameHandler implements Runnable {
                 objectOutputStreams[i].reset();
                 objectOutputStreams[i].writeObject(new Message(usernames[i], NEWGAME,match.getP()));
                 objectOutputStreams[i].writeObject(new Message(usernames[i], PLAYERDATA,getThisPlayer(i)));
+                objectOutputStreams[i].writeObject(new Message(usernames[i], COMMONOBJ,match.getCommonOBJ()));
                 log.info("Info sent to "+ usernames[i]);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -261,7 +262,7 @@ public class GameHandler implements Runnable {
      */
     private void notifyPersonalOBJDone(int index){
         try {
-            objectOutputStreams[index].writeObject(new Message(getThisPlayer(index).getNickname(), PERSONALOBJDONE));
+            objectOutputStreams[index].writeObject(new Message(getThisPlayer(index).getNickname(),"Server", PERSONALOBJDONE,getThisPlayer(index),getThisPlayer(index).checkPersonalOBJ()));
         }catch (IOException e){
             log.severe("can not connect to client");
         }
@@ -273,7 +274,9 @@ public class GameHandler implements Runnable {
      * @param countOBJ how many people made this goal, including last one
      */
     private void notifyCommonOBJDone(Player player, int countOBJ){
+
         for(ObjectOutputStream objectOutputStream : objectOutputStreams){
+            resetObject(objectOutputStream);
             try {
                 objectOutputStream.writeObject(new Message("", "Server", COMMONOBJDONE, player, countOBJ));
             }catch (IOException e){
@@ -302,12 +305,14 @@ public class GameHandler implements Runnable {
                sendMatch();
                log.info("Retrieving information for Object test ");
                int[] commonOBJResponse = match.commonOBJTesting(nowPlaying);
-               if(commonOBJResponse[0] == 0){
+               if(commonOBJResponse[0] == 1){
                    log.info(nowPlaying.getNickname() + "has done common OBJ");
                    notifyCommonOBJDone(nowPlaying,commonOBJResponse[1]);
                }
-               if(nowPlaying.checkPersonalOBJ()){
+               if(nowPlaying.checkPersonalOBJ() > 0){
+                   nowPlaying.setPoints(nowPlaying.getPoints()+nowPlaying.checkPersonalOBJ());
                    log.info(nowPlaying.getNickname() + "has done personal OBJ");
+                   resetObject(objectOutputStreams[index]);
                    notifyPersonalOBJDone(index);
                }
            }else if(response == 1) {
@@ -321,6 +326,7 @@ public class GameHandler implements Runnable {
                log.severe("Something went wrong, that's a big problem!");
                try {
                    objectOutputStreams[index].writeObject(new Message(sender, FAIL));
+                   closeAllConnection();
                }catch (IOException e){
                    e.printStackTrace();
                }
@@ -330,6 +336,7 @@ public class GameHandler implements Runnable {
             if(index != -1){
                 try {
                     objectOutputStreams[index].writeObject(new Message(sender, WRONG_PLAYER));
+                    closeAllConnection();
                 }catch (IOException e){
                     e.printStackTrace();
                 }
@@ -339,4 +346,13 @@ public class GameHandler implements Runnable {
         }
 
     }
+    private void resetObject(ObjectOutputStream outputStream){
+        try {
+            outputStream.flush();
+            outputStream.reset();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
 }

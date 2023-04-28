@@ -6,11 +6,9 @@ import java.util.Vector;
 
 public class Controller {
     private Match match;
-    private int numPlayer;
     private VirtualView view;
 
     public Controller(Match match, VirtualView view) {
-        this.numPlayer = -1;
         this.match = match;
         this.view = view;
     }
@@ -48,10 +46,7 @@ public class Controller {
     public int newTurn(int column, Vector<Tiles> picked) {
         return this.match.newTurn(column, picked);
     }
-    public void setNumPlayer(int numPlayer){
-        this.numPlayer = numPlayer;
-    }
-    public int getNumPlayer(){return this.numPlayer;}
+
 }
 
 

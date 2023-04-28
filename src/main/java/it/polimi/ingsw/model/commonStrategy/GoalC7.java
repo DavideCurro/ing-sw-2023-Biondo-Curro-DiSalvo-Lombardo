@@ -7,10 +7,14 @@ import it.polimi.ingsw.model.player.Player;
 
 import static it.polimi.ingsw.model.Playground.Tiles.NOT_VALID;
 
-/*Four lines each formed by 5 tiles of maximum three different types.
-One line can show the same or a different combination of another line. */
 
 public class GoalC7 implements CommonObj , Serializable {
+    /** Four lines each formed by 5 tiles of maximum three different types.
+     *  One line can show the same or a different combination of another line.
+     *  @param p
+     *  @return
+     *  */
+
     public boolean check(Player p) {
         Vector<Integer> v = new Vector<Integer>();//vector used to count how many types I have in one row
         int count = 0;

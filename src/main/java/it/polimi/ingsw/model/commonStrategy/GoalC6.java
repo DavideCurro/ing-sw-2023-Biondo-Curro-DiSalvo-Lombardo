@@ -6,10 +6,16 @@ import java.io.Serializable;
 import java.sql.Struct;
 import java.util.Vector;
 
-//Goal 6 = Two lines each formed by 5 different types of tiles.
+
+
 public class GoalC6 implements CommonObj, Serializable {
     private int count=1;
     private Vector<Integer> types = new Vector<>();
+
+    /** Goal 6 = Two lines each formed by 5 different types of tiles.
+     * @param p
+     * @return
+     */
     public boolean check(Player p){
         int differentColumn=0;
         for(int i = 0; i < 6; i++ ){

@@ -9,6 +9,16 @@ public class GoalC3 implements CommonObj, Serializable {
     public GoalC3(){
 
     }
+
+    /**
+     * Four groups each containing at least
+     * 4 tiles of the same type (not necessarily
+     * in the depicted shape).
+     * The tiles of one group can be different
+     * from those of another group.
+     * @param p
+     * @return
+     */
     public boolean check(Player p) {
         int column=0;
         boolean right = false;

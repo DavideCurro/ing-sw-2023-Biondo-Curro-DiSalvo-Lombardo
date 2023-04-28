@@ -7,10 +7,15 @@ import it.polimi.ingsw.model.player.Player;
 import java.io.Serializable;
 import java.util.Timer;
 import java.util.Vector;
-/* Two groups each containing 4 tiles of the same type in a 2x2 square.
-The tiles of one square can be different from those of the other square. */
+
 
 public class GoalC1 implements CommonObj , Serializable {
+    /**
+     *  Two groups each containing 4 tiles of the same type in a 2x2 square.
+     *  The tiles of one square can be different from those of the other square.
+     *  @param p player to check
+     *  @return
+     *  */
 
     public boolean check(Player p){
         Vector<Tiles> square = new Vector<>();

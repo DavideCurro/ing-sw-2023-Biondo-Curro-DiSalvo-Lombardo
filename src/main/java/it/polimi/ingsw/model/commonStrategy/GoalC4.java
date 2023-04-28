@@ -4,10 +4,13 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serializable;
 
-/* Six groups each containing at least 2 tiles of the same type (not necessarily
-in the depicted shape). The tiles of one group can be different from those of another group. */
-public class GoalC4 implements CommonObj, Serializable {
 
+public class GoalC4 implements CommonObj, Serializable {
+    /** Six groups each containing at least 2 tiles of the same type (not necessarily
+     *  in the depicted shape). The tiles of one group can be different from those of another group.
+     *  @param p player to check
+     *  @return
+     *  */
         public boolean check(Player p){
 
             int type;

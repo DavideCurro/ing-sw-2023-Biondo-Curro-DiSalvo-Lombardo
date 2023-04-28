@@ -4,10 +4,14 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.io.Serializable;
 
-/*Goal 2 = Two columns each formed by 6 different types of tiles.*/
+
 public class GoalC2 implements CommonObj, Serializable {
     private int count = 0;
-
+    /**
+     * Goal 2 = Two columns each formed by 6 different types of tiles.
+     * @param p player to check
+     * @return
+     * */
     public boolean check(Player p) {
         int column = 0;
         for (int j = 0; j < 5; j++) {

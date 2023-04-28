@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.commonStrategy;
 
-/*Goal 9 = Eight tiles of the same type. There’s no
-restriction about the position of these
-tiles  */
+
 
 import it.polimi.ingsw.model.player.Player;
 
@@ -16,7 +14,12 @@ public class GoalC9 implements CommonObj, Serializable {
     private int count5 = 0;
     private int count6 = 0;
 
-
+    /** Goal 9 = Eight tiles of the same type.
+     * There’s no restriction about the position of these
+     * tiles
+     * @param p
+     * @return
+     * */
     public boolean check(Player p) {
         for (int j = 0; j < 5; j++) {
             for (int i = 0; i < 6; i++) {

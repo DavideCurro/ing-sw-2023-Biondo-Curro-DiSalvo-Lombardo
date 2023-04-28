@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.commonStrategy;
 
-//Goal 11 = Five tiles of the same type forming a diagonal.
+
 
 
 import it.polimi.ingsw.model.Playground.Tiles;
@@ -47,6 +47,10 @@ public class GoalC11 implements CommonObj , Serializable {
 
         }
 
+    /**Goal 11 = Five tiles of the same type forming a diagonal.
+     * @param p
+     * @return
+     */
         public boolean check(Player p){
 
             setTmp(p);

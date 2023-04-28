@@ -6,6 +6,14 @@ import java.io.Serializable;
 
 public class GoalC12 implements CommonObj, Serializable {
 
+    /**Five columns of increasing or decreasing
+     *  height. Starting from the first column on
+     *  the left or on the right, each next column
+     *  must be made of exactly one more tile.
+     *  Tiles can be of any type.
+     * @param p
+     * @return
+     */
 
     public boolean check(Player p) {
         if (leftOrRight(0, p)) {

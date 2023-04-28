@@ -6,12 +6,15 @@ import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.player.Library;
 import it.polimi.ingsw.model.player.Player;
 
+import java.util.Map;
 import java.util.Vector;
 
 public class ClientView {
     public ClientView() {
 
     }
+    private static final Map<Integer,Integer> pointOBJ4player = Map.of(1,8,2,4,3,4,4,2);
+
     public void printPlayground(Playground ground){
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -57,6 +60,12 @@ public class ClientView {
     }
     public void printOutPointsPerPlayer(Player player){
         System.out.println(player.getNickname() + " achieved : "+ player.getPoints()+" points" );
+    }
+    public void printNewHighestScore(int countObj){
+        if (countObj+1>4)
+            System.out.println("Error, everyone already completed the common goal");
+        else
+            System.out.println("The highest score reachable is now: " + (countObj+1) );
     }
 
     public void printPersonalOBJ(Player player){

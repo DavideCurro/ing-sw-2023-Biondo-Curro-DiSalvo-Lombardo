@@ -68,7 +68,7 @@ public class ServerHandler {
 
             case PLAYERDATA -> {
                 Player tmp = (Player) message.getPayload();
-                System.out.println("Il tuo obiettivo personale è");
+                System.out.println("Your personal goal is: \n");
                 view.printPersonalOBJ(tmp);
             }
             case PICKTILE ->{
@@ -88,7 +88,38 @@ public class ServerHandler {
                     view.printOutPointsPerPlayer(player);
                 }
             }
+            case NICKNAME_DUPLICATE -> {
+                System.out.println("This nickname was already taken. Choose another one: \n");
+                scanner = new Scanner(System.in);
+                nickname = scanner.nextLine();
+                try {
+                    objectOutputStream.writeObject(new Message("Server",nickname, NICKNAME,2));
 
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            case COMMONOBJDONE ->{
+                System.out.println("You completed the common goal!");
+                Player player = (Player) message.getPayload();
+                int countobj = (int) message.getPayload();
+                view.printOutPointsPerPlayer(player);
+                System.out.println("You are the number "+countobj+"player to complete the common goal");
+                view.printNewHighestScore(countobj);
+            }
+            case PERSONALOBJDONE -> {
+                System.out.println("You completed the personal goal!");
+                Player player = (Player) message.getPayload();
+                view.printOutPointsPerPlayer(player);
+            }
+            case PICKUPFAIL -> {
+                System.out.println("Pick up again your tiles:");
+                tilesVector.add(new Tiles(-1,1,4));
+                objectOutputStream.flush();
+                objectOutputStream.reset();
+                objectOutputStream.writeObject(new Message("server",nickname,PICKEDTILE,1, tilesVector));
+                tilesVector.clear();
+            }
         }
     }
 }

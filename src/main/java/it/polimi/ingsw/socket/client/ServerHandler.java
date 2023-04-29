@@ -42,6 +42,7 @@ public class ServerHandler {
         nickname = "";
     }
     public void cli() throws InterruptedException {
+        int gamestart = 0;
         view.welcome();
         System.out.print("Choose your nickname: ");
         nickname = scanner.nextLine();
@@ -63,6 +64,9 @@ public class ServerHandler {
             Message message;
             try {
                 message = (Message) objectInputStream.readObject();
+                if(gamestart == 0)
+                    System.out.println("The game has began");
+                gamestart++;
                 handleNewMessage(message);
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
@@ -84,6 +88,7 @@ public class ServerHandler {
             case PICKTILE ->{
                 objectOutputStream.flush();
                 objectOutputStream.reset();
+                objectOutputStream.writeInt(0);
                 objectOutputStream.writeObject(new Message("server",nickname,PICKEDTILE,getColumn(), getTilesVector()));
                 tilesVector.clear();
             }
@@ -127,6 +132,7 @@ public class ServerHandler {
                 System.out.println("Pick up again your tiles:");
                 objectOutputStream.flush();
                 objectOutputStream.reset();
+                objectOutputStream.writeInt(0);
                 objectOutputStream.writeObject(new Message("server",nickname,PICKEDTILE,getColumn(), getTilesVector()));
                 tilesVector.clear();
             }

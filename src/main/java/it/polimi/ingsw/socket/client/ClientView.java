@@ -18,6 +18,7 @@ public class ClientView {
 
     public void printPlayground(Playground ground){
         for (int i = 0; i < 10; i++) {
+            colorChange(3);
             if(i !=0)  System.out.print(i+"\t");
             else System.out.print("\t");
             for (int j = 0; j < 9; j++) {
@@ -28,9 +29,9 @@ public class ClientView {
                     System.out.print("■" + "\t");
                 }
             }
-            colorChange(3);
             System.out.println();
         }
+        colorChange(3);
 
     }
     public void printPlayerLibrary(Player player){
@@ -84,6 +85,7 @@ public class ClientView {
     private static void printOutLibrary(Player player) {
         if(player.getMy_shelfie().isEmpty())   System.out.println("This player has an empty library");
         for (int i = 0; i < 7; i++) {
+            colorChange(3);
             if(i!=0)  System.out.print(i+"\t");
             else System.out.print("\t");
             for (int j = 0; j < 5; j++) {
@@ -94,9 +96,9 @@ public class ClientView {
                 }
             }
             System.out.println();
-            colorChange(6);
-        }
 
+        }
+        colorChange(3);
     }
     public void printOutPointsPerPlayer(Player player){
         System.out.println(player.getNickname() + " achieved : "+ player.getPoints()+" points" );

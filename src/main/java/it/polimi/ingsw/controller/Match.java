@@ -175,12 +175,14 @@ public class Match implements Serializable {
         try{
             if(nowPlaying.pickUp(p,column,picked)) {
                 return 0;
+            }else{
+                players.addFirst(players.getLast());
+                System.out.println(players);
+                thrown = true;
             }
             p.countSelected();
         }catch (RuntimeException | PlaygroundException |CoordinateStateException e) {
             System.out.println(e.getMessage());
-            players.addFirst(players.pollLast());
-            thrown = true;
             return 1;
         }
         return 1;
@@ -211,6 +213,9 @@ public class Match implements Serializable {
         return players;
     }
 
+    public Player getNowPlaying(){
+        return players.peekFirst();
+    }
     /**
      * Test the common goal
      * @param nowPlaying, who is playing

@@ -224,7 +224,7 @@ public class GameHandler implements Runnable {
      * @return who is the current player
      */
     private Player getNowPlaying(){
-        return this.match.getPlayer().peekFirst();
+        return this.match.getNowPlaying();
     }
 
     /**
@@ -336,7 +336,6 @@ public class GameHandler implements Runnable {
             if(index != -1){
                 try {
                     objectOutputStreams[index].writeObject(new Message(sender, WRONG_PLAYER));
-                    closeAllConnection();
                 }catch (IOException e){
                     e.printStackTrace();
                 }

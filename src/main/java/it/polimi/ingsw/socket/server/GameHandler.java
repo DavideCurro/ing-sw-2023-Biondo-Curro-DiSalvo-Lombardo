@@ -1,9 +1,7 @@
 package it.polimi.ingsw.socket.server;
 
-import it.polimi.ingsw.controller.Controller;
 import it.polimi.ingsw.controller.Match;
 import it.polimi.ingsw.controller.MatchExeception;
-import it.polimi.ingsw.controller.VirtualView;
 import it.polimi.ingsw.model.Playground.Tiles;
 import it.polimi.ingsw.model.player.Player;
 
@@ -27,7 +25,6 @@ public class GameHandler implements Runnable {
     private ObjectInputStream[] inputStreams;
     private ObjectOutputStream[] objectOutputStreams;
     private Match match;
-    private Controller controller;
     private Vector<String> validName;
     private Message message;
     private boolean response;
@@ -48,7 +45,6 @@ public class GameHandler implements Runnable {
         this.objectOutputStreams = objectOutputStreams;
         this.inputStreams = objectInputStream;
         match = new Match();
-        controller = new Controller(match, new VirtualView());
         validName = new Vector<>();
         response = false;
         sniffer = new NetworkSniffer(inputStreams,this);

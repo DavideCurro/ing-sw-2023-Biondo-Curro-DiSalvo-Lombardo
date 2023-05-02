@@ -12,6 +12,7 @@ import org.junit.jupiter.api.AfterEach;
 
 import java.util.Vector;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class pickUpInvalidTest {
@@ -24,31 +25,19 @@ public class pickUpInvalidTest {
     }
 
     @Test
-    public void alreadyPickedTest(){
-        boolean thrown = false;
-        try{
-            Vector<Tiles> tmp = new Vector<>();
-            tmp.add(new Tiles(-1,0,0));
-            player.pickUp(playground,1,tmp);
-        }catch (Exception e){
-            thrown = true;
+    public void alreadyPickedTest() throws CoordinateStateException {
+        Vector<Tiles> tmp = new Vector<>();
+        tmp.add(new Tiles(-1,0,0));
 
-        }
-        assertTrue( thrown);
+        assertFalse( player.pickUp(playground,1,tmp));
     }
     @Test
-    public void notAdjacentTest(){
+    public void notAdjacentTest() throws CoordinateStateException {
         boolean thrown = false;
-        try {
             Vector<Tiles> tmp = new Vector<>();
             tmp.add(new Tiles(-1,1,1));
             tmp.add(new Tiles(-1,4,4));
-
-            player.pickUp(playground,1,tmp);
-        }catch (Exception e){
-            thrown = true;
-        }
-        assertTrue(thrown);
+        assertFalse(player.pickUp(playground,1,tmp));
     }
     @AfterEach
     public void reset(){

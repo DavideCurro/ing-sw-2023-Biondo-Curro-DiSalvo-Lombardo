@@ -19,12 +19,7 @@ public class App {
 
         VirtualView view = new VirtualView();
 
-        Controller controller = new Controller(model,view);
 
-
-        controller.newPlayer("Claudio");
-        controller.newPlayer("Sibb");
-        controller.startGame();
 
     }
 

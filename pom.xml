@@ -30,35 +30,41 @@
           <scope>test</scope>
       </dependency>
 
+
+    <!-- JavaFX -->
   <dependency>
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-controls</artifactId>
-    <version>18</version>
+    <version>19.0.2.1</version>
   </dependency>
   <dependency>
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-fxml</artifactId>
-    <version>18</version>
+    <version>19.0.2.1</version>
   </dependency>
+    <!--
   <dependency>
+
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-graphics </artifactId>
-    <version>18</version>
+    <version>19.0.2.1</version>
     <classifier>win</classifier>
   </dependency>
   <dependency>
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-graphics </artifactId>
-    <version>18</version>
+    <version>11.0.2</version>
     <classifier>linux</classifier>
   </dependency>
   <dependency>
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-graphics </artifactId>
-    <version>18</version>
+    <version>11.0.2</version>
     <classifier>mac</classifier>
   </dependency>
+  -->
   </dependencies>
+
 
 
   <build>

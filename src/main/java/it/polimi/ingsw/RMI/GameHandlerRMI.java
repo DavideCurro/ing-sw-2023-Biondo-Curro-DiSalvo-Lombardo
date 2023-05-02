@@ -2,9 +2,11 @@ package it.polimi.ingsw.RMI;
 
 import it.polimi.ingsw.model.Playground.Tiles;
 
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 import java.util.Vector;
 
-public interface GameHandlerRMI{
-        boolean handleLogin(String nickname);
-        boolean handleTurn(int column, Vector<Tiles> tilesPicked);
+public interface GameHandlerRMI extends Remote {
+        boolean handleLogin(String nickname) throws RemoteException;
+        boolean handleTurn(int column, Vector<Tiles> tilesPicked)throws RemoteException;
 }

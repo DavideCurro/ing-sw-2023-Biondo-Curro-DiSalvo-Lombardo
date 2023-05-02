@@ -24,6 +24,8 @@ public class GoalC9 implements CommonObj, Serializable {
         for (int j = 0; j < 5; j++) {
             for (int i = 0; i < 6; i++) {
                 int type = p.getMy_shelfie().getShelf()[i][j].getType();
+                if(type == -1)
+                    continue;
                 switch (type) {
                     case 1 -> {
                         count1++;

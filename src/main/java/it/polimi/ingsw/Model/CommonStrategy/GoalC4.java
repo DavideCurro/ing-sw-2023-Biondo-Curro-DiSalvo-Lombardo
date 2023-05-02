@@ -19,6 +19,8 @@ public class GoalC4 implements CommonObj, Serializable {
             for(int j = 0; j<4 ; j++){//columns
                 for(int i=0; i<5; i++){//rows
                     type = p.getMy_shelfie().getShelf()[i][j].getType();
+                    if(type == -1)
+                        continue;
                     if (((p.getMy_shelfie().getShelf()[i+1][j].getType()) == type) ||  ((p.getMy_shelfie().getShelf()[i][j+1].getType()) == type) )
                         count++;
                     if (count > 5)

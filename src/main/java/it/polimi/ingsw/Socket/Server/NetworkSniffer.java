@@ -21,10 +21,11 @@ public class NetworkSniffer extends Thread{
 
     /**
      * It's a constructor
-     * @param inputStream ObjectInputStream[], because we sniff multiple socket
+     *
+     * @param inputStream  ObjectInputStream[], because we sniff multiple socket
      * @param game_handler sort of a controller
      */
-    public NetworkSniffer( ObjectInputStream[] inputStream,GameHandler game_handler){
+    public NetworkSniffer(ObjectInputStream[] inputStream, GameHandler game_handler){
 
         this.game_handler = game_handler;
         this.inputStreams = inputStream;

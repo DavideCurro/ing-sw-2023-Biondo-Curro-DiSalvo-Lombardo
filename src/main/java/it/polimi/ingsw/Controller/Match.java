@@ -172,22 +172,24 @@ public class Match implements Serializable {
     public int newTurn(int column, Vector<Tiles> picked) throws RuntimeException{
         Player nowPlaying = players.remove();
         players.addLast(nowPlaying);
+        thrown = false;
         try{
             if(nowPlaying.pickUp(p,column,picked)) {
+                p.countSelected();
                 return 0;
-            }else{
-                players.addFirst(players.getLast());
-                System.out.println(players);
-                thrown = true;
             }
-            p.countSelected();
         }catch (RuntimeException | PlaygroundException |CoordinateStateException e) {
             System.out.println(e.getMessage());
             return 1;
         }
         return 1;
     }
-
+    public void resetPlayers(){
+        Player tmp = players.removeLast();
+        players.addFirst(tmp);
+        System.out.println(players);
+        thrown = true;
+    }
     /**
      *  get playground
      * @return Playground
@@ -225,18 +227,32 @@ public class Match implements Serializable {
         int[] result = new int[2];
         result[0] = -1;
         result[1] = -1;
-        if(o.execCheck(nowPlaying)){
-            System.out.println("CIAO");
-            pointSetter(objCount,nowPlaying);
-            objCount++;
-            result[0] = 1;
-            result[1] = objCount;
-
-            return result;
+        if(!nowPlaying.isHasMadeCommonOBJ()) {
+            if (o.execCheck(nowPlaying)) {
+                System.out.println("CIAO");
+                pointSetter(objCount, nowPlaying);
+                objCount++;
+                result[0] = 1;
+                result[1] = objCount;
+                nowPlaying.setHasMadeCommonOBJ(true);
+                return result;
+            }
         }
         return result;
 
     }
+    public int detectEndGame(){
+        if(getLastPlayer().getIs_second()){
+            return 0;
+        }else{
+            for(int i = 0; i<players.size()-1;i++){
+                if(players.get(i).getIs_second())
+                    return i;
+            }
+        }
+        return -1;
+    }
+
 
 }
 

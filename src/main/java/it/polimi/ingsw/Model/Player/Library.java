@@ -66,20 +66,29 @@ public class Library implements Serializable {
     public Boolean posix(Vector<Tiles> t, int column, Playground p){
         // Initialize variables
         int j = 0;
-        boolean tmp = p.adjacency(t);
-        //System.out.println(tmp);
-        // Place the tiles on the shelf
-        if(!tmp) return false;
+        if(!isAllSet(t)) return false;
+        if(duplicate(t)) return false;
+        if(!p.adjacency(t)) return false;
         for (Tiles tile : t) {
-            if(tile.checkSet()) {
-                this.shelf[lastFree(column)][column].setType(tile.getType()); //go to last element in column possible, 6 - i that's mean the last NOT_VALID tile
-                p.getGround()[tile.getX()][tile.getY()].setType(NOT_VALID);// Set the type of the tile on the shelf and remove it from the playground
-            }else return false;
+            this.shelf[lastFree(column)][column].setType(tile.getType()); //go to last element in column possible, 6 - i that's mean the last NOT_VALID tile
+            p.getGround()[tile.getX()][tile.getY()].setType(NOT_VALID);// Set the type of the tile on the shelf and remove it from the playground
         }
         return true;
     }
-
-
+    public boolean duplicate(Vector<Tiles> tiles){
+        Vector<Tiles> tmp = new Vector<>();
+        for(Tiles tile : tiles){
+            if(tmp.contains(tile)) return true;
+            tmp.add(tile);
+        }
+        return false;
+    }
+    public boolean isAllSet(Vector<Tiles> tiles){
+        for(Tiles tile : tiles){
+            if(!tile.checkSet()) return false;
+        }
+        return true;
+    }
 
     /**
      * This method calculates the number of free spots available in each column of the player's shelf.

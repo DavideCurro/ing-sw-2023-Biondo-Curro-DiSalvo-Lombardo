@@ -15,5 +15,6 @@ public enum Content implements Serializable {
     COMMONOBJDONE,
     NICKNAME_DUPLICATE,
     WRONG_PLAYER,
-    COMMONOBJ
+    COMMONOBJ,
+    ENDGAME
 }

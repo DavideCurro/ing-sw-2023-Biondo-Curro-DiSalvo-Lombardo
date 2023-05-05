@@ -15,18 +15,18 @@ import java.util.*;
 public class Player implements Serializable {
     /*
      *  Determine if the player is the first.
-     *   TRUE => First player
-     *   FALSE => not First Player
+     *   TRUE => Second player
+     *   FALSE => not Second Player
      * */
-    private Boolean is_first;
+    private Boolean is_second;
     /*
      *  Represent the library of the player, which is used to calculate points and pickUp tiles
      * */
     private Library my_shelfie;
     private String nickname;
-    private Boolean turn;
     private Vector<Tiles> coordinates;
     private int points;
+    private boolean hasMadeCommonOBJ;
 
     private ObjectivePersonalEXEC personalObj;
 
@@ -38,10 +38,10 @@ public class Player implements Serializable {
     public Player() {
 
 
-        this.is_first = false;
+        this.is_second = false;
         this.nickname = "";
         this.my_shelfie = new Library();
-        this.turn   = false;
+        this.hasMadeCommonOBJ= false;
         this.coordinates= new Vector<>();
         this.points = 0;
 
@@ -50,10 +50,10 @@ public class Player implements Serializable {
     public Player(String nickname) {
 
 
-        this.is_first = false;
+        this.is_second = false;
         this.nickname = nickname;
         this.my_shelfie = new Library();
-        this.turn   = false;
+        this.hasMadeCommonOBJ= false;
         this.coordinates= new Vector<>();
         this.points = 0;
 
@@ -61,9 +61,9 @@ public class Player implements Serializable {
     }
     public Player(Library library){
         this.my_shelfie = library;
-        this.is_first = false;
+        this.is_second = false;
         this.nickname = "";
-        this.turn   = false;
+        this.hasMadeCommonOBJ= false;
 
         this.coordinates= new Vector<>();
         this.points = 0;
@@ -73,29 +73,34 @@ public class Player implements Serializable {
      * It is a constructor.
      *
      * @param nickname  the nickname
-     * @param turn  the turn
+     * @param is_second  is second
      */
-    public Player(PersonalObj personalObj, String nickname, Boolean turn) {
+    public Player(PersonalObj personalObj, String nickname, Boolean is_second) {
         this.personalObj = new ObjectivePersonalEXEC(personalObj);
-        this.is_first = false;
+        this.is_second = is_second;
         this.nickname = nickname;
-        this.turn = turn;
         this.my_shelfie = new Library();
-
+        this.hasMadeCommonOBJ= false;
         this.coordinates= new Vector<>();
         this.points = 0;
     }
     public Player(PersonalObj personalObj, String nickname) {
         this.personalObj = new ObjectivePersonalEXEC(personalObj);
-        this.is_first = false;
+        this.is_second = false;
         this.nickname = nickname;
-        this.turn = false;
         this.my_shelfie = new Library();
-
         this.coordinates= new Vector<>();
         this.points = 0;
+        this.hasMadeCommonOBJ= false;
     }
 
+    public boolean isHasMadeCommonOBJ() {
+        return hasMadeCommonOBJ;
+    }
+
+    public void setHasMadeCommonOBJ(boolean hasMadeCommonOBJ) {
+        this.hasMadeCommonOBJ = hasMadeCommonOBJ;
+    }
 
     public int getPoints() {
         return points;
@@ -155,6 +160,13 @@ public class Player implements Serializable {
         this.nickname = nickname;
     }
 
+    public Boolean getIs_second() {
+        return is_second;
+    }
+
+    public void setIs_second(Boolean is_second) {
+        this.is_second = is_second;
+    }
 
     public ObjectivePersonalEXEC getPersonalObj(){
         return personalObj;
@@ -177,7 +189,7 @@ public class Player implements Serializable {
         this.coordinates = coordinates;
         checkColValid(column);
         if(coordinates.size() > 3) // Allow the player to pick up to 3 tiles
-            coordinates.setSize(3);
+            return false;
         int max = calculateMaxTiles(column,coordinates.size());
         System.out.println("Number of Tiles PICKED : "+max);
 

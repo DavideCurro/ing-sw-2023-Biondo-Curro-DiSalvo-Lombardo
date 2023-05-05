@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.LinkedList;
+import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -29,7 +30,6 @@ public class GameHandler implements Runnable {
     private Message message;
     private boolean response;
     private NetworkSniffer sniffer;
-
     private static final Logger log = Logger.getLogger(GameHandler.class.getName());
 
     /**
@@ -58,6 +58,7 @@ public class GameHandler implements Runnable {
         for(Socket socket : players){
                 socket.close();
         }
+        sniffer.interrupt();
     }
 
     /**
@@ -118,18 +119,36 @@ public class GameHandler implements Runnable {
         }
         sniffer.start(); //start the sniffer to catch all message in this socket. It's a thread.
         do{
-            int nowPlaying = getThisPlayer(getNowPlaying().getNickname()); //Looking for who is playing
-            log.info(usernames[nowPlaying]+ " is playing");
-            try {
-                sendMessage(nowPlaying); //Looking for him choose
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-            waitResponse();
-        }while(!endGame());
-        // ENDGAME
+            gamePhasePlaying();
+        }while(endGame() == -1);
+        log.info("The game is about to finish");
+        int lastPlayer = endGame();
+        do{
+            gamePhasePlaying();
+        }while(lastPlayer != getThisPlayer(getNowPlaying().getNickname()));
+        try {
+            log.info("The game is finish");
+            sendEndGameMessage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        log.info("GoodBye");
+        try {
+            closeAllConnection();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
+    private void gamePhasePlaying(){
+        int nowPlaying = getThisPlayer(getNowPlaying().getNickname()); //Looking for who is playing
+        log.info(usernames[nowPlaying]+ " is playing");
+        try {
+            sendMessage(nowPlaying); //Looking for him choose
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        waitResponse();
+    }
     /**
      * SendMessage ask player who's playing to send all the pick-up information
      * @param nowPlaying who's playing
@@ -138,13 +157,24 @@ public class GameHandler implements Runnable {
     private void sendMessage(int nowPlaying) throws IOException {
         objectOutputStreams[nowPlaying].writeObject(new Message(usernames[nowPlaying],PICKTILE));
     }
+    private void sendEndGameMessage()throws IOException{
+        for(ObjectOutputStream outputStream : objectOutputStreams){
+            resetObject(outputStream);
+            outputStream.writeObject(new Message("",ENDGAME));
+        }
+    }
 
     /**
      * endGame just check when the game is about to finish
+     *
      * @return if the last player has completed his shelf
      */
-    private boolean endGame(){
-        return match.getLastPlayer().getMy_shelfie().isFull();
+    private int endGame(){
+        if(match.getLastPlayer().getMy_shelfie().isFull()) {
+            match.getLastPlayer().setPoints(match.getLastPlayer().getPoints() + 1);
+            return match.detectEndGame();
+        }
+        return -1;
     }
 
     /**
@@ -313,6 +343,7 @@ public class GameHandler implements Runnable {
                }
            }else if(response == 1) {
                 log.warning("Pick-Up issue");
+                match.resetPlayers();
                 try {
                     objectOutputStreams[index].writeObject(new Message(sender, PICKUPFAIL));
                 }catch (IOException e){

@@ -1,11 +1,11 @@
 package it.polimi.ingsw.Model.PlayerTest;
 
-import it.polimi.ingsw.Model.Playground.Playground;
-import it.polimi.ingsw.Model.Playground.Tiles;
 import it.polimi.ingsw.Model.Exception.CoordinateStateException;
 import it.polimi.ingsw.Model.Exception.PlaygroundException;
 import it.polimi.ingsw.Model.PersonalStrategy.GoalP1;
 import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Model.Playground.Playground;
+import it.polimi.ingsw.Model.Playground.Tiles;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -13,7 +13,6 @@ import org.junit.jupiter.api.AfterEach;
 import java.util.Vector;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 public class pickUpInvalidTest {
     Player player;

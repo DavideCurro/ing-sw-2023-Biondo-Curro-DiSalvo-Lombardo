@@ -25,6 +25,8 @@ public class Player implements Serializable {
     private Library my_shelfie;
     private String nickname;
     private Vector<Tiles> coordinates;
+    private int publicPoints;
+    private int privatePoints;
     private int points;
     private boolean hasMadeCommonOBJ;
 
@@ -107,7 +109,7 @@ public class Player implements Serializable {
     }
 
     public void setPoints(int points) {
-        this.points = points;
+        this.points = privatePoints + publicPoints + points;
     }
 
     /**
@@ -122,6 +124,21 @@ public class Player implements Serializable {
         return my_shelfie;
     }
 
+    public int getPublicPoints() {
+        return publicPoints;
+    }
+
+    public void setPublicPoints(int publicPoints) {
+        this.publicPoints = publicPoints;
+    }
+
+    public int getPrivatePoints() {
+        return privatePoints;
+    }
+
+    public void setPrivatePoints(int privatePoints) {
+        this.privatePoints = privatePoints;
+    }
 
     /**
      *
@@ -164,9 +181,6 @@ public class Player implements Serializable {
         return is_second;
     }
 
-    public void setIs_second(Boolean is_second) {
-        this.is_second = is_second;
-    }
 
     public ObjectivePersonalEXEC getPersonalObj(){
         return personalObj;
@@ -260,5 +274,82 @@ public class Player implements Serializable {
     public int checkPersonalOBJ(){
 
         return this.personalObj.execCheck(this);
+    }
+    public int calculateADJ(){
+        Vector<Vector<Tiles>> vectorOfTiles = new Vector<>();
+        for (int i = 0;i<6;i++){
+            vectorOfTiles.add(new Vector<>());
+        }
+        for(int j = 0; j<5; j++){
+            for(int i = 0; i<6; i++){
+               vectorOfTiles.get(my_shelfie.getShelf()[i][j].getType()).add(my_shelfie.getShelf()[i][j]);
+            }
+        }
+        Vector<Integer> counter = new Vector<>();
+
+        for(Vector<Tiles> vector : vectorOfTiles){
+            Vector<Vector<Tiles>> adj = new Vector<>();
+            for (int i = 0;i<vector.size();i++) {
+                adj.add(new Vector<>());
+                adj.get(i).add(vector.get(i));
+                for(int j = i; j< vector.size();j ++){
+                    if(j == i)  continue;
+                    if(vector.get(j).checkSides(vector, j, vector.get(i).getX(), vector.get(i).getY())) {
+                        if(!adj.get(i).contains(vector.get(j))) {
+                            adj.get(i).add(vector.get(j));
+                        }
+                    }
+                }
+            }
+            mergeADJ(adj);
+        }
+        return 1;
+    }
+    private int mergeADJ(Vector<Vector<Tiles>> adj){
+        Vector<Tiles> tmp = getFirstElementAvailableToMerge(adj);
+        adj.removeIf(vector -> vector.size() == 0);
+        Vector<Integer> toMerge = getToMergeIndex(tmp);
+        Vector<Tiles> Adjacent = new Vector<>();
+        for(Integer i : toMerge){
+            for (Vector<Tiles> tiles : adj) {
+                if (tmp.get(i).equals(tiles.firstElement())) {
+                    for(int j=0;j<tiles.size();j++) {
+                        if (!Adjacent.contains(tiles.get(j)))
+                            Adjacent.add(tiles.get(j));
+                    }
+                }
+            }
+
+        }
+        return 0;
+    }
+
+    private Vector<Integer> getToMergeIndex(Vector<Tiles> tmp ){
+        Vector<Integer> toMerge = new Vector<>();
+        for (int i = 0;i<tmp.size();i++) {
+            for(int j = i; j< tmp.size();j ++){
+                if(j == i)  continue;
+                if(tmp.get(i).checkSides(tmp, j, tmp.get(i).getX(), tmp.get(i).getY())){
+                    if(!toMerge.contains(i)){
+                        toMerge.add(i);
+                    }
+                    if(!toMerge.contains(j)){
+                        toMerge.add(j);
+                    }
+                }
+            }
+        }
+        return toMerge;
+    }
+    private Vector<Tiles> getFirstElementAvailableToMerge(Vector<Vector<Tiles>> adj){
+        Vector<Tiles> tmp = new Vector<>();
+        for (Vector<Tiles> tiles : adj) {
+            if (tiles.size() > 1) {
+                tmp.add(tiles.firstElement());
+            }else{
+                tiles.clear();
+            }
+        }
+        return tmp;
     }
 }

@@ -50,8 +50,28 @@ public class ServerHandler {
         System.out.println("2\t3\t4");
         System.out.print("Please log me in the lobby with : ");
         int lobbyType = -1;
+        boolean wentToCatch;
+        boolean firstIteration = false;
         do {
-           lobbyType = scanner.nextInt();
+            if((lobbyType<2 || lobbyType >4)&&(firstIteration)){
+                System.out.println("Please choose in which lobby do you want to join!");
+                System.out.println("2\t3\t4");
+                System.out.print("Please log me in the lobby with : ");
+            }
+            do{
+                try{
+                    wentToCatch = false;
+                    lobbyType = scanner.nextInt();
+                } catch (InputMismatchException e){
+                    scanner.next();
+                    wentToCatch = true;
+                    System.out.println("Re-enter the value!");
+                    System.out.println(nickname + " please choose in which lobby do you want to join!");
+                    System.out.println("2\t3\t4");
+                    System.out.print("Please log me in the lobby with : ");
+                }
+            }while(wentToCatch);
+            firstIteration=true;
         }while (lobbyType <2 || lobbyType >4);
         System.out.println("You're joining the lobby...");
         try {
@@ -146,11 +166,16 @@ public class ServerHandler {
     }
     private int validateInput(){
         int x=-1;
-            try{
-                x = scanner.nextInt()-1;
+        boolean wentToCatch;
+            do{
+                try{
+                    wentToCatch = false;
+                    x = scanner.nextInt()-1;
             }catch (InputMismatchException e){
-                e.printStackTrace();
-            }
+                    scanner.next();
+                    wentToCatch = true;
+                    e.printStackTrace();
+            }}while(wentToCatch);
         return x;
     }
     private int getColumn(){
@@ -160,7 +185,17 @@ public class ServerHandler {
     private Vector<Tiles> getTilesVector(){
         Vector<Tiles> tmp = new Vector<>();
         System.out.println("How many tiles do you want?");
-        int len = scanner.nextInt();
+        boolean wentToCatch;
+        int len=0;
+        do{
+            try{
+                wentToCatch = false;
+                len = scanner.nextInt();
+            }catch (InputMismatchException e){
+                scanner.next();
+                wentToCatch = true;
+            }}while(wentToCatch);
+
         for(int i = 0; i<len;i++){
             System.out.print("Choose the "+(i+1)+" X: ");
             int x = validateInput();

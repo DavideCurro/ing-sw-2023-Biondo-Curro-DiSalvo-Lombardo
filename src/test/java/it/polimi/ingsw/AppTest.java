@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.exception.PlaygroundException;
+import it.polimi.ingsw.Model.Exception.PlaygroundException;
 
 
 /**

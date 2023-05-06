@@ -1,6 +1,6 @@
 package it.polimi.ingsw.RMI;
 
-import it.polimi.ingsw.model.Playground.Tiles;
+import it.polimi.ingsw.Model.Playground.Tiles;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

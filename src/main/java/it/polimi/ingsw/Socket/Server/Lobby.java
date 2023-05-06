@@ -8,10 +8,10 @@ import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
 public class Lobby {
-    private Socket[] clients;
-    private String[] usernames;
-    private ObjectInputStream[] objectInputStreams;
-    private ObjectOutputStream[] objectOutputStreams;
+    private final Socket[] clients;
+    private final String[] usernames;
+    private final ObjectInputStream[] objectInputStreams;
+    private final ObjectOutputStream[] objectOutputStreams;
     private int index;
     private static final Logger log = Logger.getLogger(Lobby.class.getName());
     private final ExecutorService launcher; //needs to exec the gamehandler

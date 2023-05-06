@@ -70,9 +70,9 @@ public class Match implements Serializable {
      */
     public static void pointSetter(int objCount, Player nowPlaying){
         switch (p.getNum_players()) {
-            case 2 -> nowPlaying.setPoints(nowPlaying.getPoints() + pointsCheck(objCount, pointOBJ2player));
-            case 3 -> nowPlaying.setPoints(nowPlaying.getPoints() + pointsCheck(objCount, pointOBJ3player));
-            case 4 -> nowPlaying.setPoints(nowPlaying.getPoints() + pointsCheck(objCount, pointOBJ4player));
+            case 2 -> nowPlaying.setPublicPoints(nowPlaying.getPublicPoints() + pointsCheck(objCount, pointOBJ2player));
+            case 3 -> nowPlaying.setPublicPoints(nowPlaying.getPublicPoints()  + pointsCheck(objCount, pointOBJ3player));
+            case 4 -> nowPlaying.setPublicPoints(nowPlaying.getPublicPoints()  + pointsCheck(objCount, pointOBJ4player));
             default -> throw new IllegalStateException("Unexpected value: " + p.getNum_players());
         }
     }
@@ -134,14 +134,16 @@ public class Match implements Serializable {
      */
     public void newPlayer(String nick) throws  MatchExeception{
         if(players.isEmpty()){
-            players.add(new Player(personalOBJChooser(),nick,true));
+            players.add(new Player(personalOBJChooser(),nick,false));
             VirtualView.printPersonalOBJ(players.getLast());
             setObjectiveCommonEXEC(CommonOBJChooser());
             return;
         }
         if(players.size()<4) {
             try {
-                players.add(new Player(personalOBJChooser(), nick, false));
+                if(players.size() == 1)
+                    players.add(new Player(personalOBJChooser(), nick, true));
+                else players.add(new Player(personalOBJChooser(),nick,false));
             } catch (MatchExeception exception) {
                 throw new MatchExeception(exception.getMessage());
             }
@@ -214,6 +216,15 @@ public class Match implements Serializable {
     public  LinkedList<Player> getPlayer(){
         return players;
     }
+    public Player getThisPlayer(String nick){
+        for(Player player : players){
+            if(player.getNickname().equals(nick)){
+                return player;
+            }
+        }
+        return null;
+    }
+
 
     public Player getNowPlaying(){
         return players.peekFirst();
@@ -251,6 +262,20 @@ public class Match implements Serializable {
             }
         }
         return -1;
+    }
+    public Player getWinner(){
+        Player winner = new Player();
+        for(Player player : players){
+            if(player.getPoints() > winner.getPoints())
+                winner = player;
+        }
+        return winner;
+    }
+    public void calculateADJ(){
+        for(Player player : players){
+            int count = player.calculateADJ();
+            player.setPoints(count);
+        }
     }
 
 

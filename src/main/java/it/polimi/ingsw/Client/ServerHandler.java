@@ -23,11 +23,11 @@ import static java.lang.Thread.sleep;
 
 public class ServerHandler {
 
-    private Socket socket;
-    private ClientView view;
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
-    private Vector<Tiles> tilesVector;
+    private final Socket socket;
+    private final ClientView view;
+    private final ObjectOutputStream objectOutputStream;
+    private final ObjectInputStream objectInputStream;
+    private final Vector<Tiles> tilesVector;
     private Scanner scanner;
     private String nickname;
 
@@ -120,7 +120,12 @@ public class ServerHandler {
                 for(Player player : vectorLinkedList){
                     System.out.println(player.getNickname()+"'s library");
                     view.printPlayerLibrary(player);
-                    view.printOutPointsPerPlayer(player);
+                    if(player.getNickname().equals(nickname)){
+                        player.setPoints(0);
+                        view.printPersonalPoint(player);
+                    }else {
+                        view.printOutPointsPerPlayer(player);
+                    }
                 }
             }
             case NICKNAME_DUPLICATE -> {
@@ -145,7 +150,8 @@ public class ServerHandler {
             case PERSONALOBJDONE -> {
                 System.out.println("You completed the personal goal!");
                 Player player = (Player) message.getPayload();
-                view.printOutPointsPerPlayer(player);
+                player.setPoints(0);
+                view.printPersonalPoint(player);
             }
             case PICKUPFAIL -> {
                 System.out.println("SOMETHING WENT WRONG WITH YOUR CHOOSE");
@@ -157,11 +163,22 @@ public class ServerHandler {
                 tilesVector.clear();
             }
             case WRONG_PLAYER,FAIL -> {
-                System.out.println("Some big unexpected and impossible error occur. You are going to be disconnected from the server");
+                System.out.println("Some big unexpected and impossible error occur.");
             }
             case COMMONOBJ -> {
                 view.printCommonOBJ(message.getPayload());
             }
+            case ENDGAME -> {
+                System.out.println("The game has ended, you reached:");
+                LinkedList<Player> vectorLinkedList = (LinkedList<Player>) message.getPayload();
+                Player winner = (Player) message.getPayload2();
+                for(Player player : vectorLinkedList){
+                    view.printEndGamePoint(player);
+                    view.printPersonalOBJ(player);
+                }
+                view.printWinner(winner);
+            }
+
         }
     }
     private int validateInput(){

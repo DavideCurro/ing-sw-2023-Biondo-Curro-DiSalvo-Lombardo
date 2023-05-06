@@ -5,7 +5,7 @@ import it.polimi.ingsw.Model.Player.Player;
 import java.io.Serializable;
 
 public class ObjectiveCommonEXEC implements Serializable {
-        private CommonObj commonObj;
+        private final CommonObj commonObj;
         public ObjectiveCommonEXEC(CommonObj commonObj) {
             this.commonObj = commonObj;
         }

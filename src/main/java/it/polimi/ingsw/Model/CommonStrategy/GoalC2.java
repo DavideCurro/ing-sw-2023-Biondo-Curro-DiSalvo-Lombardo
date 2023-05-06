@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 
 public class GoalC2 implements CommonObj, Serializable {
-    private int count = 0;
+    private final int count = 0;
     /**
      * Goal 2 = Two columns each formed by 6 different types of tiles.
      * @param p player to check
@@ -24,8 +24,7 @@ public class GoalC2 implements CommonObj, Serializable {
                 column ++;
 
         }
-        if(column>1) return true;
-        return false;
+        return column > 1;
 
     }
 

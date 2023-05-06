@@ -101,7 +101,10 @@ public class ClientView {
         colorChange(3);
     }
     public void printOutPointsPerPlayer(Player player){
-        System.out.println(player.getNickname() + " achieved : "+ player.getPoints()+" points" );
+        System.out.println(player.getNickname() + " achieved : "+ player.getPublicPoints()+" points" );
+    }
+    public void printPersonalPoint(Player player){
+        System.out.println("You achieved : "+ player.getPoints()+" points" );
     }
     public void printNewHighestScore(int countObj){
         if (countObj+1>4)
@@ -117,6 +120,9 @@ public class ClientView {
         Library tmp = buildLibrarybyPosition(position);
         printOutLibrary(new Player(tmp));
         System.out.println();
+    }
+    public void printEndGamePoint(Player player){
+        System.out.println(player.getNickname()+  " achieved"+ player.getPoints()+" points" );
     }
     private static Library buildLibrarybyPosition(Vector<Tiles> position){
         Library tmp = new Library();
@@ -135,5 +141,12 @@ public class ClientView {
                 " \\ \\__/\".~\\_\\  \\ \\_____\\  \\ \\_____\\  \\ \\_____\\  \\ \\_____\\  \\ \\_\\ \\ \\_\\  \\ \\_____\\     \\ \\_\\  \\ \\_\\\\\"\\_\\     \\ \\_\\ \\ \\_\\  \\/\\_____\\     \\/\\_____\\  \\ \\_\\ \\_\\  \\ \\_____\\  \\ \\_____\\  \\ \\_\\    \\ \\_\\  \\ \\_____\\ \n" +
                 "  \\/_/   \\/_/   \\/_____/   \\/_____/   \\/_____/   \\/_____/   \\/_/  \\/_/   \\/_____/      \\/_/   \\/_/ \\/_/      \\/_/  \\/_/   \\/_____/      \\/_____/   \\/_/\\/_/   \\/_____/   \\/_____/   \\/_/     \\/_/   \\/_____/ \n" +
                 "                                                                                                                                                                                                             \n");
+    }
+
+    public void printWinner(Player player){
+        System.out.println("\n" +
+                "▀█▀ █░█ █▀▀   █░█░█ █ █▄░█ █▄░█ █▀▀ █▀█   █ █▀\n" +
+                "░█░ █▀█ ██▄   ▀▄▀▄▀ █ █░▀█ █░▀█ ██▄ █▀▄   █ ▄█");
+        System.out.println(player.getNickname());
     }
 }

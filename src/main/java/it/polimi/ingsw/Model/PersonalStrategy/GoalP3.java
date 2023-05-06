@@ -21,7 +21,7 @@ public class GoalP3 implements PersonalObj, Serializable {
 
     private final Map<Integer,Integer> pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);
 
-    private  Vector<Tiles> position = new Vector<>();
+    private final Vector<Tiles> position = new Vector<>();
     public GoalP3(){
 
         int[] x = new int[] {1,1,2,3,3,5}; //rows

@@ -17,8 +17,8 @@ public class Tiles implements Serializable {
     public static final int PINK = 5;
 
     private int type;
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
 
     /**
@@ -182,5 +182,14 @@ public class Tiles implements Serializable {
         return c.get(i).getY()  == y+1 && c.get(i).getX() == x;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tiles tiles)) return false;
+
+        if (type != tiles.type) return false;
+        if (x != tiles.x) return false;
+        return y == tiles.y;
+    }
 
 }

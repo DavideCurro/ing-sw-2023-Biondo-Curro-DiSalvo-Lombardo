@@ -17,14 +17,14 @@ public class VirtualView {
 
     static void colorChange(int type){
         switch (type) {
-            case 0 -> System.out.print(Color.BLUE.toString());
-            case 1 -> System.out.print(Color.CYAN_BRIGHT.toString());
-            case 2 -> System.out.print(Color.YELLOW_BRIGHT.toString());
-            case 3 -> System.out.print(Color.WHITE_BRIGHT.toString());
-            case 4 -> System.out.print(Color.GREEN_BRIGHT.toString());
-            case 5 -> System.out.print(Color.MAGENTA_BRIGHT.toString());
-            case 6 -> System.out.print(Color.RESET.toString());
-            default -> System.out.print(Color.BLACK.toString());
+            case 0 -> System.out.print(Color.BLUE);
+            case 1 -> System.out.print(Color.CYAN_BRIGHT);
+            case 2 -> System.out.print(Color.YELLOW_BRIGHT);
+            case 3 -> System.out.print(Color.WHITE_BRIGHT);
+            case 4 -> System.out.print(Color.GREEN_BRIGHT);
+            case 5 -> System.out.print(Color.MAGENTA_BRIGHT);
+            case 6 -> System.out.print(Color.RESET);
+            default -> System.out.print(Color.BLACK);
         }
     }
 

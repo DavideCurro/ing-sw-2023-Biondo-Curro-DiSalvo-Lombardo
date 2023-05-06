@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.LinkedList;
-import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -20,16 +18,16 @@ import static it.polimi.ingsw.Message.Content.*;
 
 
 public class GameHandler implements Runnable {
-    private Socket[] players;
-    private String[] usernames;
+    private final Socket[] players;
+    private final String[] usernames;
 
-    private ObjectInputStream[] inputStreams;
-    private ObjectOutputStream[] objectOutputStreams;
-    private Match match;
-    private Vector<String> validName;
+    private final ObjectInputStream[] inputStreams;
+    private final ObjectOutputStream[] objectOutputStreams;
+    private final Match match;
+    private final Vector<String> validName;
     private Message message;
     private boolean response;
-    private NetworkSniffer sniffer;
+    private final NetworkSniffer sniffer;
     private static final Logger log = Logger.getLogger(GameHandler.class.getName());
 
     /**
@@ -68,7 +66,7 @@ public class GameHandler implements Runnable {
      */
     private boolean validatePlayer(){
         for(int i = 0; i< usernames.length; i++){ //loop all player
-            if(!valid_Name(usernames[i])){ //this player has already logged?
+            if(invalid_Name(usernames[i])){ //this player has already logged?
                 do {
                     log.warning("Same Nickname");
                     try {
@@ -89,7 +87,7 @@ public class GameHandler implements Runnable {
                         return false;
                     }
                     usernames[i] = (String) message.getPayload();
-                }while (!valid_Name(usernames[i]));
+                }while(invalid_Name(usernames[i]));
             }
         }
         return true;
@@ -110,7 +108,7 @@ public class GameHandler implements Runnable {
                 objectOutputStreams[i].flush();
                 objectOutputStreams[i].reset();
                 objectOutputStreams[i].writeObject(new Message(usernames[i], NEWGAME,match.getP()));
-                objectOutputStreams[i].writeObject(new Message(usernames[i], PLAYERDATA,getThisPlayer(i)));
+                objectOutputStreams[i].writeObject(new Message(usernames[i], PLAYERDATA,match.getThisPlayer(usernames[i])));
                 objectOutputStreams[i].writeObject(new Message(usernames[i], COMMONOBJ,match.getCommonOBJ()));
                 log.info("Info sent to "+ usernames[i]);
             } catch (IOException e) {
@@ -122,12 +120,12 @@ public class GameHandler implements Runnable {
             gamePhasePlaying();
         }while(endGame() == -1);
         log.info("The game is about to finish");
-        int lastPlayer = endGame();
-        do{
+        while(!getNowPlaying().getIs_second()){
             gamePhasePlaying();
-        }while(lastPlayer != getThisPlayer(getNowPlaying().getNickname()));
+        }
         try {
             log.info("The game is finish");
+            sniffer.interrupt();
             sendEndGameMessage();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -139,8 +137,19 @@ public class GameHandler implements Runnable {
             throw new RuntimeException(e);
         }
     }
+    /**
+     * getThisPlayer is usefully for get the player just knowing his name
+     * @param nick, is the nickname of player
+     * @return player or null
+     */
+    private int getUsernameIndex(String nick){
+        for(int i = 0;i<usernames.length;i++){
+            if(usernames[i].equals(nick)) return i;
+        }
+        return -1;
+    }
     private void gamePhasePlaying(){
-        int nowPlaying = getThisPlayer(getNowPlaying().getNickname()); //Looking for who is playing
+        int nowPlaying = getUsernameIndex(getNowPlaying().getNickname()); //Looking for who is playing
         log.info(usernames[nowPlaying]+ " is playing");
         try {
             sendMessage(nowPlaying); //Looking for him choose
@@ -157,10 +166,12 @@ public class GameHandler implements Runnable {
     private void sendMessage(int nowPlaying) throws IOException {
         objectOutputStreams[nowPlaying].writeObject(new Message(usernames[nowPlaying],PICKTILE));
     }
+
+
     private void sendEndGameMessage()throws IOException{
         for(ObjectOutputStream outputStream : objectOutputStreams){
             resetObject(outputStream);
-            outputStream.writeObject(new Message("",ENDGAME));
+            outputStream.writeObject(new Message("","server",ENDGAME,match.getPlayer(),match.getWinner()));
         }
     }
 
@@ -171,7 +182,7 @@ public class GameHandler implements Runnable {
      */
     private int endGame(){
         if(match.getLastPlayer().getMy_shelfie().isFull()) {
-            match.getLastPlayer().setPoints(match.getLastPlayer().getPoints() + 1);
+            match.getLastPlayer().setPoints(1);
             return match.detectEndGame();
         }
         return -1;
@@ -197,9 +208,9 @@ public class GameHandler implements Runnable {
      * @param name String
      * @return true if is valid
      */
-    private boolean valid_Name(String name){
-        if(validName.contains(name)) return false;
-        return validName.add(name);
+    private boolean invalid_Name(String name){
+        if(validName.contains(name)) return true;
+        return !validName.add(name);
     }
 
     /**
@@ -216,34 +227,7 @@ public class GameHandler implements Runnable {
 
     }
 
-    /**
-     * getThisPlayer is usefully for get the player just knowing his index
-     * @param i, is the index
-     * @return player or null
-     */
-    private synchronized Player getThisPlayer(int i){
-        LinkedList<Player> tmp = match.getPlayer();
-        for(Player player : tmp){
-            if(player.getNickname().equals(usernames[i])){
-                return player;
-            }
-        }
-        return null;
-    }
 
-    /**
-     * getThisPlayer is usefully for get the player just knowing his name
-     * @param name, is the nickname of player
-     * @return player or null
-     */
-    private synchronized int getThisPlayer(String name){
-        for(int i = 0; i< usernames.length; i++){
-            if(usernames[i].equals(name)){
-                return i;
-            }
-        }
-        return -1;
-    }
 
     /**
      * getNowPlaying
@@ -253,11 +237,6 @@ public class GameHandler implements Runnable {
         return this.match.getNowPlaying();
     }
 
-    /**
-     * getMatch
-     * @return model
-     */
-    public Match getMatch(){return match;}
 
     /**
      * setResponse notify all thread to unlock their wait
@@ -288,7 +267,7 @@ public class GameHandler implements Runnable {
      */
     private void notifyPersonalOBJDone(int index){
         try {
-            objectOutputStreams[index].writeObject(new Message(getThisPlayer(index).getNickname(),"Server", PERSONALOBJDONE,getThisPlayer(index),getThisPlayer(index).checkPersonalOBJ()));
+            objectOutputStreams[index].writeObject(new Message(usernames[index],"Server", PERSONALOBJDONE, match.getThisPlayer(usernames[index]),match.getThisPlayer(usernames[index]).checkPersonalOBJ()));
         }catch (IOException e){
             log.severe("can not connect to client");
         }
@@ -319,8 +298,8 @@ public class GameHandler implements Runnable {
      * @param sender who is picking this tiles
      */
     public synchronized void handleTurn(int column, Vector<Tiles> tiles, String sender) {
-        int index = getThisPlayer(sender);
         Player nowPlaying = getNowPlaying();
+        int index = getUsernameIndex(sender);
         if(nowPlaying.getNickname().equals(sender)){//Check if the turn is correct
             log.info("Client who's playing is correct");
             int response = match.newTurn(column,tiles);
@@ -335,8 +314,9 @@ public class GameHandler implements Runnable {
                    log.info(nowPlaying.getNickname() + "has done common OBJ");
                    notifyCommonOBJDone(nowPlaying,commonOBJResponse[1]);
                }
-               if(nowPlaying.checkPersonalOBJ() > 0){
-                   nowPlaying.setPoints(nowPlaying.getPoints()+nowPlaying.checkPersonalOBJ());
+               int privatePoint = nowPlaying.checkPersonalOBJ();
+               if(privatePoint > 0){
+                   nowPlaying.setPrivatePoints(nowPlaying.getPrivatePoints()+privatePoint);
                    log.info(nowPlaying.getNickname() + "has done personal OBJ");
                    resetObject(objectOutputStreams[index]);
                    notifyPersonalOBJDone(index);

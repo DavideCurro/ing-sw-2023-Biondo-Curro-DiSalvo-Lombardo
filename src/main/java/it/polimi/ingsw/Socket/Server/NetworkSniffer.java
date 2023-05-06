@@ -13,8 +13,8 @@ import java.util.logging.Logger;
 
 
 public class NetworkSniffer extends Thread{
-    private ObjectInputStream[] inputStreams;
-    private GameHandler game_handler;
+    private final ObjectInputStream[] inputStreams;
+    private final GameHandler game_handler;
 
     private static final Logger log = Logger.getLogger(NetworkSniffer.class.getName());
     private Message received;

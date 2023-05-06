@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class commonOBJDoneTest {
     private Match match;
     LinkedList<Player> players = new LinkedList<>();
-    private Library library = new Library();
+    private final Library library = new Library();
     @Before
     public void setUP() throws MatchExeception {
         match = new Match();

@@ -15,7 +15,7 @@ import java.util.Vector;
  * The class Library
  */
 public class Library implements Serializable {
-    private Tiles[][] shelf;
+    private final Tiles[][] shelf;
 
     /**
      *

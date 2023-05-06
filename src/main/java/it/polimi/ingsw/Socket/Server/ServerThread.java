@@ -12,11 +12,11 @@ import java.util.logging.Logger;
 
 
 public class ServerThread extends Thread{
-    private Socket socket;
+    private final Socket socket;
 
-    private LinkedList<Lobby> lobby2Player;
-    private LinkedList<Lobby> lobby3Player;
-    private LinkedList<Lobby> lobby4Player;
+    private final LinkedList<Lobby> lobby2Player;
+    private final LinkedList<Lobby> lobby3Player;
+    private final LinkedList<Lobby> lobby4Player;
 
 
     private static final Logger log = Logger.getLogger(ServerThread.class.getName());

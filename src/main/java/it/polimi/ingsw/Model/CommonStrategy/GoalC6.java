@@ -9,8 +9,8 @@ import java.util.Vector;
 
 
 public class GoalC6 implements CommonObj, Serializable {
-    private int count=1;
-    private Vector<Integer> types = new Vector<>();
+    private final int count=1;
+    private final Vector<Integer> types = new Vector<>();
 
     /** Goal 6 = Two lines each formed by 5 different types of tiles.
      * @param p
@@ -28,7 +28,6 @@ public class GoalC6 implements CommonObj, Serializable {
             }
             types.clear();
         }
-        if(differentColumn >1) return true;
-        return false;
+        return differentColumn > 1;
     }
 }

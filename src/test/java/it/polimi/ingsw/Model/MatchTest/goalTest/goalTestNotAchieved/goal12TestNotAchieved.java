@@ -12,8 +12,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class goal12TestNotAchieved {
-    private ObjectiveCommonEXEC objectiveCommonEXEC = new ObjectiveCommonEXEC(new GoalC12());
-    private Library library = new Library();
+    private final ObjectiveCommonEXEC objectiveCommonEXEC = new ObjectiveCommonEXEC(new GoalC12());
+    private final Library library = new Library();
 
     @Before
     public void setUp() {

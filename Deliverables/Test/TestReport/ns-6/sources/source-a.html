@@ -1,0 +1,151 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GoalC7</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model.CommonStrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: GoalC7 (it.polimi.ingsw.Model.CommonStrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GoalC7</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95,5%
+  </span>
+  <span class="absValue">
+    (21/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.CommonStrategy;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Player.Player;
+&nbsp;
+&nbsp;import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;public class GoalC7 implements CommonObj , Serializable {</b>
+&nbsp;    /** Four lines each formed by 5 tiles of maximum three different types.
+&nbsp;     *  One line can show the same or a different combination of another line.
+&nbsp;     *  @param p
+&nbsp;     *  @return
+&nbsp;     *  */
+&nbsp;
+&nbsp;    public boolean check(Player p) {
+<b class="fc">&nbsp;        Vector&lt;Integer&gt; v = new Vector&lt;Integer&gt;();//vector used to count how many types I have in one row</b>
+<b class="fc">&nbsp;        int count = 0;</b>
+<b class="fc">&nbsp;        boolean invalidRow = false;</b>
+<b class="fc">&nbsp;        for(int i = 0; i&lt;6; i++){</b>
+<b class="fc">&nbsp;            for(int j =0; j&lt;5; j++){</b>
+<b class="fc">&nbsp;                if(v.size() &gt; 3)//Already more than 3 types in one row, check the next one</b>
+<b class="nc">&nbsp;                    break;</b>
+&nbsp;                else {
+<b class="fc">&nbsp;                    int type = p.getMy_shelfie().getShelf()[i][j].getType();</b>
+<b class="fc">&nbsp;                    if (type == NOT_VALID) {</b>
+<b class="fc">&nbsp;                        invalidRow = true;</b>
+<b class="fc">&nbsp;                        break;</b>
+&nbsp;                    }
+<b class="fc">&nbsp;                    if (v.contains(type))</b>
+<b class="fc">&nbsp;                        continue;</b>
+&nbsp;                    else
+<b class="fc">&nbsp;                        v.add(type);//new type read in the row</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            if(v.size() &lt;= 3 &amp;&amp; !v.isEmpty() &amp;&amp; !invalidRow)</b>
+<b class="fc">&nbsp;                count++;//needs four rows with just max three types in it</b>
+<b class="fc">&nbsp;            v.clear();</b>
+<b class="fc">&nbsp;            if(count == 4)</b>
+<b class="fc">&nbsp;                return true;</b>
+<b class="fc">&nbsp;            invalidRow = false;</b>
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-12 18:13</div>
+</div>
+</body>
+</html>

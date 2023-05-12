@@ -1,0 +1,180 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > VirtualView</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Controller</a>
+</div>
+
+<h1>Coverage Summary for Class: VirtualView (it.polimi.ingsw.Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">VirtualView</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    50%
+  </span>
+  <span class="absValue">
+    (4/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73,5%
+  </span>
+  <span class="absValue">
+    (25/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Controller;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Playground.Playground;
+&nbsp;import it.polimi.ingsw.Model.Playground.Tiles;
+&nbsp;import it.polimi.ingsw.Model.Player.Library;
+&nbsp;import it.polimi.ingsw.Model.Player.Player;
+&nbsp;
+&nbsp;import java.util.Vector;
+&nbsp;
+&nbsp;public class VirtualView {
+&nbsp;
+<b class="nc">&nbsp;    public VirtualView() {</b>
+&nbsp;    }
+&nbsp;    public void printPlayerLibrary(Player player){
+<b class="nc">&nbsp;        printOutLibrary(player);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    static void colorChange(int type){
+<b class="fc">&nbsp;        switch (type) {</b>
+<b class="fc">&nbsp;            case 0 -&gt; System.out.print(Color.BLUE);</b>
+<b class="fc">&nbsp;            case 1 -&gt; System.out.print(Color.CYAN_BRIGHT);</b>
+<b class="fc">&nbsp;            case 2 -&gt; System.out.print(Color.YELLOW_BRIGHT);</b>
+<b class="fc">&nbsp;            case 3 -&gt; System.out.print(Color.WHITE_BRIGHT);</b>
+<b class="fc">&nbsp;            case 4 -&gt; System.out.print(Color.GREEN_BRIGHT);</b>
+<b class="fc">&nbsp;            case 5 -&gt; System.out.print(Color.MAGENTA_BRIGHT);</b>
+<b class="fc">&nbsp;            case 6 -&gt; System.out.print(Color.RESET);</b>
+<b class="fc">&nbsp;            default -&gt; System.out.print(Color.BLACK);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Print output*
+&nbsp;     *
+&nbsp;     */
+&nbsp;    private static void printOutLibrary(Player player) {
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 6; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 5; j++) {</b>
+<b class="fc">&nbsp;                colorChange(player.getMy_shelfie().getShelf()[i][j].getType());</b>
+<b class="fc">&nbsp;                System.out.print(&quot;?&quot;+ &quot;\t&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        colorChange(6);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void printOutPointsPerPlayer(Player player){
+<b class="nc">&nbsp;        System.out.println(player.getNickname() + &quot; achieved : &quot;+ player.getPoints()+&quot; points&quot; );</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void printPersonalOBJ(Player player){
+<b class="fc">&nbsp;        System.out.println(player.getNickname()+ &quot; Personal OBJ&quot;);</b>
+<b class="fc">&nbsp;        Vector&lt;Tiles&gt; position = player.getPersonalObj().getPersonalObj().getPosition();</b>
+<b class="fc">&nbsp;        Library tmp = buildLibrarybyPosition(position);</b>
+<b class="fc">&nbsp;        printOutLibrary(new Player(tmp));</b>
+<b class="fc">&nbsp;        System.out.println();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private static Library buildLibrarybyPosition(Vector&lt;Tiles&gt; position){
+<b class="fc">&nbsp;        Library tmp = new Library();</b>
+<b class="fc">&nbsp;        for (Tiles tiles : position) {</b>
+<b class="fc">&nbsp;            tmp.getShelf()[tiles.getX()][tiles.getY()].setType(tiles.getType());</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return tmp;</b>
+&nbsp;    }
+&nbsp;        public void printPlayground(Playground ground){
+<b class="nc">&nbsp;            for (int i = 0; i &lt; 9; i++) {</b>
+<b class="nc">&nbsp;                for (int j = 0; j &lt; 9; j++) {</b>
+<b class="nc">&nbsp;                    colorChange(ground.getGround()[i][j].getType());</b>
+<b class="nc">&nbsp;                    System.out.print(&quot;?&quot; + &quot;\t&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                System.out.println();</b>
+&nbsp;            }
+<b class="nc">&nbsp;            colorChange(6);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-12 18:13</div>
+</div>
+</body>
+</html>

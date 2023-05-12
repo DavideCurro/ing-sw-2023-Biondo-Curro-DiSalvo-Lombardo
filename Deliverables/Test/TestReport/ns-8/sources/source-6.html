@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GoalP3</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model.PersonalStrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: GoalP3 (it.polimi.ingsw.Model.PersonalStrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GoalP3</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (17/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.PersonalStrategy;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Playground.Tiles;
+&nbsp;import it.polimi.ingsw.Model.Player.Player;
+&nbsp;
+&nbsp;import static it.polimi.ingsw.Model.Playground.Tiles.*;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Map;
+&nbsp;import java.util.Vector;
+&nbsp;
+&nbsp;
+&nbsp;/*
+&nbsp; * Blue 0
+&nbsp; * Light blue 1
+&nbsp; * Yellow 2
+&nbsp; * White 3
+&nbsp; * Green 4
+&nbsp; * Pink 5 */
+&nbsp;public class GoalP3 implements PersonalObj, Serializable {
+&nbsp;
+<b class="fc">&nbsp;    private final Map&lt;Integer,Integer&gt; pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);</b>
+&nbsp;
+<b class="fc">&nbsp;    private final Vector&lt;Tiles&gt; position = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;    public GoalP3(){</b>
+&nbsp;
+<b class="fc">&nbsp;        int[] x = new int[] {1,1,2,3,3,5}; //rows</b>
+<b class="fc">&nbsp;        int[] y = new int[] {0,3,2,1,4,0}; //columns</b>
+<b class="fc">&nbsp;        int[] type = new int[] {BLUE,YELLOW,PINK,GREEN,CYAN,WHITE};</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; x.length; i++){</b>
+<b class="fc">&nbsp;            this.position.add(new Tiles(type[i],x[i],y[i]));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;    @Override
+&nbsp;    public Vector&lt;Tiles&gt; getPosition() {
+<b class="fc">&nbsp;        return position;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int check(Player p){
+<b class="fc">&nbsp;        int count = 0;</b>
+&nbsp;        int [] coordinate;
+<b class="fc">&nbsp;        for(Tiles tmp : position){</b>
+<b class="fc">&nbsp;            coordinate = tmp.getXYType();</b>
+<b class="fc">&nbsp;            if (p.getMy_shelfie().getShelf()[coordinate[0]][coordinate[1]].getType() == coordinate[2]) //you can also use all the get, by following le previous line code</b>
+<b class="fc">&nbsp;                count++;</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;        //System.out.println(&quot;you won&quot;+points+&quot; points&quot;);
+<b class="fc">&nbsp;        if(count == 0) return 0;</b>
+<b class="fc">&nbsp;        return pointMap.get(count);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-12 18:13</div>
+</div>
+</body>
+</html>

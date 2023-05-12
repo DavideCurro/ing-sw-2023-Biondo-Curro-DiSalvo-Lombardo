@@ -1,0 +1,173 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GoalC3</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model.CommonStrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: GoalC3 (it.polimi.ingsw.Model.CommonStrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GoalC3</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (28/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.CommonStrategy;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Player.Library;
+&nbsp;import it.polimi.ingsw.Model.Player.Player;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;
+&nbsp;public class GoalC3 implements CommonObj, Serializable {
+<b class="fc">&nbsp;    public GoalC3(){</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Four groups each containing at least
+&nbsp;     * 4 tiles of the same type (not necessarily
+&nbsp;     * in the depicted shape).
+&nbsp;     * The tiles of one group can be different
+&nbsp;     * from those of another group.
+&nbsp;     * @param p
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public boolean check(Player p) {
+<b class="fc">&nbsp;        int column=0;</b>
+<b class="fc">&nbsp;        boolean right = false;</b>
+<b class="fc">&nbsp;        boolean down = false;</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; 6; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 5; j++) {</b>
+<b class="fc">&nbsp;                if (right(p.getMy_shelfie(), i, j)&amp;&amp; !right) {</b>
+<b class="fc">&nbsp;                    column++;</b>
+<b class="fc">&nbsp;                    right = true;</b>
+&nbsp;                }
+<b class="fc">&nbsp;                if(down(p.getMy_shelfie(),i,j)&amp;&amp; !down){</b>
+<b class="fc">&nbsp;                    if(i&gt;0)</b>
+<b class="fc">&nbsp;                        if(down(p.getMy_shelfie(),i-1,j))</b>
+<b class="fc">&nbsp;                            continue;</b>
+<b class="fc">&nbsp;                    column++;</b>
+<b class="fc">&nbsp;                    down = true;</b>
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            right = false;</b>
+<b class="fc">&nbsp;            down = false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return column &gt;=4;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean right(Library l,int i,int j){
+<b class="fc">&nbsp;        int count = 0;</b>
+<b class="fc">&nbsp;        for(int k = j; k&lt;5;k++){</b>
+<b class="fc">&nbsp;            if(l.getShelf()[i][j].getType() == l.getShelf()[i][k].getType()){</b>
+<b class="fc">&nbsp;                count++;</b>
+&nbsp;            }else{
+&nbsp;                break;
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return count&gt;=4;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean down(Library l, int i, int j){
+<b class="fc">&nbsp;        int count = 0;</b>
+<b class="fc">&nbsp;        for(int k = i; k &lt;6;k++){</b>
+<b class="fc">&nbsp;            if(l.getShelf()[i][j].getType() == l.getShelf()[k][j].getType()){</b>
+<b class="fc">&nbsp;                count++;</b>
+&nbsp;            }else{
+&nbsp;                break;
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return count&gt;=4;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-12 18:13</div>
+</div>
+</body>
+</html>

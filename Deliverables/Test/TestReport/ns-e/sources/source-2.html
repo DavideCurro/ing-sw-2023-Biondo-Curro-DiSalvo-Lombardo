@@ -1,0 +1,173 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Lobby</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Socket.Server</a>
+</div>
+
+<h1>Coverage Summary for Class: Lobby (it.polimi.ingsw.Socket.Server)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Lobby</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Socket.Server;
+&nbsp;
+&nbsp;import java.io.ObjectInputStream;
+&nbsp;import java.io.ObjectOutputStream;
+&nbsp;import java.net.Socket;
+&nbsp;import java.util.concurrent.ExecutorService;
+&nbsp;import java.util.concurrent.Executors;
+&nbsp;import java.util.logging.Logger;
+&nbsp;
+&nbsp;public class Lobby {
+&nbsp;    private final Socket[] clients;
+&nbsp;    private final String[] usernames;
+&nbsp;    private final ObjectInputStream[] objectInputStreams;
+&nbsp;    private final ObjectOutputStream[] objectOutputStreams;
+&nbsp;    private int index;
+<b class="nc">&nbsp;    private static final Logger log = Logger.getLogger(Lobby.class.getName());</b>
+&nbsp;    private final ExecutorService launcher; //needs to exec the gamehandler
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * It&#39;s a constructor
+&nbsp;     * @param nPlayer , player for the lobby
+&nbsp;     */
+<b class="nc">&nbsp;    public Lobby(int nPlayer){</b>
+<b class="nc">&nbsp;        log.info(&quot;New Room created the capacity is&quot; + nPlayer);</b>
+<b class="nc">&nbsp;        clients = new Socket[nPlayer];</b>
+<b class="nc">&nbsp;        launcher = Executors.newCachedThreadPool();</b>
+<b class="nc">&nbsp;        objectInputStreams = new ObjectInputStream[nPlayer];</b>
+<b class="nc">&nbsp;        objectOutputStreams = new ObjectOutputStream[nPlayer];</b>
+<b class="nc">&nbsp;        usernames = new String[nPlayer];</b>
+<b class="nc">&nbsp;        index = 0;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * is full? test the max connection by getting nPlayer from constructor and how many people logged
+&nbsp;     * @return true if is full
+&nbsp;     */
+&nbsp;    public boolean isFull(){
+<b class="nc">&nbsp;        return clients.length == index;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * How many people can connect?
+&nbsp;     * @return max number of players
+&nbsp;     */
+&nbsp;    public int maxConnection(){
+<b class="nc">&nbsp;        return clients.length;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Connect a player to the lobby, if the lobby is full the game will start
+&nbsp;     * @param client Socket
+&nbsp;     * @param outputStream ObjectOutputStream
+&nbsp;     * @param inputStream ObjectInputStream
+&nbsp;     * @param username String
+&nbsp;     */
+&nbsp;    public synchronized void connection(Socket client, ObjectOutputStream outputStream, ObjectInputStream inputStream, String username){
+<b class="nc">&nbsp;        clients[index] = client;</b>
+<b class="nc">&nbsp;        objectOutputStreams[index] = outputStream;</b>
+<b class="nc">&nbsp;        objectInputStreams[index] = inputStream;</b>
+<b class="nc">&nbsp;        usernames[index] = username;</b>
+<b class="nc">&nbsp;        index++;</b>
+<b class="nc">&nbsp;        log.info(&quot;New player connected &quot;+ client.toString());</b>
+<b class="nc">&nbsp;        if(clients.length == index){</b>
+<b class="nc">&nbsp;            log.info(&quot;Start game&quot;);</b>
+<b class="nc">&nbsp;            launcher.submit(new GameHandler(clients,usernames,objectOutputStreams,objectInputStreams));</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-12 18:13</div>
+</div>
+</body>
+</html>

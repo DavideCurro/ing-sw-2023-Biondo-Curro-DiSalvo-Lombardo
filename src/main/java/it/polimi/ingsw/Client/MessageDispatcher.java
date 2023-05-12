@@ -18,7 +18,6 @@ public class MessageDispatcher {
     public MessageDispatcher(Socket socket, ObjectOutputStream objectOutputStream){
         this.outputStream = objectOutputStream;
         this.socket = socket;
-
     }
     public void setNickname(String nickname){
         this.nickname = nickname;

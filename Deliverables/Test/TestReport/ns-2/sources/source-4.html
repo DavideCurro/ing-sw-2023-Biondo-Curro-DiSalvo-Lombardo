@@ -1,0 +1,347 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ServerHandler</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Client</a>
+</div>
+
+<h1>Coverage Summary for Class: ServerHandler (it.polimi.ingsw.Client)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ServerHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/129)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ServerHandler$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/130)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Client;
+&nbsp;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Playground.Playground;
+&nbsp;import it.polimi.ingsw.Model.Playground.Tiles;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Player.Player;
+&nbsp;import it.polimi.ingsw.Message.Message;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.io.ObjectInputStream;
+&nbsp;import java.io.ObjectOutputStream;
+&nbsp;import java.net.InetAddress;
+&nbsp;import java.net.Socket;
+&nbsp;
+&nbsp;import java.util.InputMismatchException;
+&nbsp;import java.util.LinkedList;
+&nbsp;import java.util.Scanner;
+&nbsp;import java.util.Vector;
+&nbsp;
+&nbsp;import static it.polimi.ingsw.Message.Content.*;
+&nbsp;import static java.lang.Thread.sleep;
+&nbsp;
+&nbsp;public class ServerHandler {
+&nbsp;
+&nbsp;    private final Socket socket;
+&nbsp;    private final ClientView view;
+&nbsp;    private final ObjectOutputStream objectOutputStream;
+&nbsp;    private final ObjectInputStream objectInputStream;
+&nbsp;    private final Vector&lt;Tiles&gt; tilesVector;
+&nbsp;    private Scanner scanner;
+&nbsp;    private String nickname;
+&nbsp;    private MessageDispatcher messageDispatcher;
+&nbsp;
+<b class="nc">&nbsp;    public ServerHandler(InetAddress host, int port, ClientView view) throws IOException {</b>
+<b class="nc">&nbsp;        socket =  new Socket(host.getHostName(), port);</b>
+<b class="nc">&nbsp;        socket.setSoTimeout(0);</b>
+<b class="nc">&nbsp;        this.view = view;</b>
+<b class="nc">&nbsp;        objectOutputStream  = new ObjectOutputStream(socket.getOutputStream());</b>
+<b class="nc">&nbsp;        objectInputStream  = new ObjectInputStream(socket.getInputStream());</b>
+<b class="nc">&nbsp;        tilesVector = new Vector&lt;&gt;();</b>
+<b class="nc">&nbsp;        scanner = new Scanner(System.in);</b>
+<b class="nc">&nbsp;        nickname = &quot;&quot;;</b>
+<b class="nc">&nbsp;        messageDispatcher = new MessageDispatcher(socket,objectOutputStream);</b>
+&nbsp;    }
+&nbsp;    private int validateLobbyType(){
+&nbsp;
+<b class="nc">&nbsp;        int lobbyType = -1;</b>
+&nbsp;        boolean wentToCatch;
+&nbsp;        do {
+<b class="nc">&nbsp;            view.printChooseLobby(nickname);</b>
+&nbsp;            do{
+&nbsp;                try{
+<b class="nc">&nbsp;                    wentToCatch = false;</b>
+<b class="nc">&nbsp;                    lobbyType = scanner.nextInt();</b>
+<b class="nc">&nbsp;                } catch (InputMismatchException e){</b>
+<b class="nc">&nbsp;                    scanner.next();</b>
+<b class="nc">&nbsp;                    wentToCatch = true;</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Re-enter the value!&quot;);</b>
+<b class="nc">&nbsp;                    view.printChooseLobby(nickname);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;            }while(wentToCatch);</b>
+<b class="nc">&nbsp;        }while (lobbyType &lt;2 || lobbyType &gt;4);</b>
+<b class="nc">&nbsp;        return lobbyType;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void cli() throws InterruptedException {
+<b class="nc">&nbsp;        int gamestart = 0;</b>
+&nbsp;
+<b class="nc">&nbsp;        view.welcome();</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.print(&quot;Choose your nickname: &quot;);</b>
+<b class="nc">&nbsp;        nickname = scanner.nextLine();</b>
+<b class="nc">&nbsp;        messageDispatcher.setNickname(nickname);</b>
+&nbsp;
+<b class="nc">&nbsp;        int lobbyType = validateLobbyType();</b>
+<b class="nc">&nbsp;        view.setPlayerNum(lobbyType);</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;You&#39;re joining the lobby...&quot;);</b>
+<b class="nc">&nbsp;        if(!messageDispatcher.sendLoginInfo(lobbyType)) System.out.println(&quot;ERROR!&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        while (socket.isConnected()) {</b>
+&nbsp;            Message message;
+&nbsp;            try {
+<b class="nc">&nbsp;                message = (Message) objectInputStream.readObject();</b>
+<b class="nc">&nbsp;                if(gamestart == 0)</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;The game has began&quot;);</b>
+<b class="nc">&nbsp;                gamestart++;</b>
+<b class="nc">&nbsp;                handleNewMessage(message);</b>
+<b class="nc">&nbsp;            } catch (IOException | ClassNotFoundException e) {</b>
+<b class="nc">&nbsp;                throw new RuntimeException(e);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;        }
+<b class="nc">&nbsp;        sleep(5000);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void handleNewMessage(Message message) throws IOException {
+<b class="nc">&nbsp;        switch (message.getMessageType()){</b>
+&nbsp;            case NEWGAME -&gt;
+<b class="nc">&nbsp;                view.printPlayground((Playground)message.getPayload());</b>
+&nbsp;
+&nbsp;            case PLAYERDATA -&gt; {
+<b class="nc">&nbsp;                Player tmp = (Player) message.getPayload();</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Your personal goal is: \n&quot;);</b>
+<b class="nc">&nbsp;                view.printPersonalOBJ(tmp);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case PICKTILE -&gt;{
+<b class="nc">&nbsp;                messageDispatcher.reset();</b>
+<b class="nc">&nbsp;                objectOutputStream.writeInt(0);</b>
+<b class="nc">&nbsp;                messageDispatcher.sendPickUpData(getTilesVector(),getColumn());</b>
+<b class="nc">&nbsp;                tilesVector.clear();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case PICKEDTILE -&gt; {
+<b class="nc">&nbsp;                Playground playground = (Playground) message.getPayload();</b>
+<b class="nc">&nbsp;                Player player =(Player)message.getPayload2();</b>
+<b class="nc">&nbsp;                view.printPlayground(playground);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Was the turn of &quot;+ player.getNickname() + &quot; here it&#39;s his library&quot;);</b>
+<b class="nc">&nbsp;                view.printPlayerLibrary(player);</b>
+<b class="nc">&nbsp;                if(player.getNickname().equals(nickname)){</b>
+<b class="nc">&nbsp;                    player.setPoints(0);</b>
+<b class="nc">&nbsp;                    view.printPersonalPoint(player);</b>
+&nbsp;                }else {
+<b class="nc">&nbsp;                    view.printOutPointsPerPlayer(player);</b>
+&nbsp;                }
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case NICKNAME_DUPLICATE -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;This nickname was already taken. Choose another one: \n&quot;);</b>
+<b class="nc">&nbsp;                scanner = new Scanner(System.in);</b>
+<b class="nc">&nbsp;                nickname = scanner.nextLine();</b>
+<b class="nc">&nbsp;                messageDispatcher.sendNickname(nickname);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case COMMONOBJDONE -&gt;{
+<b class="nc">&nbsp;                System.out.println(&quot;You completed the common goal!&quot;);</b>
+<b class="nc">&nbsp;                Player player = (Player) message.getPayload();</b>
+<b class="nc">&nbsp;                int[] countable = (int[]) message.getPayload2();</b>
+<b class="nc">&nbsp;                switch (countable[0]){</b>
+<b class="nc">&nbsp;                    case 1-&gt; System.out.println(&quot;You made the first commonOBJ&quot;);</b>
+<b class="nc">&nbsp;                    case 2-&gt; System.out.println(&quot;You made the second commonOBJ&quot;);</b>
+<b class="nc">&nbsp;                    case 3-&gt; System.out.println(&quot;You made both commonOBJ!&quot;);</b>
+&nbsp;                }
+<b class="nc">&nbsp;                view.printOutPointsPerPlayer(player);</b>
+<b class="nc">&nbsp;                view.printNewHighestScore(countable);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case PERSONALOBJDONE -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;You completed the personal goal!&quot;);</b>
+<b class="nc">&nbsp;                Player player = (Player) message.getPayload();</b>
+<b class="nc">&nbsp;                player.setPoints(0);</b>
+<b class="nc">&nbsp;                view.printPersonalPoint(player);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case PICKUPFAIL -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;SOMETHING WENT WRONG WITH YOUR CHOOSE&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Pick up again your tiles:&quot;);</b>
+<b class="nc">&nbsp;                messageDispatcher.reset();</b>
+<b class="nc">&nbsp;                messageDispatcher.sendPickUpData(getTilesVector(),getColumn());</b>
+<b class="nc">&nbsp;                tilesVector.clear();</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case WRONG_PLAYER,FAIL -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;Some big unexpected and impossible error occur.&quot;);</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case COMMONOBJ -&gt; {
+<b class="nc">&nbsp;                view.printCommonOBJ(message.getPayload());</b>
+<b class="nc">&nbsp;                view.printCommonOBJ(message.getPayload2());</b>
+<b class="nc">&nbsp;            }</b>
+&nbsp;            case ENDGAME -&gt; {
+<b class="nc">&nbsp;                System.out.println(&quot;The game has ended, you reached:&quot;);</b>
+<b class="nc">&nbsp;                LinkedList&lt;Player&gt; vectorLinkedList = (LinkedList&lt;Player&gt;) message.getPayload();</b>
+<b class="nc">&nbsp;                Player winner = (Player) message.getPayload2();</b>
+<b class="nc">&nbsp;                for(Player player : vectorLinkedList){</b>
+<b class="nc">&nbsp;                    view.printEndGamePoint(player);</b>
+<b class="nc">&nbsp;                    view.printPersonalOBJ(player);</b>
+<b class="nc">&nbsp;                }</b>
+<b class="nc">&nbsp;                view.printWinner(winner);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;        }
+&nbsp;    }
+&nbsp;    private int validateInput(){
+<b class="nc">&nbsp;        int x=-1;</b>
+&nbsp;        boolean wentToCatch;
+&nbsp;            do{
+&nbsp;                try{
+<b class="nc">&nbsp;                    wentToCatch = false;</b>
+<b class="nc">&nbsp;                    x = scanner.nextInt()-1;</b>
+<b class="nc">&nbsp;            }catch (InputMismatchException e){</b>
+<b class="nc">&nbsp;                    scanner.next();</b>
+<b class="nc">&nbsp;                    wentToCatch = true;</b>
+<b class="nc">&nbsp;                    e.printStackTrace();</b>
+<b class="nc">&nbsp;            }}while(wentToCatch);</b>
+<b class="nc">&nbsp;        return x;</b>
+&nbsp;    }
+&nbsp;    private int getColumn(){
+<b class="nc">&nbsp;        System.out.println(&quot;Column of the library: &quot;);</b>
+<b class="nc">&nbsp;        return validateInput();</b>
+&nbsp;    }
+&nbsp;    private Vector&lt;Tiles&gt; getTilesVector(){
+<b class="nc">&nbsp;        Vector&lt;Tiles&gt; tmp = new Vector&lt;&gt;();</b>
+<b class="nc">&nbsp;        System.out.println(&quot;How many tiles do you want?&quot;);</b>
+&nbsp;        boolean wentToCatch;
+<b class="nc">&nbsp;        int len=0;</b>
+&nbsp;        do{
+&nbsp;            try{
+<b class="nc">&nbsp;                wentToCatch = false;</b>
+<b class="nc">&nbsp;                len = scanner.nextInt();</b>
+<b class="nc">&nbsp;            }catch (InputMismatchException e){</b>
+<b class="nc">&nbsp;                scanner.next();</b>
+<b class="nc">&nbsp;                wentToCatch = true;</b>
+<b class="nc">&nbsp;            }}while(wentToCatch);</b>
+&nbsp;
+<b class="nc">&nbsp;        for(int i = 0; i&lt;len;i++){</b>
+<b class="nc">&nbsp;            System.out.print(&quot;Choose the &quot;+(i+1)+&quot; X: &quot;);</b>
+<b class="nc">&nbsp;            int x = validateInput();</b>
+<b class="nc">&nbsp;            System.out.print(&quot;Choose the &quot;+(i+1)+&quot; Y: &quot;);</b>
+<b class="nc">&nbsp;            int y = validateInput();</b>
+<b class="nc">&nbsp;            tmp.add(new Tiles(-1,x,y));</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return tmp;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-12 18:13</div>
+</div>
+</body>
+</html>

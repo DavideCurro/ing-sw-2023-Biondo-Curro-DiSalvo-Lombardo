@@ -1,0 +1,176 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GoalC11</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model.CommonStrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: GoalC11 (it.polimi.ingsw.Model.CommonStrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GoalC11</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (34/34)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.CommonStrategy;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Playground.Tiles;
+&nbsp;import it.polimi.ingsw.Model.Player.Player;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Vector;
+&nbsp;
+<b class="fc">&nbsp;public class GoalC11 implements CommonObj , Serializable {</b>
+&nbsp;
+<b class="fc">&nbsp;        Vector&lt;Tiles&gt; tmp = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;        Vector&lt;Tiles&gt; tmp1 = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;        Vector&lt;Tiles&gt; tmp2 = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;        Vector&lt;Tiles&gt; tmp3 = new Vector&lt;&gt;();</b>
+&nbsp;
+&nbsp;        private void setTmp(Player p){
+&nbsp;            //check gialla
+<b class="fc">&nbsp;            tmp.add(new Tiles(p.getMy_shelfie().getShelf()[1][4].getType(), 1, 4));</b>
+<b class="fc">&nbsp;            tmp.add(new Tiles(p.getMy_shelfie().getShelf()[2][3].getType(), 2, 3));</b>
+<b class="fc">&nbsp;            tmp.add(new Tiles(p.getMy_shelfie().getShelf()[3][2].getType(), 3, 2));</b>
+<b class="fc">&nbsp;            tmp.add(new Tiles(p.getMy_shelfie().getShelf()[4][1].getType(), 4, 1));</b>
+<b class="fc">&nbsp;            tmp.add(new Tiles(p.getMy_shelfie().getShelf()[5][0].getType(), 5, 0));</b>
+&nbsp;
+&nbsp;            //check rossa
+<b class="fc">&nbsp;            tmp1.add(new Tiles(p.getMy_shelfie().getShelf()[1][0].getType(), 1, 0));</b>
+<b class="fc">&nbsp;            tmp1.add(new Tiles(p.getMy_shelfie().getShelf()[2][1].getType(), 2, 1));</b>
+<b class="fc">&nbsp;            tmp1.add(new Tiles(p.getMy_shelfie().getShelf()[3][2].getType(), 3, 2));</b>
+<b class="fc">&nbsp;            tmp1.add(new Tiles(p.getMy_shelfie().getShelf()[4][3].getType(), 4, 3));</b>
+<b class="fc">&nbsp;            tmp1.add(new Tiles(p.getMy_shelfie().getShelf()[5][4].getType(), 5, 4));</b>
+&nbsp;
+&nbsp;            //check verde
+<b class="fc">&nbsp;            tmp2.add(new Tiles(p.getMy_shelfie().getShelf()[0][4].getType(), 0, 4));</b>
+<b class="fc">&nbsp;            tmp2.add(new Tiles(p.getMy_shelfie().getShelf()[3][1].getType(), 3, 1));</b>
+<b class="fc">&nbsp;            tmp2.add(new Tiles(p.getMy_shelfie().getShelf()[3][2].getType(), 3, 2));</b>
+<b class="fc">&nbsp;            tmp2.add(new Tiles(p.getMy_shelfie().getShelf()[1][3].getType(), 1, 3));</b>
+<b class="fc">&nbsp;            tmp2.add(new Tiles(p.getMy_shelfie().getShelf()[0][4].getType(), 0, 4));</b>
+&nbsp;
+&nbsp;            //check blu
+<b class="fc">&nbsp;            tmp3.add(new Tiles(p.getMy_shelfie().getShelf()[0][0].getType(), 0, 0));</b>
+<b class="fc">&nbsp;            tmp3.add(new Tiles(p.getMy_shelfie().getShelf()[1][1].getType(), 1, 1));</b>
+<b class="fc">&nbsp;            tmp3.add(new Tiles(p.getMy_shelfie().getShelf()[2][2].getType(), 2, 2));</b>
+<b class="fc">&nbsp;            tmp3.add(new Tiles(p.getMy_shelfie().getShelf()[3][3].getType(), 3, 3));</b>
+<b class="fc">&nbsp;            tmp3.add(new Tiles(p.getMy_shelfie().getShelf()[4][4].getType(), 4, 4));</b>
+&nbsp;
+&nbsp;        }
+&nbsp;
+&nbsp;    /**Goal 11 = Five tiles of the same type forming a diagonal.
+&nbsp;     * @param p
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;        public boolean check(Player p){
+&nbsp;
+<b class="fc">&nbsp;            setTmp(p);</b>
+&nbsp;
+<b class="fc">&nbsp;            return checkDiagonal(tmp) || checkDiagonal(tmp1) || checkDiagonal(tmp2) || checkDiagonal(tmp3);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        private boolean checkDiagonal(Vector &lt;Tiles&gt; tmp) {
+<b class="fc">&nbsp;            int type = tmp.get(0).getType();</b>
+&nbsp;
+<b class="fc">&nbsp;            for (Tiles tiles : tmp) {</b>
+<b class="fc">&nbsp;                if (tiles.getType() == Tiles.NOT_VALID) return false;</b>
+<b class="fc">&nbsp;                if (tiles.getType() != type) {</b>
+<b class="fc">&nbsp;                    return false;</b>
+&nbsp;                }
+<b class="fc">&nbsp;            }</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-05-12 18:13</div>
+</div>
+</body>
+</html>

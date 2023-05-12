@@ -45,8 +45,9 @@ public class personalOBJTest {
     @Test
     public void validatePersonalOBJ(){
 
-        player.checkPersonalOBJ();
-        assertEquals(12,player.getPoints());
+        int point = player.checkPersonalOBJ();
+        player.setPrivatePoints(point);
+        assertEquals(12,player.getPrivatePoints());
         for(int i = 2; i<= 12;i++){
             PersonalObj personalObj = pickPersonalObj(i);
             player = new Player(personalObj,"c");
@@ -57,8 +58,9 @@ public class personalOBJTest {
             }
             Library library = new Library(tmp);
             player.setMy_shelfie(library);
-            player.checkPersonalOBJ();
-            assertEquals(12,player.getPoints());
+            point = player.checkPersonalOBJ();
+            player.setPrivatePoints(point);
+            assertEquals(12,player.getPrivatePoints());
         }
     }
 }

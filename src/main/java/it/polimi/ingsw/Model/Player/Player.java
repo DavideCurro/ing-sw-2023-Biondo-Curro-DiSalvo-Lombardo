@@ -292,10 +292,12 @@ public class Player implements Serializable {
         }
         for(int j = 0; j<5; j++){
             for(int i = 0; i<6; i++){
+                if(my_shelfie.getShelf()[i][j].getType() == -1) continue;
                vectorOfTiles.get(my_shelfie.getShelf()[i][j].getType()).add(my_shelfie.getShelf()[i][j]);
             }
         }
 
+        Vector<Integer> counter = new Vector<>();
         for(Vector<Tiles> vector : vectorOfTiles){
             Vector<Vector<Tiles>> adj = new Vector<>();
             for (int i = 0;i<vector.size();i++) {
@@ -310,12 +312,11 @@ public class Player implements Serializable {
                     }
                 }
             }
-            mergeADJ(adj);
-            counter.add(adj.get(adj.size()).size());
+            counter.add(mergeADJ(adj).size());
         }
         return counter;
     }
-    private int mergeADJ(Vector<Vector<Tiles>> adj){
+    private Vector<Tiles> mergeADJ(Vector<Vector<Tiles>> adj){
         Vector<Tiles> tmp = getFirstElementAvailableToMerge(adj);
         adj.removeIf(vector -> vector.size() == 0);
         Vector<Integer> toMerge = getToMergeIndex(tmp);
@@ -331,7 +332,7 @@ public class Player implements Serializable {
             }
 
         }
-        return 0;
+        return Adjacent;
     }
 
     private Vector<Integer> getToMergeIndex(Vector<Tiles> tmp ){

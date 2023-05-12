@@ -51,12 +51,16 @@ public class commonOBJDoneTest {
 
     }
     @Test
-    public void validateNewTurnTest() throws MatchExeception {
+    public void validateCommonOBJ() throws MatchExeception {
         Match.pointSetter(1,players.get(0));
+        players.get(0).setPoints(0);
         assertEquals(8,players.get(0).getPoints());
         Match.pointSetter(2,players.get(1));
+        players.get(1).setPoints(0);
         assertEquals(6,players.get(1).getPoints());
+
         Match.pointSetter(3,players.get(2));
+        players.get(2).setPoints(0);
         assertEquals(4,players.get(2).getPoints());
     }
 }

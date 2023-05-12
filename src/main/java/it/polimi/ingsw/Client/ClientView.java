@@ -122,7 +122,11 @@ public class ClientView {
         System.out.println("The players who made the second commonObj are " + commonOBJResult[2]+1 + " the remaining points are: "+ checkRemainingPoint(commonOBJResult[2]));
 
     }
-
+    public void printChooseLobby(String nickname){
+        System.out.println(nickname + " please choose in which lobby do you want to join!");
+        System.out.println("2\t3\t4");
+        System.out.print("Please log me in the lobby with : ");
+    }
     public void printPersonalOBJ(Player player){
         Vector<Tiles> position = player.getPersonalObj().getPersonalObj().getPosition();
         Library tmp = buildLibrarybyPosition(position);

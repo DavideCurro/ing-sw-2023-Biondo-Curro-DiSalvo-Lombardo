@@ -30,6 +30,7 @@ public class ServerHandler {
     private final Vector<Tiles> tilesVector;
     private Scanner scanner;
     private String nickname;
+    private MessageDispatcher messageDispatcher;
 
     public ServerHandler(InetAddress host, int port, ClientView view) throws IOException {
         socket =  new Socket(host.getHostName(), port);
@@ -40,24 +41,14 @@ public class ServerHandler {
         tilesVector = new Vector<>();
         scanner = new Scanner(System.in);
         nickname = "";
+        messageDispatcher = new MessageDispatcher(socket,objectOutputStream);
     }
-    public void cli() throws InterruptedException {
-        int gamestart = 0;
-        view.welcome();
-        System.out.print("Choose your nickname: ");
-        nickname = scanner.nextLine();
-        System.out.println("Welcome! "+ nickname + " please choose in which lobby do you want to join!");
-        System.out.println("2\t3\t4");
-        System.out.print("Please log me in the lobby with : ");
+    private int validateLobbyType(){
+
         int lobbyType = -1;
         boolean wentToCatch;
-        boolean firstIteration = false;
         do {
-            if((lobbyType<2 || lobbyType >4)&&(firstIteration)){
-                System.out.println("Please choose in which lobby do you want to join!");
-                System.out.println("2\t3\t4");
-                System.out.print("Please log me in the lobby with : ");
-            }
+            view.printChooseLobby(nickname);
             do{
                 try{
                     wentToCatch = false;
@@ -66,21 +57,28 @@ public class ServerHandler {
                     scanner.next();
                     wentToCatch = true;
                     System.out.println("Re-enter the value!");
-                    System.out.println(nickname + " please choose in which lobby do you want to join!");
-                    System.out.println("2\t3\t4");
-                    System.out.print("Please log me in the lobby with : ");
+                    view.printChooseLobby(nickname);
                 }
             }while(wentToCatch);
-            firstIteration=true;
         }while (lobbyType <2 || lobbyType >4);
-        view.setPlayerNum(lobbyType);
-        System.out.println("You're joining the lobby...");
-        try {
-            objectOutputStream.writeObject(new Message("Server",nickname, NICKNAME,lobbyType));
+        return lobbyType;
+    }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void cli() throws InterruptedException {
+        int gamestart = 0;
+
+        view.welcome();
+
+        System.out.print("Choose your nickname: ");
+        nickname = scanner.nextLine();
+        messageDispatcher.setNickname(nickname);
+
+        int lobbyType = validateLobbyType();
+        view.setPlayerNum(lobbyType);
+
+        System.out.println("You're joining the lobby...");
+        if(!messageDispatcher.sendLoginInfo(lobbyType)) System.out.println("ERROR!");
+
         while (socket.isConnected()) {
             Message message;
             try {
@@ -107,19 +105,16 @@ public class ServerHandler {
                 view.printPersonalOBJ(tmp);
             }
             case PICKTILE ->{
-                objectOutputStream.flush();
-                objectOutputStream.reset();
+                messageDispatcher.reset();
                 objectOutputStream.writeInt(0);
-                objectOutputStream.writeObject(new Message("server",nickname,PICKEDTILE,getColumn(), getTilesVector()));
+                messageDispatcher.sendPickUpData(getTilesVector(),getColumn());
                 tilesVector.clear();
             }
             case PICKEDTILE -> {
                 Playground playground = (Playground) message.getPayload();
                 Player player =(Player)message.getPayload2();
-               // view.printPlayerLibrary(match.getLastPlayer());
                 view.printPlayground(playground);
                 System.out.println("Was the turn of "+ player.getNickname() + " here it's his library");
-
                 view.printPlayerLibrary(player);
                 if(player.getNickname().equals(nickname)){
                     player.setPoints(0);
@@ -132,12 +127,7 @@ public class ServerHandler {
                 System.out.println("This nickname was already taken. Choose another one: \n");
                 scanner = new Scanner(System.in);
                 nickname = scanner.nextLine();
-                try {
-                    objectOutputStream.writeObject(new Message("Server",nickname, NICKNAME,nickname));
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                messageDispatcher.sendNickname(nickname);
             }
             case COMMONOBJDONE ->{
                 System.out.println("You completed the common goal!");
@@ -160,10 +150,8 @@ public class ServerHandler {
             case PICKUPFAIL -> {
                 System.out.println("SOMETHING WENT WRONG WITH YOUR CHOOSE");
                 System.out.println("Pick up again your tiles:");
-                objectOutputStream.flush();
-                objectOutputStream.reset();
-                objectOutputStream.writeInt(0);
-                objectOutputStream.writeObject(new Message("server",nickname,PICKEDTILE,getColumn(), getTilesVector()));
+                messageDispatcher.reset();
+                messageDispatcher.sendPickUpData(getTilesVector(),getColumn());
                 tilesVector.clear();
             }
             case WRONG_PLAYER,FAIL -> {

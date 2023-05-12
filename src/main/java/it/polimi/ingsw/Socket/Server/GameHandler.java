@@ -109,7 +109,7 @@ public class GameHandler implements Runnable {
                 objectOutputStreams[i].reset();
                 objectOutputStreams[i].writeObject(new Message(usernames[i], NEWGAME,match.getP()));
                 objectOutputStreams[i].writeObject(new Message(usernames[i], PLAYERDATA,match.getThisPlayer(usernames[i])));
-                objectOutputStreams[i].writeObject(new Message(usernames[i], COMMONOBJ,match.getCommonOBJ()));
+                objectOutputStreams[i].writeObject(new Message(usernames[i],"Server", COMMONOBJ,match.getCommonOBJ1(),match.getCommonOBJ2()));
                 log.info("Info sent to "+ usernames[i]);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -123,6 +123,7 @@ public class GameHandler implements Runnable {
         while(!getNowPlaying().getIs_second()){
             gamePhasePlaying();
         }
+        match.calculateADJ();
         try {
             log.info("The game is finish");
             sniffer.interrupt();
@@ -254,7 +255,7 @@ public class GameHandler implements Runnable {
         for(ObjectOutputStream objectOutputStream: objectOutputStreams){
             try {
                 objectOutputStream.reset();
-                objectOutputStream.writeObject(new Message("","server", PICKEDTILE, match.getP(),match.getPlayer()));
+                objectOutputStream.writeObject(new Message("","server", PICKEDTILE, match.getP(),match.getLastPlayer()));
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -278,7 +279,7 @@ public class GameHandler implements Runnable {
      * @param player who has made goal
      * @param countOBJ how many people made this goal, including last one
      */
-    private void notifyCommonOBJDone(Player player, int countOBJ){
+    private void notifyCommonOBJDone(Player player, int[] countOBJ){
 
         for(ObjectOutputStream objectOutputStream : objectOutputStreams){
             resetObject(objectOutputStream);
@@ -312,7 +313,7 @@ public class GameHandler implements Runnable {
                int[] commonOBJResponse = match.commonOBJTesting(nowPlaying);
                if(commonOBJResponse[0] == 1){
                    log.info(nowPlaying.getNickname() + "has done common OBJ");
-                   notifyCommonOBJDone(nowPlaying,commonOBJResponse[1]);
+                   notifyCommonOBJDone(nowPlaying,commonOBJResponse);
                }
                int privatePoint = nowPlaying.checkPersonalOBJ();
                if(privatePoint > 0){

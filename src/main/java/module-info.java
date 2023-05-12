@@ -1,4 +1,4 @@
-module com.example.demo {
+module it.polimi.ingsw {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.rmi;
@@ -7,4 +7,5 @@ module com.example.demo {
 
     opens it.polimi.ingsw.Client.GUI.Controllers to javafx.fxml;
     exports it.polimi.ingsw.Client.GUI.Controllers;
+    exports it.polimi.ingsw.RMI;
 }

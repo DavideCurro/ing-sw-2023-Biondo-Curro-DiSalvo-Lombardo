@@ -15,8 +15,12 @@ public class RMIServer{
         GameHandlerImplementation gameHandlerImplementation = new GameHandlerImplementation();
         GameHandlerRMI stub = (GameHandlerRMI) UnicastRemoteObject.exportObject(gameHandlerImplementation, 0);
 
-        Registry registry = LocateRegistry.createRegistry(1099);
-        registry.bind("GameHandler", stub);
+        Registry registry = LocateRegistry.createRegistry(2000);
+        try {
+            registry.bind("GameHandler", stub);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
 

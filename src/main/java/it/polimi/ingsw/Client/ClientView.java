@@ -11,11 +11,14 @@ import java.util.Map;
 import java.util.Vector;
 
 public class ClientView {
-    public ClientView() {
-
-    }
+    private int playerNum;
+    private static final Map<Integer,Integer> pointOBJ2player = Map.of(1,8,2,4);
+    private static final Map<Integer,Integer> pointOBJ3player = Map.of(1,8,2,6,3,4);
     private static final Map<Integer,Integer> pointOBJ4player = Map.of(1,8,2,4,3,4,4,2);
-
+    public ClientView(){}
+    public void setPlayerNum(int playerNum){
+        this.playerNum = playerNum;
+    }
     public void printPlayground(Playground ground){
         for (int i = 0; i < 10; i++) {
             colorChange(3);
@@ -106,13 +109,18 @@ public class ClientView {
     public void printPersonalPoint(Player player){
         System.out.println("You achieved : "+ player.getPoints()+" points" );
     }
-    public void printNewHighestScore(int countObj){
-        if (countObj+1>4)
-            System.out.println("Error, everyone already completed the common goal");
-        else if (countObj == 0) {
-            System.out.println("No one have made the common goal");
-        } else
-            System.out.println("The highest score reachable is now: " + (countObj+1) );
+    private int checkRemainingPoint(int index){
+        switch (playerNum){
+            case 2-> {return pointOBJ2player.get(index);}
+            case 3-> {return pointOBJ3player.get(index);}
+            case 4-> {return pointOBJ4player.get(index);}
+        }
+        return -1;
+    }
+    public void printNewHighestScore(int[] commonOBJResult){
+        System.out.println("The players who made the first commonObj are " + commonOBJResult[1]+1 +" the remaining points are: "+ checkRemainingPoint(commonOBJResult[1]));
+        System.out.println("The players who made the second commonObj are " + commonOBJResult[2]+1 + " the remaining points are: "+ checkRemainingPoint(commonOBJResult[2]));
+
     }
 
     public void printPersonalOBJ(Player player){

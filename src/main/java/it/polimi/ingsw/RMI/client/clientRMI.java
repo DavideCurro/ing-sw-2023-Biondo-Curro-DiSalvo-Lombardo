@@ -10,7 +10,7 @@ public class clientRMI {
     public static void main(String[] args) {
         try {
             // Getting the registry
-            Registry registry = LocateRegistry.getRegistry("localhost", 1099);
+            Registry registry = LocateRegistry.getRegistry("localhost", 2000);
 
             // Looking up the registry for the remote object
             GameHandlerRMI stub = (GameHandlerRMI) registry.lookup("GameHandler");

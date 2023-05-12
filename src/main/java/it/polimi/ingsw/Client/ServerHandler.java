@@ -73,6 +73,7 @@ public class ServerHandler {
             }while(wentToCatch);
             firstIteration=true;
         }while (lobbyType <2 || lobbyType >4);
+        view.setPlayerNum(lobbyType);
         System.out.println("You're joining the lobby...");
         try {
             objectOutputStream.writeObject(new Message("Server",nickname, NICKNAME,lobbyType));
@@ -114,18 +115,17 @@ public class ServerHandler {
             }
             case PICKEDTILE -> {
                 Playground playground = (Playground) message.getPayload();
-                LinkedList<Player> vectorLinkedList = (LinkedList<Player>) message.getPayload2();
+                Player player =(Player)message.getPayload2();
                // view.printPlayerLibrary(match.getLastPlayer());
                 view.printPlayground(playground);
-                for(Player player : vectorLinkedList){
-                    System.out.println(player.getNickname()+"'s library");
-                    view.printPlayerLibrary(player);
-                    if(player.getNickname().equals(nickname)){
-                        player.setPoints(0);
-                        view.printPersonalPoint(player);
-                    }else {
-                        view.printOutPointsPerPlayer(player);
-                    }
+                System.out.println("Was the turn of "+ player.getNickname() + " here it's his library");
+
+                view.printPlayerLibrary(player);
+                if(player.getNickname().equals(nickname)){
+                    player.setPoints(0);
+                    view.printPersonalPoint(player);
+                }else {
+                    view.printOutPointsPerPlayer(player);
                 }
             }
             case NICKNAME_DUPLICATE -> {
@@ -142,9 +142,13 @@ public class ServerHandler {
             case COMMONOBJDONE ->{
                 System.out.println("You completed the common goal!");
                 Player player = (Player) message.getPayload();
-                int countable = (int) message.getPayload2();
+                int[] countable = (int[]) message.getPayload2();
+                switch (countable[0]){
+                    case 1-> System.out.println("You made the first commonOBJ");
+                    case 2-> System.out.println("You made the second commonOBJ");
+                    case 3-> System.out.println("You made both commonOBJ!");
+                }
                 view.printOutPointsPerPlayer(player);
-                System.out.println("You are the number "+countable+"player to complete the common goal");
                 view.printNewHighestScore(countable);
             }
             case PERSONALOBJDONE -> {
@@ -167,6 +171,7 @@ public class ServerHandler {
             }
             case COMMONOBJ -> {
                 view.printCommonOBJ(message.getPayload());
+                view.printCommonOBJ(message.getPayload2());
             }
             case ENDGAME -> {
                 System.out.println("The game has ended, you reached:");

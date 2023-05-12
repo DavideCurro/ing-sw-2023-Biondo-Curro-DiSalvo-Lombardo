@@ -22,8 +22,10 @@ public class Match implements Serializable {
     private static final Map<Integer,Integer> pointOBJ3player = Map.of(1,8,2,6,3,4);
     private static final Map<Integer,Integer> pointOBJ4player = Map.of(1,8,2,4,3,4,4,2);
     private static Playground p;
-    private ObjectiveCommonEXEC o ;
-    private int objCount = 1;
+    private ObjectiveCommonEXEC o1 ;
+    private ObjectiveCommonEXEC o2;
+    private int objCount1 = 1;
+    private  int objCount2 = 1;
     private static boolean thrown = false;
     private static LinkedList<Player> players;
 
@@ -35,17 +37,24 @@ public class Match implements Serializable {
 
        // this.o = new ObjectiveCommonEXEC(o);
     }
-    public Match(LinkedList<Player>p, CommonObj o){
+    public Match(LinkedList<Player>p, CommonObj o1, CommonObj o2){
         players = p;
-        this.o = new ObjectiveCommonEXEC(o);
+        this.o1 = new ObjectiveCommonEXEC(o1);
+        this.o2 = new ObjectiveCommonEXEC(o2);
     }
 
     /**
      * Set the common objective
-     * @param o CommonOBJ
+     * @param o1 CommonOBJ
+     * @param o2 CommonOBJ
      */
-    public void setObjectiveCommonEXEC(CommonObj o){
-        this.o = new ObjectiveCommonEXEC(o);
+    public boolean setObjectiveCommonEXEC(CommonObj o1, CommonObj o2){
+        if(o1 != o2) {
+            this.o1 = new ObjectiveCommonEXEC(o1);
+            this.o2 = new ObjectiveCommonEXEC(o2);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -59,8 +68,11 @@ public class Match implements Serializable {
         return pointOBJPlayer.get(numPlayersDone);
 
     }
-    public CommonObj getCommonOBJ(){
-        return o.getCommonObj();
+    public CommonObj getCommonOBJ1(){
+        return o1.getCommonObj();
+    }
+    public CommonObj getCommonOBJ2(){
+        return o2.getCommonObj();
     }
 
     /**
@@ -122,7 +134,7 @@ public class Match implements Serializable {
             case 10 -> new GoalC10();
             case 11 -> new GoalC11();
             case 12 -> new GoalC12();
-            default -> throw new MatchExeception("ERRORE generazione persona OBJ");
+            default -> throw new MatchExeception("ERROR generation common OBJ");
         };
     }
 
@@ -136,7 +148,10 @@ public class Match implements Serializable {
         if(players.isEmpty()){
             players.add(new Player(personalOBJChooser(),nick,false));
             VirtualView.printPersonalOBJ(players.getLast());
-            setObjectiveCommonEXEC(CommonOBJChooser());
+           if(! setObjectiveCommonEXEC(CommonOBJChooser(),CommonOBJChooser()))
+               while(!setObjectiveCommonEXEC(CommonOBJChooser(),CommonOBJChooser())) {
+                   setObjectiveCommonEXEC(CommonOBJChooser(),CommonOBJChooser());
+               }
             return;
         }
         if(players.size()<4) {
@@ -235,19 +250,31 @@ public class Match implements Serializable {
      * @return the result[0]=1 means the goal has been passed, result[1] represent how many people made this
      */
     public int[] commonOBJTesting(Player nowPlaying){
-        int[] result = new int[2];
+        int[] result = new int[3];
         result[0] = -1;
         result[1] = -1;
-        if(!nowPlaying.isHasMadeCommonOBJ()) {
-            if (o.execCheck(nowPlaying)) {
-                System.out.println("CIAO");
-                pointSetter(objCount, nowPlaying);
-                objCount++;
+        result[2] = -1;
+        if(!nowPlaying.isHasMadeCommonOBJ1()) {
+            if (o1.execCheck(nowPlaying)) {
+                pointSetter(objCount1, nowPlaying);
+                objCount1++;
                 result[0] = 1;
-                result[1] = objCount;
-                nowPlaying.setHasMadeCommonOBJ(true);
-                return result;
+                result[1] = objCount1;
+                nowPlaying.setHasMadeCommonOBJ1(true);
             }
+            if(o2.execCheck(nowPlaying)){
+                pointSetter(objCount2, nowPlaying);
+                objCount2++;
+                if(result[0] == -1){
+                    result[0] = 2;
+                }else{
+                    result[0] = 3;
+                }
+
+                result[2] = objCount2;
+                nowPlaying.setHasMadeCommonOBJ2(true);
+            }
+
         }
         return result;
 
@@ -273,8 +300,10 @@ public class Match implements Serializable {
     }
     public void calculateADJ(){
         for(Player player : players){
-            int count = player.calculateADJ();
-            player.setPoints(count);
+            Vector<Integer> count = player.calculateADJ();
+            for(Integer point : count){
+                player.addPoint(point);
+            }
         }
     }
 

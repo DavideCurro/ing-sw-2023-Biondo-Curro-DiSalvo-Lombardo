@@ -28,7 +28,8 @@ public class Player implements Serializable {
     private int publicPoints;
     private int privatePoints;
     private int points;
-    private boolean hasMadeCommonOBJ;
+    private boolean hasMadeCommonOBJ1;
+    private boolean hasMadeCommonOBJ2;
 
     private ObjectivePersonalEXEC personalObj;
 
@@ -43,7 +44,7 @@ public class Player implements Serializable {
         this.is_second = false;
         this.nickname = "";
         this.my_shelfie = new Library();
-        this.hasMadeCommonOBJ= false;
+
         this.coordinates= new Vector<>();
         this.points = 0;
 
@@ -55,7 +56,7 @@ public class Player implements Serializable {
         this.is_second = false;
         this.nickname = nickname;
         this.my_shelfie = new Library();
-        this.hasMadeCommonOBJ= false;
+
         this.coordinates= new Vector<>();
         this.points = 0;
 
@@ -65,7 +66,7 @@ public class Player implements Serializable {
         this.my_shelfie = library;
         this.is_second = false;
         this.nickname = "";
-        this.hasMadeCommonOBJ= false;
+
 
         this.coordinates= new Vector<>();
         this.points = 0;
@@ -82,7 +83,7 @@ public class Player implements Serializable {
         this.is_second = is_second;
         this.nickname = nickname;
         this.my_shelfie = new Library();
-        this.hasMadeCommonOBJ= false;
+
         this.coordinates= new Vector<>();
         this.points = 0;
     }
@@ -93,15 +94,21 @@ public class Player implements Serializable {
         this.my_shelfie = new Library();
         this.coordinates= new Vector<>();
         this.points = 0;
-        this.hasMadeCommonOBJ= false;
+
     }
 
-    public boolean isHasMadeCommonOBJ() {
-        return hasMadeCommonOBJ;
+    public boolean isHasMadeCommonOBJ1() {
+        return hasMadeCommonOBJ1;
+    }
+    public boolean isHasMadeCommonOBJ2() {
+        return hasMadeCommonOBJ2;
     }
 
-    public void setHasMadeCommonOBJ(boolean hasMadeCommonOBJ) {
-        this.hasMadeCommonOBJ = hasMadeCommonOBJ;
+    public void setHasMadeCommonOBJ1(boolean hasMadeCommonOBJ1) {
+        this.hasMadeCommonOBJ1 = hasMadeCommonOBJ1;
+    }
+    public void setHasMadeCommonOBJ2(boolean hasMadeCommonOBJ2) {
+        this.hasMadeCommonOBJ2 = hasMadeCommonOBJ2;
     }
 
     public int getPoints() {
@@ -275,7 +282,10 @@ public class Player implements Serializable {
 
         return this.personalObj.execCheck(this);
     }
-    public int calculateADJ(){
+    public void addPoint(int point){
+        this.points += point;
+    }
+    public Vector<Integer> calculateADJ(){
         Vector<Vector<Tiles>> vectorOfTiles = new Vector<>();
         for (int i = 0;i<6;i++){
             vectorOfTiles.add(new Vector<>());
@@ -301,8 +311,9 @@ public class Player implements Serializable {
                 }
             }
             mergeADJ(adj);
+            counter.add(adj.get(adj.size()).size());
         }
-        return 1;
+        return counter;
     }
     private int mergeADJ(Vector<Vector<Tiles>> adj){
         Vector<Tiles> tmp = getFirstElementAvailableToMerge(adj);

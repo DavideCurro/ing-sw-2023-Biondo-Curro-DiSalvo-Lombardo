@@ -20,7 +20,7 @@ public class newTurnTest {
         LinkedList<Player> players = new LinkedList<>();
         players.add(new Player(match.personalOBJChooser(),"c"));
         players.add((new Player(match.personalOBJChooser(),"s")));
-        match = new Match(players, new GoalC12());
+        match = new Match(players, new GoalC12(),new GoalC12());
         match.setupPlayground();
     }
 

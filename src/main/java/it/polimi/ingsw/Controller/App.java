@@ -11,15 +11,6 @@ public class App {
         return new GoalC3();
     }
     public static void main(String[] args){
-        InputStream prova = System.in;
-        System.setIn(prova);
-        Match model = new Match();
-        model.setObjectiveCommonEXEC(commonObjChooser());
-
-        VirtualView view = new VirtualView();
-
-
-
     }
 
 }

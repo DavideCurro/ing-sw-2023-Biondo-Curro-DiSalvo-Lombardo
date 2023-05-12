@@ -41,6 +41,7 @@ public class Player implements Serializable {
     public Player() {
 
 
+
         this.is_second = false;
         this.nickname = "";
         this.my_shelfie = new Library();
@@ -50,7 +51,16 @@ public class Player implements Serializable {
 
 
     }
+
+    /**
+     *
+     * Player
+     *
+     * @param nickname  the nickname.
+     * @return public
+     */
     public Player(String nickname) {
+
 
 
         this.is_second = false;
@@ -62,7 +72,16 @@ public class Player implements Serializable {
 
 
     }
+
+    /**
+     *
+     * Player
+     *
+     * @param library  the library.
+     * @return public
+     */
     public Player(Library library){
+
         this.my_shelfie = library;
         this.is_second = false;
         this.nickname = "";
@@ -79,6 +98,7 @@ public class Player implements Serializable {
      * @param is_second  is second
      */
     public Player(PersonalObj personalObj, String nickname, Boolean is_second) {
+
         this.personalObj = new ObjectivePersonalEXEC(personalObj);
         this.is_second = is_second;
         this.nickname = nickname;
@@ -87,7 +107,17 @@ public class Player implements Serializable {
         this.coordinates= new Vector<>();
         this.points = 0;
     }
+
+    /**
+     *
+     * Player
+     *
+     * @param personalObj  the personal obj.
+     * @param nickname  the nickname.
+     * @return public
+     */
     public Player(PersonalObj personalObj, String nickname) {
+
         this.personalObj = new ObjectivePersonalEXEC(personalObj);
         this.is_second = false;
         this.nickname = nickname;
@@ -97,25 +127,73 @@ public class Player implements Serializable {
 
     }
 
+
+    /**
+     *
+     * Is has made common OB j1
+     *
+     * @return boolean
+     */
     public boolean isHasMadeCommonOBJ1() {
+
         return hasMadeCommonOBJ1;
     }
+
+    /**
+     *
+     * Is has made common OB j2
+     *
+     * @return boolean
+     */
     public boolean isHasMadeCommonOBJ2() {
+
         return hasMadeCommonOBJ2;
     }
 
+
+    /**
+     *
+     * Sets the has made common OB j1
+     *
+     * @param hasMadeCommonOBJ1  the has made common OB j1.
+     */
     public void setHasMadeCommonOBJ1(boolean hasMadeCommonOBJ1) {
+
         this.hasMadeCommonOBJ1 = hasMadeCommonOBJ1;
     }
+
+    /**
+     *
+     * Sets the has made common OB j2
+     *
+     * @param hasMadeCommonOBJ2  the has made common OB j2.
+     */
     public void setHasMadeCommonOBJ2(boolean hasMadeCommonOBJ2) {
+
         this.hasMadeCommonOBJ2 = hasMadeCommonOBJ2;
     }
 
+
+    /**
+     *
+     * Gets the points
+     *
+     * @return the points
+     */
     public int getPoints() {
+
         return points;
     }
 
+
+    /**
+     *
+     * Sets the points
+     *
+     * @param points  the points.
+     */
     public void setPoints(int points) {
+
         this.points = privatePoints + publicPoints + points;
     }
 
@@ -128,22 +206,55 @@ public class Player implements Serializable {
     public Library getMy_shelfie() {
 
 
+
         return my_shelfie;
     }
 
+
+    /**
+     *
+     * Gets the public points
+     *
+     * @return the public points
+     */
     public int getPublicPoints() {
+
         return publicPoints;
     }
 
+
+    /**
+     *
+     * Sets the public points
+     *
+     * @param publicPoints  the public points.
+     */
     public void setPublicPoints(int publicPoints) {
+
         this.publicPoints = publicPoints;
     }
 
+
+    /**
+     *
+     * Gets the private points
+     *
+     * @return the private points
+     */
     public int getPrivatePoints() {
+
         return privatePoints;
     }
 
+
+    /**
+     *
+     * Sets the private points
+     *
+     * @param privatePoints  the private points.
+     */
     public void setPrivatePoints(int privatePoints) {
+
         this.privatePoints = privatePoints;
     }
 
@@ -156,6 +267,7 @@ public class Player implements Serializable {
     public void setMy_shelfie(Library my_shelfie) {
 
 
+
         this.my_shelfie = my_shelfie;
     }
 
@@ -166,6 +278,7 @@ public class Player implements Serializable {
      * @return the nickname
      */
     public String getNickname() {
+
 
 
         return nickname;
@@ -181,15 +294,32 @@ public class Player implements Serializable {
     public void setNickname(String nickname) {
 
 
+
         this.nickname = nickname;
     }
 
+
+    /**
+     *
+     * Gets the is_second
+     *
+     * @return the is_second
+     */
     public Boolean getIs_second() {
+
         return is_second;
     }
 
 
+
+    /**
+     *
+     * Gets the personal obj
+     *
+     * @return the personal obj
+     */
     public ObjectivePersonalEXEC getPersonalObj(){
+
         return personalObj;
     }
 
@@ -204,6 +334,7 @@ public class Player implements Serializable {
 
 
     public Boolean pickUp(Playground p, int column, Vector<Tiles> coordinates) throws RuntimeException, CoordinateStateException {
+
         System.out.println(this.nickname);
         if(this.my_shelfie.isFull()) throw new RuntimeException("FULL Shelfie");
         // Initialize variables
@@ -232,6 +363,7 @@ public class Player implements Serializable {
      */
     private boolean checkCoordinateValid(int x) throws CoordinateStateException{
 
+
         if(x<0 || x>9) throw new CoordinateStateException("Impossible coordinate state");
         return true;
     }
@@ -246,6 +378,7 @@ public class Player implements Serializable {
      */
     private void checkColValid(int col)throws CoordinateStateException{
 
+
         if(col <0 || col > 5) throw new CoordinateStateException("Impossible Column");
     }
 
@@ -257,6 +390,7 @@ public class Player implements Serializable {
      * @return int
      */
     public int calculateMaxTiles(int column, int len){
+
 
         int max;
         try{
@@ -275,17 +409,32 @@ public class Player implements Serializable {
 
     /**
      * check for personal goal
-     * @return true if is done, false otherwise
+     * @return how many points he made
      */
 
     public int checkPersonalOBJ(){
-
         return this.personalObj.execCheck(this);
     }
+
+    /**
+     *
+     * Add point
+     *
+     * @param point  the point.
+     */
     public void addPoint(int point){
+
         this.points += point;
     }
+
+    /**
+     *
+     * Calculate ADJ
+     *
+     * @return Vector<Integer>
+     */
     public Vector<Integer> calculateADJ(){
+
         Vector<Vector<Tiles>> vectorOfTiles = new Vector<>();
         for (int i = 0;i<6;i++){
             vectorOfTiles.add(new Vector<>());
@@ -293,7 +442,7 @@ public class Player implements Serializable {
         for(int j = 0; j<5; j++){
             for(int i = 0; i<6; i++){
                 if(my_shelfie.getShelf()[i][j].getType() == -1) continue;
-               vectorOfTiles.get(my_shelfie.getShelf()[i][j].getType()).add(my_shelfie.getShelf()[i][j]);
+                vectorOfTiles.get(my_shelfie.getShelf()[i][j].getType()).add(my_shelfie.getShelf()[i][j]);
             }
         }
 
@@ -316,7 +465,16 @@ public class Player implements Serializable {
         }
         return counter;
     }
+
+    /**
+     *
+     * Merge ADJ
+     *
+     * @param adj  the adj.
+     * @return Vector<Tiles>
+     */
     private Vector<Tiles> mergeADJ(Vector<Vector<Tiles>> adj){
+
         Vector<Tiles> tmp = getFirstElementAvailableToMerge(adj);
         adj.removeIf(vector -> vector.size() == 0);
         Vector<Integer> toMerge = getToMergeIndex(tmp);
@@ -335,7 +493,16 @@ public class Player implements Serializable {
         return Adjacent;
     }
 
+
+    /**
+     *
+     * Gets the to merge index
+     *
+     * @param tmp  the tmp.
+     * @return the to merge index
+     */
     private Vector<Integer> getToMergeIndex(Vector<Tiles> tmp ){
+
         Vector<Integer> toMerge = new Vector<>();
         for (int i = 0;i<tmp.size();i++) {
             for(int j = i; j< tmp.size();j ++){
@@ -352,7 +519,16 @@ public class Player implements Serializable {
         }
         return toMerge;
     }
+
+    /**
+     *
+     * Gets the first element available to merge
+     *
+     * @param adj  the adj.
+     * @return the first element available to merge
+     */
     private Vector<Tiles> getFirstElementAvailableToMerge(Vector<Vector<Tiles>> adj){
+
         Vector<Tiles> tmp = new Vector<>();
         for (Vector<Tiles> tiles : adj) {
             if (tiles.size() > 1) {

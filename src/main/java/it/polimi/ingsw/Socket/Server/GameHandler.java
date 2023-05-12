@@ -353,6 +353,11 @@ public class GameHandler implements Runnable {
         }
 
     }
+
+    /**
+     * reset output stream
+     * @param outputStream, outputstream
+     */
     private void resetObject(ObjectOutputStream outputStream){
         try {
             outputStream.flush();

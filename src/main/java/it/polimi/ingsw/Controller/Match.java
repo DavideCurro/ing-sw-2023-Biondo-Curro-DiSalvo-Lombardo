@@ -262,6 +262,8 @@ public class Match implements Serializable {
                 result[1] = objCount1;
                 nowPlaying.setHasMadeCommonOBJ1(true);
             }
+        }
+        if(!nowPlaying.isHasMadeCommonOBJ2()){
             if(o2.execCheck(nowPlaying)){
                 pointSetter(objCount2, nowPlaying);
                 objCount2++;
@@ -270,11 +272,9 @@ public class Match implements Serializable {
                 }else{
                     result[0] = 3;
                 }
-
                 result[2] = objCount2;
                 nowPlaying.setHasMadeCommonOBJ2(true);
             }
-
         }
         return result;
 

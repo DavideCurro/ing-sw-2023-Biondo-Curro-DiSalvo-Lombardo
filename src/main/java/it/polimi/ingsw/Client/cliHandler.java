@@ -18,10 +18,13 @@ import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.Vector;
 
-import static it.polimi.ingsw.Message.Content.*;
 import static java.lang.Thread.sleep;
 
-public class ServerHandler {
+
+/**
+ * The class cliHandler
+ */
+public class cliHandler {
 
     private final Socket socket;
     private final ClientView view;
@@ -32,7 +35,18 @@ public class ServerHandler {
     private String nickname;
     private MessageDispatcher messageDispatcher;
 
-    public ServerHandler(InetAddress host, int port, ClientView view) throws IOException {
+
+    /**
+     *
+     * It is a constructor.
+     *
+     * @param host  the host.
+     * @param port  the port.
+     * @param view  the view.
+     * @throws   IOException, for the creation of socket and object-stream
+     */
+    public cliHandler(InetAddress host, int port, ClientView view) throws IOException {
+
         socket =  new Socket(host.getHostName(), port);
         socket.setSoTimeout(0);
         this.view = view;
@@ -43,7 +57,15 @@ public class ServerHandler {
         nickname = "";
         messageDispatcher = new MessageDispatcher(socket,objectOutputStream);
     }
+
+    /**
+     *
+     * Validate lobby type
+     *
+     * @return int
+     */
     private int validateLobbyType(){
+
 
         int lobbyType = -1;
         boolean wentToCatch;
@@ -64,7 +86,15 @@ public class ServerHandler {
         return lobbyType;
     }
 
+
+    /**
+     *
+     * Cli, this method handle every aspect from start-up of cli
+     *
+     * @throws   InterruptedException, this is needed for the sleep of the client
+     */
     public void cli() throws InterruptedException {
+
         int gamestart = 0;
 
         view.welcome();
@@ -94,10 +124,18 @@ public class ServerHandler {
         sleep(5000);
     }
 
-    private void handleNewMessage(Message message) throws IOException {
+
+    /**
+     *
+     * Handle new message, that arrives from server
+     *
+     * @param message  the message.
+     */
+    private void handleNewMessage(Message message){
+
         switch (message.getMessageType()){
             case NEWGAME ->
-                view.printPlayground((Playground)message.getPayload());
+                    view.printPlayground((Playground)message.getPayload());
 
             case PLAYERDATA -> {
                 Player tmp = (Player) message.getPayload();
@@ -106,7 +144,6 @@ public class ServerHandler {
             }
             case PICKTILE ->{
                 messageDispatcher.reset();
-                objectOutputStream.writeInt(0);
                 messageDispatcher.sendPickUpData(getTilesVector(),getColumn());
                 tilesVector.clear();
             }
@@ -174,25 +211,49 @@ public class ServerHandler {
 
         }
     }
+
+    /**
+     *
+     * Validate input
+     *
+     * @return int
+     */
     private int validateInput(){
+
         int x=-1;
         boolean wentToCatch;
-            do{
-                try{
-                    wentToCatch = false;
-                    x = scanner.nextInt()-1;
+        do{
+            try{
+                wentToCatch = false;
+                x = scanner.nextInt()-1;
             }catch (InputMismatchException e){
-                    scanner.next();
-                    wentToCatch = true;
-                    e.printStackTrace();
+                scanner.next();
+                wentToCatch = true;
+                e.printStackTrace();
             }}while(wentToCatch);
         return x;
     }
+
+    /**
+     *
+     * Gets the column
+     *
+     * @return the column
+     */
     private int getColumn(){
+
         System.out.println("Column of the library: ");
         return validateInput();
     }
+
+    /**
+     *
+     * Gets the tiles vector, by asking player how many tiles he wants
+     *
+     * @return the tiles vector
+     */
     private Vector<Tiles> getTilesVector(){
+
         Vector<Tiles> tmp = new Vector<>();
         System.out.println("How many tiles do you want?");
         boolean wentToCatch;

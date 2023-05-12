@@ -87,4 +87,10 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 target/
-src/main/resources/
+src/main/resources/it/polimi/MyShelfie/boards
+src/main/resources/it/polimi/MyShelfie/common_goal_cards
+src/main/resources/it/polimi/MyShelfie/item_tiles
+src/main/resources/it/polimi/MyShelfie/misc
+src/main/resources/it/polimi/MyShelfie/personal_goal_cards
+src/main/resources/it/polimi/MyShelfie/Publisher_material
+src/main/resources/it/polimi/MyShelfie/scoring_tokens

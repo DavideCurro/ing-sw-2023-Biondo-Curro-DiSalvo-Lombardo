@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
-import it.polimi.ingsw.socket.server.GameHandler;
-import it.polimi.ingsw.socket.server.StarterServer;
+//import it.polimi.ingsw.socket.server.GameHandler;
+//import it.polimi.ingsw.socket.server.StarterServer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;

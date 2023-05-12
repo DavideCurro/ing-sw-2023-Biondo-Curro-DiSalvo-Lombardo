@@ -285,7 +285,6 @@ public class Player implements Serializable {
                vectorOfTiles.get(my_shelfie.getShelf()[i][j].getType()).add(my_shelfie.getShelf()[i][j]);
             }
         }
-        Vector<Integer> counter = new Vector<>();
 
         for(Vector<Tiles> vector : vectorOfTiles){
             Vector<Vector<Tiles>> adj = new Vector<>();

@@ -13,6 +13,7 @@ public class mainMenuController {
     GridPane playground;
     @FXML
     Button otherPlayers;
+    @FXML
     ImageView personalCard;
     @FXML
     ImageView commonG1;

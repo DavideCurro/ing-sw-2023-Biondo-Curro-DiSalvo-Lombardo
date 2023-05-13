@@ -39,11 +39,6 @@ public class mainMenuController {
         this.message = message;
     }
 
-    /**
-     *
-     * @param
-     */
-
     //pick tiles from playground
     public void pickTiles(MouseEvent mouseEvent) {
         tmp = new Vector<>();

@@ -13,7 +13,7 @@ public class GUI extends Application {
     Button but1;
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/it/polimi/MyShelfie/setup.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("it/polimi/ingsw/Client/GUI/Controllers/setup.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         primaryStage.setTitle("Title");
         but1 = new Button();

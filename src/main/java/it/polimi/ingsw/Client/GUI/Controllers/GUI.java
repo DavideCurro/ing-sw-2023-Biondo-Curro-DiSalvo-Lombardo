@@ -17,7 +17,7 @@ public class GUI extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         primaryStage.setTitle("Title");
         but1 = new Button();
-        but1.setText("click");
+        but1.setText("click the button");
         but1.setOnAction(e -> System.out.println("cliccato"));
         primaryStage.setScene(scene);
         primaryStage.show();

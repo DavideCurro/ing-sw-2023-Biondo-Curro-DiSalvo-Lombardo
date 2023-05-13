@@ -18,6 +18,8 @@ public class mainMenuController {
     @FXML
     Button otherPlayers;
     @FXML
+    Button button0, button1, button2, button3, button4;
+    @FXML
     ImageView personalCard;
     @FXML
     ImageView commonG1;
@@ -56,45 +58,43 @@ public class mainMenuController {
         button.setVisible(true);
 
         //buttons to choose the column where to enter the tiles in the library
-        Button col0 = new Button("1");
-        Button col1 = new Button("2");
-        Button col2 = new Button("3");
-        Button col3 = new Button("4");
-        Button col4 = new Button("5");
-        col0.setVisible(false);
-        col1.setVisible(false);
-        col2.setVisible(false);
-        col3.setVisible(false);
-        col4.setVisible(false);
+        button0.setVisible(false);
+        button1.setVisible(false);
+        button2.setVisible(false);
+        button3.setVisible(false);
+        button4.setVisible(false);
 
         button.setOnAction(e ->{
-            col0.setVisible(true);
-            col1.setVisible(true);
-            col2.setVisible(true);
-            col3.setVisible(true);
-            col4.setVisible(true);
+            button0.setVisible(true);
+            button1.setVisible(true);
+            button2.setVisible(true);
+            button3.setVisible(true);
+            button4.setVisible(true);
         } );
 
-        col0.setOnAction(e -> {
+        button0.setOnAction(e -> {
             column = 0;
             message.sendPickUpData(tmp,column);
         });
-        col1.setOnAction(e ->{
+        button1.setOnAction(e ->{
             column = 1;
             message.sendPickUpData(tmp,column);
         });
-        col2.setOnAction(e -> {
+        button2.setOnAction(e -> {
             column = 2;
             message.sendPickUpData(tmp,column);
         });
-        col3.setOnAction(e -> {
+        button3.setOnAction(e -> {
             column = 3;
             message.sendPickUpData(tmp,column);
         });
-        col4.setOnAction(e -> {
+        button4.setOnAction(e -> {
             column = 4;
             message.sendPickUpData(tmp,column);
         });
+
+
+
 
     }
 }

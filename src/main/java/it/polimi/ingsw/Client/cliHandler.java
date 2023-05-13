@@ -151,7 +151,7 @@ public class cliHandler {
                 Playground playground = (Playground) message.getPayload();
                 Player player =(Player)message.getPayload2();
                 view.printPlayground(playground);
-                System.out.println("Was the turn of "+ player.getNickname() + " here it's his library");
+                System.out.println("It was the turn of "+ player.getNickname() + " here it's his library");
                 view.printPlayerLibrary(player);
                 if(player.getNickname().equals(nickname)){
                     player.setPoints(0);

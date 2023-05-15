@@ -72,6 +72,8 @@ public class setupController {
                 else if (lobby3.isSelected()) lobbyType = 3;
                     else if (lobby4.isSelected()) lobbyType = 4;
 
+                    //setPlayerNum(lobbyType)
+
             //fixare con finestra modale
             if(!messageDispatcher.sendLoginInfo(lobbyType)) System.out.println("ERROR!");
 

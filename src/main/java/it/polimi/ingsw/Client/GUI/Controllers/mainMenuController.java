@@ -4,10 +4,13 @@ import it.polimi.ingsw.Client.MessageDispatcher;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Vector;
 
 public class mainMenuController {
@@ -29,15 +32,77 @@ public class mainMenuController {
     private Vector<Tiles> tmp;
 
     private int column = 0;
+
+    private int columnp;
+    private int rowsp;
+
+    private final int TILE_WIDTH = 52;
+    private final int TILE_HEIGHT = 52;
+
+    private ArrayList<Image> tilesImg = new ArrayList<Image>();
+
+
     public mainMenuController(MessageDispatcher message) {
+        this.message = message;
+    }
+
+    public void initialize(){
         otherPlayers.setVisible(true);
         personalCard.setVisible(true);
         commonG1.setVisible(true);
         commonG2.setVisible(true);
         playground.setVisible(true);
         library.setVisible(true);
-        this.message = message;
+
+        //buttons to choose the column where to enter the tiles in the library
+        button0.setVisible(false);
+        button1.setVisible(false);
+        button2.setVisible(false);
+        button3.setVisible(false);
+        button4.setVisible(false);
+
     }
+
+    public void playgroundBoard(int rowsp, int columnp){
+        this.rowsp = rowsp;
+        this.columnp = columnp;
+
+       // playground.setStyle("-fx-background-image : url ");
+        initTilesimage();
+        fillTiles();
+
+    }
+
+    private void fillTiles() {
+        for(int i = 0; i < rowsp; i++){
+            for(int j = 0; j < columnp; j++){
+                ImageView tile = createTile(i,j);
+                playground.getChildren().add(tile);
+            }
+        }
+    }
+
+    private ImageView createTile(int i, int j) {
+        Random rand = new Random();
+        int index = rand.nextInt((tilesImg.size()));
+        ImageView img = new ImageView(tilesImg.get(index));
+
+        img.setFitHeight((TILE_HEIGHT));
+        img.setFitWidth((TILE_WIDTH));
+
+        return img;
+    }
+
+    public void initTilesimage(){
+        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.1.png").toExternalForm()));
+        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Gatti1.1.png").toExternalForm()));
+        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Giochi1.1.png").toExternalForm()));
+        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Libri1.1.png").toExternalForm()));
+        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Piante1.1.png").toExternalForm()));
+        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Trofei1.1.png").toExternalForm()));
+
+    }
+
 
     //pick tiles from playground
     public void pickTiles(MouseEvent mouseEvent) {
@@ -51,13 +116,6 @@ public class mainMenuController {
 
         tmp.add(new Tiles(-1,x1,y1));
         button.setVisible(true);
-
-        //buttons to choose the column where to enter the tiles in the library
-        button0.setVisible(false);
-        button1.setVisible(false);
-        button2.setVisible(false);
-        button3.setVisible(false);
-        button4.setVisible(false);
 
         button.setOnAction(e ->{
             button0.setVisible(true);
@@ -87,9 +145,6 @@ public class mainMenuController {
             column = 4;
             message.sendPickUpData(tmp,column);
         });
-
-
-
 
     }
 }

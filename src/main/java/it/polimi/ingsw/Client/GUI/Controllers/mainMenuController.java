@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
 import it.polimi.ingsw.Client.MessageDispatcher;
+import it.polimi.ingsw.Message.Message;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -103,6 +104,7 @@ public class mainMenuController {
 
     }
 
+    //METODO DA IMPLEMENTARE SHOW PLAYGROUND
 
     //pick tiles from playground
     public void pickTiles(MouseEvent mouseEvent) {
@@ -147,4 +149,26 @@ public class mainMenuController {
         });
 
     }
+    public void handleNewMessage(Message message) {
+        switch (message.getMessageType()) {
+            case NEWGAME -> playgroundBoard(9,9);
+
+
+            /**
+             * messaggi che arrivano dal server.
+             * vari casi di gioco
+             *
+             * PICK TILE
+             *
+             * SHOW LIBRARY
+             *
+             * COMMON GOAL
+             *
+             * PERSONAL GOAL
+             */
+
+        }
+
+    }
+
 }

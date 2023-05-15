@@ -14,7 +14,14 @@ public class GUI extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("mainMenu.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../../../../../../resources/it/polimi/MyShelfie/fxml/setup.fxml"));
+
+
+            //richiamare startgame quando cliccato
+            //richiamare FXML main controller
+
+
+
             Scene scene = new Scene(fxmlLoader.load(), 320, 240);
             primaryStage.setTitle("Title");
             but1 = new Button();

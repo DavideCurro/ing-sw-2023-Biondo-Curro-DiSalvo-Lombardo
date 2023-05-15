@@ -11,6 +11,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.control.Alert;
+
+
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -48,64 +51,71 @@ public class setupController {
 
     public setupController(InetAddress host, int port) throws IOException {
         this.socket = new Socket(host.getHostName(), port);
-        objectOutputStream  = new ObjectOutputStream(socket.getOutputStream());
-        objectInputStream  = new ObjectInputStream(socket.getInputStream());
+        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+        objectInputStream = new ObjectInputStream(socket.getInputStream());
         tilesVector = new Vector<>();
-        messageDispatcher = new MessageDispatcher(socket,objectOutputStream);
+        messageDispatcher = new MessageDispatcher(socket, objectOutputStream);
     }
 
 
-    public void initialize () {
-            StartGame.setVisible(false);
-            chooseNickname.setVisible(true);
-            nickname.setVisible(true);
-        }
+    public void initialize() {
+        StartGame.setVisible(true);
+        chooseNickname.setVisible(true);
+        nickname.setVisible(true);
+    }
 
-        public void gui () throws InterruptedException {
+    public void gui() throws InterruptedException {
 
-            int gamestart = 0;
+        int gamestart = 0;
 
-            nickname1 = nickname.getText();
-            messageDispatcher.setNickname(nickname1);
+        nickname1 = nickname.getText();
+        messageDispatcher.setNickname(nickname1);
 
-            if(lobby2.isSelected()) lobbyType=2;
-                else if (lobby3.isSelected()) lobbyType = 3;
-                    else if (lobby4.isSelected()) lobbyType = 4;
+        if (lobby2.isSelected()) lobbyType = 2;
+        else if (lobby3.isSelected()) lobbyType = 3;
+        else if (lobby4.isSelected()) lobbyType = 4;
 
                     //setPlayerNum(lobbyType)
 
-            //fixare con finestra modale
-            if(!messageDispatcher.sendLoginInfo(lobbyType)) System.out.println("ERROR!");
+        if (!messageDispatcher.sendLoginInfo(lobbyType))
+            showerror("ERROR!");
 
             while (socket.isConnected()) {
                 Message message;
                 try {
                     message = (Message) objectInputStream.readObject();
-                    if(gamestart == 0)
+                    if (gamestart == 0)
                         gamestart++;
-                    handleNewMessage(message);
+                    mainMenuController startgame = new mainMenuController(messageDispatcher);
+                    startgame.handleNewMessage(message);
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
             }
-            sleep(5000);
-        }
+        sleep(5000);
+    }
 
-    private void handleNewMessage(Message message) {
-        switch (message.getMessageType()) {
 
-            /**
-             * messaggi che arrivano dal server.
-             * vari casi di gioco
-             */
 
-        }
+    public void StartGame(MouseEvent mouseEvent) {
+
+        StartGame = new Button();
+        StartGame.setOnAction(e-> {
+            try {
+                gui();
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
 
     }
 
-    public void StartGame (MouseEvent mouseEvent){
-        StartGame.setVisible(true);
-
-        }
+    public void showerror(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
 
 }

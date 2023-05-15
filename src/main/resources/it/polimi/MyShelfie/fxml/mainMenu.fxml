@@ -10,7 +10,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="734.0" prefWidth="924.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.Client.GUI.Controllers.mainMenuController">
    <children>
-      <GridPane fx:id="library" layoutX="27.0" layoutY="126.0" prefHeight="198.0" prefWidth="326.0">
+      <GridPane fx:id="library" layoutX="27.0" layoutY="102.0" prefHeight="312.0" prefWidth="260.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -27,9 +27,9 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <ImageView fx:id="commonG1" fitHeight="129.0" fitWidth="168.0" layoutX="30.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="commonG2" fitHeight="129.0" fitWidth="154.0" layoutX="252.0" layoutY="571.0" pickOnBounds="true" preserveRatio="true" />
-      <GridPane fx:id="playground" layoutX="521.0" layoutY="81.0" onMouseClicked="#pickTiles" prefHeight="438.0" prefWidth="366.0">
+      <ImageView fx:id="commonG1" fitHeight="129.0" fitWidth="168.0" layoutX="317.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="commonG2" fitHeight="129.0" fitWidth="154.0" layoutX="542.0" layoutY="599.0" pickOnBounds="true" preserveRatio="true" />
+      <GridPane fx:id="playground" layoutX="422.0" layoutY="79.0" onMouseClicked="#pickTiles" prefHeight="468.0" prefWidth="468.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -56,14 +56,14 @@
       <Label layoutX="146.0" layoutY="28.0" text="Library" />
       <Label layoutX="682.0" layoutY="20.0" prefHeight="32.0" prefWidth="82.0" text="Playground" />
       <Button fx:id="otherPlayers" layoutX="786.0" layoutY="635.0" mnemonicParsing="false" text="Other Players" />
-      <Label layoutX="78.0" layoutY="543.0" text="Common Goal 1" />
-      <Label layoutX="275.0" layoutY="543.0" text="Common Goal 2" />
-      <ImageView fx:id="personalCard" fitHeight="129.0" fitWidth="187.0" layoutX="38.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="86.0" layoutY="367.0" text="Personal Goal" />
-      <Button fx:id="button0" layoutX="44.0" layoutY="81.0" mnemonicParsing="false" text="1" />
-      <Button fx:id="button1" layoutX="111.0" layoutY="81.0" mnemonicParsing="false" text="2" />
-      <Button fx:id="button2" layoutX="179.0" layoutY="81.0" mnemonicParsing="false" text="3" />
-      <Button fx:id="button3" layoutX="241.0" layoutY="81.0" mnemonicParsing="false" text="4" />
-      <Button fx:id="button4" layoutX="307.0" layoutY="81.0" mnemonicParsing="false" text="5" />
+      <Label layoutX="369.0" layoutY="568.0" text="Common Goal 1" />
+      <Label layoutX="565.0" layoutY="568.0" text="Common Goal 2" />
+      <ImageView fx:id="personalCard" fitHeight="129.0" fitWidth="187.0" layoutX="47.0" layoutY="547.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="96.0" layoutY="502.0" text="Personal Goal" />
+      <Button fx:id="button0" layoutX="47.0" layoutY="54.0" mnemonicParsing="false" text="1" />
+      <Button fx:id="button1" layoutX="100.0" layoutY="54.0" mnemonicParsing="false" text="2" />
+      <Button fx:id="button2" layoutX="147.0" layoutY="54.0" mnemonicParsing="false" text="3" />
+      <Button fx:id="button3" layoutX="205.0" layoutY="54.0" mnemonicParsing="false" text="4" />
+      <Button fx:id="button4" layoutX="252.0" layoutY="54.0" mnemonicParsing="false" text="5" />
    </children>
 </Pane>

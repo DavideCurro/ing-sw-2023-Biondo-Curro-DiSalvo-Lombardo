@@ -4,6 +4,8 @@ package it.polimi.ingsw.Client.GUI.Controllers;
 //import it.polimi.ingsw.socket.server.StarterServer;
 import it.polimi.ingsw.Client.MessageDispatcher;
 import it.polimi.ingsw.Message.Message;
+import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -41,20 +43,21 @@ public class setupController {
     RadioButton lobby4;
     String nickname1;
     private int lobbyType = 0;
-
     private final Socket socket;
     private final ObjectOutputStream objectOutputStream;
     private final ObjectInputStream objectInputStream;
     private final Vector<Tiles> tilesVector;
     private MessageDispatcher messageDispatcher;
+    private final mainMenuController mainmenu;
 
 
-    public setupController(InetAddress host, int port) throws IOException {
+    public setupController(InetAddress host, int port, mainMenuController mainmenu) throws IOException {
         this.socket = new Socket(host.getHostName(), port);
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
         tilesVector = new Vector<>();
         messageDispatcher = new MessageDispatcher(socket, objectOutputStream);
+        this.mainmenu = mainmenu;
     }
 
 
@@ -86,8 +89,7 @@ public class setupController {
                     message = (Message) objectInputStream.readObject();
                     if (gamestart == 0)
                         gamestart++;
-                    mainMenuController startgame = new mainMenuController(messageDispatcher);
-                    startgame.handleNewMessage(message);
+                    handleNewMessage(message);
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -116,6 +118,32 @@ public class setupController {
         alert.setTitle("Error");
         alert.setHeaderText(message);
         alert.showAndWait();
+    }
+
+    public void handleNewMessage(Message message) {
+        switch (message.getMessageType()) {
+            case NEWGAME ->
+                    mainmenu.printplaygroundBoard((Playground)message.getPayload());
+            case PLAYERDATA -> {
+                    Player tmp = (Player) message.getPayload();
+                mainmenu.printPersonalGoal(tmp);
+            }
+
+            /**
+             * messaggi che arrivano dal server.
+             * vari casi di gioco
+             *
+             * PICK TILE
+             *
+             * SHOW LIBRARY
+             *
+             * COMMON GOAL
+             *
+             * PERSONAL GOAL
+             */
+
+        }
+
     }
 
 }

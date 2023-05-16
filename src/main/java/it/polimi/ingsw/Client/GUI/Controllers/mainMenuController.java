@@ -2,6 +2,8 @@ package it.polimi.ingsw.Client.GUI.Controllers;
 
 import it.polimi.ingsw.Client.MessageDispatcher;
 import it.polimi.ingsw.Message.Message;
+import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,6 +47,7 @@ public class mainMenuController {
 
     public mainMenuController(MessageDispatcher message) {
         this.message = message;
+
     }
 
     public void initialize(){
@@ -64,43 +67,36 @@ public class mainMenuController {
 
     }
 
-    public void playgroundBoard(int rowsp, int columnp){
-        this.rowsp = rowsp;
-        this.columnp = columnp;
+    public void printplaygroundBoard(Playground playgroundmodel){
 
-       // playground.setStyle("-fx-background-image : url ");
+        // playground.setStyle("-fx-background-image : url ");
+
         initTilesimage();
-        fillTiles();
 
-    }
+        for(int i = 0; i < 9; i++){
+            for(int j = 0; i < 9; j++){
+               int index =  playgroundmodel.getGround()[i][j].getType();
 
-    private void fillTiles() {
-        for(int i = 0; i < rowsp; i++){
-            for(int j = 0; j < columnp; j++){
-                ImageView tile = createTile(i,j);
-                playground.getChildren().add(tile);
+               ImageView img = new ImageView(tilesImg.get(index));
+               img.setFitHeight((TILE_HEIGHT));
+               img.setFitWidth((TILE_WIDTH));
+               playground.getChildren().add(img);
             }
         }
     }
 
-    private ImageView createTile(int i, int j) {
-        Random rand = new Random();
-        int index = rand.nextInt((tilesImg.size()));
-        ImageView img = new ImageView(tilesImg.get(index));
+    public void printPersonalGoal(Player playermodel){
 
-        img.setFitHeight((TILE_HEIGHT));
-        img.setFitWidth((TILE_WIDTH));
-
-        return img;
     }
 
     public void initTilesimage(){
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.1.png").toExternalForm()));
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Gatti1.1.png").toExternalForm()));
+        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Trofei1.1.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Giochi1.1.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Libri1.1.png").toExternalForm()));
+        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Gatti1.1.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Piante1.1.png").toExternalForm()));
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Trofei1.1.png").toExternalForm()));
+
 
     }
 
@@ -149,26 +145,6 @@ public class mainMenuController {
         });
 
     }
-    public void handleNewMessage(Message message) {
-        switch (message.getMessageType()) {
-            case NEWGAME -> playgroundBoard(9,9);
 
-
-            /**
-             * messaggi che arrivano dal server.
-             * vari casi di gioco
-             *
-             * PICK TILE
-             *
-             * SHOW LIBRARY
-             *
-             * COMMON GOAL
-             *
-             * PERSONAL GOAL
-             */
-
-        }
-
-    }
 
 }

@@ -129,6 +129,8 @@ public class setupController {
                 mainmenu.printPersonalGoal(tmp);
             }
 
+
+
             /**
              * messaggi che arrivano dal server.
              * vari casi di gioco

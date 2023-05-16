@@ -185,7 +185,7 @@ public class cliHandler {
                 view.printPersonalPoint(player);
             }
             case PICKUPFAIL -> {
-                System.out.println("SOMETHING WENT WRONG WITH YOUR CHOOSE");
+                System.out.println("SOMETHING WENT WRONG WITH YOUR CHOICE");
                 System.out.println("Pick up again your tiles:");
                 messageDispatcher.reset();
                 messageDispatcher.sendPickUpData(getTilesVector(),getColumn());

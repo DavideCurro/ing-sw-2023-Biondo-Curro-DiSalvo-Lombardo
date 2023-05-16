@@ -8,6 +8,7 @@ import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -98,7 +99,10 @@ public class setupController {
     }
 
 
-
+    /**
+     * Method that starts the game once the nickname and the lobby have been chosen
+     * @param mouseEvent
+     */
     public void StartGame(MouseEvent mouseEvent) {
 
         StartGame = new Button();
@@ -113,6 +117,10 @@ public class setupController {
 
     }
 
+    /**
+     * Prints an error
+     * @param message
+     */
     public void showerror(String message){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -120,6 +128,10 @@ public class setupController {
         alert.showAndWait();
     }
 
+    /**
+     * Prints an information from the server to the client
+     * @param message
+     */
     public void showmessage(String message){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("NEWS");
@@ -127,15 +139,32 @@ public class setupController {
         alert.showAndWait();
     }
 
+    /**
+     *
+     * Handle new message, that arrives from server
+     *
+     * @param message  the message.
+     */
     public void handleNewMessage(Message message) {
         switch (message.getMessageType()) {
             case NEWGAME ->
                 mainmenu.printplaygroundBoard((Playground)message.getPayload());
+
             case PLAYERDATA -> {
                 Player tmp = (Player) message.getPayload();
                 mainmenu.printPersonalGoal(tmp);
             }
+
             case PICKTILE ->{
+
+            }
+            case PICKEDTILE -> {
+                Playground playgroundmodel = (Playground) message.getPayload();
+                Player playermodel =(Player)message.getPayload2();
+                mainmenu.printplaygroundBoard(playgroundmodel);
+                showmessage("It was the turn of "+ playermodel.getNickname());
+                mainmenu.printLibrary(playermodel);
+                //print dei unti dei giocatori e del giocatore
 
             }
             case NICKNAME_DUPLICATE -> {
@@ -149,18 +178,23 @@ public class setupController {
                 showmessage("You completed the common goal!");
             }
 
-            /**
-             * messaggi che arrivano dal server.
-             * vari casi di gioco
-             *
-             * PICK TILE
-             *
-             * SHOW LIBRARY
-             *
-             * COMMON GOAL
-             *
-             * PERSONAL GOAL
-             */
+            case PERSONALOBJDONE -> {
+                showmessage("You completed your personal goal!");
+            }
+            case PICKUPFAIL -> {
+                showerror("SOMETHING WENT WRONG WITH YOUR CHOICE"+ "\n" +"Pick up again your tiles!");
+                messageDispatcher.reset();
+                //mainmenu.pickTiles(MouseEvent mouseEvent, Node node);
+            }
+            case WRONG_PLAYER,FAIL -> {
+                showerror("Some big unexpected and impossible error occur.");
+            }
+            case COMMONOBJ -> {
+
+            }
+            case ENDGAME -> {
+                //scene endgame da implementare
+            }
 
         }
 

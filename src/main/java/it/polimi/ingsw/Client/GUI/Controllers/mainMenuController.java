@@ -72,6 +72,10 @@ public class mainMenuController {
 
     }
 
+    /**
+     * Prints the playground everytime the server sends it to the client
+     * @param playgroundmodel
+     */
     public void printplaygroundBoard(Playground playgroundmodel){
 
         // playground.setStyle("-fx-background-image : url ");
@@ -90,11 +94,17 @@ public class mainMenuController {
         }
     }
 
+    /**
+     * Prints the personal goal of the player
+     * @param playermodel
+     */
     public void printPersonalGoal(Player playermodel){
 
     }
 
-
+    /**
+     * Method that associate the image of the tile to the tile itself
+     */
     public void initTilesimage(){
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.1.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Trofei1.1.png").toExternalForm()));
@@ -106,9 +116,9 @@ public class mainMenuController {
 
     }
 
-    //METODO DA IMPLEMENTARE SHOW PLAYGROUND
-
-    //pick tiles from playground
+    /**
+     * pick tiles from playground
+     */
     public void pickTiles(MouseEvent mouseEvent, Node node) {
         tmp = new Vector<>();
 
@@ -121,6 +131,11 @@ public class mainMenuController {
 
             tmp.add(new Tiles(-1, (int) mouseGridX, (int) mouseGridY));
     }
+
+    /**
+     * Inserts the picked tiles from the playground, in the library of the player, in the column chosen by a button
+     * @param mouseEvent
+     */
     public void insertTiles(MouseEvent mouseEvent){
 
 
@@ -152,6 +167,17 @@ public class mainMenuController {
             column = 4;
             message.sendPickUpData(tmp,column);
         });
+
+    }
+
+    /**
+     * Prints the library of a player
+     * @param playermodel
+     */
+    public void printLibrary(Player playermodel) {
+       otherPlayers.setOnAction(e->{
+           //prints the library of the players
+       });
 
     }
 

@@ -3,42 +3,71 @@ package it.polimi.ingsw.Client.GUI.Controllers;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class GUI extends Application {
+    private Stage stage;
+    private Scene currentScene;
+    private HashMap<String, Scene> nameToScene = new HashMap<>();
 
-    Button but1;
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        try {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../../../../../../../resources/it/polimi/MyShelfie/fxml/setup.fxml"));
-
-
+    public void start(Stage stage) throws IOException {
+        setup();
+        this.stage = stage;
+        this.stage.setResizable(false);
             //richiamare startgame quando cliccato
             //richiamare FXML main controller
-
-
-
-            Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-            primaryStage.setTitle("Title");
-            but1 = new Button();
-            but1.setText("click the button");
-            but1.setOnAction(e -> System.out.println("cliccato"));
-            primaryStage.setScene(scene);
-            primaryStage.show();
-
-        }catch(Exception e) {
-            System.out.println(e);
-        }
+        showTheScene();
 
     }
 
+    /**
+     * Shows the first scene
+     */
+    public void showTheScene(){
+        stage.setScene(currentScene);
+        stage.sizeToScene();
+        stage.setResizable(false);
+        stage.setTitle("MyShelfie");
+        stage.show();
+    }
 
+    /**
+     * Shows the new scene
+     * @param scene
+     */
+    public void changeTheScene( String scene){
+        this.currentScene = nameToScene.get(scene);
+        stage.setScene(currentScene);
+        stage.show();
+    }
+    /**
+     * Set up of the FXML file of the application.
+     */
+    public void setup(){
+        //font da stampare
+        try {
+            for (Scenes scene : Scenes.values()) {
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/resources/it/polimi/MyShelfie/fxml/setup.fxml"));
+                nameToScene.put(scene.getName(), new Scene(fxmlLoader.load()));
+            }
+            currentScene = nameToScene.get("SETUP");
+
+        }catch(Exception e) {
+            e.printStackTrace();
+            System.out.println(e);
+        }
+    }
+
+    /***
+     * Main of the class
+     * @param args Main args
+     */
     public static void main(String[] args) {
-        launch();
+        launch(args);
 
     }
 

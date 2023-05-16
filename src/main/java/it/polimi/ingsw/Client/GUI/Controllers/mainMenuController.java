@@ -6,6 +6,7 @@ import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +44,9 @@ public class mainMenuController {
     private final int TILE_HEIGHT = 52;
 
     private ArrayList<Image> tilesImg = new ArrayList<Image>();
+    private double mouseGridX;
+    private double mouseGridY;
+    Button button = new Button("Confirm");
 
 
     public mainMenuController(MessageDispatcher message) {
@@ -57,6 +61,7 @@ public class mainMenuController {
         commonG2.setVisible(true);
         playground.setVisible(true);
         library.setVisible(true);
+        button.setVisible(false);
 
         //buttons to choose the column where to enter the tiles in the library
         button0.setVisible(false);
@@ -103,17 +108,20 @@ public class mainMenuController {
     //METODO DA IMPLEMENTARE SHOW PLAYGROUND
 
     //pick tiles from playground
-    public void pickTiles(MouseEvent mouseEvent) {
+    public void pickTiles(MouseEvent mouseEvent, Node node) {
         tmp = new Vector<>();
 
-        Button button = new Button("Confirm");
-        button.setVisible(false);
-
-        int x1 = (int) (playground.getLayoutX());
-        int y1 = (int) (playground.getLayoutY());
-
-        tmp.add(new Tiles(-1,x1,y1));
         button.setVisible(true);
+
+        node.setOnMousePressed(mouseEvent1 -> {
+            mouseGridX = mouseEvent1.getX();
+            mouseGridY = mouseEvent1.getY();
+        });
+
+            tmp.add(new Tiles(-1, (int) mouseGridX, (int) mouseGridY));
+    }
+    public void insertTiles(MouseEvent mouseEvent){
+
 
         button.setOnAction(e ->{
             button0.setVisible(true);

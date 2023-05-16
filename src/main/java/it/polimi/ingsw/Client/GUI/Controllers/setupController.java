@@ -120,16 +120,34 @@ public class setupController {
         alert.showAndWait();
     }
 
+    public void showmessage(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("NEWS");
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
+
     public void handleNewMessage(Message message) {
         switch (message.getMessageType()) {
             case NEWGAME ->
-                    mainmenu.printplaygroundBoard((Playground)message.getPayload());
+                mainmenu.printplaygroundBoard((Playground)message.getPayload());
             case PLAYERDATA -> {
-                    Player tmp = (Player) message.getPayload();
+                Player tmp = (Player) message.getPayload();
                 mainmenu.printPersonalGoal(tmp);
             }
+            case PICKTILE ->{
 
+            }
+            case NICKNAME_DUPLICATE -> {
+                showerror("This nickname was already taken. Choose another one: \n");
+                chooseNickname.setVisible(true);
+                nickname1 = nickname.getText();
+                messageDispatcher.setNickname(nickname1);
+            }
 
+            case COMMONOBJDONE ->{
+                showmessage("You completed the common goal!");
+            }
 
             /**
              * messaggi che arrivano dal server.

@@ -89,6 +89,7 @@ public class mainMenuController {
 
     }
 
+
     public void initTilesimage(){
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.1.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Trofei1.1.png").toExternalForm()));

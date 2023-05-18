@@ -14,5 +14,5 @@ Group:
  - :construction:GUI
  - :construction:RMI
 ## Test
-![Coverage](/Deliverables/Test/Coverage.jpg).
+![Coverage](/Deliverables/Test/Coverage.jpg)
 

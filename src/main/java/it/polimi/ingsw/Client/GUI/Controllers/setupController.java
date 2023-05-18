@@ -44,12 +44,37 @@ public class setupController {
     RadioButton lobby4;
     String nickname1;
     private int lobbyType = 0;
-    private final Socket socket;
-    private final ObjectOutputStream objectOutputStream;
-    private final ObjectInputStream objectInputStream;
-    private final Vector<Tiles> tilesVector;
+    private Socket socket;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+    private Vector<Tiles> tilesVector;
     private MessageDispatcher messageDispatcher;
-    private final mainMenuController mainmenu;
+    private mainMenuController mainmenu;
+
+
+    public setupController(){
+        this.socket = null;
+        this.objectOutputStream = null;
+        this.objectInputStream = null;
+        this.tilesVector = new Vector<>();
+        this.mainmenu = null;
+    }
+
+    public void setSocket(Socket socket){
+        this.socket = socket;
+    }
+
+    public void setObjectOutputStream(ObjectOutputStream objectOutputStream){
+        this.objectOutputStream = objectOutputStream;
+    }
+
+    public void setObjectInputStream(ObjectInputStream objectInputStream){
+        this.objectInputStream = objectInputStream;
+    }
+
+    public void setMainmenu(mainMenuController mainmenu){
+        this.mainmenu = mainmenu;
+    }
 
 
     public setupController(InetAddress host, int port, mainMenuController mainmenu) throws IOException {

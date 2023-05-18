@@ -1,20 +1,30 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
 import it.polimi.ingsw.Client.MessageDispatcher;
+import it.polimi.ingsw.Message.Message;
 import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.control.Alert;
 
 import java.util.ArrayList;
 import java.util.Vector;
+import  java.lang.*;
 
 public class mainMenuController {
+    @FXML
+    Label points;
+    @FXML
+    TextField privatePoints;
     @FXML
     ImageView commonG2;
     @FXML
@@ -22,14 +32,22 @@ public class mainMenuController {
     @FXML
     Button otherPlayers;
     @FXML
-    Button button0, button1, button2, button3, button4;
+    Button button0 = new Button("1");
+    @FXML
+    Button button1 = new Button("2");
+    @FXML
+    Button button2 = new Button("3");
+    @FXML
+    Button button3 = new Button("4");
+    @FXML
+    Button button4 = new Button("5");
     @FXML
     ImageView personalCard;
     @FXML
     ImageView commonG1;
     @FXML
     GridPane library;
-    private MessageDispatcher message;
+    private MessageDispatcher messageDispatcher;
     private Vector<Tiles> tmp;
 
     private int column = 0;
@@ -40,11 +58,18 @@ public class mainMenuController {
     private ArrayList<Image> tilesImg = new ArrayList<Image>();
     private double mouseGridX;
     private double mouseGridY;
-    Button button = new Button("Confirm");
+    private final Button button = new Button("Confirm");
 
-    public mainMenuController(){}
-    public mainMenuController(MessageDispatcher message) {
-        this.message = message;
+
+    public mainMenuController() {
+        this.tmp = null;
+        this.tilesImg = null;
+        this.mouseGridX = 0.0;
+        this.mouseGridY = 0.0;
+    }
+
+    public mainMenuController(MessageDispatcher messageDispatcher) {
+        this.messageDispatcher = messageDispatcher;
 
     }
 
@@ -56,6 +81,8 @@ public class mainMenuController {
         playground.setVisible(true);
         library.setVisible(true);
         button.setVisible(false);
+        points.setVisible(true);
+        privatePoints.setVisible(true);
 
         //buttons to choose the column where to enter the tiles in the library
         button0.setVisible(false);
@@ -92,12 +119,69 @@ public class mainMenuController {
     /**
      * Prints the personal goal of the player
      *
-     * @param playermodel
+     * @param player
      */
-    public void printPersonalGoal(Player playermodel) {
+    public void printPersonalGoal(Player player) {
+       switch (player.getPersonalObj().getPersonalObj().getType()){
+           case 1-> {
+               System.out.println("ciao");
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals.png").toExternalForm());
+           }
+           case 2 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals2.png").toExternalForm());
+
+           }
+           case 3 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals3.png").toExternalForm());
+
+           }
+           case 4 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals4.png").toExternalForm());
+
+           }
+           case 5 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals5.png").toExternalForm());
+
+           }
+           case 6 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals6.png").toExternalForm());
+           }
+           case 7 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals7.png").toExternalForm());
+
+           }
+           case 8 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals8.png").toExternalForm());
+
+           }
+           case 9 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals9.png").toExternalForm());
+
+           }
+           case 10 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals10.png").toExternalForm());
+
+           }
+           case 11 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals11.png").toExternalForm());
+
+           }
+           case 12 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals12.png").toExternalForm());
+
+           }
+
+       }
+
     }
 
-    public void printCommonGoal(Player playermodel) {
+    /**
+     * Prints the common goal of the player
+     *
+     * @param player
+     */
+    public void printCommonGoal(Player player) {
+
 
     }
 
@@ -142,7 +226,6 @@ public class mainMenuController {
 
         });
 
-
         tmp.add(new Tiles(-1, (int) mouseGridX, (int) mouseGridY));
     }
 
@@ -152,7 +235,6 @@ public class mainMenuController {
      * @param mouseEvent
      */
     public void insertTiles(MouseEvent mouseEvent) {
-
 
         button.setOnAction(e -> {
             button0.setVisible(true);
@@ -164,23 +246,23 @@ public class mainMenuController {
 
         button0.setOnAction(e -> {
             column = 0;
-            message.sendPickUpData(tmp, column);
+            messageDispatcher.sendPickUpData(tmp, column);
         });
         button1.setOnAction(e -> {
             column = 1;
-            message.sendPickUpData(tmp, column);
+            messageDispatcher.sendPickUpData(tmp, column);
         });
         button2.setOnAction(e -> {
             column = 2;
-            message.sendPickUpData(tmp, column);
+            messageDispatcher.sendPickUpData(tmp, column);
         });
         button3.setOnAction(e -> {
             column = 3;
-            message.sendPickUpData(tmp, column);
+            messageDispatcher.sendPickUpData(tmp, column);
         });
         button4.setOnAction(e -> {
             column = 4;
-            message.sendPickUpData(tmp, column);
+            messageDispatcher.sendPickUpData(tmp, column);
         });
 
     }
@@ -195,8 +277,93 @@ public class mainMenuController {
 
             //prints the library of the players
         });
+    }
+
+    public void setPrivatePoints(Player player){
+         int x = player.getPrivatePoints();
+         privatePoints.setText(String.valueOf(x));
+    }
+    /**
+     * Prints an error
+     * @param message
+     */
+    public void showerror (String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
+
+    /**
+     * Prints an information from the server to the client
+     * @param message
+     */
+    public void showmessage (String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("NEWS");
+        alert.setHeaderText(message);
+        alert.showAndWait();
+    }
+
+    /**
+     *
+     * Handle new message, that arrives from server
+     *
+     * @param message  the message.
+     */
+    public void handleNewMessage(Message message) {
+        switch (message.getMessageType()) {
+            case NEWGAME -> printplaygroundBoard((Playground) message.getPayload());
+
+            case PLAYERDATA -> {
+                Player tmp = (Player) message.getPayload();
+                printPersonalGoal(tmp);
+            }
+
+            case PICKTILE -> {
+
+            }
+            case PICKEDTILE -> {
+                Playground playgroundmodel = (Playground) message.getPayload();
+                Player playermodel = (Player) message.getPayload2();
+                printplaygroundBoard(playgroundmodel);
+                showmessage("It was the turn of " + playermodel.getNickname());
+                printLibrary(playermodel);
+                //print dei unti dei giocatori e del giocatore
+
+            }/*
+            case NICKNAME_DUPLICATE -> {
+                showerror("This nickname was already taken. Choose another one: \n");
+                chooseNickname.setVisible(true);
+                nickname1 = nickname.getText();
+                messageDispatcher.setNickname(nickname1);
+            }*/
+
+            case COMMONOBJDONE -> {
+                showmessage("You completed the common goal!");
+            }
+
+            case PERSONALOBJDONE -> {
+                showmessage("You completed your personal goal!");
+            }
+            case PICKUPFAIL -> {
+                showerror("SOMETHING WENT WRONG WITH YOUR CHOICE" + "\n" + "Pick up again your tiles!");
+                messageDispatcher.reset();
+                //mainmenu.pickTiles(MouseEvent mouseEvent, Node node);
+            }
+            case WRONG_PLAYER, FAIL -> {
+                showerror("Some big unexpected and impossible error occur.");
+            }
+            case COMMONOBJ -> {
+
+            }
+            case ENDGAME -> {
+                //scene endgame da implementare
+            }
+
+        }
+
 
     }
 }
-
 

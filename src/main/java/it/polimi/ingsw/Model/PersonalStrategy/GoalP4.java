@@ -20,6 +20,7 @@ import java.util.Vector;
 public class GoalP4 implements PersonalObj, Serializable {
 
     private final Map<Integer,Integer> pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);
+    private final int type = 4;
 
     private final Vector<Tiles> position = new Vector<>();
     public GoalP4(){
@@ -52,6 +53,7 @@ public class GoalP4 implements PersonalObj, Serializable {
     public Vector<Tiles> getPosition() {
         return position;
     }
+    public int getType(){return type;}
 
 }
 

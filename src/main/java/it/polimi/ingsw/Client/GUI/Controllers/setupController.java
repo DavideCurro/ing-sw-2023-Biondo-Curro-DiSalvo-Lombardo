@@ -1,13 +1,14 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
 //import it.polimi.ingsw.socket.server.GameHandler;
-//import it.polimi.ingsw.socket.server.StarterServerSocket;
+//import it.polimi.ingsw.socket.server.StarterServer;
 import it.polimi.ingsw.Client.MessageDispatcher;
-import it.polimi.ingsw.Utility.Message.Message;
+import it.polimi.ingsw.Message.Message;
 import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -43,20 +44,42 @@ public class setupController {
     RadioButton lobby4;
     String nickname1;
     private int lobbyType = 0;
-    private final Socket socket;
-    private final ObjectOutputStream objectOutputStream;
-    private final ObjectInputStream objectInputStream;
-    private final Vector<Tiles> tilesVector;
+    private Socket socket;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
+    private Vector<Tiles> tilesVector;
     private MessageDispatcher messageDispatcher;
-    private final mainMenuController mainmenu;
+    private mainMenuController mainmenu;
 
 
-    public setupController(InetAddress host, int port, mainMenuController mainmenu) throws IOException {
+    public setupController(){
+        this.socket = null;
+        this.objectOutputStream = null;
+        this.objectInputStream = null;
+        this.tilesVector = new Vector<>();
+        this.mainmenu = null;
+    }
+
+    public setupController(InetAddress host, int port) throws IOException {
         this.socket = new Socket(host.getHostName(), port);
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
         tilesVector = new Vector<>();
         messageDispatcher = new MessageDispatcher(socket, objectOutputStream);
+    }
+    public void setSocket(Socket socket){
+        this.socket = socket;
+    }
+
+    public void setObjectOutputStream(ObjectOutputStream objectOutputStream){
+        this.objectOutputStream = objectOutputStream;
+    }
+
+    public void setObjectInputStream(ObjectInputStream objectInputStream){
+        this.objectInputStream = objectInputStream;
+    }
+
+    public void setMainmenu(mainMenuController mainmenu){
         this.mainmenu = mainmenu;
     }
 
@@ -70,7 +93,7 @@ public class setupController {
     public void gui() throws InterruptedException {
 
         int gamestart = 0;
-
+System.out.println("bonasira");
         nickname1 = nickname.getText();
         messageDispatcher.setNickname(nickname1);
 
@@ -89,7 +112,7 @@ public class setupController {
                     message = (Message) objectInputStream.readObject();
                     if (gamestart == 0)
                         gamestart++;
-                    handleNewMessage(message);
+                    mainmenu.handleNewMessage(message);
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -100,9 +123,9 @@ public class setupController {
 
     /**
      * Method that starts the game once the nickname and the lobby have been chosen
-     * @param mouseEvent
+     * @param
      */
-    public void StartGame(MouseEvent mouseEvent) {
+    public void StartGame() {
 
         StartGame = new Button();
         StartGame.setOnAction(e-> {
@@ -138,65 +161,7 @@ public class setupController {
         alert.showAndWait();
     }
 
-    /**
-     *
-     * Handle new message, that arrives from server
-     *
-     * @param message  the message.
-     */
-    public void handleNewMessage(Message message) {
-        switch (message.getMessageType()) {
-            case NEWGAME ->
-                mainmenu.printplaygroundBoard((Playground)message.getPayload());
 
-            case PLAYERDATA -> {
-                Player tmp = (Player) message.getPayload();
-                mainmenu.printPersonalGoal(tmp);
-            }
-
-            case PICKTILE ->{
-
-            }
-            case PICKEDTILE -> {
-                Playground playgroundmodel = (Playground) message.getPayload();
-                Player playermodel =(Player)message.getPayload2();
-                mainmenu.printplaygroundBoard(playgroundmodel);
-                showmessage("It was the turn of "+ playermodel.getNickname());
-                mainmenu.printLibrary(playermodel);
-                //print dei unti dei giocatori e del giocatore
-
-            }
-            case NICKNAME_DUPLICATE -> {
-                showerror("This nickname was already taken. Choose another one: \n");
-                chooseNickname.setVisible(true);
-                nickname1 = nickname.getText();
-                messageDispatcher.setNickname(nickname1);
-            }
-
-            case COMMONOBJDONE ->{
-                showmessage("You completed the common goal!");
-            }
-
-            case PERSONALOBJDONE -> {
-                showmessage("You completed your personal goal!");
-            }
-            case PICKUPFAIL -> {
-                showerror("SOMETHING WENT WRONG WITH YOUR CHOICE"+ "\n" +"Pick up again your tiles!");
-                messageDispatcher.reset();
-                //mainmenu.pickTiles(MouseEvent mouseEvent, Node node);
-            }
-            case WRONG_PLAYER,FAIL -> {
-                showerror("Some big unexpected and impossible error occur.");
-            }
-            case COMMONOBJ -> {
-
-            }
-            case ENDGAME -> {
-                //scene endgame da implementare
-            }
-
-        }
-
-    }
 
 }
+

@@ -12,6 +12,7 @@ import static it.polimi.ingsw.Model.Playground.Tiles.YELLOW;
 
 public class GoalP12 implements PersonalObj, Serializable {
     private final Map<Integer,Integer> pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);
+    private final int type = 12;
 
     private final Vector<Tiles> position = new Vector<>();
     public GoalP12(){
@@ -43,4 +44,5 @@ public class GoalP12 implements PersonalObj, Serializable {
         if(count == 0) return 0;
         return pointMap.get(count);
     }
+    public int getType(){return type;}
 }

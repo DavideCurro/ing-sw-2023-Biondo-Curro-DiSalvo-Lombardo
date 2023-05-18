@@ -1,5 +1,8 @@
 package it.polimi.ingsw.Client;
 
+import it.polimi.ingsw.Client.GUI.Controllers.GUI;
+import javafx.stage.Stage;
+
 import java.io.*;
 import java.net.InetAddress;
 
@@ -13,6 +16,8 @@ public class Client {
                     cliHandler.cli();
                 }
                 case "GUI" -> {
+                    GUI GUI = new GUI(InetAddress.getLocalHost(), 2000);
+                    GUI.start(new Stage());
                     System.out.println("Not already done!");
                 }
             }

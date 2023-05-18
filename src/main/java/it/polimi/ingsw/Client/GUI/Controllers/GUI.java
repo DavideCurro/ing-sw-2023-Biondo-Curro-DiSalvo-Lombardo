@@ -1,27 +1,50 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
+import it.polimi.ingsw.Client.MessageDispatcher;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.InetAddress;
+import java.net.Socket;
 import java.util.HashMap;
 
 public class GUI extends Application {
     private Stage stage;
+    private Socket socket;
     private Scene currentScene;
     private HashMap<String, Scene> nameToScene = new HashMap<>();
+    private setupController setupcont;
+    private MessageDispatcher messageDispatcher;
+    private final ObjectOutputStream objectOutputStream;
+    private final ObjectInputStream objectInputStream;
+
+
+    public GUI(InetAddress host, int port) throws IOException {
+        socket =  new Socket(host.getHostName(), port);
+        socket.setSoTimeout(0);
+        objectOutputStream  = new ObjectOutputStream(socket.getOutputStream());
+        objectInputStream  = new ObjectInputStream(socket.getInputStream());
+        messageDispatcher = new MessageDispatcher(socket,objectOutputStream);
+        setupcont = new setupController(host, port);
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
         setup();
         this.stage = stage;
         this.stage.setResizable(false);
+
             //richiamare startgame quando cliccato
             //richiamare FXML main controller
         showTheScene();
-
+        setupcont.StartGame();
     }
 
     /**
@@ -55,6 +78,8 @@ public class GUI extends Application {
                 nameToScene.put(scene.getName(), new Scene(fxmlLoader.load()));
             }
             currentScene = nameToScene.get("SETUP");
+            setupcont.gui();
+
 
         }catch(Exception e) {
             e.printStackTrace();

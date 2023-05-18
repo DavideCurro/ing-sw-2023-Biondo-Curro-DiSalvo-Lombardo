@@ -1,21 +1,19 @@
-package it.polimi.ingsw.Socket.Server;
+package it.polimi.ingsw.Server;
 
-import it.polimi.ingsw.ConnectionType;
 import it.polimi.ingsw.Controller.Match;
 import it.polimi.ingsw.Controller.MatchExeception;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import it.polimi.ingsw.Model.Player.Player;
 
-import it.polimi.ingsw.Message.Message;
+import it.polimi.ingsw.Utility.Message.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import static it.polimi.ingsw.Message.Content.*;
+import static it.polimi.ingsw.Utility.Message.Content.*;
 
 
 public class GameHandler implements Runnable {

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Message;
+package it.polimi.ingsw.Utility.Message;
 
 import java.io.Serializable;
 public class Message implements Serializable {

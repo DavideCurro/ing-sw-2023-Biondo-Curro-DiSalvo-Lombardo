@@ -5,7 +5,7 @@ import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 
 import it.polimi.ingsw.Model.Player.Player;
-import it.polimi.ingsw.Message.Message;
+import it.polimi.ingsw.Utility.Message.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;

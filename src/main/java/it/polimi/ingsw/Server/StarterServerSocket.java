@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Socket.Server;
+package it.polimi.ingsw.Server;
 
 
 import java.io.IOException;
@@ -8,7 +8,7 @@ import java.util.LinkedList;
 
 import java.util.logging.Logger;
 
-public class StarterServerSocket {
+public class StarterServerSocket extends Thread {
     public static final int PORT = 2000;
     private final LinkedList<Lobby> lobby2Player;
     private final LinkedList<Lobby> lobby3Player;

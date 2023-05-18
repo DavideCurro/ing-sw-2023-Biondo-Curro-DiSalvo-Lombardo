@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Client;
 
-import it.polimi.ingsw.Controller.Color;
+import it.polimi.ingsw.Utility.Color;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import it.polimi.ingsw.Model.CommonStrategy.*;

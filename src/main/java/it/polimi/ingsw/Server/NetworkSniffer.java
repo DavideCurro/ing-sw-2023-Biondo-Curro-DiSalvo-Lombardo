@@ -1,7 +1,7 @@
-package it.polimi.ingsw.Socket.Server;
+package it.polimi.ingsw.Server;
 
 import it.polimi.ingsw.Model.Playground.Tiles;
-import it.polimi.ingsw.Message.Message;
+import it.polimi.ingsw.Utility.Message.Message;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -42,8 +42,9 @@ public class NetworkSniffer extends Thread{
                 for (ObjectInputStream inputStream : inputStreams) {
                     if(inputStream == null) continue;
                     log.info("Waiting");
-                    log.info("Message arrived");
+
                     if(inputStream.available()>0) {
+                        log.info("Message arrived");
                         inputStream.readInt();
                         received = (Message) inputStream.readObject();
                         System.out.println(received.getSender());

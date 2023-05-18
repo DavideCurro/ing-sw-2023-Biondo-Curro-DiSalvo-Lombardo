@@ -1,12 +1,10 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
 import it.polimi.ingsw.Client.MessageDispatcher;
-import it.polimi.ingsw.Message.Message;
 import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,7 +12,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Vector;
 
 public class mainMenuController {

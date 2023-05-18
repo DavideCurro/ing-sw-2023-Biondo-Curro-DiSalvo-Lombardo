@@ -1,12 +1,10 @@
-package it.polimi.ingsw.Socket.Server;
+package it.polimi.ingsw.Server;
 
-import it.polimi.ingsw.ConnectionType;
-import it.polimi.ingsw.RMI.GameHandlerImplementation;
-import it.polimi.ingsw.RMI.server.RMIServer;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.rmi.registry.Registry;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -77,9 +75,10 @@ public class Lobby {
         }
 
     }
-    public synchronized void connection(GameHandlerImplementation client, ObjectOutputStream outputStream, ObjectInputStream inputStream, String username){
+    public synchronized void connection(Registry client, ObjectOutputStream outputStream, ObjectInputStream inputStream, String username){
         connectionType[index] = new ConnectionType(lobbyCode);
-        connectionType[index].setRMI(client);
+        connectionType[index].setRMI(new GameHandlerImplementation(client),client);
+        connectionType[index].reBind();
        // connectionType[index].setRMI(client);
         objectOutputStreams[index] = null;
         objectInputStreams[index] = null;
@@ -92,4 +91,5 @@ public class Lobby {
         }
 
     }
+    public int getLobbyCode(){return lobbyCode;}
 }

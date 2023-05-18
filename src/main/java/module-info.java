@@ -7,5 +7,5 @@ module it.polimi.ingsw {
 
     opens it.polimi.ingsw.Client.GUI.Controllers to javafx.fxml;
     exports it.polimi.ingsw.Client.GUI.Controllers;
-    exports it.polimi.ingsw.RMI;
+    exports it.polimi.ingsw.Server;
 }

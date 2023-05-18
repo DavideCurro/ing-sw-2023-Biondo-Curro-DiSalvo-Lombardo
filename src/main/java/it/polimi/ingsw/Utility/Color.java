@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Controller;
+package it.polimi.ingsw.Utility;
 
 public enum Color {
     //Color end string, color reset

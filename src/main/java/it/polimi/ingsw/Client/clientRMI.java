@@ -1,11 +1,9 @@
-package it.polimi.ingsw.RMI.client;
+package it.polimi.ingsw.Client;
 
-import it.polimi.ingsw.Client.ClientView;
-import it.polimi.ingsw.Controller.Match;
-import it.polimi.ingsw.Message.Content;
-import it.polimi.ingsw.Message.Message;
+import it.polimi.ingsw.Utility.Message.Content;
+import it.polimi.ingsw.Utility.Message.Message;
 import it.polimi.ingsw.Model.Playground.Playground;
-import it.polimi.ingsw.RMI.GameHandlerRMI;
+import it.polimi.ingsw.Server.GameHandlerRMI;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -23,7 +21,8 @@ public class clientRMI {
             GameHandlerRMI stub = (GameHandlerRMI) registry.lookup("GameHandler");
             ClientView view = new ClientView();
             // Calling the remote method using the obtained object
-            stub.handleLogin("2hello",2);
+            int newLobby =  stub.handleLogin("2hello",2);
+            stub = (GameHandlerRMI) registry.lookup(String.valueOf(newLobby));
             Message message = null;
             do {
                 message = stub.getData();
@@ -33,7 +32,7 @@ public class clientRMI {
 
 
         } catch (Exception e) {
-            System.err.println("Client exception: " + e);
+            e.printStackTrace();
 
         }
     }

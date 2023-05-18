@@ -9,6 +9,7 @@ import it.polimi.ingsw.Model.Exception.PlaygroundException;
 import it.polimi.ingsw.Model.PersonalStrategy.*;
 import it.polimi.ingsw.Model.PersonalStrategy.PersonalObj;
 import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Utility.VirtualView;
 
 import java.io.Serializable;
 import java.util.*;

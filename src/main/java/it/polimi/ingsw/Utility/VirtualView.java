@@ -1,9 +1,10 @@
-package it.polimi.ingsw.Controller;
+package it.polimi.ingsw.Utility;
 
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import it.polimi.ingsw.Model.Player.Library;
 import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Utility.Color;
 
 import java.util.Vector;
 

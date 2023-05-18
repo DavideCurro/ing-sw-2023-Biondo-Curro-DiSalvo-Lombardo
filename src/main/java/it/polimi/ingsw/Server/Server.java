@@ -1,7 +1,6 @@
-package it.polimi.ingsw.Socket.Server;
+package it.polimi.ingsw.Server;
 
-import it.polimi.ingsw.RMI.GameHandlerImplementation;
-import it.polimi.ingsw.RMI.server.RMIServer;
+
 
 import java.rmi.RemoteException;
 import java.util.LinkedList;
@@ -22,7 +21,7 @@ public class Server {
         lobby2Player.add(new Lobby(2));
         lobby3Player.add(new Lobby(3));
         lobby4Player.add(new Lobby(4));
-        new StarterServerRMI(new RMIServer(new GameHandlerImplementation())).start();
+        new StarterServerRMI().start();
         new StarterServerSocket(lobby2Player, lobby3Player, lobby4Player).start();
 
 

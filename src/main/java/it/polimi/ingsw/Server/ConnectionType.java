@@ -1,16 +1,15 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Server;
 
-import it.polimi.ingsw.RMI.GameHandlerImplementation;
-import it.polimi.ingsw.RMI.server.RMIServer;
-import it.polimi.ingsw.Socket.Server.GameHandler;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.rmi.registry.Registry;
 
 public class ConnectionType {
 
     private  final int  lobbyCode;
     private GameHandlerImplementation rmiServer;
+    private Registry registry;
     private Socket socket;
 
     public ConnectionType(int lobbyCode){
@@ -19,8 +18,9 @@ public class ConnectionType {
         socket = null;
     }
 
-    public void setRMI(GameHandlerImplementation client) {
-        this.rmiServer = client ;
+    public void setRMI(GameHandlerImplementation gameHandlerImplementation ,Registry client) {
+        this.rmiServer = gameHandlerImplementation ;
+        this.registry = client;
 
     }
 
@@ -35,8 +35,11 @@ public class ConnectionType {
                 exception.printStackTrace();
             }
         }else{
-            rmiServer.unbindRegistry();
+
         }
+    }
+    public void reBind(){
+        rmiServer.reBind(String.valueOf(lobbyCode));
     }
     public boolean isSocket(){
         return socket != null;

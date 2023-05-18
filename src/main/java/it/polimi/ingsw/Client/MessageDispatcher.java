@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Client;
 
-import it.polimi.ingsw.Message.Message;
+import it.polimi.ingsw.Utility.Message.Message;
 import it.polimi.ingsw.Model.Playground.Tiles;
 
 import java.io.IOException;
@@ -8,8 +8,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Vector;
 
-import static it.polimi.ingsw.Message.Content.NICKNAME;
-import static it.polimi.ingsw.Message.Content.PICKEDTILE;
+import static it.polimi.ingsw.Utility.Message.Content.NICKNAME;
+import static it.polimi.ingsw.Utility.Message.Content.PICKEDTILE;
 
 
 /**

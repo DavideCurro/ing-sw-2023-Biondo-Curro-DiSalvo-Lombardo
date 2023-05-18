@@ -1,36 +1,50 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.RMI.GameHandlerImplementation;
 import it.polimi.ingsw.RMI.server.RMIServer;
+import it.polimi.ingsw.Socket.Server.GameHandler;
 
+import java.io.IOException;
 import java.net.Socket;
 
 public class ConnectionType {
-    Socket socket;
-    RMIServer rmiServer;
 
-    public ConnectionType(RMIServer rmiServer) {
-        this.rmiServer = rmiServer;
-        this.socket = null;
+    private  final int  lobbyCode;
+    private GameHandlerImplementation rmiServer;
+    private Socket socket;
+
+    public ConnectionType(int lobbyCode){
+        this.lobbyCode = lobbyCode;
+        rmiServer = null;
+        socket = null;
     }
 
-    public ConnectionType(Socket socket) {
-        this.socket = socket;
-        this.rmiServer = null;
+    public void setRMI(GameHandlerImplementation client) {
+        this.rmiServer = client ;
+
     }
 
-    public Socket getSocket() {
-        return socket;
+    public void setSocket(Socket client) {
+        this.socket = client;
     }
-
-    public void setSocket(Socket socket) {
-        this.socket = socket;
+    public void close(){
+        if(rmiServer==null){
+            try{
+                socket.close();
+            }catch (IOException exception){
+                exception.printStackTrace();
+            }
+        }else{
+            rmiServer.unbindRegistry();
+        }
     }
-
-    public RMIServer getRmiServer() {
-        return rmiServer;
+    public boolean isSocket(){
+        return socket != null;
     }
-
-    public void setRmiServer(RMIServer rmiServer) {
-        this.rmiServer = rmiServer;
+    public void unLock(){
+        rmiServer.unLock();
+    }
+    public void setGameHandler(GameHandler gameHandler){
+        rmiServer.setGameHandler(gameHandler);
     }
 }

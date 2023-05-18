@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Socket.Server;
 
+import it.polimi.ingsw.ConnectionType;
 import it.polimi.ingsw.Controller.Match;
 import it.polimi.ingsw.Controller.MatchExeception;
 import it.polimi.ingsw.Model.Playground.Tiles;
@@ -18,7 +19,7 @@ import static it.polimi.ingsw.Message.Content.*;
 
 
 public class GameHandler implements Runnable {
-    private final Socket[] players;
+    private final ConnectionType[] players;
     private final String[] usernames;
 
     private final ObjectInputStream[] inputStreams;
@@ -37,7 +38,7 @@ public class GameHandler implements Runnable {
      * @param objectOutputStreams ObjectOutputStream[]
      * @param objectInputStream ObjectInputStream[]
      */
-    public GameHandler(Socket[] players, String[] usernames, ObjectOutputStream[] objectOutputStreams, ObjectInputStream[] objectInputStream) {
+    public GameHandler(ConnectionType[] players, String[] usernames, ObjectOutputStream[] objectOutputStreams, ObjectInputStream[] objectInputStream) {
         this.players = players;
         this.usernames = usernames;
         this.objectOutputStreams = objectOutputStreams;
@@ -48,13 +49,15 @@ public class GameHandler implements Runnable {
         sniffer = new NetworkSniffer(inputStreams,this);
     }
 
+
+
     /**
      * Fast close
      * @throws IOException, socket
      */
     private void closeAllConnection() throws IOException {
-        for(Socket socket : players){
-                socket.close();
+        for(ConnectionType connectionType : players){
+                connectionType.close();
         }
         sniffer.interrupt();
     }
@@ -92,6 +95,26 @@ public class GameHandler implements Runnable {
         }
         return true;
     }
+    private void startGame(){
+        for(int i = 0; i<usernames.length;i++){
+
+            if(players[i].isSocket()){
+                try {
+                    objectOutputStreams[i].flush();
+                    objectOutputStreams[i].reset();
+                    objectOutputStreams[i].writeObject(new Message(usernames[i], NEWGAME,match.getP()));
+                    objectOutputStreams[i].writeObject(new Message(usernames[i], PLAYERDATA,match.getThisPlayer(usernames[i])));
+                    objectOutputStreams[i].writeObject(new Message(usernames[i],"Server", COMMONOBJ,match.getCommonOBJ1(),match.getCommonOBJ2()));
+                    log.info("Info sent to "+ usernames[i]);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                players[i].setGameHandler(this);
+                players[i].unLock();
+            }
+        }
+    }
 
     /**
      * This method is the kernel of game logic
@@ -103,18 +126,7 @@ public class GameHandler implements Runnable {
         setPlayer();
         match.setupPlayground();
         log.info("New Match started");
-        for(int i = 0;i< usernames.length;i++){ //Notify everyone their data and the playground
-            try {
-                objectOutputStreams[i].flush();
-                objectOutputStreams[i].reset();
-                objectOutputStreams[i].writeObject(new Message(usernames[i], NEWGAME,match.getP()));
-                objectOutputStreams[i].writeObject(new Message(usernames[i], PLAYERDATA,match.getThisPlayer(usernames[i])));
-                objectOutputStreams[i].writeObject(new Message(usernames[i],"Server", COMMONOBJ,match.getCommonOBJ1(),match.getCommonOBJ2()));
-                log.info("Info sent to "+ usernames[i]);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        startGame();
         sniffer.start(); //start the sniffer to catch all message in this socket. It's a thread.
         do{
             gamePhasePlaying();
@@ -366,5 +378,6 @@ public class GameHandler implements Runnable {
             e.printStackTrace();
         }
     }
+    public Match getMatch(){return match;}
 
 }

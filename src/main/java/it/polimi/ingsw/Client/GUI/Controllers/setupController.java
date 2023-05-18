@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
 //import it.polimi.ingsw.socket.server.GameHandler;
-//import it.polimi.ingsw.socket.server.StarterServer;
+//import it.polimi.ingsw.socket.server.StarterServerSocket;
 import it.polimi.ingsw.Client.MessageDispatcher;
 import it.polimi.ingsw.Message.Message;
 import it.polimi.ingsw.Model.Player.Player;
@@ -44,37 +44,12 @@ public class setupController {
     RadioButton lobby4;
     String nickname1;
     private int lobbyType = 0;
-    private Socket socket;
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
-    private Vector<Tiles> tilesVector;
+    private final Socket socket;
+    private final ObjectOutputStream objectOutputStream;
+    private final ObjectInputStream objectInputStream;
+    private final Vector<Tiles> tilesVector;
     private MessageDispatcher messageDispatcher;
-    private mainMenuController mainmenu;
-
-
-    public setupController(){
-        this.socket = null;
-        this.objectOutputStream = null;
-        this.objectInputStream = null;
-        this.tilesVector = new Vector<>();
-        this.mainmenu = null;
-    }
-
-    public void setSocket(Socket socket){
-        this.socket = socket;
-    }
-
-    public void setObjectOutputStream(ObjectOutputStream objectOutputStream){
-        this.objectOutputStream = objectOutputStream;
-    }
-
-    public void setObjectInputStream(ObjectInputStream objectInputStream){
-        this.objectInputStream = objectInputStream;
-    }
-
-    public void setMainmenu(mainMenuController mainmenu){
-        this.mainmenu = mainmenu;
-    }
+    private final mainMenuController mainmenu;
 
 
     public setupController(InetAddress host, int port, mainMenuController mainmenu) throws IOException {

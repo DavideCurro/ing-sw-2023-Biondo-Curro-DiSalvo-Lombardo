@@ -1,8 +1,13 @@
 package it.polimi.ingsw.Socket.Server;
 
+import it.polimi.ingsw.ConnectionType;
+import it.polimi.ingsw.RMI.GameHandlerImplementation;
+import it.polimi.ingsw.RMI.server.RMIServer;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
@@ -15,7 +20,8 @@ public class Lobby {
     private int index;
     private static final Logger log = Logger.getLogger(Lobby.class.getName());
     private final ExecutorService launcher; //needs to exec the gamehandler
-
+    private final int lobbyCode;
+    private ConnectionType[] connectionType;
 
     /**
      * It's a constructor
@@ -29,6 +35,9 @@ public class Lobby {
         objectOutputStreams = new ObjectOutputStream[nPlayer];
         usernames = new String[nPlayer];
         index = 0;
+        Random random = new Random();
+        lobbyCode =random.nextInt(99999);
+        connectionType = new ConnectionType[nPlayer];
     }
 
     /**
@@ -36,7 +45,7 @@ public class Lobby {
      * @return true if is full
      */
     public boolean isFull(){
-        return clients.length == index;
+        return connectionType.length == index;
     }
 
     /**
@@ -44,7 +53,7 @@ public class Lobby {
      * @return max number of players
      */
     public int maxConnection(){
-        return clients.length;
+        return connectionType.length;
     }
 
     /**
@@ -55,15 +64,31 @@ public class Lobby {
      * @param username String
      */
     public synchronized void connection(Socket client, ObjectOutputStream outputStream, ObjectInputStream inputStream, String username){
-        clients[index] = client;
+        connectionType[index] = new ConnectionType(lobbyCode);
+        connectionType[index].setSocket(client);
         objectOutputStreams[index] = outputStream;
         objectInputStreams[index] = inputStream;
         usernames[index] = username;
         index++;
         log.info("New player connected "+ client.toString());
-        if(clients.length == index){
+        if(connectionType.length == index){
             log.info("Start game");
-            launcher.submit(new GameHandler(clients,usernames,objectOutputStreams,objectInputStreams));
+            launcher.submit(new GameHandler(connectionType,usernames,objectOutputStreams,objectInputStreams));
+        }
+
+    }
+    public synchronized void connection(GameHandlerImplementation client, ObjectOutputStream outputStream, ObjectInputStream inputStream, String username){
+        connectionType[index] = new ConnectionType(lobbyCode);
+        connectionType[index].setRMI(client);
+       // connectionType[index].setRMI(client);
+        objectOutputStreams[index] = null;
+        objectInputStreams[index] = null;
+        usernames[index] = username;
+        index++;
+        log.info("New player connected "+ client.toString());
+        if(connectionType.length == index){
+            log.info("Start game");
+            launcher.submit(new GameHandler(connectionType,usernames,objectOutputStreams,objectInputStreams));
         }
 
     }

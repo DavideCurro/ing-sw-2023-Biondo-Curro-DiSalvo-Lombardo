@@ -40,6 +40,7 @@ public class NetworkSniffer extends Thread{
         while(true){
             try{
                 for (ObjectInputStream inputStream : inputStreams) {
+                    if(inputStream == null) continue;
                     log.info("Waiting");
                     log.info("Message arrived");
                     if(inputStream.available()>0) {
@@ -49,7 +50,7 @@ public class NetworkSniffer extends Thread{
                         game_handler.handleTurn((Integer) received.getPayload(), (Vector<Tiles>) received.getPayload2(), received.getSender()); //column, vector
                     }
                 }
-                sleep(500);
+                sleep(800);
             }catch (ClassNotFoundException | IOException |InterruptedException exception){
                 exception.printStackTrace();
             }

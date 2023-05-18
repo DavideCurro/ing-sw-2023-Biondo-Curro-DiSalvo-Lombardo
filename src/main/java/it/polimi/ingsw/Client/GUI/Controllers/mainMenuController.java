@@ -45,7 +45,7 @@ public class mainMenuController {
     private double mouseGridY;
     Button button = new Button("Confirm");
 
-
+    public mainMenuController(){}
     public mainMenuController(MessageDispatcher message) {
         this.message = message;
 

@@ -195,7 +195,7 @@ public class cliHandler {
                 System.out.println("Some big unexpected and impossible error occur.");
             }
             case COMMONOBJ -> {
-                view.printCommonOBJ(message.getPayload());
+                view.printCommonOBJ(message.getPayload().getType());
                 view.printCommonOBJ(message.getPayload2());
             }
             case ENDGAME -> {

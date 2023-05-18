@@ -51,7 +51,7 @@ public class GUI extends Application {
         //font da stampare
         try {
             for (Scenes scene : Scenes.values()) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/setup.fxml"));
                 nameToScene.put(scene.getName(), new Scene(fxmlLoader.load()));
             }
             currentScene = nameToScene.get("SETUP");

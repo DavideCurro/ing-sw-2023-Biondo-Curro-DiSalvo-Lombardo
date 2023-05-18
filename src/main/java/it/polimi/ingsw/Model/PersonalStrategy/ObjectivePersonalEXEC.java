@@ -15,4 +15,5 @@ public class ObjectivePersonalEXEC implements Serializable {
     public PersonalObj getPersonalObj(){
         return personalObj;
     }
+    public int getType(){return personalObj.getType();}
 }

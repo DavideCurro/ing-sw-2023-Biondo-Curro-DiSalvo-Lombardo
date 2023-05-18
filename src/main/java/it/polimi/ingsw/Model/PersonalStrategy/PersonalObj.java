@@ -9,4 +9,6 @@ public interface PersonalObj {
 
     int check(Player player);
     Vector<Tiles> getPosition();
+
+    int getType();
 }

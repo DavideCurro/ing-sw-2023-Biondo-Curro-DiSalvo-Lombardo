@@ -92,7 +92,7 @@ public class ClientView {
      *
      * @param commonObj  the common obj.
      */
-    public void printCommonOBJ(Object commonObj){
+    public void printCommonOBJ(Object commonObj, int type){
 
         if(commonObj instanceof GoalC1){
             System.out.println("This game is playing on Goal 1");
@@ -243,7 +243,7 @@ public class ClientView {
      * @param position  the position.
      * @return Library
      */
-    private static Library buildLibraryPosition(Vector<Tiles> position){
+    public static Library buildLibraryPosition(Vector<Tiles> position){
 
         Library tmp = new Library();
         for (Tiles tiles : position) {

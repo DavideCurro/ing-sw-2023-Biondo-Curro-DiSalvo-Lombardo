@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
+import it.polimi.ingsw.Client.ClientView;
 import it.polimi.ingsw.Client.MessageDispatcher;
 import it.polimi.ingsw.Message.Message;
 import it.polimi.ingsw.Model.Player.Player;
@@ -8,6 +9,8 @@ import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -18,6 +21,10 @@ import java.util.Random;
 import java.util.Vector;
 
 public class mainMenuController {
+    @FXML
+    Label points;
+    @FXML
+    TextField privatePoints;
     @FXML
     ImageView commonG2;
     @FXML
@@ -59,6 +66,8 @@ public class mainMenuController {
         playground.setVisible(true);
         library.setVisible(true);
         button.setVisible(false);
+        points.setVisible(true);
+        privatePoints.setVisible(true);
 
         //buttons to choose the column where to enter the tiles in the library
         button0.setVisible(false);
@@ -95,12 +104,69 @@ public class mainMenuController {
     /**
      * Prints the personal goal of the player
      *
-     * @param playermodel
+     * @param player
      */
-    public void printPersonalGoal(Player playermodel) {
+    public void printPersonalGoal(Player player) {
+       switch (player.getPersonalObj().getPersonalObj().getType()){
+           case 1-> {
+               System.out.println("ciao");
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals.png").toExternalForm());
+           }
+           case 2 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals2.png").toExternalForm());
+
+           }
+           case 3 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals3.png").toExternalForm());
+
+           }
+           case 4 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals4.png").toExternalForm());
+
+           }
+           case 5 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals5.png").toExternalForm());
+
+           }
+           case 6 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals6.png").toExternalForm());
+           }
+           case 7 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals7.png").toExternalForm());
+
+           }
+           case 8 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals8.png").toExternalForm());
+
+           }
+           case 9 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals9.png").toExternalForm());
+
+           }
+           case 10 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals10.png").toExternalForm());
+
+           }
+           case 11 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals11.png").toExternalForm());
+
+           }
+           case 12 ->{
+               personalCard = new ImageView(this.getClass().getResource("Personal_Goals12.png").toExternalForm());
+
+           }
+
+       }
+
     }
 
-    public void printCommonGoal(Player playermodel) {
+    /**
+     * Prints the common goal of the player
+     *
+     * @param player
+     */
+    public void printCommonGoal(Player player) {
+
 
     }
 
@@ -145,7 +211,6 @@ public class mainMenuController {
 
         });
 
-
         tmp.add(new Tiles(-1, (int) mouseGridX, (int) mouseGridY));
     }
 
@@ -155,7 +220,6 @@ public class mainMenuController {
      * @param mouseEvent
      */
     public void insertTiles(MouseEvent mouseEvent) {
-
 
         button.setOnAction(e -> {
             button0.setVisible(true);
@@ -198,7 +262,11 @@ public class mainMenuController {
 
             //prints the library of the players
         });
+    }
 
+    public void setPrivatePoints(Player player){
+         int x = player.getPrivatePoints();
+         privatePoints.setText(String.valueOf(x));
     }
 }
 

@@ -194,10 +194,10 @@ public class cliHandler {
             case WRONG_PLAYER,FAIL -> {
                 System.out.println("Some big unexpected and impossible error occur.");
             }
-            case COMMONOBJ -> {
+            /*case COMMONOBJ -> {
                 view.printCommonOBJ(message.getPayload().getType());
                 view.printCommonOBJ(message.getPayload2());
-            }
+            }*/
             case ENDGAME -> {
                 System.out.println("The game has ended, you reached:");
                 LinkedList<Player> vectorLinkedList = (LinkedList<Player>) message.getPayload();

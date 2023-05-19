@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
 import it.polimi.ingsw.Client.MessageDispatcher;
-import it.polimi.ingsw.Message.Message;
+import it.polimi.ingsw.Utility.Message.Message;
 import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
@@ -49,7 +49,8 @@ public class mainMenuController {
     GridPane library;
     private MessageDispatcher messageDispatcher;
     private Vector<Tiles> tmp;
-
+    private GUI gui;
+    private setupController setupcont;
     private int column = 0;
 
     private final int TILE_WIDTH = 52;
@@ -73,6 +74,12 @@ public class mainMenuController {
 
     }
 
+    public void setGui(GUI gui) {
+        this.gui = gui;
+    }
+    public void setSetupcont(setupController setupcont){
+        this.setupcont = setupcont;
+    }
     public void initialize() {
         otherPlayers.setVisible(true);
         personalCard.setVisible(true);
@@ -184,6 +191,7 @@ public class mainMenuController {
 
 
     }
+
 
     /**
      * Method that associate the image of the tile to the tile itself
@@ -331,13 +339,12 @@ public class mainMenuController {
                 printLibrary(playermodel);
                 //print dei unti dei giocatori e del giocatore
 
-            }/*
+            }
             case NICKNAME_DUPLICATE -> {
                 showerror("This nickname was already taken. Choose another one: \n");
-                chooseNickname.setVisible(true);
-                nickname1 = nickname.getText();
-                messageDispatcher.setNickname(nickname1);
-            }*/
+                gui.changeTheScene("SETUP");
+                setupcont.insertNickname();
+            }
 
             case COMMONOBJDONE -> {
                 showmessage("You completed the common goal!");

@@ -17,7 +17,7 @@ public class Client {
                 }
                 case "GUI" -> {
                     GUI GUI = new GUI(InetAddress.getLocalHost(), 2000);
-                    GUI.start(new Stage());
+                    GUI.main(args);
                     System.out.println("Not already done!");
                 }
             }

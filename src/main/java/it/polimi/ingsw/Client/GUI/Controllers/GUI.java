@@ -15,7 +15,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.util.HashMap;
 
-public class GUI extends Application {
+public class GUI extends Application implements Runnable {
     private Stage stage;
     private Socket socket;
     private Scene currentScene;
@@ -40,11 +40,12 @@ public class GUI extends Application {
         setup();
         this.stage = stage;
         this.stage.setResizable(false);
-
-            //richiamare startgame quando cliccato
-            //richiamare FXML main controller
         showTheScene();
-        setupcont.StartGame();
+        try {
+            setupcont.gui();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -62,11 +63,12 @@ public class GUI extends Application {
      * Shows the new scene
      * @param scene
      */
-    public void changeTheScene( String scene){
+    public void changeTheScene(String scene){
         this.currentScene = nameToScene.get(scene);
         stage.setScene(currentScene);
         stage.show();
     }
+
     /**
      * Set up of the FXML file of the application.
      */
@@ -78,7 +80,7 @@ public class GUI extends Application {
                 nameToScene.put(scene.getName(), new Scene(fxmlLoader.load()));
             }
             currentScene = nameToScene.get("SETUP");
-            setupcont.gui();
+
 
 
         }catch(Exception e) {
@@ -86,6 +88,16 @@ public class GUI extends Application {
             System.out.println(e);
         }
     }
+
+    /**
+     * Main method of the Thread Client GUI
+     */
+    @Override
+    public void run(){
+
+//needs to put stuff in
+    }
+
 
     /***
      * Main of the class

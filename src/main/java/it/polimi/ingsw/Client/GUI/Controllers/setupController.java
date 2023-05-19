@@ -3,12 +3,13 @@ package it.polimi.ingsw.Client.GUI.Controllers;
 //import it.polimi.ingsw.socket.server.GameHandler;
 //import it.polimi.ingsw.socket.server.StarterServer;
 import it.polimi.ingsw.Client.MessageDispatcher;
-import it.polimi.ingsw.Message.Message;
+import it.polimi.ingsw.Utility.Message.Message;
 import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -23,6 +24,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Vector;
 
 import static java.lang.Thread.sleep;
@@ -50,7 +52,7 @@ public class setupController {
     private Vector<Tiles> tilesVector;
     private MessageDispatcher messageDispatcher;
     private mainMenuController mainmenu;
-
+    private GUI gui;
 
     public setupController(){
         this.socket = null;
@@ -70,7 +72,9 @@ public class setupController {
     public void setSocket(Socket socket){
         this.socket = socket;
     }
-
+    public void setGui(GUI gui) {
+        this.gui = gui;
+    }
     public void setObjectOutputStream(ObjectOutputStream objectOutputStream){
         this.objectOutputStream = objectOutputStream;
     }
@@ -85,7 +89,7 @@ public class setupController {
 
 
     public void initialize() {
-        StartGame.setVisible(true);
+        StartGame.setVisible(false);
         chooseNickname.setVisible(true);
         nickname.setVisible(true);
     }
@@ -112,7 +116,9 @@ System.out.println("bonasira");
                     message = (Message) objectInputStream.readObject();
                     if (gamestart == 0)
                         gamestart++;
-                    mainmenu.handleNewMessage(message);
+                    StartGame.setVisible(true);
+                    StartGame(message);
+
                 } catch (IOException | ClassNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -120,23 +126,33 @@ System.out.println("bonasira");
         sleep(5000);
     }
 
-
     /**
      * Method that starts the game once the nickname and the lobby have been chosen
      * @param
      */
-    public void StartGame() {
+    public void StartGame(Message message) {
 
         StartGame = new Button();
         StartGame.setOnAction(e-> {
             try {
-                gui();
-            } catch (InterruptedException ex) {
+                gui.changeTheScene("MENU");
+                mainmenu.handleNewMessage(message);
+            } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
         });
 
 
+    }
+
+    /**
+     * Allows the user to choose another unique nickname
+     */
+    public void insertNickname(){
+        chooseNickname.setVisible(true);
+        chooselobby.setVisible(false);
+        nickname1 = nickname.getText();
+        messageDispatcher.setNickname(nickname1);
     }
 
     /**

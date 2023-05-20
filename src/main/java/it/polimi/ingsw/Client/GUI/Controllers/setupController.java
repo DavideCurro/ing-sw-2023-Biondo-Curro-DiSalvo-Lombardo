@@ -50,12 +50,12 @@ public class setupController {
         this.mainmenu = null;
     }
 
-    public setupController(InetAddress host, int port) throws IOException {
-        this.socket = new Socket(host.getHostName(), port);
-        objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-        objectInputStream = new ObjectInputStream(socket.getInputStream());
+    public setupController(Socket socket, ObjectOutputStream outputStream, ObjectInputStream objectInputStream, MessageDispatcher messageDispatcher) throws IOException {
+        this.socket = socket;
+        objectOutputStream = outputStream;
+        this.objectInputStream = objectInputStream;
         tilesVector = new Vector<>();
-        messageDispatcher = new MessageDispatcher(socket, objectOutputStream,false);
+       this.messageDispatcher = messageDispatcher;
     }
     public void setSocket(Socket socket){
         this.socket = socket;

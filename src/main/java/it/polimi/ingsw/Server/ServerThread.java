@@ -92,7 +92,7 @@ public class ServerThread extends Thread{
                     }
                 }
             } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
     }

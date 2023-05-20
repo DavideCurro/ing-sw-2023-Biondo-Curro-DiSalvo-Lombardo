@@ -141,10 +141,12 @@ public class cliHandler {
             int newLobby =  stub.handleLogin(nickname,validateLobbyType());
             stub = (GameHandlerRMI) registry.lookup(String.valueOf(newLobby));
             messageDispatcher.setStub(stub);
+            System.out.println(stub.isAlive());
             Message message = null;
             while(stub.isAlive()) {
                 do {
                     message = stub.getData();
+                    System.out.println(message.getMessageType());
                 } while (message.getMessageType() == Content.FAIL);
                 handleNewMessage(message);
             }

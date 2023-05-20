@@ -18,8 +18,8 @@ public class Client {
                 cliHandler.cliSocket();
             }
             case "GUI"->{
-               // GUI GUI = new GUI(socket);
-                //GUI.main();
+                GUI GUI = new GUI(socket);
+                GUI.guiStart();
 
             }
         }
@@ -32,7 +32,7 @@ public class Client {
                cliHandler.cliRMI();
             }
             case "GUI"->{
-                GUI GUI = new GUI(InetAddress.getLocalHost(), 2000);
+              //  GUI GUI = new GUI(InetAddress.getLocalHost(), 2000);
               //  GUI.main();
 
             }
@@ -46,7 +46,6 @@ public class Client {
                     visualChoose(args[1], LocateRegistry.getRegistry("localhost",2001));
                 }
                 case "Socket" -> {
-
                     visualChoose(args[1],new Socket(InetAddress.getLocalHost(),2000));
                 }
             }

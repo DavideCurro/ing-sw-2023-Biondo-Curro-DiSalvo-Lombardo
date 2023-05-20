@@ -25,7 +25,7 @@ public class GameHandlerImplementation implements GameHandlerRMI{
         switch (lobbyType){
             case 2->{
                 int newCode = Server.lobby2Player.getLast().getLobbyCode();
-                Server.lobby2Player.getLast().connection(registry,null,null,nickname);
+                Server.lobby2Player.getLast().connection(registry,null,null,nickname); //TODO: CHANGE THIS WITH SERVERtHREAD ITS HANDLE ALL LOBBY
                 return newCode;
             }
             default -> throw new IllegalStateException("Unexpected value: " + lobbyType);
@@ -45,7 +45,7 @@ public class GameHandlerImplementation implements GameHandlerRMI{
         GameHandlerRMI stub = null;
             try {
                 stub = (GameHandlerRMI) UnicastRemoteObject.exportObject(new GameHandlerImplementation(registry), 0);
-                registry.bind(lobby,stub );
+                registry.rebind(lobby,stub );
             }catch (Exception e){
                 e.printStackTrace();
             }

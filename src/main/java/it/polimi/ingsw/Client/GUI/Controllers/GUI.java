@@ -26,13 +26,12 @@ public class GUI extends Application implements Runnable {
     private final ObjectInputStream objectInputStream;
 
 
-    public GUI(InetAddress host, int port) throws IOException {
-        socket =  new Socket(host.getHostName(), port);
-        socket.setSoTimeout(0);
+    public GUI(Socket socket) throws IOException {
+      this.socket = socket;
         objectOutputStream  = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream  = new ObjectInputStream(socket.getInputStream());
         messageDispatcher = new MessageDispatcher(socket,objectOutputStream, false);
-        setupcont = new setupController(host, port);
+        setupcont = new setupController(this.socket,objectOutputStream,objectInputStream,messageDispatcher);
     }
 
     @Override
@@ -101,10 +100,9 @@ public class GUI extends Application implements Runnable {
 
     /***
      * Main of the class
-     * @param args Main args
      */
-    public static void main(String[] args) {
-        launch(args);
+    public void guiStart() {
+        launch();
 
     }
 

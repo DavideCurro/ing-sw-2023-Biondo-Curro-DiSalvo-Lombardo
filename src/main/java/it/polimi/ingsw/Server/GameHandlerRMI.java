@@ -12,4 +12,5 @@ public interface GameHandlerRMI extends Remote {
         int handleTurn(int column, Vector<Tiles> tilesPicked)throws RemoteException;
         boolean handleNicknameFail(String nickname) throws  RemoteException;
         Message getData() throws RemoteException;
+        boolean isAlive() throws RemoteException;
 }

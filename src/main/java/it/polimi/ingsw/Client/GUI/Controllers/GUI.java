@@ -31,7 +31,7 @@ public class GUI extends Application implements Runnable {
         socket.setSoTimeout(0);
         objectOutputStream  = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream  = new ObjectInputStream(socket.getInputStream());
-        messageDispatcher = new MessageDispatcher(socket,objectOutputStream);
+        messageDispatcher = new MessageDispatcher(socket,objectOutputStream, false);
         setupcont = new setupController(host, port);
     }
 

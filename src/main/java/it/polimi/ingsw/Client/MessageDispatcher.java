@@ -1,11 +1,15 @@
 package it.polimi.ingsw.Client;
 
+import it.polimi.ingsw.Server.GameHandlerRMI;
 import it.polimi.ingsw.Utility.Message.Message;
 import it.polimi.ingsw.Model.Playground.Tiles;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.lang.module.FindException;
 import java.net.Socket;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
 import java.util.Vector;
 
 import static it.polimi.ingsw.Utility.Message.Content.NICKNAME;
@@ -17,8 +21,12 @@ import static it.polimi.ingsw.Utility.Message.Content.PICKEDTILE;
  */
 public class MessageDispatcher {
     private final Socket socket;
+    private final Registry registry;
+    private GameHandlerRMI stub;
+
     private String nickname;
     private final ObjectOutputStream outputStream;
+    private final boolean isRMI;
 
     /**
      *
@@ -27,10 +35,20 @@ public class MessageDispatcher {
      * @param socket  the socket.
      * @param objectOutputStream  the object output stream.
      */
-    public MessageDispatcher(Socket socket, ObjectOutputStream objectOutputStream){
+    public MessageDispatcher(Socket socket, ObjectOutputStream objectOutputStream,boolean isRMI){
 
         this.outputStream = objectOutputStream;
         this.socket = socket;
+        this.isRMI = isRMI;
+        registry = null;
+        stub = null;
+    }
+    public MessageDispatcher(Registry registry, GameHandlerRMI rmi, boolean isRMI){
+        outputStream = null;
+        socket = null;
+        this.isRMI = isRMI;
+        this.registry = registry;
+        this.stub = rmi;
     }
 
     /**
@@ -43,6 +61,9 @@ public class MessageDispatcher {
 
         this.nickname = nickname;
     }
+    public void setStub(GameHandlerRMI stub){
+        this.stub =stub;
+    }
 
     /**
      *
@@ -51,7 +72,7 @@ public class MessageDispatcher {
      * @param lobbyType  the lobby type.
      * @return boolean
      */
-    public boolean sendLoginInfo(int lobbyType){
+    public boolean sendLoginInfo(int lobbyType){ //SOLO SOCKET
 
         try {
             System.out.println("Sending info");
@@ -71,6 +92,7 @@ public class MessageDispatcher {
      *
      */
     public void reset(){
+        if(isRMI) return;
 
         try {
             outputStream.flush();
@@ -82,6 +104,17 @@ public class MessageDispatcher {
         }
 
     }
+    public void sendPickUpData(Vector<Tiles>tiles , int column){
+        if(isRMI){
+            try {
+                stub.handleTurn(column,tiles);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }else{
+            sendPickUpDataSocket(tiles,column);
+        }
+    }
 
     /**
      *
@@ -90,7 +123,7 @@ public class MessageDispatcher {
      * @param tiles  the tiles.
      * @param column  the column.
      */
-    public void sendPickUpData(Vector<Tiles> tiles, int column){
+    public void sendPickUpDataSocket(Vector<Tiles> tiles, int column){
 
         try{
             outputStream.writeInt(1);
@@ -102,13 +135,24 @@ public class MessageDispatcher {
         }
     }
 
+    public void sendNickname(String nickname){
+        if(isRMI){
+            try {
+                stub.handleNicknameFail(nickname);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
+        sendNicknameSocket(nickname);
+    }
+
     /**
      *
      * Send nickname
      *
      * @param nickname  the nickname.
      */
-    public void sendNickname(String nickname){
+    public void sendNicknameSocket(String nickname){
 
         setNickname(nickname);
         reset();
@@ -120,4 +164,7 @@ public class MessageDispatcher {
             System.exit(4);
         }
     }
+
+
+
 }

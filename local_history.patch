@@ -1,0 +1,75 @@
+Index: src/main/java/it/polimi/ingsw/Client/cliHandler.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/it/polimi/ingsw/Client/cliHandler.java b/src/main/java/it/polimi/ingsw/Client/cliHandler.java
+--- a/src/main/java/it/polimi/ingsw/Client/cliHandler.java	
++++ b/src/main/java/it/polimi/ingsw/Client/cliHandler.java	(date 1684570397750)
+@@ -1,7 +1,6 @@
+ package it.polimi.ingsw.Client;
+ 
+ 
+-import it.polimi.ingsw.Model.CommonStrategy.CommonObj;
+ import it.polimi.ingsw.Model.Playground.Playground;
+ import it.polimi.ingsw.Model.Playground.Tiles;
+ 
+@@ -29,10 +28,12 @@
+ 
+     private final Socket socket;
+     private final ClientView view;
++    private final ObjectOutputStream objectOutputStream;
+     private final ObjectInputStream objectInputStream;
++    private final Vector<Tiles> tilesVector;
+     private Scanner scanner;
+     private String nickname;
+-    private final MessageDispatcher messageDispatcher;
++    private MessageDispatcher messageDispatcher;
+ 
+ 
+     /**
+@@ -49,11 +50,12 @@
+         socket =  new Socket(host.getHostName(), port);
+         socket.setSoTimeout(0);
+         this.view = view;
+-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
++        objectOutputStream  = new ObjectOutputStream(socket.getOutputStream());
+         objectInputStream  = new ObjectInputStream(socket.getInputStream());
++        tilesVector = new Vector<>();
+         scanner = new Scanner(System.in);
+         nickname = "";
+-        messageDispatcher = new MessageDispatcher(socket, objectOutputStream);
++        messageDispatcher = new MessageDispatcher(socket,objectOutputStream);
+     }
+ 
+     /**
+@@ -143,6 +145,7 @@
+             case PICKTILE ->{
+                 messageDispatcher.reset();
+                 messageDispatcher.sendPickUpData(getTilesVector(),getColumn());
++                tilesVector.clear();
+             }
+             case PICKEDTILE -> {
+                 Playground playground = (Playground) message.getPayload();
+@@ -186,16 +189,15 @@
+                 System.out.println("Pick up again your tiles:");
+                 messageDispatcher.reset();
+                 messageDispatcher.sendPickUpData(getTilesVector(),getColumn());
++                tilesVector.clear();
+             }
+             case WRONG_PLAYER,FAIL -> {
+                 System.out.println("Some big unexpected and impossible error occur.");
+             }
+-            case COMMONOBJ -> {
+-                CommonObj tmp = (CommonObj) message.getPayload();
+-                view.printCommonOBJ(tmp.getType());
+-                tmp = (CommonObj) message.getPayload2();
+-                view.printCommonOBJ(tmp.getType());
+-            }
++            /*case COMMONOBJ -> {
++                view.printCommonOBJ(message.getPayload().getType());
++                view.printCommonOBJ(message.getPayload2());
++            }*/
+             case ENDGAME -> {
+                 System.out.println("The game has ended, you reached:");
+                 LinkedList<Player> vectorLinkedList = (LinkedList<Player>) message.getPayload();

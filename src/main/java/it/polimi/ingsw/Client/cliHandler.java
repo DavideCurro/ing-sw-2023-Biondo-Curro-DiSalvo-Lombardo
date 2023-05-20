@@ -6,6 +6,8 @@ import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 
 import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Server.GameHandlerRMI;
+import it.polimi.ingsw.Utility.Message.Content;
 import it.polimi.ingsw.Utility.Message.Message;
 
 import java.io.IOException;
@@ -14,6 +16,9 @@ import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.Registry;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -29,36 +34,40 @@ public class cliHandler {
 
     private final Socket socket;
     private final ClientView view;
-    private final ObjectOutputStream objectOutputStream;
     private final ObjectInputStream objectInputStream;
-    private final Vector<Tiles> tilesVector;
     private Scanner scanner;
     private String nickname;
-    private MessageDispatcher messageDispatcher;
+    private final MessageDispatcher messageDispatcher;
+    private Registry registry;
+    private GameHandlerRMI stub;
 
 
     /**
      *
      * It is a constructor.
      *
-     * @param host  the host.
-     * @param port  the port.
+     * @param socket  the host.
      * @param view  the view.
      * @throws   IOException, for the creation of socket and object-stream
      */
-    public cliHandler(InetAddress host, int port, ClientView view) throws IOException {
-
-        socket =  new Socket(host.getHostName(), port);
-        socket.setSoTimeout(0);
+    public cliHandler(Socket socket, ClientView view) throws IOException {
+        this.socket = socket;
         this.view = view;
-        objectOutputStream  = new ObjectOutputStream(socket.getOutputStream());
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream  = new ObjectInputStream(socket.getInputStream());
-        tilesVector = new Vector<>();
         scanner = new Scanner(System.in);
         nickname = "";
-        messageDispatcher = new MessageDispatcher(socket,objectOutputStream);
+        messageDispatcher = new MessageDispatcher(socket, objectOutputStream,false);
     }
-
+    public cliHandler(Registry registry, ClientView view){
+        this.registry = registry;
+        this.stub = null;
+        this.view = view;
+        this.scanner = new Scanner(System.in);
+        socket = null;
+        objectInputStream = null;
+        messageDispatcher = new MessageDispatcher(registry,stub,true);
+    }
     /**
      *
      * Validate lobby type
@@ -94,7 +103,7 @@ public class cliHandler {
      *
      * @throws   InterruptedException, this is needed for the sleep of the client
      */
-    public void cli() throws InterruptedException {
+    public void cliSocket() throws InterruptedException {
 
         int gamestart = 0;
 
@@ -124,7 +133,25 @@ public class cliHandler {
         }
         sleep(5000);
     }
-
+    public void cliRMI(){
+        try {
+            stub = (GameHandlerRMI) registry.lookup("GameHandler");
+            nickname = scanner.nextLine();
+            messageDispatcher.setNickname(nickname);
+            int newLobby =  stub.handleLogin(nickname,validateLobbyType());
+            stub = (GameHandlerRMI) registry.lookup(String.valueOf(newLobby));
+            messageDispatcher.setStub(stub);
+            Message message = null;
+            while(stub.isAlive()) {
+                do {
+                    message = stub.getData();
+                } while (message.getMessageType() == Content.FAIL);
+                handleNewMessage(message);
+            }
+        } catch (RemoteException | NotBoundException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      *
@@ -146,7 +173,6 @@ public class cliHandler {
             case PICKTILE ->{
                 messageDispatcher.reset();
                 messageDispatcher.sendPickUpData(getTilesVector(),getColumn());
-                tilesVector.clear();
             }
             case PICKEDTILE -> {
                 Playground playground = (Playground) message.getPayload();
@@ -190,7 +216,6 @@ public class cliHandler {
                 System.out.println("Pick up again your tiles:");
                 messageDispatcher.reset();
                 messageDispatcher.sendPickUpData(getTilesVector(),getColumn());
-                tilesVector.clear();
             }
             case WRONG_PLAYER,FAIL -> {
                 System.out.println("Some big unexpected and impossible error occur.");

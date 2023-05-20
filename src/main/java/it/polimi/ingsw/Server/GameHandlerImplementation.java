@@ -14,6 +14,7 @@ public class GameHandlerImplementation implements GameHandlerRMI{
     private boolean lock = true;
     private boolean connected = false;
     private Registry registry;
+    private boolean alive =true;
     public GameHandlerImplementation(Registry registry){
         this.registry = registry;
     }
@@ -60,5 +61,9 @@ public class GameHandlerImplementation implements GameHandlerRMI{
     public boolean getConnected(){return connected;}
     public void setConnected(boolean connected){
         this.connected = connected;
+    }
+    public void setAlive(boolean alive){this.alive = alive;}
+    public boolean isAlive() throws RemoteException{
+        return alive;
     }
 }

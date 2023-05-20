@@ -73,7 +73,7 @@ public class ClientView {
 
         printOutLibrary(player);
     }
-    static void colorChange(int type){
+    public static void colorChange(int type){
         switch (type) {
             case 0 -> System.out.print(Color.BLUE);
             case 1 -> System.out.print(Color.CYAN_BRIGHT);
@@ -86,7 +86,12 @@ public class ClientView {
         }
     }
 
-
+    /**
+     *
+     * Print common OBJ
+     *
+     *
+     */
     public void printCommonOBJ(int type){
         switch (type){
             case 1-> System.out.println("This game is playing on Goal 1");
@@ -105,6 +110,7 @@ public class ClientView {
 
         }
     }
+
     /**
      *
      * Print output*

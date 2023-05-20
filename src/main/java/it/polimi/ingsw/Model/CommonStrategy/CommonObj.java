@@ -4,4 +4,5 @@ import it.polimi.ingsw.Model.Player.Player;
 
 public interface CommonObj {
     boolean check(Player player);
+    int getType();
 }

@@ -9,7 +9,11 @@ import java.util.Vector;
 
 
 public class GoalC6 implements CommonObj, Serializable {
-    private final int count=1;
+    private final int type = 6;
+    public int getType(){
+        return type;
+    }
+
     private final Vector<Integer> types = new Vector<>();
 
     /** Goal 6 = Two lines each formed by 5 different types of tiles.

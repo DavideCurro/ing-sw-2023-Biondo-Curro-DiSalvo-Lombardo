@@ -9,6 +9,10 @@ import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
 
 
 public class GoalC7 implements CommonObj , Serializable {
+    private final int type = 7;
+    public int getType(){
+        return type;
+    }
     /** Four lines each formed by 5 tiles of maximum three different types.
      *  One line can show the same or a different combination of another line.
      *  @param p

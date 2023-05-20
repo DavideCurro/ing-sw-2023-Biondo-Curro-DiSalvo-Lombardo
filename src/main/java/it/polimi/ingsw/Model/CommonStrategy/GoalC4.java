@@ -6,6 +6,10 @@ import java.io.Serializable;
 
 
 public class GoalC4 implements CommonObj, Serializable {
+    private final int type = 4;
+    public int getType(){
+        return type;
+    }
     /** Six groups each containing at least 2 tiles of the same type (not necessarily
      *  in the depicted shape). The tiles of one group can be different from those of another group.
      *  @param p player to check

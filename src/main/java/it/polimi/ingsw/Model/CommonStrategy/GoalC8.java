@@ -6,6 +6,10 @@ import java.io.Serializable;
 
 
 public class GoalC8 implements CommonObj , Serializable {
+    private final int type = 8;
+    public int getType(){
+        return type;
+    }
     /**
      * Goal 8 = Four tiles of the same type in the four
      * corners of the bookshelf.

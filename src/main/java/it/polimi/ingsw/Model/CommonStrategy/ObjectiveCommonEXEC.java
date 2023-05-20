@@ -14,6 +14,9 @@ public class ObjectiveCommonEXEC implements Serializable {
             return commonObj.check(l);
         }
 
+        public int getType(){
+            return commonObj.getType();
+        }
     }
 
 

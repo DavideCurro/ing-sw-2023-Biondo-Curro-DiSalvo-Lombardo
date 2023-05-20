@@ -6,6 +6,10 @@ import java.io.Serializable;
 
 /* 5 tiles of the same type that make together an X */
 public class GoalC10 implements CommonObj, Serializable {
+    private final int type = 10;
+    public int getType(){
+        return type;
+    }
 
 
     public boolean check(Player p){

@@ -10,12 +10,16 @@ import java.io.Serializable;
 import java.util.Vector;
 
 public class GoalC11 implements CommonObj , Serializable {
+    private final int type = 11;
+
 
         Vector<Tiles> tmp = new Vector<>();
         Vector<Tiles> tmp1 = new Vector<>();
         Vector<Tiles> tmp2 = new Vector<>();
         Vector<Tiles> tmp3 = new Vector<>();
-
+    public int getType(){
+        return type;
+    }
         private void setTmp(Player p){
             //check gialla
             tmp.add(new Tiles(p.getMy_shelfie().getShelf()[1][4].getType(), 1, 4));

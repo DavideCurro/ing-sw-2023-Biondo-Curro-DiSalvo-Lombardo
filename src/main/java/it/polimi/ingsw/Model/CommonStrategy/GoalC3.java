@@ -6,6 +6,10 @@ import it.polimi.ingsw.Model.Player.Player;
 import java.io.Serializable;
 
 public class GoalC3 implements CommonObj, Serializable {
+    private final int type = 3;
+    public int getType(){
+        return type;
+    }
     public GoalC3(){
 
     }

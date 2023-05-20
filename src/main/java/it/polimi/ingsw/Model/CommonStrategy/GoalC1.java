@@ -8,6 +8,11 @@ import java.util.Vector;
 
 
 public class GoalC1 implements CommonObj , Serializable {
+
+    private final int type = 1;
+    public int getType(){
+        return type;
+    }
     /**
      *  Two groups each containing 4 tiles of the same type in a 2x2 square.
      *  The tiles of one square can be different from those of the other square.

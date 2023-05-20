@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Client;
 
 
+import it.polimi.ingsw.Model.CommonStrategy.CommonObj;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 
@@ -194,10 +195,12 @@ public class cliHandler {
             case WRONG_PLAYER,FAIL -> {
                 System.out.println("Some big unexpected and impossible error occur.");
             }
-            /*case COMMONOBJ -> {
-                view.printCommonOBJ(message.getPayload().getType());
-                view.printCommonOBJ(message.getPayload2());
-            }*/
+            case COMMONOBJ -> {
+                CommonObj tmp = (CommonObj) message.getPayload();
+                view.printCommonOBJ(tmp.getType());
+                tmp = (CommonObj) message.getPayload2();
+                view.printCommonOBJ(tmp.getType());
+            }
             case ENDGAME -> {
                 System.out.println("The game has ended, you reached:");
                 LinkedList<Player> vectorLinkedList = (LinkedList<Player>) message.getPayload();

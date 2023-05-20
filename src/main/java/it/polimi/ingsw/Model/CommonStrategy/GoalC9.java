@@ -7,13 +7,17 @@ import it.polimi.ingsw.Model.Player.Player;
 import java.io.Serializable;
 
 public class GoalC9 implements CommonObj, Serializable {
+    private final int type = 9;
+
     private int count1 = 0;
     private int count2 = 0;
     private int count3 = 0;
     private int count4 = 0;
     private int count5 = 0;
     private int count6 = 0;
-
+    public int getType(){
+        return type;
+    }
     /** Goal 9 = Eight tiles of the same type.
      * There’s no restriction about the position of these
      * tiles

@@ -86,41 +86,25 @@ public class ClientView {
         }
     }
 
-    /**
-     *
-     * Print common OBJ
-     *
-     * @param commonObj  the common obj.
-     */
-    public void printCommonOBJ(Object commonObj, int type){
 
-        if(commonObj instanceof GoalC1){
-            System.out.println("This game is playing on Goal 1");
-        } else if (commonObj instanceof GoalC2) {
-            System.out.println("This game is playing on Goal 2");
-        } else if (commonObj instanceof GoalC3) {
-            System.out.println("This game is playing on Goal 3");
-        } else if (commonObj instanceof GoalC4) {
-            System.out.println("This game is playing on Goal 4");
-        } else if (commonObj instanceof GoalC5) {
-            System.out.println("This game is playing on Goal 5");
-        } else if (commonObj instanceof GoalC6) {
-            System.out.println("This game is playing on Goal 6");
-        } else if (commonObj instanceof GoalC7) {
-            System.out.println("This game is playing on Goal 7");
-        } else if (commonObj instanceof GoalC8) {
-            System.out.println("This game is playing on Goal 8");
-        } else if (commonObj instanceof GoalC9) {
-            System.out.println("This game is playing on Goal 9");
-        } else if (commonObj instanceof GoalC10) {
-            System.out.println("This game is playing on Goal 10");
-        } else if (commonObj instanceof GoalC11) {
-            System.out.println("This game is playing on Goal 11");
-        } else if (commonObj instanceof GoalC12) {
-            System.out.println("This game is playing on Goal 12");
+    public void printCommonOBJ(int type){
+        switch (type){
+            case 1-> System.out.println("This game is playing on Goal 1");
+            case 2-> System.out.println("This game is playing on Goal 2");
+            case 3-> System.out.println("This game is playing on Goal 3");
+            case 4-> System.out.println("This game is playing on Goal 4");
+            case 5-> System.out.println("This game is playing on Goal 5");
+            case 6-> System.out.println("This game is playing on Goal 6");
+            case 7-> System.out.println("This game is playing on Goal 7");
+            case 8-> System.out.println("This game is playing on Goal 8");
+            case 9-> System.out.println("This game is playing on Goal 9");
+            case 10->System.out.println("This game is playing on Goal 10");
+            case 11->System.out.println("This game is playing on Goal 11");
+            case 12->System.out.println("This game is playing on Goal 12");
+
+
         }
     }
-
     /**
      *
      * Print output*

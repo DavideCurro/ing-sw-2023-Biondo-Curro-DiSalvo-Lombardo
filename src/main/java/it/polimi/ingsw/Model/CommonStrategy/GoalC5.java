@@ -7,6 +7,10 @@ import it.polimi.ingsw.Model.Player.Player;
 
 
 public class GoalC5 implements CommonObj, Serializable {
+    private final int type = 5;
+    public int getType(){
+        return type;
+    }
     /** Three columns each formed by 6 tiles of maximum three different types.
      * One column can show the same or a different combination of another column.
      * @param p player to check

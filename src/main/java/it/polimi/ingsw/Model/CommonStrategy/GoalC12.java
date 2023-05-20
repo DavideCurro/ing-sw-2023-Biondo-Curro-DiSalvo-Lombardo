@@ -5,6 +5,10 @@ import it.polimi.ingsw.Model.Player.Player;
 import java.io.Serializable;
 
 public class GoalC12 implements CommonObj, Serializable {
+    private final int type = 12;
+    public int getType(){
+        return type;
+    }
 
     /**Five columns of increasing or decreasing
      *  height. Starting from the first column on

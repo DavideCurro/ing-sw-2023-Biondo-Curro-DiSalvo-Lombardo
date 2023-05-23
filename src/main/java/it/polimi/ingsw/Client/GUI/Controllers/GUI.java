@@ -2,6 +2,7 @@ package it.polimi.ingsw.Client.GUI.Controllers;
 
 import it.polimi.ingsw.Client.MessageDispatcher;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
@@ -37,8 +38,8 @@ public class GUI extends Application implements Runnable {
         this.stage = stage;
         this.stage.setResizable(false);
         showTheScene();
-        setupcont.setGui(); //setted lobbyType e nickname
-        //setupcont.StartGame();
+        //setupcont.setGui();//setted lobbyType e nickname
+        //setupcont.startgame(new ActionEvent());
     }
 
     /**
@@ -79,6 +80,7 @@ public class GUI extends Application implements Runnable {
             System.out.println(e);
         }
     }
+
 
     /**
      * Main method of the Thread Client GUI

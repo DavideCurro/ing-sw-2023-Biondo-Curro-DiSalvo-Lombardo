@@ -5,6 +5,7 @@ package it.polimi.ingsw.Client.GUI.Controllers;
 import it.polimi.ingsw.Client.MessageDispatcher;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import it.polimi.ingsw.Utility.Message.Message;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
@@ -34,8 +35,6 @@ public class setupController {
     RadioButton lobby3;
     @FXML
     RadioButton lobby4;
-    String nickname1;
-    private int lobbyType = 0;
     private Socket socket;
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
@@ -84,31 +83,54 @@ public class setupController {
         this.objectInputStream = objectInputStream;
     }
 
-    /*public void setMainmenu(mainMenuController mainmenu){
-        this.mainmenu = mainmenu;
-    }*/
-
-
     public void initialize() {
         StartGame.setVisible(true);
         chooseNickname.setVisible(true);
         nickname.setVisible(true);
     }
 
-    public int setGui(){
+    public void startGui(){
 
-        nickname1 = nickname.getText();
+        int gamestart = 0;
+        System.out.println("bonasira");
+        System.out.println("CAASDASDASDA");
 
-        if (lobby2.isSelected()){
-            lobbyType = 2;
+        int lobbyType = 0;
+
+        //meglio fare un buttongroup per mutuaesclusione + switchcase
+
+        try {
+            if (lobby2.isSelected()){
+                lobbyType = 2;
+            }
+            else if (lobby3.isSelected()){
+                lobbyType = 3;
+            }
+            else if (lobby4.isSelected()){
+                lobbyType = 4;
+            }
+
+            messageDispatcher.setNickname(nickname.getText());
+
+            if (!messageDispatcher.sendLoginInfo(lobbyType))
+                showerror("ERROR!");
+
+            while (socket.isConnected()) {
+                Message message;
+                try {
+                    message = (Message) objectInputStream.readObject();
+                    if (gamestart == 0) {
+                        gamestart++;
+                    }
+                    mainmenu.handleNewMessage(message);
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+            sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
-        else if (lobby3.isSelected()){
-            lobbyType = 3;
-        }
-        else if (lobby4.isSelected()){
-            lobbyType = 4;
-        }
-        return lobbyType;
 
     }
 
@@ -116,56 +138,15 @@ public class setupController {
      * Method that starts the game once the nickname and the lobby have been chosen
      * @param
      */
-    public void StartGame() {
-
-        StartGame = new Button();
+    public void startgame(ActionEvent actionEvent) {
         StartGame.setOnAction(e-> {
-            try {
-                gui(nickname1,lobbyType);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
+            System.out.println("Funziona");
+
+            startGui();
+
         });
 
     }
-
-
-    public void gui(String nickname1, int lobbyType) throws InterruptedException {
-
-        //setGui(nickname1,lobbyType);
-        int gamestart = 0;
-
-        System.out.println("bonasira");
-        //nickname1 = nickname.getText();
-        System.out.println("CAASDASDASDA");
-
-        //affinchè i dati non sono settati non deve partire la connessione
-
-        /*problema: far partire prima la GUI, immettere i dati ed
-                    inviarli per la connessione.
-                    Facendo come facciamo ora looppa sempre senza prendere i dati.
-                    Partono 4 connessioni, perchè?*/
-
-
-        messageDispatcher.setNickname(nickname1);
-
-        if (!messageDispatcher.sendLoginInfo(lobbyType))
-            showerror("ERROR!");
-
-            while (socket.isConnected()) {
-                Message message;
-                try {
-                    message = (Message) objectInputStream.readObject();
-                    if (gamestart == 0)
-                        gamestart++;
-                    mainmenu.handleNewMessage(message);
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        sleep(5000);
-    }
-
 
     /**
      * Prints an error

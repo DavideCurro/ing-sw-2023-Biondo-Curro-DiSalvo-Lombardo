@@ -13,7 +13,7 @@
    <children>
       <ImageView fitHeight="734.0" fitWidth="924.0">
          <image>
-            <Image url="@it/polimi/MyShelfie/misc/sfondo%20parquet.jpg" />
+            <Image url="@it/polimi/MyShelfie/misc/sfondo_parquet.jpg" />
          </image>
       </ImageView>
       <GridPane fx:id="library" gridLinesVisible="true" layoutX="36.0" layoutY="76.0" onMouseClicked="#insertTiles" prefHeight="247.0" prefWidth="252.0">

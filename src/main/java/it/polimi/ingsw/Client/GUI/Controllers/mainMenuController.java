@@ -2,6 +2,7 @@ package it.polimi.ingsw.Client.GUI.Controllers;
 
 import it.polimi.ingsw.Client.MessageDispatcher;
 
+import it.polimi.ingsw.Model.CommonStrategy.CommonObj;
 import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
@@ -175,12 +176,85 @@ public class mainMenuController {
 
     }
 
-    /**
-     * Prints the common goal of the player
-     *
-     * @param player
-     */
-    public void printCommonGoal(Player player) {
+
+    public void printCommonOBJ(int type, boolean is1) {
+        switch (type){
+
+            case 1-> {
+                System.out.println("ciao");
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/1.jpg").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/1.jpg").toExternalForm());
+            }
+            case 2 ->{
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/2.jpg").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/2.jpg").toExternalForm());
+            }
+            case 3 ->{
+                if(is1)
+                    commonG1= new ImageView(this.getClass().getResource("/common_goal_cards/3.jpg").toExternalForm());
+                else
+                    commonG2= new ImageView(this.getClass().getResource("/common_goal_cards/3.jpg").toExternalForm());
+            }
+            case 4 ->{
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/4.jpg").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/4.jpg").toExternalForm());
+            }
+            case 5 ->{
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/5.png").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/5.png").toExternalForm());
+            }
+            case 6 ->{
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/6.png").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/6.png").toExternalForm());
+            }
+            case 7 ->{
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/7.png").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/7.png").toExternalForm());
+            }
+            case 8 ->{
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/8.png").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/8.png").toExternalForm());
+            }
+            case 9 ->{
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/9.png").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/9.png").toExternalForm());
+            }
+            case 10 ->{
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/10.png").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/10.png").toExternalForm());
+            }
+            case 11 ->{
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/11.png").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/11.png").toExternalForm());
+            }
+            case 12 ->{
+                if(is1)
+                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/12.png").toExternalForm());
+                else
+                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/12.png").toExternalForm());
+            }
+
+        }
 
 
     }
@@ -355,7 +429,10 @@ public class mainMenuController {
                 showerror("Some big unexpected and impossible error occur.");
             }
             case COMMONOBJ -> {
-
+                CommonObj tmp = (CommonObj) message.getPayload();
+                printCommonOBJ(tmp.getType(),commonG1);
+                tmp = (CommonObj) message.getPayload2();
+                printCommonOBJ(tmp.getType(),commonG2);
             }
             case ENDGAME -> {
                 //scene endgame da implementare

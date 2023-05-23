@@ -13,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 
 public class GUI extends Application implements Runnable {
@@ -22,16 +23,12 @@ public class GUI extends Application implements Runnable {
     private HashMap<String, Scene> nameToScene = new HashMap<>();
     private setupController setupcont;
     private MessageDispatcher messageDispatcher;
-    private final ObjectOutputStream objectOutputStream;
-    private final ObjectInputStream objectInputStream;
+    private ObjectOutputStream objectOutputStream;
+    private ObjectInputStream objectInputStream;
 
+    public GUI() throws IOException {
 
-    public GUI(Socket socket) throws IOException {
-      this.socket = socket;
-        objectOutputStream  = new ObjectOutputStream(socket.getOutputStream());
-        objectInputStream  = new ObjectInputStream(socket.getInputStream());
-        messageDispatcher = new MessageDispatcher(socket,objectOutputStream, false);
-        setupcont = new setupController(this.socket,objectOutputStream,objectInputStream,messageDispatcher);
+        setupcont = new setupController();
     }
 
     @Override
@@ -40,11 +37,8 @@ public class GUI extends Application implements Runnable {
         this.stage = stage;
         this.stage.setResizable(false);
         showTheScene();
-        try {
-            setupcont.gui();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        setupcont.setGui(); //setted lobbyType e nickname
+        //setupcont.StartGame();
     }
 
     /**
@@ -80,8 +74,6 @@ public class GUI extends Application implements Runnable {
             }
             currentScene = nameToScene.get("SETUP");
 
-
-
         }catch(Exception e) {
             e.printStackTrace();
             System.out.println(e);
@@ -100,9 +92,10 @@ public class GUI extends Application implements Runnable {
 
     /***
      * Main of the class
+     * @param args Main args
      */
-    public void guiStart() {
-        launch();
+    public static void main(String[] args) {
+        launch(args);
 
     }
 

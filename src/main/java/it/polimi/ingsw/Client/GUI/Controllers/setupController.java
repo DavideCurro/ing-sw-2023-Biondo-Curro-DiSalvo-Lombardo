@@ -7,6 +7,8 @@ import it.polimi.ingsw.Model.Playground.Tiles;
 import it.polimi.ingsw.Utility.Message.Message;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -48,10 +50,23 @@ public class setupController {
         this.objectInputStream = null;
         this.tilesVector = new Vector<>();
         this.mainmenu = null;
+        StartGame = new Button("StartGame");
+        chooseNickname = new Label("Choose Nickname");
+        nickname = new TextField();
+        lobby2 = new RadioButton();
+        lobby3 = new RadioButton();
+        lobby4 = new RadioButton();
+
+        initialize();
+        try {
+            setupSocket(InetAddress.getLocalHost(),2000);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public setupController(InetAddress host, int port) throws IOException {
-        this.socket = new Socket(host.getHostName(), port);
+    public void setupSocket(InetAddress host, int port) throws IOException {
+        socket = new Socket(host.getHostName(), port);
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
         tilesVector = new Vector<>();
@@ -69,9 +84,9 @@ public class setupController {
         this.objectInputStream = objectInputStream;
     }
 
-    public void setMainmenu(mainMenuController mainmenu){
+    /*public void setMainmenu(mainMenuController mainmenu){
         this.mainmenu = mainmenu;
-    }
+    }*/
 
 
     public void initialize() {
@@ -80,18 +95,59 @@ public class setupController {
         nickname.setVisible(true);
     }
 
-    public void gui() throws InterruptedException {
+    public int setGui(){
 
-        int gamestart = 0;
-System.out.println("bonasira");
         nickname1 = nickname.getText();
+
+        if (lobby2.isSelected()){
+            lobbyType = 2;
+        }
+        else if (lobby3.isSelected()){
+            lobbyType = 3;
+        }
+        else if (lobby4.isSelected()){
+            lobbyType = 4;
+        }
+        return lobbyType;
+
+    }
+
+    /**
+     * Method that starts the game once the nickname and the lobby have been chosen
+     * @param
+     */
+    public void StartGame() {
+
+        StartGame = new Button();
+        StartGame.setOnAction(e-> {
+            try {
+                gui(nickname1,lobbyType);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        });
+
+    }
+
+
+    public void gui(String nickname1, int lobbyType) throws InterruptedException {
+
+        //setGui(nickname1,lobbyType);
+        int gamestart = 0;
+
+        System.out.println("bonasira");
+        //nickname1 = nickname.getText();
+        System.out.println("CAASDASDASDA");
+
+        //affinchè i dati non sono settati non deve partire la connessione
+
+        /*problema: far partire prima la GUI, immettere i dati ed
+                    inviarli per la connessione.
+                    Facendo come facciamo ora looppa sempre senza prendere i dati.
+                    Partono 4 connessioni, perchè?*/
+
+
         messageDispatcher.setNickname(nickname1);
-
-        if (lobby2.isSelected()) lobbyType = 2;
-        else if (lobby3.isSelected()) lobbyType = 3;
-        else if (lobby4.isSelected()) lobbyType = 4;
-
-                    //setPlayerNum(lobbyType)
 
         if (!messageDispatcher.sendLoginInfo(lobbyType))
             showerror("ERROR!");
@@ -104,30 +160,12 @@ System.out.println("bonasira");
                         gamestart++;
                     mainmenu.handleNewMessage(message);
                 } catch (IOException | ClassNotFoundException e) {
-                    throw new RuntimeException(e);
+                    e.printStackTrace();
                 }
             }
         sleep(5000);
     }
 
-
-    /**
-     * Method that starts the game once the nickname and the lobby have been chosen
-     * @param
-     */
-    public void StartGame() {
-
-        StartGame = new Button();
-        StartGame.setOnAction(e-> {
-            try {
-                gui();
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-
-
-    }
 
     /**
      * Prints an error

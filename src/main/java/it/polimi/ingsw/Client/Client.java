@@ -32,7 +32,7 @@ public class Client {
                cliHandler.cliRMI();
             }
             case "GUI"->{
-                GUI GUI = new GUI(InetAddress.getLocalHost(), 2000);
+               // GUI GUI = new GUI(InetAddress.getLocalHost(), 2000);
               //  GUI.main();
 
             }

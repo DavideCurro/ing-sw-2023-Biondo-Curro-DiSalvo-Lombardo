@@ -36,6 +36,8 @@ public class setupController {
     @FXML
     RadioButton lobby4;
     private Socket socket;
+    private GUI GUI;
+    private String currentScene;
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
     private Vector<Tiles> tilesVector;
@@ -75,6 +77,9 @@ public class setupController {
         this.socket = socket;
     }
 
+    public void setGUI(GUI GUI){
+        this.GUI = GUI;
+    }
     public void setObjectOutputStream(ObjectOutputStream objectOutputStream){
         this.objectOutputStream = objectOutputStream;
     }
@@ -122,6 +127,8 @@ public class setupController {
                     if (gamestart == 0) {
                         gamestart++;
                     }
+                    currentScene = "MENU";
+                    GUI.changeTheScene(currentScene);
                     mainmenu.handleNewMessage(message);
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

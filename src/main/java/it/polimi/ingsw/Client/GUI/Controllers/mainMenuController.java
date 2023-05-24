@@ -19,9 +19,10 @@ import javafx.scene.layout.GridPane;
 import it.polimi.ingsw.Utility.Message.Message;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Vector;
 
-public class mainMenuController {
+public class mainMenuController extends Playground{
     @FXML
     Label points;
     @FXML
@@ -63,10 +64,17 @@ public class mainMenuController {
 
 
     public mainMenuController() {
-        this.tmp = null;
-        this.tilesImg = null;
+        tmp = new Vector<>();
+        tilesImg = new ArrayList<>();
         this.mouseGridX = 0.0;
         this.mouseGridY = 0.0;
+        playground = new GridPane();
+        privatePoints = new TextField();
+        points = new Label();
+        commonG1 = new ImageView();
+        commonG2 = new ImageView();
+        library = new GridPane();
+        otherPlayers = new Button();
     }
 
     public mainMenuController(MessageDispatcher messageDispatcher) {
@@ -109,10 +117,14 @@ public class mainMenuController {
             for (int j = 0; i < 9; j++) {
                 int index = playgroundmodel.getGround()[i][j].getType();
 
-                ImageView img = new ImageView(tilesImg.get(index));
-                img.setFitHeight((TILE_HEIGHT));
-                img.setFitWidth((TILE_WIDTH));
-                playground.getChildren().add(img);
+                if(index != -1) {
+                    ImageView img = new ImageView(tilesImg.get(index));
+
+                    img.setFitHeight((TILE_HEIGHT));
+                    img.setFitWidth((TILE_WIDTH));
+                            playground.setConstraints(img,j,i);
+                            playground.getChildren().add(img);
+                }
             }
         }
     }
@@ -120,9 +132,9 @@ public class mainMenuController {
     /**
      * Prints the personal goal of the player
      *
-     * @param player
+     //* @param player
      */
-    public void printPersonalGoal(Player player) {
+  /*  public void printPersonalGoal(Player player) {
        switch (player.getPersonalObj().getPersonalObj().getType()){
            case 1-> {
                System.out.println("ciao");
@@ -263,14 +275,14 @@ public class mainMenuController {
      * Method that associate the image of the tile to the tile itself
      */
     public void initTilesimage() {
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.1.png").toExternalForm()));
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Trofei1.1.png").toExternalForm()));
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Giochi1.1.png").toExternalForm()));
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Libri1.1.png").toExternalForm()));
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Gatti1.1.png").toExternalForm()));
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Piante1.1.png").toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Cornici1.1.png")).toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Trofei1.1.png")).toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Giochi1.1.png")).toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Libri1.1.png")).toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Gatti1.1.png")).toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Piante1.1.png")).toExternalForm()));
 
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.2.png").toExternalForm()));
+       /* tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.2.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Trofei1.2.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Giochi1.2.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Libri1.2.png").toExternalForm()));
@@ -282,7 +294,7 @@ public class mainMenuController {
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Giochi1.3.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Libri1.3.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Gatti1.3.png").toExternalForm()));
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Piante1.3.png").toExternalForm()));
+        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Piante1.3.png").toExternalForm()));*/
 
     }
 
@@ -391,7 +403,7 @@ public class mainMenuController {
 
             case PLAYERDATA -> {
                 Player tmp = (Player) message.getPayload();
-                printPersonalGoal(tmp);
+                //printPersonalGoal(tmp);
             }
 
             case PICKTILE -> {

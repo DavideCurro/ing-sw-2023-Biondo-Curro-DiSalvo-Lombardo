@@ -70,10 +70,10 @@ public class GUI extends Application implements Runnable {
         //font da stampare
         try {
             for (Scenes scene : Scenes.values()) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/setup.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/mainMenu.fxml"));
                 nameToScene.put(scene.getName(), new Scene(fxmlLoader.load()));
             }
-            currentScene = nameToScene.get("SETUP");
+            currentScene = nameToScene.get("MENU");
 
         }catch(Exception e) {
             e.printStackTrace();

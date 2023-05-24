@@ -50,7 +50,7 @@ public class setupController {
         this.objectOutputStream = null;
         this.objectInputStream = null;
         this.tilesVector = new Vector<>();
-        this.mainmenu = null;
+        mainmenu = new mainMenuController();
         StartGame = new Button("StartGame");
         chooseNickname = new Label("Choose Nickname");
         nickname = new TextField();
@@ -127,8 +127,7 @@ public class setupController {
                     if (gamestart == 0) {
                         gamestart++;
                     }
-                    currentScene = "MENU";
-                    GUI.changeTheScene(currentScene);
+
                     mainmenu.handleNewMessage(message);
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

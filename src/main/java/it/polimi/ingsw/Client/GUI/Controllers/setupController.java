@@ -8,8 +8,6 @@ import it.polimi.ingsw.Utility.Message.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -36,7 +34,7 @@ public class setupController {
     @FXML
     RadioButton lobby4;
     private Socket socket;
-    private GUI GUI;
+    private GUI gui;
     private String currentScene;
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
@@ -58,12 +56,19 @@ public class setupController {
         lobby3 = new RadioButton();
         lobby4 = new RadioButton();
 
+
         initialize();
+
         try {
             setupSocket(InetAddress.getLocalHost(),2000);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void setGui(GUI gui) {
+        this.gui = gui;
     }
 
     public void setupSocket(InetAddress host, int port) throws IOException {
@@ -77,9 +82,6 @@ public class setupController {
         this.socket = socket;
     }
 
-    public void setGUI(GUI GUI){
-        this.GUI = GUI;
-    }
     public void setObjectOutputStream(ObjectOutputStream objectOutputStream){
         this.objectOutputStream = objectOutputStream;
     }
@@ -95,6 +97,8 @@ public class setupController {
     }
 
     public void startGui(){
+
+
 
         int gamestart = 0;
         System.out.println("bonasira");
@@ -127,8 +131,17 @@ public class setupController {
                     if (gamestart == 0) {
                         gamestart++;
                     }
+                    try {
+                        gui = new GUI();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                    mainmenu.handleNewMessage(message);
+                    //mainmenu.handleNewMessage(message);
+                    gui.changeTheScene("MENU");
+                    Thread guiThread = new Thread(gui);
+                    guiThread.start();
+
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -169,7 +182,7 @@ public class setupController {
      * Prints an information from the server to the client
      * @param message
      */
-    public void showmessage(String message){
+    public void showmessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("NEWS");
         alert.setHeaderText(message);

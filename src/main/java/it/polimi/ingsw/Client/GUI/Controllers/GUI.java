@@ -16,10 +16,10 @@ import java.net.Socket;
 import java.util.HashMap;
 
 public class GUI extends Application implements Runnable {
-    private Stage stage;
+    private static Stage stage;
     private Socket socket;
-    private Scene currentScene;
-    private HashMap<String, Scene> nameToScene = new HashMap<>();
+    private static Scene currentScene;
+    private static HashMap<String, Scene> nameToScene = new HashMap<>();
 
     private setupController setupcont;
     private MessageDispatcher messageDispatcher;
@@ -29,6 +29,7 @@ public class GUI extends Application implements Runnable {
     public GUI() throws IOException {
         stage = new Stage();
         setupcont = new setupController();
+        setupcont.setGui(this);
 
     }
 
@@ -44,6 +45,7 @@ public class GUI extends Application implements Runnable {
     @Override
     public void start(Stage stage) throws IOException {
         setup();
+        System.out.println("no sacciu");
         this.stage = stage;
         this.stage.setResizable(false);
         showTheScene();
@@ -56,11 +58,13 @@ public class GUI extends Application implements Runnable {
         //font da stampare
         try {
             for (Scenes scene : Scenes.values()) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/setup.fxml"));
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(scene.getFile()));
                 nameToScene.put(scene.getName(), new Scene(fxmlLoader.load()));
+                System.out.println("non funzionaaaaaa");
 
             }
             currentScene = nameToScene.get("SETUP");
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,9 +98,11 @@ public class GUI extends Application implements Runnable {
      * Shows the new scene
      * @param scene
      */
-    public void changeTheScene(String scene){
-        this.currentScene = nameToScene.get(scene);
+    public static void changeTheScene(String scene){
+        System.out.println(scene);
+        currentScene = nameToScene.get(scene);
         stage.setScene(currentScene);
+        System.out.println("questa è la scena " + currentScene.toString());
         Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
         stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
         stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);

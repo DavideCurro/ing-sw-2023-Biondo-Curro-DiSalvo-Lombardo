@@ -56,7 +56,7 @@ public class setupController {
         lobby3 = new RadioButton();
         lobby4 = new RadioButton();
 
-
+        this.gui = gui;
         initialize();
 
         try {
@@ -98,8 +98,6 @@ public class setupController {
 
     public void startGui(){
 
-
-
         int gamestart = 0;
         System.out.println("bonasira");
         System.out.println("CAASDASDASDA");
@@ -131,16 +129,12 @@ public class setupController {
                     if (gamestart == 0) {
                         gamestart++;
                     }
-                    try {
-                        gui = new GUI();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
 
-                    //mainmenu.handleNewMessage(message);
-                    gui.changeTheScene("MENU");
-                    Thread guiThread = new Thread(gui);
-                    guiThread.start();
+
+                    GUI.changeTheScene("MENU");
+                    mainmenu.handleNewMessage(message);
+                    //Thread guiThread = new Thread(gui);
+                    //guiThread.start();
 
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

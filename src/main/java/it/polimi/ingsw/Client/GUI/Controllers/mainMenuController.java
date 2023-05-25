@@ -122,7 +122,7 @@ public class mainMenuController extends Playground{
 
                     img.setFitHeight((TILE_HEIGHT));
                     img.setFitWidth((TILE_WIDTH));
-                            playground.setConstraints(img,j,i);
+                            //playground.setConstraints(img,j,i);
                             playground.getChildren().add(img);
                 }
             }
@@ -282,7 +282,7 @@ public class mainMenuController extends Playground{
         tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Gatti1.1.png")).toExternalForm()));
         tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Piante1.1.png")).toExternalForm()));
 
-       /* tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.2.png").toExternalForm()));
+        /*tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.2.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Trofei1.2.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Giochi1.2.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Libri1.2.png").toExternalForm()));
@@ -294,7 +294,8 @@ public class mainMenuController extends Playground{
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Giochi1.3.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Libri1.3.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Gatti1.3.png").toExternalForm()));
-        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Piante1.3.png").toExternalForm()));*/
+        tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Piante1.3.png").toExternalForm()));
+        */
 
     }
 
@@ -399,6 +400,7 @@ public class mainMenuController extends Playground{
      */
     public void handleNewMessage(Message message) {
         switch (message.getMessageType()) {
+
             case NEWGAME -> printplaygroundBoard((Playground) message.getPayload());
 
             case PLAYERDATA -> {
@@ -412,13 +414,13 @@ public class mainMenuController extends Playground{
             case PICKEDTILE -> {
                 Playground playgroundmodel = (Playground) message.getPayload();
                 Player playermodel = (Player) message.getPayload2();
-                printplaygroundBoard(playgroundmodel);
+                //printplaygroundBoard(playgroundmodel);
                 showmessage("It was the turn of " + playermodel.getNickname());
                 printLibrary(playermodel);
                 //print dei unti dei giocatori e del giocatore
 
-            }/*
-            case NICKNAME_DUPLICATE -> {
+            }
+           /* case NICKNAME_DUPLICATE -> {
                 showerror("This nickname was already taken. Choose another one: \n");
                 chooseNickname.setVisible(true);
                 nickname1 = nickname.getText();

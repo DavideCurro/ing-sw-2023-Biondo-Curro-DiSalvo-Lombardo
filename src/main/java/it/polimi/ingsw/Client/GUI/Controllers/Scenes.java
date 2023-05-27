@@ -1,9 +1,9 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
 public enum Scenes {
+    SETUP("SETUP", "/setup.fxml"),
 
-    MENU("MENU", "/mainMenu.fxml"),
-    SETUP("SETUP", "/setup.fxml");
+    MENU("MENU", "/mainMenu.fxml");
     //ENDGAME("ENDGAME", "/endGame.fxml");
     private final String name;
     private final String file;

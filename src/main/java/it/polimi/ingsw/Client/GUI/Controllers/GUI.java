@@ -46,8 +46,8 @@ public class GUI extends Application implements Runnable {
     public void start(Stage stage) throws IOException {
         setup();
         System.out.println("no sacciu");
-        this.stage = stage;
-        this.stage.setResizable(false);
+        GUI.stage = stage;
+        GUI.stage.setResizable(false);
         showTheScene();
     }
 
@@ -103,9 +103,9 @@ public class GUI extends Application implements Runnable {
         currentScene = nameToScene.get(scene);
         stage.setScene(currentScene);
         System.out.println("questa è la scena " + currentScene.toString());
-        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
-        stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+       // Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+        //stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
+        //stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
         stage.show();
     }
 

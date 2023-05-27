@@ -112,14 +112,11 @@ public class mainMenuController extends Playground{
         // playground.setStyle("-fx-background-image : url ");
 
         initTilesimage();
-
         for (int i = 0; i < 9; i++) {
-            for (int j = 0; i < 9; j++) {
+            for (int j = 0; j < 9; j++) {
                 int index = playgroundmodel.getGround()[i][j].getType();
-
                 if(index != -1) {
                     ImageView img = new ImageView(tilesImg.get(index));
-
                     img.setFitHeight((TILE_HEIGHT));
                     img.setFitWidth((TILE_WIDTH));
                             //playground.setConstraints(img,j,i);
@@ -134,7 +131,7 @@ public class mainMenuController extends Playground{
      *
      //* @param player
      */
-  /*  public void printPersonalGoal(Player player) {
+    public void printPersonalGoal(Player player) {
        switch (player.getPersonalObj().getPersonalObj().getType()){
            case 1-> {
                System.out.println("ciao");
@@ -275,12 +272,13 @@ public class mainMenuController extends Playground{
      * Method that associate the image of the tile to the tile itself
      */
     public void initTilesimage() {
-        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Cornici1.1.png")).toExternalForm()));
-        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Trofei1.1.png")).toExternalForm()));
-        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Giochi1.1.png")).toExternalForm()));
-        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Libri1.1.png")).toExternalForm()));
-        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Gatti1.1.png")).toExternalForm()));
-        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/resouces/item_tiles/Piante1.1.png")).toExternalForm()));
+
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/it/polimi/MyShelfie/item_tiles/Cornici1.1.png")).toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/it/polimi/MyShelfie/item_tiles/Trofei1.1.png")).toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/it/polimi/MyShelfie/item_tiles/Giochi1.1.png")).toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/it/polimi/MyShelfie/item_tiles/Libri1.1.png")).toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/it/polimi/MyShelfie/item_tiles/Gatti1.1.png")).toExternalForm()));
+        tilesImg.add(new Image(Objects.requireNonNull(this.getClass().getResource("/it/polimi/MyShelfie/item_tiles/Piante1.1.png")).toExternalForm()));
 
         /*tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.2.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Trofei1.2.png").toExternalForm()));
@@ -401,7 +399,12 @@ public class mainMenuController extends Playground{
     public void handleNewMessage(Message message) {
         switch (message.getMessageType()) {
 
-            case NEWGAME -> printplaygroundBoard((Playground) message.getPayload());
+            case NEWGAME ->{
+                GUI.changeTheScene("MENU"); //perchè cambiava ogni messaggio
+                printplaygroundBoard((Playground) message.getPayload());
+                System.out.println("DSADASDADASDASDas");
+
+            }
 
             case PLAYERDATA -> {
                 Player tmp = (Player) message.getPayload();

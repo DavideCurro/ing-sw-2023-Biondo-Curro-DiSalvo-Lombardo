@@ -106,7 +106,6 @@ public class setupController {
 
         //meglio fare un buttongroup per mutuaesclusione + switchcase
 
-        try {
             if (lobby2.isSelected()){
                 lobbyType = 2;
             }
@@ -123,16 +122,14 @@ public class setupController {
                 showerror("ERROR!");
 
             while (socket.isConnected()) {
-                Message message;
+                Message message = null;
                 try {
-                    message = (Message) objectInputStream.readObject();
-                    if (gamestart == 0) {
-                        gamestart++;
-                    }
+                        message = (Message) objectInputStream.readObject();
+                        if (gamestart == 0) {
+                            gamestart++;
+                        }
 
-
-                    GUI.changeTheScene("MENU");
-                    mainmenu.handleNewMessage(message);
+                        mainmenu.handleNewMessage(message);
                     //Thread guiThread = new Thread(gui);
                     //guiThread.start();
 
@@ -140,10 +137,6 @@ public class setupController {
                     e.printStackTrace();
                 }
             }
-            sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
 
     }
 

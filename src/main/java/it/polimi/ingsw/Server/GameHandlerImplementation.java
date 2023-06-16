@@ -7,13 +7,19 @@ import it.polimi.ingsw.Model.Playground.Tiles;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Vector;
 
 public class GameHandlerImplementation implements GameHandlerRMI{
-    private GameHandler gameHandler;
+    private GameHandler gameHandler = null;
     private boolean lock = true;
     private boolean connected = false;
     private Registry registry;
+    private boolean startGame = false;
+    private String nickname;
+    private int lobbyType;
+    LinkedList<Message> startMessage = new LinkedList<>();
     private boolean alive =true;
     public GameHandlerImplementation(Registry registry){
         this.registry = registry;
@@ -21,21 +27,22 @@ public class GameHandlerImplementation implements GameHandlerRMI{
     public void setGameHandler(GameHandler gameHandler){this.gameHandler = gameHandler;}
     @Override
     public int handleLogin(String nickname, int lobbyType)  throws RemoteException {
-        connected = true;
-        switch (lobbyType){
-            case 2->{
-                int newCode = Server.lobby2Player.getLast().getLobbyCode();
-                Server.lobby2Player.getLast().connection(registry,null,null,nickname); //TODO: CHANGE THIS WITH SERVERtHREAD ITS HANDLE ALL LOBBY
-                return newCode;
-            }
-            default -> throw new IllegalStateException("Unexpected value: " + lobbyType);
-        }
-
+        this.nickname = nickname;
+        this.lobbyType = lobbyType;
+        return 0;
     }
 
+    public String getNickname() throws RemoteException{
+        return nickname;
+    }
+    public int getLobbyType()throws RemoteException {
+        return lobbyType;
+    }
+
+
     @Override
-    public int handleTurn(int column, Vector<Tiles> tilesPicked) throws RemoteException {
-        return 1;
+    public void handleTurn(int column, Vector<Tiles> tilesPicked, String nick) throws RemoteException {
+        gameHandler.handleTurn(column,tilesPicked,nick);
     }
     public boolean handleNicknameFail(String nickname) throws RemoteException{
         return false;
@@ -53,10 +60,18 @@ public class GameHandlerImplementation implements GameHandlerRMI{
     public void unLock(){
         lock = false;
     }
+
     public Message getData() throws RemoteException {
-        if(lock)
-            return new Message("Client", Content.FAIL);
-        return new Message("Client", Content.NEWGAME, gameHandler.getMatch().getP());
+        System.out.println(lock);
+        if(Objects.isNull(gameHandler))
+            return new Message("Cl", Content.FAIL);
+        if(startGame){
+            startGame = false;
+            System.out.println("Ciao1");
+            return new Message("Client", Content.StartGame,startMessage);
+        }
+        System.out.println("Ciao2");
+        return gameHandler.getLastMessage();
     }
     public boolean getConnected(){return connected;}
     public void setConnected(boolean connected){
@@ -65,5 +80,11 @@ public class GameHandlerImplementation implements GameHandlerRMI{
     public void setAlive(boolean alive){this.alive = alive;}
     public boolean isAlive() throws RemoteException{
         return alive;
+    }
+    public void setStartGame(Message m1,Message m2,Message m3){
+        startGame = true;
+        startMessage.add(m1);
+        startMessage.add(m2);
+        startMessage.add(m3);
     }
 }

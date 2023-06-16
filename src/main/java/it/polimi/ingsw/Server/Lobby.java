@@ -75,10 +75,10 @@ public class Lobby {
         }
 
     }
-    public synchronized void connection(Registry client, ObjectOutputStream outputStream, ObjectInputStream inputStream, String username){
+    public synchronized void connection(Registry client, String username){
         connectionType[index] = new ConnectionType(lobbyCode);
         connectionType[index].setRMI(new GameHandlerImplementation(client),client);
-        connectionType[index].reBind();
+       // connectionType[index].reBind();
        // connectionType[index].setRMI(client);
         objectOutputStreams[index] = null;
         objectInputStreams[index] = null;

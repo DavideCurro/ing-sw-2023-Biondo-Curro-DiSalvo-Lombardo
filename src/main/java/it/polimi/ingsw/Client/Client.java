@@ -47,7 +47,7 @@ public class Client {
                 }
                 case "Socket" -> {
 
-                    visualChoose(args[1],new Socket(InetAddress.getLocalHost(),2000));
+                    visualChoose(args[1],new Socket(args[3],2000));
                 }
             }
         }

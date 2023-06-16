@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Server;
 
 
+import it.polimi.ingsw.Utility.Message.Message;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.registry.Registry;
@@ -49,5 +51,9 @@ public class ConnectionType {
     }
     public void setGameHandler(GameHandler gameHandler){
         rmiServer.setGameHandler(gameHandler);
+    }
+
+    public void setStartGame(Message message, Message message1, Message server) {
+        rmiServer.setStartGame(message,message1,server);
     }
 }

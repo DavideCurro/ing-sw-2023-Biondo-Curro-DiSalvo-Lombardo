@@ -134,23 +134,24 @@ public class cliHandler {
         sleep(5000);
     }
     public void cliRMI(){
+        view.welcome();
         try {
             stub = (GameHandlerRMI) registry.lookup("GameHandler");
             nickname = scanner.nextLine();
             messageDispatcher.setNickname(nickname);
             int newLobby =  stub.handleLogin(nickname,validateLobbyType());
-            stub = (GameHandlerRMI) registry.lookup(String.valueOf(newLobby));
+         //   stub = (GameHandlerRMI) registry.lookup(String.valueOf(newLobby));
             messageDispatcher.setStub(stub);
-            System.out.println(stub.isAlive());
             Message message = null;
             while(stub.isAlive()) {
                 do {
                     message = stub.getData();
                     System.out.println(message.getMessageType());
+                    sleep(1000);
                 } while (message.getMessageType() == Content.FAIL);
                 handleNewMessage(message);
             }
-        } catch (RemoteException | NotBoundException e) {
+        } catch (RemoteException | NotBoundException | InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -162,7 +163,6 @@ public class cliHandler {
      * @param message  the message.
      */
     private void handleNewMessage(Message message){
-
         switch (message.getMessageType()){
             case NEWGAME ->
                     view.printPlayground((Playground)message.getPayload());

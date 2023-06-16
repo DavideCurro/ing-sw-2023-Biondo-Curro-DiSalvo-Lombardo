@@ -108,10 +108,19 @@ public class GameHandler implements Runnable {
                     throw new RuntimeException(e);
                 }
             }else{
+                System.out.println("suca");
                 players[i].setGameHandler(this);
                 players[i].unLock();
+                players[i].setStartGame(new Message(usernames[i], NEWGAME,match.getP()),new Message(usernames[i], PLAYERDATA,match.getThisPlayer(usernames[i])),new Message(usernames[i],"Server", COMMONOBJ,match.getCommonOBJ1(),match.getCommonOBJ2()));
+
             }
         }
+    }
+    private void setLastMessage(Message message){
+        this.message = message;
+    }
+    public Message getLastMessage(){
+        return message;
     }
 
     /**
@@ -175,14 +184,16 @@ public class GameHandler implements Runnable {
      * @throws IOException if objectOutputStreams get some error
      */
     private void sendMessage(int nowPlaying) throws IOException {
-        objectOutputStreams[nowPlaying].writeObject(new Message(usernames[nowPlaying],PICKTILE));
+        setLastMessage(new Message(usernames[nowPlaying],PICKTILE));
+        objectOutputStreams[nowPlaying].writeObject(message);
     }
 
 
     private void sendEndGameMessage()throws IOException{
         for(ObjectOutputStream outputStream : objectOutputStreams){
             resetObject(outputStream);
-            outputStream.writeObject(new Message("","server",ENDGAME,match.getPlayer(),match.getWinner()));
+            setLastMessage(new Message("","server",ENDGAME,match.getPlayer(),match.getWinner()));
+            outputStream.writeObject(message);
         }
     }
 
@@ -265,7 +276,8 @@ public class GameHandler implements Runnable {
         for(ObjectOutputStream objectOutputStream: objectOutputStreams){
             try {
                 objectOutputStream.reset();
-                objectOutputStream.writeObject(new Message("","server", PICKEDTILE, match.getP(),match.getLastPlayer()));
+                setLastMessage(new Message("","server", PICKEDTILE, match.getP(),match.getLastPlayer()));
+                objectOutputStream.writeObject(message);
             }catch (IOException e){
                 e.printStackTrace();
             }
@@ -278,7 +290,8 @@ public class GameHandler implements Runnable {
      */
     private void notifyPersonalOBJDone(int index){
         try {
-            objectOutputStreams[index].writeObject(new Message(usernames[index],"Server", PERSONALOBJDONE, match.getThisPlayer(usernames[index]),match.getThisPlayer(usernames[index]).checkPersonalOBJ()));
+            setLastMessage(new Message(usernames[index],"Server", PERSONALOBJDONE, match.getThisPlayer(usernames[index]),match.getThisPlayer(usernames[index]).checkPersonalOBJ()));
+            objectOutputStreams[index].writeObject(message);
         }catch (IOException e){
             log.severe("can not connect to client");
         }
@@ -294,7 +307,8 @@ public class GameHandler implements Runnable {
         for(ObjectOutputStream objectOutputStream : objectOutputStreams){
             resetObject(objectOutputStream);
             try {
-                objectOutputStream.writeObject(new Message("", "Server", COMMONOBJDONE, player, countOBJ));
+                setLastMessage(new Message("", "Server", COMMONOBJDONE, player, countOBJ));
+                objectOutputStream.writeObject(message);
             }catch (IOException e){
                 e.printStackTrace();
                 log.severe("can not connect to client");
@@ -336,14 +350,16 @@ public class GameHandler implements Runnable {
                 log.warning("Pick-Up issue");
                 match.resetPlayers();
                 try {
-                    objectOutputStreams[index].writeObject(new Message(sender, PICKUPFAIL));
+                    setLastMessage(new Message(sender, PICKUPFAIL));
+                    objectOutputStreams[index].writeObject(message);
                 }catch (IOException e){
                     e.printStackTrace();
                 }
            }else{
                log.severe("Something went wrong, that's a big problem!");
                try {
-                   objectOutputStreams[index].writeObject(new Message(sender, FAIL));
+                   setLastMessage(new Message(sender, FAIL));
+                   objectOutputStreams[index].writeObject(message);
                    closeAllConnection();
                }catch (IOException e){
                    e.printStackTrace();
@@ -353,7 +369,8 @@ public class GameHandler implements Runnable {
             log.warning("Wrong player");
             if(index != -1){
                 try {
-                    objectOutputStreams[index].writeObject(new Message(sender, WRONG_PLAYER));
+                    setLastMessage(new Message(sender, WRONG_PLAYER));
+                    objectOutputStreams[index].writeObject(message);
                 }catch (IOException e){
                     e.printStackTrace();
                 }

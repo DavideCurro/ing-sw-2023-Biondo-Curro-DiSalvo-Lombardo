@@ -430,9 +430,9 @@ public class mainMenuController {
             }
             case COMMONOBJ -> {
                 CommonObj tmp = (CommonObj) message.getPayload();
-                printCommonOBJ(tmp.getType(),commonG1);
+                printCommonOBJ(tmp.getType(),true);
                 tmp = (CommonObj) message.getPayload2();
-                printCommonOBJ(tmp.getType(),commonG2);
+                printCommonOBJ(tmp.getType(),false);
             }
             case ENDGAME -> {
                 //scene endgame da implementare

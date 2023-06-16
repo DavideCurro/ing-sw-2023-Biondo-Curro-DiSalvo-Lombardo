@@ -107,7 +107,7 @@ public class MessageDispatcher {
     public void sendPickUpData(Vector<Tiles>tiles , int column){
         if(isRMI){
             try {
-                stub.handleTurn(column,tiles);
+                stub.handleTurn(column,tiles,nickname);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

@@ -23,6 +23,7 @@ public class StarterServerRMI extends Thread{
             try {
                 stub = (GameHandlerRMI) UnicastRemoteObject.exportObject(new GameHandlerImplementation(registry), 0);
                 registry.rebind("GameHandler", stub);
+                new ServerThread(Server.lobby2Player,Server.lobby3Player,Server.lobby4Player, (GameHandlerRMI) stub, registry).start();
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

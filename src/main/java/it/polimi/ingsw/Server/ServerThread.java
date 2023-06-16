@@ -5,19 +5,21 @@ import it.polimi.ingsw.Utility.Message.Message;
 import java.io.*;
 import java.net.Socket;
 
+import java.rmi.registry.Registry;
 import java.util.LinkedList;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 
 
 public class ServerThread extends Thread{
     private final Socket socket;
-
-    private final LinkedList<Lobby> lobby2Player;
-    private final LinkedList<Lobby> lobby3Player;
-    private final LinkedList<Lobby> lobby4Player;
-
+    private final GameHandlerRMI stub;
+    private static LinkedList<Lobby> lobby2Player;
+    private static LinkedList<Lobby> lobby3Player;
+    private static LinkedList<Lobby> lobby4Player;
+    private Registry registry;
 
     private static final Logger log = Logger.getLogger(ServerThread.class.getName());
 
@@ -31,9 +33,20 @@ public class ServerThread extends Thread{
     public ServerThread( LinkedList<Lobby> lobby2Player, LinkedList<Lobby> lobby3Player, LinkedList<Lobby> lobby4Player, Socket socket)  {
 
         this.socket = socket;
-        this.lobby2Player = lobby2Player;
-        this.lobby3Player = lobby3Player;
-        this.lobby4Player = lobby4Player;
+        stub = null;
+        registry = null;
+        ServerThread.lobby2Player = lobby2Player;
+        ServerThread.lobby3Player = lobby3Player;
+        ServerThread.lobby4Player = lobby4Player;
+    }
+    public ServerThread( LinkedList<Lobby> lobby2Player, LinkedList<Lobby> lobby3Player, LinkedList<Lobby> lobby4Player, GameHandlerRMI stub, Registry registry)  {
+
+        this.stub = stub;
+        socket = null;
+        ServerThread.lobby2Player = lobby2Player;
+        ServerThread.lobby3Player = lobby3Player;
+        ServerThread.lobby4Player = lobby4Player;
+        this.registry = registry;
     }
 
     /**
@@ -51,42 +64,54 @@ public class ServerThread extends Thread{
         if(lobby1.isFull())
             lobbyList.add(new Lobby(lobby1.maxConnection()));
     }
+    public int rmiConnection(LinkedList<Lobby> lobbyLinkedList, Registry registry, String username){
+        log.info("Doing stuff for log in waiting room");
+        Lobby lobby1 = lobbyLinkedList.getLast();
+        lobby1.connection(registry,username);
+        if(lobby1.isFull())
+            lobbyLinkedList.add(new Lobby(lobby1.maxConnection()));
+        return lobby1.getLobbyCode();
+    }
 
     /**
      * This method handle the lobby choose, dispatch new player in a lobby
      */
     @Override
-    public void run(){
-        ObjectOutputStream outputStream = null;
-        ObjectInputStream inputStream = null;
-        try{
-            outputStream = new ObjectOutputStream(socket.getOutputStream());
-            outputStream.flush();
-            outputStream.reset();
-            inputStream = new ObjectInputStream(socket.getInputStream());
-        }catch (IOException e){
-            e.printStackTrace();
-            System.exit(-1);
-        }
-        Message message;
+    public void run() {
+        if (Objects.isNull(socket)) {
+            rmi();
+        } else {
+            ObjectOutputStream outputStream = null;
+            ObjectInputStream inputStream = null;
             try {
-                    message = (Message) inputStream.readObject();
-                switch ((int)message.getPayload()){
-                    case 2->{
+                outputStream = new ObjectOutputStream(socket.getOutputStream());
+                outputStream.flush();
+                outputStream.reset();
+                inputStream = new ObjectInputStream(socket.getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
+
+            Message message;
+            try {
+                message = (Message) inputStream.readObject();
+                switch ((int) message.getPayload()) {
+                    case 2 -> {
                         log.info("Connecting in 2 player room");
-                        connect(lobby2Player,message.getSender(),outputStream,inputStream);
+                        connect(lobby2Player, message.getSender(), outputStream, inputStream);
 
                     }
-                    case 3->{
+                    case 3 -> {
                         log.info("Connecting in 3 player room");
-                        connect(lobby3Player,message.getSender(),outputStream,inputStream);
+                        connect(lobby3Player, message.getSender(), outputStream, inputStream);
 
                     }
-                    case 4->{
+                    case 4 -> {
                         log.info("Connecting in 4 player room");
-                        connect(lobby4Player,message.getSender(),outputStream,inputStream);
+                        connect(lobby4Player, message.getSender(), outputStream, inputStream);
                     }
-                    default->{
+                    default -> {
                         log.info("ERROR wrong number");
                         socket.close();
                     }
@@ -96,6 +121,33 @@ public class ServerThread extends Thread{
             }
         }
     }
+    private void rmi(){
+        try {
+            switch (stub.getLobbyType()) {
+                case 2 -> {
+                    log.info("Connecting in 2 player room");
+                    rmiConnection(lobby2Player,registry, stub.getNickname());
+
+                }
+                case 3 -> {
+                    log.info("Connecting in 3 player room");
+                    rmiConnection(lobby3Player,registry, stub.getNickname());
+
+                }
+                case 4 -> {
+                    log.info("Connecting in 4 player room");
+                    rmiConnection(lobby4Player,registry, stub.getNickname());
+                }
+                default -> {
+                    log.info("ERROR wrong number");
+                    sleep(300000);
+                }
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
 
 
 

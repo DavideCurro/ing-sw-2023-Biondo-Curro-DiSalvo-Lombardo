@@ -9,8 +9,11 @@ import java.util.Vector;
 
 public interface GameHandlerRMI extends Remote {
         int handleLogin(String nickname, int lobbyType) throws RemoteException;
-        int handleTurn(int column, Vector<Tiles> tilesPicked)throws RemoteException;
-        boolean handleNicknameFail(String nickname) throws  RemoteException;
+    void handleTurn(int column, Vector<Tiles> tilesPicked, String nick) throws RemoteException;
+
+    boolean handleNicknameFail(String nickname) throws  RemoteException;
         Message getData() throws RemoteException;
         boolean isAlive() throws RemoteException;
+        int getLobbyType() throws RemoteException;
+        String getNickname() throws RemoteException;
 }

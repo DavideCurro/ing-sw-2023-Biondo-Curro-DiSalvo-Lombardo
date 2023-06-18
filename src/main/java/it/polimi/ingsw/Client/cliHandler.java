@@ -1,6 +1,9 @@
 package it.polimi.ingsw.Client;
+import it.polimi.ingsw.Client.GUI.Controllers.SceneController;
+import it.polimi.ingsw.Client.GUI.Controllers.setupController;
 
 
+import it.polimi.ingsw.Client.GUI.Controllers.GUI;
 import it.polimi.ingsw.Model.CommonStrategy.CommonObj;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
@@ -9,6 +12,7 @@ import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Server.GameHandlerRMI;
 import it.polimi.ingsw.Utility.Message.Content;
 import it.polimi.ingsw.Utility.Message.Message;
+import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -40,6 +44,7 @@ public class cliHandler {
     private final MessageDispatcher messageDispatcher;
     private Registry registry;
     private GameHandlerRMI stub;
+
 
 
     /**
@@ -94,6 +99,48 @@ public class cliHandler {
             }while(wentToCatch);
         }while (lobbyType <2 || lobbyType >4);
         return lobbyType;
+    }
+
+    public void guisocket(){
+
+        setupController setup = new setupController();
+        SceneController.changerootPane(setup, "setup.fxml");
+
+        while(!setup.isButtonpressed()){
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        nickname = setup.getNickname();
+        int lobbyType = setup.getLobby();
+        int gamestart = 0;
+        System.out.println("bonasira");
+        System.out.println("CAASDASDASDA");
+
+        messageDispatcher.setNickname(nickname);
+
+        if (!messageDispatcher.sendLoginInfo(lobbyType))
+            //showerror("ERROR!");
+
+            while (socket.isConnected()) {
+            Message message = null;
+            try {
+                message = (Message) objectInputStream.readObject();
+                if (gamestart == 0) {
+                    gamestart++;
+                }
+
+                handleNewMessage(message);
+
+
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 

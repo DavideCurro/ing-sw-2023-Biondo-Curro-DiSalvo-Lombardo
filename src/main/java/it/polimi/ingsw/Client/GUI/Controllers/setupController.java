@@ -7,6 +7,7 @@ import it.polimi.ingsw.Model.Playground.Tiles;
 import it.polimi.ingsw.Utility.Message.Message;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 
 import java.io.IOException;
@@ -14,11 +15,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.Vector;
 
 import static java.lang.Thread.sleep;
 
-public class setupController {
+public class setupController implements GenericSceneController, Initializable {
     @FXML
     Label chooselobby;
     @FXML
@@ -33,6 +36,8 @@ public class setupController {
     RadioButton lobby3;
     @FXML
     RadioButton lobby4;
+
+    private boolean buttonpressed;
     private Socket socket;
     private GUI gui;
     private String currentScene;
@@ -48,22 +53,22 @@ public class setupController {
         this.objectOutputStream = null;
         this.objectInputStream = null;
         this.tilesVector = new Vector<>();
-        mainmenu = new mainMenuController();
-        StartGame = new Button("StartGame");
-        chooseNickname = new Label("Choose Nickname");
-        nickname = new TextField();
-        lobby2 = new RadioButton();
-        lobby3 = new RadioButton();
-        lobby4 = new RadioButton();
+       //mainmenu = new mainMenuController();
+        //        StartGame = new Button("StartGame");
+        //chooseNickname = new Label("Choose Nickname");
+        //nickname = new TextField();
+        //lobby2 = new RadioButton();
+        //lobby3 = new RadioButton();
+        //lobby4 = new RadioButton();
 
-        this.gui = gui;
-        initialize();
+        //this.gui = gui;
+        //initialize();
 
-        try {
+       /* try {
             setupSocket(InetAddress.getLocalHost(),2000);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 
@@ -71,7 +76,7 @@ public class setupController {
         this.gui = gui;
     }
 
-    public void setupSocket(InetAddress host, int port) throws IOException {
+    /*public void setupSocket(InetAddress host, int port) throws IOException {
         socket = new Socket(host.getHostName(), port);
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -88,57 +93,28 @@ public class setupController {
 
     public void setObjectInputStream(ObjectInputStream objectInputStream){
         this.objectInputStream = objectInputStream;
+    }*/
+
+
+    public String getNickname(){
+        return nickname.getText();
     }
 
-    public void initialize() {
-        StartGame.setVisible(true);
-        chooseNickname.setVisible(true);
-        nickname.setVisible(true);
-    }
-
-    public void startGui(){
-
-        int gamestart = 0;
-        System.out.println("bonasira");
-        System.out.println("CAASDASDASDA");
-
+    public int getLobby(){
         int lobbyType = 0;
-
-        //meglio fare un buttongroup per mutuaesclusione + switchcase
-
-            if (lobby2.isSelected()){
-                lobbyType = 2;
-            }
-            else if (lobby3.isSelected()){
-                lobbyType = 3;
-            }
-            else if (lobby4.isSelected()){
-                lobbyType = 4;
-            }
-
-            messageDispatcher.setNickname(nickname.getText());
-
-            if (!messageDispatcher.sendLoginInfo(lobbyType))
-                showerror("ERROR!");
-
-            while (socket.isConnected()) {
-                Message message = null;
-                try {
-                        message = (Message) objectInputStream.readObject();
-                        if (gamestart == 0) {
-                            gamestart++;
-                        }
-
-                        mainmenu.handleNewMessage(message);
-                    //Thread guiThread = new Thread(gui);
-                    //guiThread.start();
-
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
+        if (lobby2.isSelected()){
+            lobbyType = 2;
+        }
+        else if (lobby3.isSelected()){
+            lobbyType = 3;
+        }
+        else if (lobby4.isSelected()){
+            lobbyType = 4;
+        }
+        return lobbyType;
 
     }
+
 
     /**
      * Method that starts the game once the nickname and the lobby have been chosen
@@ -148,10 +124,14 @@ public class setupController {
         StartGame.setOnAction(e-> {
             System.out.println("Funziona");
 
-            startGui();
+            buttonpressed = true;
 
         });
 
+    }
+
+    public boolean isButtonpressed() {
+        return buttonpressed;
     }
 
     /**
@@ -177,6 +157,12 @@ public class setupController {
     }
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        StartGame.setVisible(true);
+        chooseNickname.setVisible(true);
+        nickname.setVisible(true);
 
+    }
 }
 

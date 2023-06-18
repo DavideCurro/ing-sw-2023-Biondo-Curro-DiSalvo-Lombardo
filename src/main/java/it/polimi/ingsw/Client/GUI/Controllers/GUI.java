@@ -1,11 +1,15 @@
 package it.polimi.ingsw.Client.GUI.Controllers;
 
+import it.polimi.ingsw.Client.ClientView;
 import it.polimi.ingsw.Client.MessageDispatcher;
+
+import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Model.Playground.Playground;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 
@@ -15,90 +19,48 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.HashMap;
 
-public class GUI extends Application implements Runnable {
-    private static Stage stage;
-    private Socket socket;
-    private static Scene currentScene;
+import static javafx.application.Application.launch;
+
+public class GUI extends ClientView {
+
     private static HashMap<String, Scene> nameToScene = new HashMap<>();
 
-    private setupController setupcont;
-    private MessageDispatcher messageDispatcher;
-    private ObjectOutputStream objectOutputStream;
-    private ObjectInputStream objectInputStream;
+   public static void changescene(){
 
-    public GUI() throws IOException {
-        stage = new Stage();
-        setupcont = new setupController();
-        setupcont.setGui(this);
-
+        mainMenuController mainmenu = new mainMenuController();
+        Platform.runLater(()-> SceneController.changerootPane(mainmenu, "/it/polimi/MyShelfie/fxml/mainMenu.fxml"));
     }
 
-    /***
-     * Main of the class
-     * @param args Main args
-     */
-    public static void main(String[] args) {
-        launch(args);
+    @Override
+    public void printPlayground(Playground ground) {
+        mainMenuController mainmenu = (mainMenuController) SceneController.getActiveController();
+        mainmenu.printplaygroundBoard(ground);
 
     }
 
     @Override
-    public void start(Stage stage) throws IOException {
-        setup();
-        System.out.println("no sacciu");
-        GUI.stage = stage;
-        GUI.stage.setResizable(false);
-        showTheScene();
-    }
+    public void printPersonalOBJ(Player player) {
+        mainMenuController mainmenu = (mainMenuController) SceneController.getActiveController();
+        mainmenu.printPersonalGoal(player);
 
-    /**
-     * Set up of the FXML file of the application.
-     */
-    public void setup() {
-        //font da stampare
-        try {
-            for (Scenes scene : Scenes.values()) {
-                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(scene.getFile()));
-                nameToScene.put(scene.getName(), new Scene(fxmlLoader.load()));
-                System.out.println("non funzionaaaaaa");
-
-            }
-            currentScene = nameToScene.get("SETUP");
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-        }
-    }
-
-
-
-    /**
-     * Main method of the Thread Client GUI
-     */
-    @Override
-    public void run(){
-
-//needs to put stuff in
     }
 
     /**
      * Shows the first scene
      */
-    public void showTheScene(){
+   /* public void showTheScene(){
         stage.setScene(currentScene);
         stage.sizeToScene();
         stage.setResizable(false);
         stage.setTitle("MyShelfie");
         stage.show();
-    }
+    }*/
 
     /**
      * Shows the new scene
      * @param scene
      */
-    public static void changeTheScene(String scene){
+   /* public static void changeTheScene(String scene){
         System.out.println(scene);
         currentScene = nameToScene.get(scene);
         stage.setScene(currentScene);
@@ -107,7 +69,7 @@ public class GUI extends Application implements Runnable {
         //stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
         //stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
         stage.show();
-    }
+    }*/
 
 
 

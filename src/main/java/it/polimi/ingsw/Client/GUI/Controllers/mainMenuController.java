@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Vector;
 
-public class mainMenuController extends Playground{
+public class mainMenuController extends Playground implements GenericSceneController{
     @FXML
     Label points;
     @FXML
@@ -396,7 +396,7 @@ public class mainMenuController extends Playground{
      *
      * @param message  the message.
      */
-    public void handleNewMessage(Message message) {
+    /*public void handleNewMessage(Message message) {
         switch (message.getMessageType()) {
 
             case NEWGAME ->{
@@ -430,7 +430,7 @@ public class mainMenuController extends Playground{
                 messageDispatcher.setNickname(nickname1);
             }*/
 
-            case COMMONOBJDONE -> {
+           /* case COMMONOBJDONE -> {
                 showmessage("You completed the common goal!");
             }
 
@@ -458,6 +458,6 @@ public class mainMenuController extends Playground{
         }
 
 
-    }
+    }*/
 }
 

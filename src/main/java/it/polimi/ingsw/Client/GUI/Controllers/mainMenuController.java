@@ -7,6 +7,7 @@ import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,11 +19,13 @@ import javafx.scene.layout.GridPane;
 
 import it.polimi.ingsw.Utility.Message.Message;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import java.util.Vector;
 
-public class mainMenuController extends Playground implements GenericSceneController{
+public class mainMenuController extends Playground implements GenericSceneController, Initializable {
     @FXML
     Label points;
     @FXML
@@ -82,7 +85,8 @@ public class mainMenuController extends Playground implements GenericSceneContro
 
     }
 
-    public void initialize() {
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
         otherPlayers.setVisible(true);
         personalCard.setVisible(true);
         commonG1.setVisible(true);
@@ -99,6 +103,7 @@ public class mainMenuController extends Playground implements GenericSceneContro
         button2.setVisible(false);
         button3.setVisible(false);
         button4.setVisible(false);
+
 
     }
 
@@ -135,49 +140,49 @@ public class mainMenuController extends Playground implements GenericSceneContro
        switch (player.getPersonalObj().getPersonalObj().getType()){
            case 1-> {
                System.out.println("ciao");
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals.png").toExternalForm());
            }
            case 2 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals2.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals2.png").toExternalForm());
 
            }
            case 3 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals3.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals3.png").toExternalForm());
 
            }
            case 4 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals4.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals4.png").toExternalForm());
 
            }
            case 5 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals5.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals5.png").toExternalForm());
 
            }
            case 6 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals6.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals6.png").toExternalForm());
            }
            case 7 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals7.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals7.png").toExternalForm());
 
            }
            case 8 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals8.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals8.png").toExternalForm());
 
            }
            case 9 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals9.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals9.png").toExternalForm());
 
            }
            case 10 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals10.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals10.png").toExternalForm());
 
            }
            case 11 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals11.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals11.png").toExternalForm());
 
            }
            case 12 ->{
-               personalCard = new ImageView(this.getClass().getResource("Personal_Goals12.png").toExternalForm());
+               personalCard = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/personal_goal_cards/Personal_Goals12.png").toExternalForm());
 
            }
 
@@ -192,75 +197,75 @@ public class mainMenuController extends Playground implements GenericSceneContro
             case 1-> {
                 System.out.println("ciao");
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/1.jpg").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/1.jpg").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/1.jpg").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/1.jpg").toExternalForm());
             }
             case 2 ->{
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/2.jpg").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/2.jpg").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/2.jpg").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/2.jpg").toExternalForm());
             }
             case 3 ->{
                 if(is1)
-                    commonG1= new ImageView(this.getClass().getResource("/common_goal_cards/3.jpg").toExternalForm());
+                    commonG1= new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/3.jpg").toExternalForm());
                 else
-                    commonG2= new ImageView(this.getClass().getResource("/common_goal_cards/3.jpg").toExternalForm());
+                    commonG2= new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/3.jpg").toExternalForm());
             }
             case 4 ->{
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/4.jpg").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie//common_goal_cards/4.jpg").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/4.jpg").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/4.jpg").toExternalForm());
             }
             case 5 ->{
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/5.png").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/5.png").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/5.png").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/5.png").toExternalForm());
             }
             case 6 ->{
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/6.png").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/6.png").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/6.png").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/6.png").toExternalForm());
             }
             case 7 ->{
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/7.png").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/7.png").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/7.png").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/7.png").toExternalForm());
             }
             case 8 ->{
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/8.png").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/8.png").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/8.png").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/8.png").toExternalForm());
             }
             case 9 ->{
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/9.png").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/9.png").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/9.png").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/9.png").toExternalForm());
             }
             case 10 ->{
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/10.png").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/10.png").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/10.png").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/10.png").toExternalForm());
             }
             case 11 ->{
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/11.png").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/11.png").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/11.png").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/11.png").toExternalForm());
             }
             case 12 ->{
                 if(is1)
-                    commonG1 = new ImageView(this.getClass().getResource("/common_goal_cards/12.png").toExternalForm());
+                    commonG1 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/12.png").toExternalForm());
                 else
-                    commonG2 = new ImageView(this.getClass().getResource("/common_goal_cards/12.png").toExternalForm());
+                    commonG2 = new ImageView(this.getClass().getResource("/it/polimi/MyShelfie/common_goal_cards/12.png").toExternalForm());
             }
 
         }
@@ -389,6 +394,7 @@ public class mainMenuController extends Playground implements GenericSceneContro
         alert.setHeaderText(message);
         alert.showAndWait();
     }
+
 
     /**
      *

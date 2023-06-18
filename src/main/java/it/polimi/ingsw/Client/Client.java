@@ -20,6 +20,7 @@ public class Client {
                 cliHandler.cliSocket();
             }
             case "GUI"->{
+                Application.launch(Launcher.class);
                 //cliHandler cliHandler = new cliHandler(socket, new ());
                 //cliHandler.cliSocket();
                 //Launcher.main(new String[]{arg});

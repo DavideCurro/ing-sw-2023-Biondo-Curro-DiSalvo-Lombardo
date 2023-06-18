@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -48,6 +49,13 @@ public class setupController implements GenericSceneController, Initializable {
     private mainMenuController mainmenu;
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        StartGame.setVisible(true);
+        chooseNickname.setVisible(true);
+        nickname.setVisible(true);
+
+    }
     public setupController(){
         this.socket = null;
         this.objectOutputStream = null;
@@ -156,13 +164,5 @@ public class setupController implements GenericSceneController, Initializable {
         alert.showAndWait();
     }
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        StartGame.setVisible(true);
-        chooseNickname.setVisible(true);
-        nickname.setVisible(true);
-
-    }
 }
 

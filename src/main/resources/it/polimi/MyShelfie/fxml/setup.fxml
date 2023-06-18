@@ -32,7 +32,7 @@
          <font>
             <Font name="Franklin Gothic Demi Cond" size="24.0" />
          </font></Label>
-      <Button fx:id="StartGame" layoutX="269.0" layoutY="432.0" mnemonicParsing="false" onAction="#startgame" text="START GAME">
+      <Button fx:id="StartGame" layoutX="269.0" layoutY="432.0" mnemonicParsing="false" text="START GAME">
          <font>
             <Font name="Franklin Gothic Demi" size="24.0" />
          </font></Button>

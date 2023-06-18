@@ -23,7 +23,7 @@ import static javafx.application.Application.launch;
 
 public class GUI extends ClientView {
 
-    private static HashMap<String, Scene> nameToScene = new HashMap<>();
+    //private static HashMap<String, Scene> nameToScene = new HashMap<>();
 
    public static void changescene(){
 
@@ -44,6 +44,34 @@ public class GUI extends ClientView {
         mainmenu.printPersonalGoal(player);
 
     }
+
+   /* @Override
+    public void printCommonOBJ(int type) {
+        mainMenuController mainmenu = (mainMenuController) SceneController.getActiveController();
+        mainmenu.printCommonOBJ(type,is1);
+    }*/
+
+    //da finire
+    @Override
+    public void printPlayerLibrary(Player player) {
+        mainMenuController mainmenu = (mainMenuController) SceneController.getActiveController();
+        mainmenu.printLibrary(player);
+
+    }
+
+    @Override
+    public void printPersonalPoint(Player player) {
+        mainMenuController mainmenu = (mainMenuController) SceneController.getActiveController();
+        mainmenu.setPrivatePoints(player);
+
+    }
+
+    /**
+     * Picktile
+     */
+    //public void picktile
+
+
 
     /**
      * Shows the first scene

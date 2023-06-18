@@ -29,13 +29,15 @@ public class Launcher extends Application {
         SceneController.setactivescene(scene);
         stage.setScene((scene));
 
+        //setupController controller = fxmlLoader.getController();
+
+        SceneController.setStage(stage);
+        //SceneController.setactivecontroller(controller);
+
 
         stage.show();
 
-        setupController controller = new setupController();
 
-        SceneController.setStage(stage);
-        SceneController.setactivecontroller(controller);
 
        /* Client client = new Client();
         String[] args = {"GUI"};

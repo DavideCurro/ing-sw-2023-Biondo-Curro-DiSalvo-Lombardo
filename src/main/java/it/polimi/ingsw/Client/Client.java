@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Client;
 
 import it.polimi.ingsw.Client.GUI.Controllers.GUI;
+import it.polimi.ingsw.Client.GUI.Controllers.Launcher;
+import javafx.application.Application;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -18,7 +20,13 @@ public class Client {
                 cliHandler.cliSocket();
             }
             case "GUI"->{
-               // GUI GUI = new GUI(socket);
+                Application.launch(Launcher.class);
+                //cliHandler cliHandler = new cliHandler(socket, new ());
+                //cliHandler.cliSocket();
+                //Launcher.main(new String[]{arg});
+                //Application.launch();
+                cliHandler cliHandler = new cliHandler(socket, new GUI());
+                cliHandler.guisocket();
                 //GUI.main();
 
             }

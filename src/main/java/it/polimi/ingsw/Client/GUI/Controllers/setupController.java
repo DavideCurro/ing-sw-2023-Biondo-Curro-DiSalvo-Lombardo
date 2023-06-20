@@ -5,9 +5,10 @@ package it.polimi.ingsw.Client.GUI.Controllers;
 import it.polimi.ingsw.Client.MessageDispatcher;
 import it.polimi.ingsw.Model.Playground.Tiles;
 import it.polimi.ingsw.Utility.Message.Message;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -15,11 +16,13 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.URL;
+import java.util.ResourceBundle;
 import java.util.Vector;
 
 import static java.lang.Thread.sleep;
 
-public class setupController {
+public class setupController implements GenericSceneController, Initializable {
     @FXML
     Label chooselobby;
     @FXML
@@ -34,9 +37,11 @@ public class setupController {
     RadioButton lobby3;
     @FXML
     RadioButton lobby4;
-    String nickname1;
-    private int lobbyType = 0;
+
+    private boolean buttonpressed;
     private Socket socket;
+    private GUI gui;
+    private String currentScene;
     private ObjectOutputStream objectOutputStream;
     private ObjectInputStream objectInputStream;
     private Vector<Tiles> tilesVector;
@@ -44,28 +49,42 @@ public class setupController {
     private mainMenuController mainmenu;
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        StartGame.setVisible(true);
+        chooseNickname.setVisible(true);
+        nickname.setVisible(true);
+
+    }
     public setupController(){
         this.socket = null;
         this.objectOutputStream = null;
         this.objectInputStream = null;
         this.tilesVector = new Vector<>();
-        this.mainmenu = null;
-        StartGame = new Button("StartGame");
-        chooseNickname = new Label("Choose Nickname");
-        nickname = new TextField();
-        lobby2 = new RadioButton();
-        lobby3 = new RadioButton();
-        lobby4 = new RadioButton();
+       //mainmenu = new mainMenuController();
+        //        StartGame = new Button("StartGame");
+        //chooseNickname = new Label("Choose Nickname");
+        //nickname = new TextField();
+        //lobby2 = new RadioButton();
+        //lobby3 = new RadioButton();
+        //lobby4 = new RadioButton();
 
-        initialize();
-        try {
+        //this.gui = gui;
+        //initialize();
+
+       /* try {
             setupSocket(InetAddress.getLocalHost(),2000);
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
+
     }
 
-    public void setupSocket(InetAddress host, int port) throws IOException {
+    public void setGui(GUI gui) {
+        this.gui = gui;
+    }
+
+    /*public void setupSocket(InetAddress host, int port) throws IOException {
         socket = new Socket(host.getHostName(), port);
         objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
         objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -82,23 +101,15 @@ public class setupController {
 
     public void setObjectInputStream(ObjectInputStream objectInputStream){
         this.objectInputStream = objectInputStream;
-    }
-
-    /*public void setMainmenu(mainMenuController mainmenu){
-        this.mainmenu = mainmenu;
     }*/
 
 
-    public void initialize() {
-        StartGame.setVisible(true);
-        chooseNickname.setVisible(true);
-        nickname.setVisible(true);
+    public String getNickname(){
+        return nickname.getText();
     }
 
-    public int setGui(){
-
-        nickname1 = nickname.getText();
-
+    public int getLobby(){
+        int lobbyType = 0;
         if (lobby2.isSelected()){
             lobbyType = 2;
         }
@@ -112,60 +123,24 @@ public class setupController {
 
     }
 
+
     /**
      * Method that starts the game once the nickname and the lobby have been chosen
      * @param
      */
-    public void StartGame() {
-
-        StartGame = new Button();
+    public void startgame(ActionEvent actionEvent) {
         StartGame.setOnAction(e-> {
-            try {
-                gui(nickname1,lobbyType);
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
+            System.out.println("Funziona");
+
+            buttonpressed = true;
+
         });
 
     }
 
-
-    public void gui(String nickname1, int lobbyType) throws InterruptedException {
-
-        //setGui(nickname1,lobbyType);
-        int gamestart = 0;
-
-        System.out.println("bonasira");
-        //nickname1 = nickname.getText();
-        System.out.println("CAASDASDASDA");
-
-        //affinchè i dati non sono settati non deve partire la connessione
-
-        /*problema: far partire prima la GUI, immettere i dati ed
-                    inviarli per la connessione.
-                    Facendo come facciamo ora looppa sempre senza prendere i dati.
-                    Partono 4 connessioni, perchè?*/
-
-
-        messageDispatcher.setNickname(nickname1);
-
-        if (!messageDispatcher.sendLoginInfo(lobbyType))
-            showerror("ERROR!");
-
-            while (socket.isConnected()) {
-                Message message;
-                try {
-                    message = (Message) objectInputStream.readObject();
-                    if (gamestart == 0)
-                        gamestart++;
-                    mainmenu.handleNewMessage(message);
-                } catch (IOException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                }
-            }
-        sleep(5000);
+    public boolean isButtonpressed() {
+        return buttonpressed;
     }
-
 
     /**
      * Prints an error
@@ -182,14 +157,12 @@ public class setupController {
      * Prints an information from the server to the client
      * @param message
      */
-    public void showmessage(String message){
+    public void showmessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("NEWS");
         alert.setHeaderText(message);
         alert.showAndWait();
     }
-
-
 
 }
 

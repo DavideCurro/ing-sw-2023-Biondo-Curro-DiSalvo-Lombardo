@@ -8,6 +8,7 @@ import it.polimi.ingsw.Model.Player.Player;
 
 import java.io.Serializable;
 import java.util.Vector;
+import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
 
 public class GoalC11 implements CommonObj , Serializable {
     private final int type = 11;
@@ -66,7 +67,7 @@ public class GoalC11 implements CommonObj , Serializable {
             int type = tmp.get(0).getType();
 
             for (Tiles tiles : tmp) {
-                if (tiles.getType() == Tiles.NOT_VALID) return false;
+                if (tiles.getType() == NOT_VALID) return false;
                 if (tiles.getType() != type) {
                     return false;
                 }

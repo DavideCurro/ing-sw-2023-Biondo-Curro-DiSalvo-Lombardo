@@ -415,10 +415,12 @@ public class mainMenuController {
 
             case COMMONOBJDONE -> {
                 showmessage("You completed the common goal!");
+                //printpoints di tutti
             }
 
             case PERSONALOBJDONE -> {
                 showmessage("You completed your personal goal!");
+                //printpoints di tutti
             }
             case PICKUPFAIL -> {
                 showerror("SOMETHING WENT WRONG WITH YOUR CHOICE" + "\n" + "Pick up again your tiles!");

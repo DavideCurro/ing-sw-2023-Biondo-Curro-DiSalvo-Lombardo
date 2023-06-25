@@ -4,6 +4,7 @@ import it.polimi.ingsw.Model.Player.Player;
 
 import java.io.Serializable;
 
+
 public class GoalC12 implements CommonObj, Serializable {
     private final int type = 12;
     public int getType(){

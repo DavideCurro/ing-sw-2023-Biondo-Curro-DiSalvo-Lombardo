@@ -5,6 +5,7 @@ import it.polimi.ingsw.Model.Player.Player;
 
 import java.io.Serializable;
 import java.util.Vector;
+import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
 
 
 public class GoalC1 implements CommonObj , Serializable {
@@ -43,6 +44,8 @@ public class GoalC1 implements CommonObj , Serializable {
 
     public boolean squareCheck(Vector<Tiles>c){
         for (int i = 1;i<c.size();i++){
+            if (c.get(i).getType() == NOT_VALID)
+                break;
             if(c.get(i).getType() != c.get(i-1).getType())  return false;
         }
         return true;

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 
 import it.polimi.ingsw.Model.Player.Player;
+import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
 
 
 public class GoalC5 implements CommonObj, Serializable {
@@ -26,6 +27,8 @@ public class GoalC5 implements CommonObj, Serializable {
                     break;
                 else {
                     int type = p.getMy_shelfie().getShelf()[i][j].getType();
+                    if (type == NOT_VALID)
+                        break;
                     if (!v.contains(type))
                         v.add(type);//new type read in the column
                 }

@@ -5,6 +5,7 @@ package it.polimi.ingsw.Model.CommonStrategy;
 import it.polimi.ingsw.Model.Player.Player;
 
 import java.io.Serializable;
+import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
 
 public class GoalC9 implements CommonObj, Serializable {
     private final int type = 9;
@@ -28,7 +29,7 @@ public class GoalC9 implements CommonObj, Serializable {
         for (int j = 0; j < 5; j++) {
             for (int i = 0; i < 6; i++) {
                 int type = p.getMy_shelfie().getShelf()[i][j].getType();
-                if(type == -1)
+                if(type == NOT_VALID)
                     continue;
                 switch (type) {
                     case 1 -> {

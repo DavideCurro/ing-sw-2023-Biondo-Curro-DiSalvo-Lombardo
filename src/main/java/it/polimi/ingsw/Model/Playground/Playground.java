@@ -201,11 +201,15 @@ public class Playground implements Serializable {
      */
     //todo: investigate why (y-1) > -1 is always true (I think is an error of Intellij)
     private boolean isValid(int x, int y){
-        if(x-1 > -1 && this.ground[x-1][y].getType() == NOT_VALID)                          return true;
-        else if (this.ground[x+1][y].getType() == NOT_VALID && x+1 < this.ground.length)    return true;
-        else if (this.ground[x][y-1].getType() == NOT_VALID && y-1 > -1)                    return true;
-        else if (this.ground[x][y+1].getType() == NOT_VALID && y+1 < this.ground[0].length) return true;
-        else    return x + 1 > this.ground.length || y + 1 > this.ground[0].length;
+        if(x + 1 > 8 || y + 1 > 8)
+            return true;
+        else if (x-1 < -1 || y-1 < -1) {
+           return true;
+        }
+        if(this.ground[x-1][y].getType() == NOT_VALID)                                  return true;
+        if (this.ground[x+1][y].getType() == NOT_VALID)                                 return true;
+        if (this.ground[x][y-1].getType() == NOT_VALID)                                 return true;
+        return this.ground[x][y + 1].getType() == NOT_VALID;
     }
 
 

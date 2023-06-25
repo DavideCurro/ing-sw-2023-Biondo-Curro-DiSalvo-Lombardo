@@ -3,6 +3,7 @@ package it.polimi.ingsw.Model.CommonStrategy;
 import it.polimi.ingsw.Model.Player.Player;
 
 import java.io.Serializable;
+import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
 
 /* 5 tiles of the same type that make together an X */
 public class GoalC10 implements CommonObj, Serializable {
@@ -20,7 +21,7 @@ public class GoalC10 implements CommonObj, Serializable {
          for(int j = 0; j<3; j++){
             for(int i = 0; i<4 ; i++){
                 type = p.getMy_shelfie().getShelf()[i][j].getType();
-                if(type == -1)
+                if(type == NOT_VALID)
                     continue;
                 correct = xCheck(i,j,type,p);
                 if (correct)

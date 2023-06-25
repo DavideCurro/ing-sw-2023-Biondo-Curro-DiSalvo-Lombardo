@@ -1,11 +1,12 @@
 package it.polimi.ingsw.Model.CommonStrategy;
 
 import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Model.Playground.Tiles;
 
 import java.io.Serializable;
 
 import java.util.Vector;
-
+import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
 
 
 public class GoalC6 implements CommonObj, Serializable {
@@ -24,6 +25,7 @@ public class GoalC6 implements CommonObj, Serializable {
         int differentColumn=0;
         for(int i = 0; i < 6; i++ ){
             for (int j = 0; j<5; j++) {
+                if(p.getMy_shelfie().getShelf()[i][j].getType() == NOT_VALID ) break;
                 if (types.contains(p.getMy_shelfie().getShelf()[i][j].getType()))   break;
                 else types.add(p.getMy_shelfie().getShelf()[i][j].getType());
             }

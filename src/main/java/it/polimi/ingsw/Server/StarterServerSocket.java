@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server;
 
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
@@ -39,6 +40,7 @@ public class StarterServerSocket extends Thread {
     public void start() {
         ServerSocket serverSocket;
         try {
+            System.out.println(InetAddress.getLocalHost().getHostAddress());
             serverSocket = new ServerSocket(PORT);
         }catch (IOException e) {
             System.out.println(e.getMessage());

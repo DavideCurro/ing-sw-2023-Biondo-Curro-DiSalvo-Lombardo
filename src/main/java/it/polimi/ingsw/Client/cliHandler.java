@@ -64,15 +64,7 @@ public class cliHandler {
         nickname = "";
         messageDispatcher = new MessageDispatcher(socket, objectOutputStream,false);
     }
-    public cliHandler(Registry registry, ClientView view){
-        this.registry = registry;
-        this.stub = null;
-        this.view = view;
-        this.scanner = new Scanner(System.in);
-        socket = null;
-        objectInputStream = null;
-        messageDispatcher = new MessageDispatcher(registry,stub,true);
-    }
+
     /**
      *
      * Validate lobby type
@@ -100,7 +92,7 @@ public class cliHandler {
         }while (lobbyType <2 || lobbyType >4);
         return lobbyType;
     }
-
+/*
     public void guisocket(){
 
         setupController setup = new setupController();
@@ -141,7 +133,7 @@ public class cliHandler {
             }
         }
 
-    }
+    }*/
 
 
     /**
@@ -179,28 +171,6 @@ public class cliHandler {
             }
         }
         sleep(5000);
-    }
-    public void cliRMI(){
-        view.welcome();
-        try {
-            stub = (GameHandlerRMI) registry.lookup("GameHandler");
-            nickname = scanner.nextLine();
-            messageDispatcher.setNickname(nickname);
-            int newLobby =  stub.handleLogin(nickname,validateLobbyType());
-         //   stub = (GameHandlerRMI) registry.lookup(String.valueOf(newLobby));
-            messageDispatcher.setStub(stub);
-            Message message = null;
-            while(stub.isAlive()) {
-                do {
-                    message = stub.getData();
-                    System.out.println(message.getMessageType());
-                    sleep(1000);
-                } while (message.getMessageType() == Content.FAIL);
-                handleNewMessage(message);
-            }
-        } catch (RemoteException | NotBoundException | InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -252,7 +222,7 @@ public class cliHandler {
                     case 3-> System.out.println("You made both commonOBJ!");
                 }
                 view.printOutPointsPerPlayer(player);
-                view.printNewHighestScore(countable);
+              //  view.printNewHighestScore(countable);
             }
             case PERSONALOBJDONE -> {
                 System.out.println("You completed the personal goal!");

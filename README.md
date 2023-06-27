@@ -11,8 +11,8 @@ Group:
  - :white_check_mark:Cli
  - :white_check_mark:Socket
  - :white_check_mark:Multiple games
- - :construction:GUI
- - :construction:RMI
+ - :x:GUI
+ - :x:RMI
 ## Test
 ![Coverage](/Deliverables/Test/Coverage.jpg)
 

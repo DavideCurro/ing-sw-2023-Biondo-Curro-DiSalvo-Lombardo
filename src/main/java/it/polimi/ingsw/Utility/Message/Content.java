@@ -17,5 +17,6 @@ public enum Content implements Serializable {
     WRONG_PLAYER,
     COMMONOBJ,
     ENDGAME,
-    StartGame
+    StartGame,
+    ERROR
 }

@@ -182,6 +182,8 @@ public class Tiles implements Serializable {
         return c.get(i).getY()  == y+1 && c.get(i).getX() == x;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -5,7 +5,8 @@ module it.polimi.ingsw {
     requires java.logging;
 
 
-    opens it.polimi.ingsw.Client.GUI.Controllers to javafx.fxml;
-    exports it.polimi.ingsw.Client.GUI.Controllers;
+    opens it.polimi.ingsw.NotWorking.GUI.Controllers to javafx.fxml;
+    exports it.polimi.ingsw.NotWorking.GUI.Controllers;
     exports it.polimi.ingsw.Server;
+    exports it.polimi.ingsw.NotWorking;
 }

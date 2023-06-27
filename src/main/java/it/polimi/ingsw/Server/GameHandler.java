@@ -10,6 +10,8 @@ import it.polimi.ingsw.Utility.Message.Message;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.net.Socket;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -17,7 +19,7 @@ import static it.polimi.ingsw.Utility.Message.Content.*;
 
 
 public class GameHandler implements Runnable {
-    private final ConnectionType[] players;
+    private final Socket[] players;
     private final String[] usernames;
 
     private final ObjectInputStream[] inputStreams;
@@ -36,7 +38,7 @@ public class GameHandler implements Runnable {
      * @param objectOutputStreams ObjectOutputStream[]
      * @param objectInputStream ObjectInputStream[]
      */
-    public GameHandler(ConnectionType[] players, String[] usernames, ObjectOutputStream[] objectOutputStreams, ObjectInputStream[] objectInputStream) {
+    public GameHandler(Socket[] players, String[] usernames, ObjectOutputStream[] objectOutputStreams, ObjectInputStream[] objectInputStream) {
         this.players = players;
         this.usernames = usernames;
         this.objectOutputStreams = objectOutputStreams;
@@ -48,16 +50,14 @@ public class GameHandler implements Runnable {
     }
 
 
-
     /**
-     * Fast close
-     * @throws IOException, socket
+     * valid_name check if this username has been already used
+     * @param name String
+     * @return true if is valid
      */
-    private void closeAllConnection() throws IOException {
-        for(ConnectionType connectionType : players){
-                connectionType.close();
-        }
-        sniffer.interrupt();
+    private boolean invalid_Name(String name){
+        if(validName.contains(name)) return true;
+        return !validName.add(name);
     }
 
     /**
@@ -95,8 +95,6 @@ public class GameHandler implements Runnable {
     }
     private void startGame(){
         for(int i = 0; i<usernames.length;i++){
-
-            if(players[i].isSocket()){
                 try {
                     objectOutputStreams[i].flush();
                     objectOutputStreams[i].reset();
@@ -107,139 +105,22 @@ public class GameHandler implements Runnable {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            }else{
-                System.out.println("suca");
-                players[i].setGameHandler(this);
-                players[i].unLock();
-                players[i].setStartGame(new Message(usernames[i], NEWGAME,match.getP()),new Message(usernames[i], PLAYERDATA,match.getThisPlayer(usernames[i])),new Message(usernames[i],"Server", COMMONOBJ,match.getCommonOBJ1(),match.getCommonOBJ2()));
-
-            }
-        }
-    }
-    private void setLastMessage(Message message){
-        this.message = message;
-    }
-    public Message getLastMessage(){
-        return message;
-    }
-
-    /**
-     * This method is the kernel of game logic
-     */
-    @Override
-    public void run() {
-        log.info("Game for started");
-        if(!validatePlayer()) return; //if there's something wrong close this lobby
-        setPlayer();
-        match.setupPlayground();
-        log.info("New Match started");
-        startGame();
-        sniffer.start(); //start the sniffer to catch all message in this socket. It's a thread.
-        do{
-            gamePhasePlaying();
-        }while(endGame() == -1);
-        log.info("The game is about to finish");
-        while(!getNowPlaying().getIs_second()){
-            gamePhasePlaying();
-            int privatePoint = getNowPlaying().checkPersonalOBJ();
-            if(privatePoint > 0){
-                getNowPlaying().setPrivatePoints(getNowPlaying().getPrivatePoints()+privatePoint);
-                log.info(getNowPlaying().getNickname() + "has done personal OBJ");
-                resetObject(objectOutputStreams[getUsernameIndex(getNowPlaying().getNickname())]);
-                notifyPersonalOBJDone(getUsernameIndex(getNowPlaying().getNickname()));
-            }
-        }
-        match.calculateADJ();
-        try {
-            log.info("The game is finish");
-            sniffer.interrupt();
-            sendEndGameMessage();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        log.info("GoodBye");
-        try {
-            closeAllConnection();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    /**
-     * getThisPlayer is usefully for get the player just knowing his name
-     * @param nick, is the nickname of player
-     * @return player or null
-     */
-    private int getUsernameIndex(String nick){
-        for(int i = 0;i<usernames.length;i++){
-            if(usernames[i].equals(nick)) return i;
-        }
-        return -1;
-    }
-    private void gamePhasePlaying(){
-        int nowPlaying = getUsernameIndex(getNowPlaying().getNickname()); //Looking for who is playing
-        log.info(usernames[nowPlaying]+ " is playing");
-        try {
-            sendMessage(nowPlaying); //Looking for him choose
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        waitResponse();
-    }
-    /**
-     * SendMessage ask player who's playing to send all the pick-up information
-     * @param nowPlaying who's playing
-     * @throws IOException if objectOutputStreams get some error
-     */
-    private void sendMessage(int nowPlaying) throws IOException {
-        setLastMessage(new Message(usernames[nowPlaying],PICKTILE));
-        objectOutputStreams[nowPlaying].writeObject(message);
-    }
-
-
-    private void sendEndGameMessage()throws IOException{
-        for(ObjectOutputStream outputStream : objectOutputStreams){
-            resetObject(outputStream);
-            setLastMessage(new Message("","server",ENDGAME,match.getPlayer(),match.getWinner()));
-            outputStream.writeObject(message);
         }
     }
 
     /**
-     * endGame just check when the game is about to finish
-     *
-     * @return if the last player has completed his shelf
+     * sendMatch will send all model information to all player
      */
-    private int endGame(){
-        if(match.getLastPlayer().getMy_shelfie().isFull()) {
-            match.getLastPlayer().setPoints(1);
-            return match.detectEndGame();
-        }
-        return -1;
-    }
-
-    /**
-     * WaitResponse stall all thread from this lobby
-     */
-    private synchronized void waitResponse(){
-        while(!response){
+    private synchronized  void sendMatch(){
+        for(ObjectOutputStream objectOutputStream: objectOutputStreams){
             try {
-                wait();
-            } catch (InterruptedException e) {
+                objectOutputStream.reset();
+                setLastMessage(new Message("","server", PICKEDTILE, match.getP(),match.getLastPlayer()));
+                objectOutputStream.writeObject(message);
+            }catch (IOException e){
                 e.printStackTrace();
             }
         }
-        response = false;
-    }
-
-
-    /**
-     * valid_name check if this username has been already used
-     * @param name String
-     * @return true if is valid
-     */
-    private boolean invalid_Name(String name){
-        if(validName.contains(name)) return true;
-        return !validName.add(name);
     }
 
     /**
@@ -266,61 +147,28 @@ public class GameHandler implements Runnable {
         return this.match.getNowPlaying();
     }
 
-
     /**
-     * setResponse notify all thread to unlock their wait
+     * WaitResponse stall all thread from this lobby
      */
-    private void setResponse(){
-        response = true;
-        notifyAll();
-        log.info("Turn went ok");
-    }
-
-    /**
-     * sendMatch will send all model information to all player
-     */
-    private synchronized  void sendMatch(){
-        for(ObjectOutputStream objectOutputStream: objectOutputStreams){
+    private synchronized void waitResponse(){
+        while(!response){
             try {
-                objectOutputStream.reset();
-                setLastMessage(new Message("","server", PICKEDTILE, match.getP(),match.getLastPlayer()));
-                objectOutputStream.writeObject(message);
-            }catch (IOException e){
+                wait();
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+        response = false;
     }
-
-    /**
-     * notifyPersonalOBJDone, this method notify just the player who did this goal
-     * @param index of the player
-     */
-    private void notifyPersonalOBJDone(int index){
+    private void gamePhasePlaying(){
+        int nowPlaying = getUsernameIndex(getNowPlaying().getNickname()); //Looking for who is playing
+        log.info(usernames[nowPlaying]+ " is playing");
         try {
-            setLastMessage(new Message(usernames[index],"Server", PERSONALOBJDONE, match.getThisPlayer(usernames[index]),match.getThisPlayer(usernames[index]).checkPersonalOBJ()));
-            objectOutputStreams[index].writeObject(message);
-        }catch (IOException e){
-            log.severe("can not connect to client");
+            sendMessage(nowPlaying); //Looking for him choose
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * notifyCommonOBJDone, this method notify all player that some player has done the goal, and he is the #
-     * @param player who has made goal
-     * @param countOBJ how many people made this goal, including last one
-     */
-    private void notifyCommonOBJDone(Player player, int[] countOBJ){
-
-        for(ObjectOutputStream objectOutputStream : objectOutputStreams){
-            resetObject(objectOutputStream);
-            try {
-                setLastMessage(new Message("", "Server", COMMONOBJDONE, player, countOBJ));
-                objectOutputStream.writeObject(message);
-            }catch (IOException e){
-                e.printStackTrace();
-                log.severe("can not connect to client");
-            }
-        }
+        waitResponse();
     }
 
     /**
@@ -382,6 +230,179 @@ public class GameHandler implements Runnable {
     }
 
     /**
+     * notifyCommonOBJDone, this method notify all player that some player has done the goal, and he is the #
+     * @param player who has made goal
+     * @param countOBJ how many people made this goal, including last one
+     */
+    private void notifyCommonOBJDone(Player player, int[] countOBJ){
+
+        for(ObjectOutputStream objectOutputStream : objectOutputStreams){
+            resetObject(objectOutputStream);
+            try {
+                setLastMessage(new Message("", "Server", COMMONOBJDONE, player, countOBJ));
+                objectOutputStream.writeObject(message);
+            }catch (IOException e){
+                e.printStackTrace();
+                log.severe("can not connect to client");
+            }
+        }
+    }
+
+    /**
+     * notifyPersonalOBJDone, this method notify just the player who did this goal
+     * @param index of the player
+     */
+    private void notifyPersonalOBJDone(int index){
+        try {
+            setLastMessage(new Message(usernames[index],"Server", PERSONALOBJDONE, match.getThisPlayer(usernames[index]),match.getThisPlayer(usernames[index]).checkPersonalOBJ()));
+            objectOutputStreams[index].writeObject(message);
+        }catch (IOException e){
+            log.severe("can not connect to client");
+        }
+    }
+
+    /**
+     * endGame just check when the game is about to finish
+     *
+     * @return if the last player has completed his shelf
+     */
+    private int endGame(){
+        if(match.getLastPlayer().getMy_shelfie().isFull()) {
+            match.getLastPlayer().setPoints(1);
+            return match.detectEndGame();
+        }
+        return -1;
+    }
+
+
+    private void sendEndGameMessage()throws IOException{
+        for(ObjectOutputStream outputStream : objectOutputStreams){
+            resetObject(outputStream);
+            setLastMessage(new Message("","server",ENDGAME,match.getPlayer(),match.getWinner()));
+            outputStream.writeObject(message);
+        }
+    }
+
+
+
+    /**
+     * This method is the kernel of game logic
+     */
+    @Override
+    public void run() {
+        log.info("Game for started");
+        if(!validatePlayer()){
+            sendError();
+            return;
+        } //if there's something wrong close this lobby
+        setPlayer();
+        match.setupPlayground();
+        log.info("New Match started");
+        startGame();
+        sniffer.start(); //start the sniffer to catch all message in this socket. It's a thread.
+
+
+        do{
+            gamePhasePlaying();
+        }while(endGame() == -1);
+
+
+        log.info("The game is about to finish");
+
+
+        while(!getNowPlaying().getIs_second()){
+            gamePhasePlaying();
+            int privatePoint = getNowPlaying().checkPersonalOBJ();
+            if(privatePoint > 0){
+                getNowPlaying().setPrivatePoints(getNowPlaying().getPrivatePoints()+privatePoint);
+                log.info(getNowPlaying().getNickname() + "has done personal OBJ");
+                resetObject(objectOutputStreams[getUsernameIndex(getNowPlaying().getNickname())]);
+                notifyPersonalOBJDone(getUsernameIndex(getNowPlaying().getNickname()));
+            }
+        }
+
+
+        match.calculateADJ();
+
+
+        try {
+            log.info("The game is finish");
+            sniffer.interrupt();
+            sendEndGameMessage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        log.info("GoodBye");
+
+
+        try {
+            closeAllConnection();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    /**
+     * getThisPlayer is usefully for get the player just knowing his name
+     * @param nick, is the nickname of player
+     * @return player or null
+     */
+    private int getUsernameIndex(String nick){
+        for(int i = 0;i<usernames.length;i++){
+            if(usernames[i].equals(nick)) return i;
+        }
+        return -1;
+    }
+
+
+    /**
+     * setResponse notify all thread to unlock their wait
+     */
+    private void setResponse(){
+        response = true;
+        notifyAll();
+        log.info("Turn went ok");
+    }
+    public Message getLastMessage(){
+        return message;
+    }
+    /******* DEPRECATED ******/
+    private void setLastMessage(Message message){
+        this.message = message;
+    }
+    /**
+     * SendMessage ask player who's playing to send all the pick-up information
+     * @param nowPlaying who's playing
+     * @throws IOException if objectOutputStreams get some error
+     */
+    private void sendMessage(int nowPlaying) throws IOException {
+        setLastMessage(new Message(usernames[nowPlaying],PICKTILE));
+        objectOutputStreams[nowPlaying].writeObject(message);
+    }
+    /*************************/
+    private void sendError(){
+        try{
+            for(ObjectOutputStream outputStream : objectOutputStreams){
+                outputStream.writeObject(new Message("",ERROR));
+            }
+        }catch (IOException e ){
+            e.printStackTrace();
+        }
+    }
+
+
+
+    /**
+     * Fast close
+     * @throws IOException, socket
+     */
+    private void closeAllConnection() throws IOException {
+        for(Socket connectionType : players) connectionType.close();
+        sniffer.interrupt();
+    }
+
+    /**
      * reset output stream
      * @param outputStream, outputstream
      */
@@ -393,6 +414,5 @@ public class GameHandler implements Runnable {
             e.printStackTrace();
         }
     }
-    public Match getMatch(){return match;}
 
 }

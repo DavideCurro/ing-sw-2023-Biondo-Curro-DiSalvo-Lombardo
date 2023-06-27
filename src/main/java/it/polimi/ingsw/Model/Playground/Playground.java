@@ -93,7 +93,7 @@ public class Playground implements Serializable {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (maskPlayer[i][j] != NOT_VALID) {
-                    g[i][j] = new Tiles(r.nextInt(5), i, j);
+                    g[i][j] = new Tiles(r.nextInt(6), i, j);
                 } else {
                     g[i][j] = new Tiles(NOT_VALID, i, j);
                 }
@@ -150,16 +150,25 @@ public class Playground implements Serializable {
         for(int i = 0;i<9;i++){
             for(int j = 0; j<9;j++){
                 if(this.ground[i][j].getType()!= NOT_VALID){
-                    count++;
+                    if(amIAlone(i,j))
+                        count++;
                 }
             }
         }
-        if(count < 5) {
+        if(count > 4) {
             fillUP();
         }
 
     }
-
+    public boolean amIAlone(int i, int j){
+        try{
+            if((!this.ground[i-1][j].checkSet()) && (!this.ground[i+1][j].checkSet()) &&(!this.ground[i][j-1].checkSet())&& (!this.ground[i][j+1].checkSet()))
+                return true;
+        }catch (IndexOutOfBoundsException e){
+            return true;
+        }
+        return false;
+    }
 
 
 
@@ -199,17 +208,15 @@ public class Playground implements Serializable {
      * @param y  the y.
      * @return boolean, is true if the tile has at least one free spot adjacent it
      */
-    //todo: investigate why (y-1) > -1 is always true (I think is an error of Intellij)
     private boolean isValid(int x, int y){
-        if(x + 1 > 8 || y + 1 > 8)
+        try {
+            if (this.ground[x - 1][y].getType() == NOT_VALID) return true;
+            if (this.ground[x + 1][y].getType() == NOT_VALID) return true;
+            if (this.ground[x][y - 1].getType() == NOT_VALID) return true;
+            return this.ground[x][y + 1].getType() == NOT_VALID;
+        }catch (IndexOutOfBoundsException e){
             return true;
-        else if (x-1 < -1 || y-1 < -1) {
-           return true;
         }
-        if(this.ground[x-1][y].getType() == NOT_VALID)                                  return true;
-        if (this.ground[x+1][y].getType() == NOT_VALID)                                 return true;
-        if (this.ground[x][y-1].getType() == NOT_VALID)                                 return true;
-        return this.ground[x][y + 1].getType() == NOT_VALID;
     }
 
 

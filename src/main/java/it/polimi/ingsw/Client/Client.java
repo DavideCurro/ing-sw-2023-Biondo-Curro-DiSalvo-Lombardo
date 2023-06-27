@@ -1,15 +1,8 @@
 package it.polimi.ingsw.Client;
 
-import it.polimi.ingsw.Client.GUI.Controllers.GUI;
-import it.polimi.ingsw.Client.GUI.Controllers.Launcher;
-import javafx.application.Application;
-
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 
 
 public class Client {

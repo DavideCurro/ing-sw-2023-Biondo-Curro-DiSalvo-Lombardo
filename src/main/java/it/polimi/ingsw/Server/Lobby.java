@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Server;
 
 
+import it.polimi.ingsw.NotWorking.GameHandlerImplementation;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -18,8 +20,6 @@ public class Lobby {
     private int index;
     private static final Logger log = Logger.getLogger(Lobby.class.getName());
     private final ExecutorService launcher; //needs to exec the gamehandler
-    private final int lobbyCode;
-    private ConnectionType[] connectionType;
 
     /**
      * It's a constructor
@@ -33,9 +33,6 @@ public class Lobby {
         objectOutputStreams = new ObjectOutputStream[nPlayer];
         usernames = new String[nPlayer];
         index = 0;
-        Random random = new Random();
-        lobbyCode =random.nextInt(99999);
-        connectionType = new ConnectionType[nPlayer];
     }
 
     /**
@@ -43,7 +40,7 @@ public class Lobby {
      * @return true if is full
      */
     public boolean isFull(){
-        return connectionType.length == index;
+        return clients.length == index;
     }
 
     /**
@@ -51,7 +48,7 @@ public class Lobby {
      * @return max number of players
      */
     public int maxConnection(){
-        return connectionType.length;
+        return clients.length;
     }
 
     /**
@@ -62,34 +59,16 @@ public class Lobby {
      * @param username String
      */
     public synchronized void connection(Socket client, ObjectOutputStream outputStream, ObjectInputStream inputStream, String username){
-        connectionType[index] = new ConnectionType(lobbyCode);
-        connectionType[index].setSocket(client);
+        clients[index] = client;
         objectOutputStreams[index] = outputStream;
         objectInputStreams[index] = inputStream;
         usernames[index] = username;
         index++;
         log.info("New player connected "+ client.toString());
-        if(connectionType.length == index){
+        if(clients.length == index){
             log.info("Start game");
-            launcher.submit(new GameHandler(connectionType,usernames,objectOutputStreams,objectInputStreams));
+            launcher.submit(new GameHandler(clients,usernames,objectOutputStreams,objectInputStreams));
         }
 
     }
-    public synchronized void connection(Registry client, String username){
-        connectionType[index] = new ConnectionType(lobbyCode);
-        connectionType[index].setRMI(new GameHandlerImplementation(client),client);
-       // connectionType[index].reBind();
-       // connectionType[index].setRMI(client);
-        objectOutputStreams[index] = null;
-        objectInputStreams[index] = null;
-        usernames[index] = username;
-        index++;
-        log.info("New player connected "+ client.toString());
-        if(connectionType.length == index){
-            log.info("Start game");
-            launcher.submit(new GameHandler(connectionType,usernames,objectOutputStreams,objectInputStreams));
-        }
-
-    }
-    public int getLobbyCode(){return lobbyCode;}
 }

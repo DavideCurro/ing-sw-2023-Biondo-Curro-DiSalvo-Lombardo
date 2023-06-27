@@ -223,7 +223,7 @@ public class ClientView {
      */
     public void printEndGamePoint(Player player){
 
-        System.out.println(player.getNickname()+  " achieved"+ player.getPoints()+" points" );
+        System.out.println(player.getNickname()+  " achieved "+ player.getPoints()+" points" );
     }
 
     /**

@@ -1,12 +1,11 @@
 package it.polimi.ingsw.Client;
 
-import it.polimi.ingsw.Server.GameHandlerRMI;
+import it.polimi.ingsw.NotWorking.GameHandlerRMI;
 import it.polimi.ingsw.Utility.Message.Message;
 import it.polimi.ingsw.Model.Playground.Tiles;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.lang.module.FindException;
 import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.Registry;

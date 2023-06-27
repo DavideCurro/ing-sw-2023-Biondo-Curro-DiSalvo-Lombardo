@@ -1,27 +1,19 @@
 package it.polimi.ingsw.Client;
-import it.polimi.ingsw.Client.GUI.Controllers.SceneController;
-import it.polimi.ingsw.Client.GUI.Controllers.setupController;
 
 
-import it.polimi.ingsw.Client.GUI.Controllers.GUI;
 import it.polimi.ingsw.Model.CommonStrategy.CommonObj;
 import it.polimi.ingsw.Model.Playground.Playground;
 import it.polimi.ingsw.Model.Playground.Tiles;
 
 import it.polimi.ingsw.Model.Player.Player;
-import it.polimi.ingsw.Server.GameHandlerRMI;
-import it.polimi.ingsw.Utility.Message.Content;
+import it.polimi.ingsw.NotWorking.GameHandlerRMI;
 import it.polimi.ingsw.Utility.Message.Message;
-import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
 
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.rmi.registry.Registry;
 import java.util.InputMismatchException;
 import java.util.LinkedList;
@@ -42,8 +34,7 @@ public class cliHandler {
     private Scanner scanner;
     private String nickname;
     private final MessageDispatcher messageDispatcher;
-    private Registry registry;
-    private GameHandlerRMI stub;
+    private boolean end;
 
 
 
@@ -92,48 +83,7 @@ public class cliHandler {
         }while (lobbyType <2 || lobbyType >4);
         return lobbyType;
     }
-/*
-    public void guisocket(){
 
-        setupController setup = new setupController();
-        SceneController.changerootPane(setup, "setup.fxml");
-
-        while(!setup.isButtonpressed()){
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-
-        nickname = setup.getNickname();
-        int lobbyType = setup.getLobby();
-        int gamestart = 0;
-        System.out.println("bonasira");
-        System.out.println("CAASDASDASDA");
-
-        messageDispatcher.setNickname(nickname);
-
-        if (!messageDispatcher.sendLoginInfo(lobbyType))
-            //showerror("ERROR!");
-
-            while (socket.isConnected()) {
-            Message message = null;
-            try {
-                message = (Message) objectInputStream.readObject();
-                if (gamestart == 0) {
-                    gamestart++;
-                }
-
-                handleNewMessage(message);
-
-
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }*/
 
 
     /**
@@ -167,10 +117,79 @@ public class cliHandler {
                 gamestart++;
                 handleNewMessage(message);
             } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                if(end){
+                    System.out.println("The end is Finished");
+                }else{
+                    e.printStackTrace();
+                }
             }
         }
         sleep(5000);
+    }
+
+    /**
+     *
+     * Validate input
+     *
+     * @return int
+     */
+    private int validateInput(){
+
+        int x=-1;
+        boolean wentToCatch;
+        do{
+            try{
+                wentToCatch = false;
+                x = scanner.nextInt()-1;
+            }catch (InputMismatchException e){
+                scanner.next();
+                wentToCatch = true;
+                e.printStackTrace();
+            }}while(wentToCatch);
+        return x;
+    }
+
+    /**
+     *
+     * Gets the column
+     *
+     * @return the column
+     */
+    private int getColumn(){
+
+        System.out.println("Column of the library: ");
+        return validateInput();
+    }
+
+    /**
+     *
+     * Gets the tiles vector, by asking player how many tiles he wants
+     *
+     * @return the tiles vector
+     */
+    private Vector<Tiles> getTilesVector(){
+
+        Vector<Tiles> tmp = new Vector<>();
+        System.out.println("How many tiles do you want?");
+        boolean wentToCatch;
+        int len=0;
+        do{
+            try{
+                wentToCatch = false;
+                len = scanner.nextInt();
+            }catch (InputMismatchException e){
+                scanner.next();
+                wentToCatch = true;
+            }}while(wentToCatch);
+
+        for(int i = 0; i<len;i++){
+            System.out.print("Choose the "+(i+1)+" Y: ");
+            int y = validateInput();
+            System.out.print("Choose the "+(i+1)+" X: ");
+            int x = validateInput();
+            tmp.add(new Tiles(-1,y,x)); //c'è un problema di fondo, perchè per me le x sono diverse, ma sono controintuitive
+        }
+        return tmp;
     }
 
     /**
@@ -254,73 +273,12 @@ public class cliHandler {
                     view.printPersonalOBJ(player);
                 }
                 view.printWinner(winner);
+                end = true;
+            }
+            case ERROR -> {
+                System.out.println("Sorry, something went wrong retry later");
             }
 
         }
-    }
-
-    /**
-     *
-     * Validate input
-     *
-     * @return int
-     */
-    private int validateInput(){
-
-        int x=-1;
-        boolean wentToCatch;
-        do{
-            try{
-                wentToCatch = false;
-                x = scanner.nextInt()-1;
-            }catch (InputMismatchException e){
-                scanner.next();
-                wentToCatch = true;
-                e.printStackTrace();
-            }}while(wentToCatch);
-        return x;
-    }
-
-    /**
-     *
-     * Gets the column
-     *
-     * @return the column
-     */
-    private int getColumn(){
-
-        System.out.println("Column of the library: ");
-        return validateInput();
-    }
-
-    /**
-     *
-     * Gets the tiles vector, by asking player how many tiles he wants
-     *
-     * @return the tiles vector
-     */
-    private Vector<Tiles> getTilesVector(){
-
-        Vector<Tiles> tmp = new Vector<>();
-        System.out.println("How many tiles do you want?");
-        boolean wentToCatch;
-        int len=0;
-        do{
-            try{
-                wentToCatch = false;
-                len = scanner.nextInt();
-            }catch (InputMismatchException e){
-                scanner.next();
-                wentToCatch = true;
-            }}while(wentToCatch);
-
-        for(int i = 0; i<len;i++){
-            System.out.print("Choose the "+(i+1)+" X: ");
-            int x = validateInput();
-            System.out.print("Choose the "+(i+1)+" Y: ");
-            int y = validateInput();
-            tmp.add(new Tiles(-1,x,y));
-        }
-        return tmp;
     }
 }

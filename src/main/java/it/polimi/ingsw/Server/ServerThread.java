@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Server;
 
+import it.polimi.ingsw.NotWorking.GameHandlerRMI;
 import it.polimi.ingsw.Utility.Message.Message;
 
 import java.io.*;
@@ -39,15 +40,6 @@ public class ServerThread extends Thread{
         ServerThread.lobby3Player = lobby3Player;
         ServerThread.lobby4Player = lobby4Player;
     }
-    public ServerThread( LinkedList<Lobby> lobby2Player, LinkedList<Lobby> lobby3Player, LinkedList<Lobby> lobby4Player, GameHandlerRMI stub, Registry registry)  {
-
-        this.stub = stub;
-        socket = null;
-        ServerThread.lobby2Player = lobby2Player;
-        ServerThread.lobby3Player = lobby3Player;
-        ServerThread.lobby4Player = lobby4Player;
-        this.registry = registry;
-    }
 
     /**
      * This method connect a new Player to an existing lobby, in case he is the last player also create a new one for the next player
@@ -64,14 +56,7 @@ public class ServerThread extends Thread{
         if(lobby1.isFull())
             lobbyList.add(new Lobby(lobby1.maxConnection()));
     }
-    public int rmiConnection(LinkedList<Lobby> lobbyLinkedList, Registry registry, String username){
-        log.info("Doing stuff for log in waiting room");
-        Lobby lobby1 = lobbyLinkedList.getLast();
-        lobby1.connection(registry,username);
-        if(lobby1.isFull())
-            lobbyLinkedList.add(new Lobby(lobby1.maxConnection()));
-        return lobby1.getLobbyCode();
-    }
+
 
     /**
      * This method handle the lobby choose, dispatch new player in a lobby
@@ -79,7 +64,7 @@ public class ServerThread extends Thread{
     @Override
     public void run() {
         if (Objects.isNull(socket)) {
-            rmi();
+            //rmi();
         } else {
             ObjectOutputStream outputStream = null;
             ObjectInputStream inputStream = null;
@@ -119,32 +104,6 @@ public class ServerThread extends Thread{
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-        }
-    }
-    private void rmi(){
-        try {
-            switch (stub.getLobbyType()) {
-                case 2 -> {
-                    log.info("Connecting in 2 player room");
-                    rmiConnection(lobby2Player,registry, stub.getNickname());
-
-                }
-                case 3 -> {
-                    log.info("Connecting in 3 player room");
-                    rmiConnection(lobby3Player,registry, stub.getNickname());
-
-                }
-                case 4 -> {
-                    log.info("Connecting in 4 player room");
-                    rmiConnection(lobby4Player,registry, stub.getNickname());
-                }
-                default -> {
-                    log.info("ERROR wrong number");
-                    sleep(300000);
-                }
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }

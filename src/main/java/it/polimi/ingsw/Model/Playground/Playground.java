@@ -147,15 +147,17 @@ public class Playground implements Serializable {
 
     public void countSelected() throws PlaygroundException {
         int count = 0;
+        int countAlone = 0;
         for(int i = 0;i<9;i++){
             for(int j = 0; j<9;j++){
                 if(this.ground[i][j].getType()!= NOT_VALID){
                     if(amIAlone(i,j))
-                        count++;
+                        countAlone++;
+                    count ++;
                 }
             }
         }
-        if(count > 4) {
+        if(count == countAlone) {
             fillUP();
         }
 

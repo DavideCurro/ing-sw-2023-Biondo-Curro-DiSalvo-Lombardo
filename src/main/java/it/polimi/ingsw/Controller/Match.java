@@ -38,6 +38,8 @@ public class Match implements Serializable {
 
        // this.o = new ObjectiveCommonEXEC(o);
     }
+
+    //usato solo per test
     public Match(LinkedList<Player>p, CommonObj o1, CommonObj o2){
         players = p;
         this.o1 = new ObjectiveCommonEXEC(o1);
@@ -45,13 +47,14 @@ public class Match implements Serializable {
     }
 
     /**
-     * Set the common objective
+     * Set the common objective, by checking if they are different
      * @param o1 CommonOBJ
      * @param o2 CommonOBJ
+     * @return True if they are different, False otherwise
      */
     public boolean setObjectiveCommonEXEC(CommonObj o1, CommonObj o2){
-        if(o1.getType() != o2.getType()) {
-            this.o1 = new ObjectiveCommonEXEC(o1);
+        if(o1.getType() != o2.getType()) { //controlla che siano diversi
+            this.o1 = new ObjectiveCommonEXEC(o1); //creo l'exec
             this.o2 = new ObjectiveCommonEXEC(o2);
             return true;
         }
@@ -64,11 +67,12 @@ public class Match implements Serializable {
      * @param pointOBJPlayer, depends on how many player is the match
      * @return int that represent the point made
      */
-
     private static int pointsCheck(int numPlayersDone,Map<Integer,Integer> pointOBJPlayer){
         return pointOBJPlayer.get(numPlayersDone);
 
     }
+
+
     public CommonObj getCommonOBJ1(){
         return o1.getCommonObj();
     }
@@ -76,8 +80,9 @@ public class Match implements Serializable {
         return o2.getCommonObj();
     }
 
+
     /**
-     * assign point to current player
+     * assign public point to current player
      * @param objCount how many people made this goal
      * @param nowPlaying who made the goal
      */
@@ -99,17 +104,17 @@ public class Match implements Serializable {
         Random random = new Random();
         return switch (random.nextInt(12)+1) {
             case 1 -> new GoalP1();
-            case 2 -> new GoalP2();
-            case 3 -> new GoalP3();
-            case 4 -> new GoalP4();
-            case 5 -> new GoalP5();
-            case 6 -> new GoalP6();
-            case 7 -> new GoalP7();
-            case 8 -> new GoalP8();
-            case 9 -> new GoalP9();
-            case 10 -> new GoalP10();
-            case 11 -> new GoalP11();
-            case 12 -> new GoalP12();
+            case 2 -> new GoalP1();
+            case 3 -> new GoalP1();
+            case 4 -> new GoalP1();
+            case 5 -> new GoalP1();
+            case 6 -> new GoalP1();
+            case 7 -> new GoalP1();
+            case 8 -> new GoalP1();
+            case 9 -> new GoalP1();
+            case 10 ->new GoalP1();
+            case 11 ->new GoalP1();
+            case 12 ->new GoalP1();
             default -> throw new IllegalStateException("Unexpected value: " + random.nextInt(12) + 1);
         };
     }
@@ -141,9 +146,11 @@ public class Match implements Serializable {
 
 
     /**
-     * Handle the joining of a new player in the game
+     * Handle the joining of a new player in the game.
+     * If the list of player is empty the commonOBJ will be generated.
+     * If the player is the second one joining the lobby it will be marked as second for endgame logic
      * @param nick of player
-     * @throws MatchExeception, some error occurs on personal or common objective appear
+     * @throws MatchExeception, some error occurs on personal or common objective appear or Max Player, but those are quite impossible
      */
     public void newPlayer(String nick) throws  MatchExeception{
         if(players.isEmpty()){
@@ -170,7 +177,7 @@ public class Match implements Serializable {
     }
 
     /**
-     * Just initialize playground
+     * Just initialize playground with the prefixed player size
      */
     public void setupPlayground(){
         try {
@@ -181,7 +188,7 @@ public class Match implements Serializable {
     }
 
     /**
-     * Handle new turn
+     * Handle new turn, by rotating the queue and interrogating the model, if some error occur in the model it will abort the turn and notify this to gamehandler that will abort the phase
      * @param column in which column should appear the tiles
      * @param picked tiles picked
      * @return 0 if everything went well, 1 otherwise
@@ -202,12 +209,20 @@ public class Match implements Serializable {
         }
         return 1;
     }
+
+    /**
+     * This is used to reset the queue in case of miss handling of the turn before, it will be called by the gameHandler after the abortion
+     */
+
     public void resetPlayers(){
         Player tmp = players.removeLast();
         players.addFirst(tmp);
         System.out.println(players);
         thrown = true;
     }
+
+
+
     /**
      *  get playground
      * @return Playground
@@ -217,8 +232,9 @@ public class Match implements Serializable {
     }
 
     /**
-     * Return who played last
-     * @return player
+     * Return who played last, thrown is used to know if the previous instruction was aborted or not,
+     * because if was aborted we need to pick the first
+     * @return player, the first in the queue if there is an abort in the turn, the last in the queue otherwise
      */
     public Player getLastPlayer(){
 
@@ -232,6 +248,12 @@ public class Match implements Serializable {
     public  LinkedList<Player> getPlayer(){
         return players;
     }
+
+    /**
+     * This will do a search into the players queue by the nickname
+     * @param nick, it's the search key
+     * @return the requested user
+     */
     public Player getThisPlayer(String nick){
         for(Player player : players){
             if(player.getNickname().equals(nick)){
@@ -241,14 +263,23 @@ public class Match implements Serializable {
         return null;
     }
 
-
+    /**
+     * This will return the player who has to make is his turn, no matter if before there was an abort.
+     * @return the first player in the queue
+     */
     public Player getNowPlaying(){
         return players.peekFirst();
     }
+
     /**
      * Test the common goal
      * @param nowPlaying, who is playing
-     * @return the result[0]=1 means the goal has been passed, result[1] represent how many people made this
+     * @return result[0] means the success of the goal: -1 -> NOT MADE
+     *                                                   1 -> MADE THE FIRST
+     *                                                   2 -> MADE THE SECOND
+     *                                                   3 -> MADE BOTH
+     *        result[1] means the number of players that has made THE FIRST OBJECT
+     *        result[2] means the number of players that has made THE SECOND OBJECT
      */
     public int[] commonOBJTesting(Player nowPlaying){
         int[] result = new int[3];
@@ -280,6 +311,11 @@ public class Match implements Serializable {
         return result;
 
     }
+
+    /**
+     * This method will know how many turn we need to made before the end
+     * @return the index in the queue of the second player
+     */
     public int detectEndGame(){
         if(getLastPlayer().getIs_second()){
             return 0;
@@ -291,6 +327,11 @@ public class Match implements Serializable {
         }
         return -1;
     }
+
+    /**
+     * Search the max number of points
+     * @return the winner of the game
+     */
     public Player getWinner(){
         Player winner = new Player();
         for(Player player : players){
@@ -299,6 +340,10 @@ public class Match implements Serializable {
         }
         return winner;
     }
+
+    /**
+     * Will interrogate the model to calculate the adjacent of the same types of tiles.
+     */
     public void calculateADJ(){
         for(Player player : players){
             Vector<Integer> count = player.calculateADJ();

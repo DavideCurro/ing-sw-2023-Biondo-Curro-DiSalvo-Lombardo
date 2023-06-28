@@ -199,6 +199,13 @@ public class GameHandler implements Runnable {
                    log.info(nowPlaying.getNickname() + "has done common OBJ");
                    notifyCommonOBJDone(nowPlaying,commonOBJResponse);
                }
+               int privatePoint = nowPlaying.checkPersonalOBJ();
+               if(privatePoint > 0){
+                   nowPlaying.setPrivatePoints(nowPlaying.getPrivatePoints()+privatePoint);
+                   log.info(nowPlaying.getNickname() + "has done personal OBJ");
+                   resetObject(objectOutputStreams[getUsernameIndex(nowPlaying.getNickname())]);
+                   notifyPersonalOBJDone(getUsernameIndex(nowPlaying.getNickname()));
+               }
            }else if(response == 1) {
                 log.warning("Pick-Up issue");
                 match.resetPlayers();
@@ -317,13 +324,7 @@ public class GameHandler implements Runnable {
 
         while(!getNowPlaying().getIs_second()){
             gamePhasePlaying();
-            int privatePoint = getNowPlaying().checkPersonalOBJ();
-            if(privatePoint > 0){
-                getNowPlaying().setPrivatePoints(getNowPlaying().getPrivatePoints()+privatePoint);
-                log.info(getNowPlaying().getNickname() + "has done personal OBJ");
-                resetObject(objectOutputStreams[getUsernameIndex(getNowPlaying().getNickname())]);
-                notifyPersonalOBJDone(getUsernameIndex(getNowPlaying().getNickname()));
-            }
+
         }
 
 

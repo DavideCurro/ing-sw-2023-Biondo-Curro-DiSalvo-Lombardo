@@ -20,12 +20,9 @@ import static it.polimi.ingsw.Utility.Message.Content.PICKEDTILE;
  */
 public class MessageDispatcher {
     private final Socket socket;
-    private final Registry registry;
-    private GameHandlerRMI stub;
-
     private String nickname;
     private final ObjectOutputStream outputStream;
-    private final boolean isRMI;
+
 
     /**
      *
@@ -38,16 +35,7 @@ public class MessageDispatcher {
 
         this.outputStream = objectOutputStream;
         this.socket = socket;
-        this.isRMI = isRMI;
-        registry = null;
-        stub = null;
-    }
-    public MessageDispatcher(Registry registry, GameHandlerRMI rmi, boolean isRMI){
-        outputStream = null;
-        socket = null;
-        this.isRMI = isRMI;
-        this.registry = registry;
-        this.stub = rmi;
+
     }
 
     /**
@@ -60,9 +48,6 @@ public class MessageDispatcher {
 
         this.nickname = nickname;
     }
-    public void setStub(GameHandlerRMI stub){
-        this.stub =stub;
-    }
 
     /**
      *
@@ -71,7 +56,7 @@ public class MessageDispatcher {
      * @param lobbyType  the lobby type.
      * @return boolean
      */
-    public boolean sendLoginInfo(int lobbyType){ //SOLO SOCKET
+    public boolean sendLoginInfo(int lobbyType){
 
         try {
             System.out.println("Sending info");
@@ -91,8 +76,6 @@ public class MessageDispatcher {
      *
      */
     public void reset(){
-        if(isRMI) return;
-
         try {
             outputStream.flush();
             outputStream.reset();
@@ -103,17 +86,7 @@ public class MessageDispatcher {
         }
 
     }
-    public void sendPickUpData(Vector<Tiles>tiles , int column){
-        if(isRMI){
-            try {
-                stub.handleTurn(column,tiles,nickname);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }else{
-            sendPickUpDataSocket(tiles,column);
-        }
-    }
+
 
     /**
      *
@@ -122,7 +95,7 @@ public class MessageDispatcher {
      * @param tiles  the tiles.
      * @param column  the column.
      */
-    public void sendPickUpDataSocket(Vector<Tiles> tiles, int column){
+    public void sendPickUpData(Vector<Tiles> tiles, int column){
 
         try{
             outputStream.writeInt(1);
@@ -134,24 +107,13 @@ public class MessageDispatcher {
         }
     }
 
-    public void sendNickname(String nickname){
-        if(isRMI){
-            try {
-                stub.handleNicknameFail(nickname);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
-        }
-        sendNicknameSocket(nickname);
-    }
-
     /**
      *
      * Send nickname
      *
      * @param nickname  the nickname.
      */
-    public void sendNicknameSocket(String nickname){
+    public void sendNickname(String nickname){
 
         setNickname(nickname);
         reset();

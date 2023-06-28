@@ -45,7 +45,7 @@ public class GoalC1 implements CommonObj , Serializable {
     public boolean squareCheck(Vector<Tiles>c){
         for (int i = 1;i<c.size();i++){
             if (c.get(i).getType() == NOT_VALID)
-                break;
+                return false;
             if(c.get(i).getType() != c.get(i-1).getType())  return false;
         }
         return true;

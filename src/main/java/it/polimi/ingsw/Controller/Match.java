@@ -28,7 +28,7 @@ public class Match implements Serializable {
     private int objCount1 = 1;
     private  int objCount2 = 1;
     private static boolean thrown = false;
-    private static LinkedList<Player> players;
+    private LinkedList<Player> players;
 
     /**
      * It's a constructor
@@ -50,7 +50,7 @@ public class Match implements Serializable {
      * @param o2 CommonOBJ
      */
     public boolean setObjectiveCommonEXEC(CommonObj o1, CommonObj o2){
-        if(o1 != o2) {
+        if(o1.getType() != o2.getType()) {
             this.o1 = new ObjectiveCommonEXEC(o1);
             this.o2 = new ObjectiveCommonEXEC(o2);
             return true;

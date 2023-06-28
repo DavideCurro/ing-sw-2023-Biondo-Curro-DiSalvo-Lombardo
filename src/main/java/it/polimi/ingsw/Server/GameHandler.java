@@ -12,6 +12,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.util.Random;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -21,10 +22,10 @@ import static it.polimi.ingsw.Utility.Message.Content.*;
 public class GameHandler implements Runnable {
     private final Socket[] players;
     private final String[] usernames;
-
+    private int lobbyCode;
     private final ObjectInputStream[] inputStreams;
     private final ObjectOutputStream[] objectOutputStreams;
-    private final Match match;
+    private Match match;
     private final Vector<String> validName;
     private Message message;
     private boolean response;
@@ -47,8 +48,12 @@ public class GameHandler implements Runnable {
         validName = new Vector<>();
         response = false;
         sniffer = new NetworkSniffer(inputStreams,this);
+        Random random = new Random();
+        lobbyCode = random.nextInt(99999);
     }
-
+    public int getLobbyCode(){
+        return lobbyCode;
+    }
 
     /**
      * valid_name check if this username has been already used

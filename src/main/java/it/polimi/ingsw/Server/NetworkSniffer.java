@@ -41,17 +41,17 @@ public class NetworkSniffer extends Thread{
             try{
                 for (ObjectInputStream inputStream : inputStreams) {
                     if(inputStream == null) continue;
-                    log.info("Waiting");
+                    log.info("Waiting lobby: " + game_handler.getLobbyCode());
 
                     if(inputStream.available()>0) {
-                        log.info("Message arrived");
+
                         inputStream.readInt();
                         received = (Message) inputStream.readObject();
-                        System.out.println(received.getSender());
+                        log.info("Message arrived from " + received.getSender() + " of lobby "+ game_handler.getLobbyCode());
                         game_handler.handleTurn((Integer) received.getPayload(), (Vector<Tiles>) received.getPayload2(), received.getSender()); //column, vector
                     }
                 }
-                sleep(800);
+                sleep(1000);
             }catch (ClassNotFoundException | IOException |InterruptedException exception){
                 exception.printStackTrace();
             }

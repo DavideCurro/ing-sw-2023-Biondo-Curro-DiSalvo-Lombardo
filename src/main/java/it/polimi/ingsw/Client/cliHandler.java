@@ -118,7 +118,8 @@ public class cliHandler {
                 handleNewMessage(message);
             } catch (IOException | ClassNotFoundException e) {
                 if(end){
-                    System.out.println("The end is Finished");
+                    System.out.println("The game is Finished");
+                    break;
                 }else{
                     e.printStackTrace();
                 }

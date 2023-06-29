@@ -52,10 +52,10 @@ public class Match implements Serializable {
      * @param o2 CommonOBJ
      * @return True if they are different, False otherwise
      */
-    public boolean setObjectiveCommonEXEC(CommonObj o1, CommonObj o2){
+    public boolean setObjectiveCommonEXEC(CommonObj o1, CommonObj o2) throws MatchExeception {
         if(o1.getType() != o2.getType()) { //controlla che siano diversi
-            this.o1 = new ObjectiveCommonEXEC(o1); //creo l'exec
-            this.o2 = new ObjectiveCommonEXEC(o2);
+            this.o1 = new ObjectiveCommonEXEC(new GoalC11()); //creo l'exec
+            this.o2 = new ObjectiveCommonEXEC(new GoalC12());
             return true;
         }
         return false;
@@ -104,17 +104,17 @@ public class Match implements Serializable {
         Random random = new Random();
         return switch (random.nextInt(12)+1) {
             case 1 -> new GoalP1();
-            case 2 -> new GoalP1();
-            case 3 -> new GoalP1();
-            case 4 -> new GoalP1();
-            case 5 -> new GoalP1();
-            case 6 -> new GoalP1();
-            case 7 -> new GoalP1();
-            case 8 -> new GoalP1();
-            case 9 -> new GoalP1();
-            case 10 ->new GoalP1();
-            case 11 ->new GoalP1();
-            case 12 ->new GoalP1();
+            case 2 -> new GoalP2();
+            case 3 -> new GoalP3();
+            case 4 -> new GoalP4();
+            case 5 -> new GoalP5();
+            case 6 -> new GoalP6();
+            case 7 -> new GoalP7();
+            case 8 -> new GoalP8();
+            case 9 -> new GoalP9();
+            case 10 ->new GoalP10();
+            case 11 ->new GoalP11();
+            case 12 ->new GoalP12();
             default -> throw new IllegalStateException("Unexpected value: " + random.nextInt(12) + 1);
         };
     }
@@ -131,15 +131,15 @@ public class Match implements Serializable {
             case 1 -> new GoalC1();
             case 2 -> new GoalC2();
             case 3 -> new GoalC3();
-            case 4 -> new GoalC4();
-            case 5 -> new GoalC5();
-            case 6 -> new GoalC6();
-            case 7 -> new GoalC7();
-            case 8 -> new GoalC8();
-            case 9 -> new GoalC9();
-            case 10 -> new GoalC10();
-            case 11 -> new GoalC11();
-            case 12 -> new GoalC12();
+            case 4 -> new GoalC3();
+            case 5 -> new GoalC3();
+            case 6 -> new GoalC3();
+            case 7 -> new GoalC3();
+            case 8 -> new GoalC3();
+            case 9 -> new GoalC3();
+            case 10 -> new GoalC3();
+            case 11 -> new GoalC3();
+            case 12 -> new GoalC3();
             default -> throw new MatchExeception("ERROR generation common OBJ");
         };
     }

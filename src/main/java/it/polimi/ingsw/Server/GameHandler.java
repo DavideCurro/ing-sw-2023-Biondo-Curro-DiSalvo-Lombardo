@@ -195,7 +195,7 @@ public class GameHandler implements Runnable {
                sendMatch();
                log.info("Retrieving information for Object test ");
                int[] commonOBJResponse = match.commonOBJTesting(nowPlaying);
-               if(commonOBJResponse[0] == 1){
+               if(commonOBJResponse[0] != -1){
                    log.info(nowPlaying.getNickname() + "has done common OBJ");
                    notifyCommonOBJDone(nowPlaying,commonOBJResponse);
                }

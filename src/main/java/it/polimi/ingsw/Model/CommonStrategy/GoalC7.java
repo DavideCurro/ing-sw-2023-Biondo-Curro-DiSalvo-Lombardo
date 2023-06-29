@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.*;
 
 import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Model.Playground.Tiles;
 
 import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
 
@@ -20,33 +21,30 @@ public class GoalC7 implements CommonObj , Serializable {
      *  */
 
     public boolean check(Player p) {
-        Vector<Integer> v = new Vector<Integer>();//vector used to count how many types I have in one row
         int count = 0;
-        boolean invalidRow = false;
-        for(int i = 0; i<6; i++){
-            for(int j =0; j<5; j++){
-                if(v.size() > 3)//Already more than 3 types in one row, check the next one
-                    break;
-                else {
-                    int type = p.getMy_shelfie().getShelf()[i][j].getType();
-                    if (type == NOT_VALID) {
-                        invalidRow = true;
-                        break;
+        Vector<Tiles> riga0 = new Vector<>();
+        for (int i = 5; i >=0; i--){
+            for(int j = 0; j<5; j++){
+                riga0.add(p.getMy_shelfie().getShelf()[i][j]);
+            }
+            if (checkRow(riga0)) count++;
+            riga0.clear();
+        }
+        return count>4;
+    }
+    private boolean checkRow(Vector<Tiles> riga){
+        int[] type = new int[5];
+        for (int i = 0; i < riga.size()-1; i++) {
+            for(int j = i+1; j< riga.size(); j++) {
+                if (riga.get(i).getType() == riga.get(j).getType()) {
+                    type[riga.get(i).getType()]++;
+
+                    if (type[riga.get(i).getType()] > 3) {
+                        return false;
                     }
-                    if (v.contains(type))
-                        continue;
-                    else
-                        v.add(type);//new type read in the row
                 }
             }
-            if(v.size() <= 3 && !v.isEmpty() && !invalidRow)
-                count++;//needs four rows with just max three types in it
-            v.clear();
-            if(count == 4)
-                return true;
-            invalidRow = false;
         }
-
-        return false;
+        return true;
     }
 }

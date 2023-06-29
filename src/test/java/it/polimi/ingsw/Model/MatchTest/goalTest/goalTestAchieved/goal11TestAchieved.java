@@ -35,10 +35,10 @@ public class goal11TestAchieved {
 
         //test secondary diagonal ok
         library1.getShelf()[0][4].setType(2);
-        library1.getShelf()[3][1].setType(2);
-        library1.getShelf()[3][2].setType(2);
         library1.getShelf()[1][3].setType(2);
-        library1.getShelf()[0][4].setType(2);
+        library1.getShelf()[2][2].setType(2);
+        library1.getShelf()[3][1].setType(2);
+        library1.getShelf()[4][0].setType(2);
 
         //check rossa
         library2.getShelf()[1][0].setType(5);
@@ -59,7 +59,7 @@ public class goal11TestAchieved {
 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {
-                System.out.print(library1.getShelf()[i][j].getType()+ "\t");
+                System.out.print(library3.getShelf()[i][j].getType()+ "\t");
             }
             System.out.println();
         }

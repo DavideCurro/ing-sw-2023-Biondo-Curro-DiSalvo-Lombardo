@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.*;
 
 import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Model.Playground.Tiles;
+
 import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
 
 
@@ -18,28 +20,28 @@ public class GoalC5 implements CommonObj, Serializable {
      * @return
      * */
     public boolean check(Player p) {
-        Vector<Integer> v = new Vector<Integer>();//vector used to count how many types I have in one column
         int count = 0;
-
-        for(int j =0; j<5; j++){
-            for(int i = 0; i<6; i++){
-                if(v.size() > 3)//Already more than 3 types in one column, check the next one
-                    break;
-                else {
-                    int type = p.getMy_shelfie().getShelf()[i][j].getType();
-                    if (type == NOT_VALID)
-                        break;
-                    if (!v.contains(type))
-                        v.add(type);//new type read in the column
+        Vector<Tiles> riga0 = new Vector<>();
+        for(int j = 0; j<5; j++) {
+            for (int i = 5; i >=0; i--) {
+                riga0.add(p.getMy_shelfie().getShelf()[i][j]);
+            }
+            if (checkColumn(riga0)) count++;
+            riga0.clear();
+        }
+        return count>2;
+    }
+    private boolean checkColumn(Vector<Tiles> riga){
+        int[] type = new int[5];
+        for (int i = 0; i < riga.size() - 1; i++) {
+            if (riga.get(i).getType() == riga.get(i+1).getType()) {
+                type[riga.get(i).getType()] ++;
+                i++;
+                if(type[riga.get(i).getType()]>2){
+                    return false;
                 }
             }
-            if(v.size() <= 3)
-                count++;//needs three columns with just max three types in it
-            v.clear();
-            if(count == 3)
-                return true;
         }
-
-        return false;
+        return true;
     }
 }

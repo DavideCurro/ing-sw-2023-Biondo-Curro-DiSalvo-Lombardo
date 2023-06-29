@@ -41,7 +41,13 @@ public class goal4TestAchieved{
 
         library.getShelf()[0][0].setType(2);
         library.getShelf()[1][0].setType(2);
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 5; j++) {
 
+                System.out.print(library.getShelf()[i][j].getType()+ "\t");
+            }
+            System.out.println();
+        }
     }
     @Test
     public void validateGoal4(){

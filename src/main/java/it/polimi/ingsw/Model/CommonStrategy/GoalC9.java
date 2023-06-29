@@ -5,7 +5,8 @@ package it.polimi.ingsw.Model.CommonStrategy;
 import it.polimi.ingsw.Model.Player.Player;
 
 import java.io.Serializable;
-import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
+
+import static it.polimi.ingsw.Model.Playground.Tiles.*;
 
 public class GoalC9 implements CommonObj, Serializable {
     private final int type = 9;
@@ -32,37 +33,37 @@ public class GoalC9 implements CommonObj, Serializable {
                 if(type == NOT_VALID)
                     continue;
                 switch (type) {
-                    case 1 -> {
+                    case BLUE -> {
                         count1++;
                         if (count1 == 8) {
                             return true;
                         } break;
                     }
-                    case 2 -> {
+                    case CYAN -> {
                         count2++;
                         if (count2 == 8) {
                             return true;
                         } break;
                     }
-                    case 3 -> {
+                    case YELLOW -> {
                         count3++;
                         if (count3 == 8) {
                             return true;
-                        } break;
+                        }
                     }
-                    case 4 -> {
+                    case WHITE -> {
                         count4++;
                         if (count4 == 8) {
                             return true;
                         } break;
                     }
-                    case 5 -> {
+                    case GREEN -> {
                         count5++;
                         if (count5 == 8) {
                             return true;
                         } break;
                     }
-                    case 6 -> {
+                    case PINK -> {
                         count6++;
                         if (count6 == 8) {
                             return true;

@@ -25,9 +25,9 @@ public class goal10TestAchieved {
             }
         }
         // test principal diagonal
-        library.getShelf()[1][1].setType(2);
-        library.getShelf()[2][2].setType(2);
-        library.getShelf()[1][3].setType(2);
+        library.getShelf()[5][1].setType(2);
+        library.getShelf()[4][2].setType(2);
+        library.getShelf()[5][3].setType(2);
         library.getShelf()[3][3].setType(2);
         library.getShelf()[3][1].setType(2);
 

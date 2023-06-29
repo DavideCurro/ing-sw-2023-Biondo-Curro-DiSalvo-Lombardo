@@ -157,7 +157,7 @@ public class Playground implements Serializable {
                 }
             }
         }
-        if(count == countAlone) {
+        if((count == countAlone) || (count < 3)) {
             fillUP();
         }
 

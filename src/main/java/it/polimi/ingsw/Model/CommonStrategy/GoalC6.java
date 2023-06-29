@@ -34,6 +34,8 @@ public class GoalC6 implements CommonObj, Serializable {
             }
             types.clear();
         }
+
         return differentColumn > 1;
     }
+
 }

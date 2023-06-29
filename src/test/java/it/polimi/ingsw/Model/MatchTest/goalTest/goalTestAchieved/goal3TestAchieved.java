@@ -21,16 +21,15 @@ public class goal3TestAchieved {
         Random random = new Random();
         for(int i = 0; i<6;i++){
             for(int j = 0; j <5; j++){
-                library.getShelf()[i][j]=new Tiles(5,i,j);
+                library.getShelf()[i][j]=new Tiles(-1,i,j);
             }
         }
         for(int i = 1;i<5;i++){
             library.getShelf()[i][1].setType(1);
             library.getShelf()[i-1][4].setType(1);
         }
-        for(int j = 0; j<4;j++){
-            library.getShelf()[2][j].setType(1);
-            library.getShelf()[5][j].setType(1);
+        for(int i = 0; i<4;i++){
+            library.getShelf()[i][0].setType(1);
         }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 5; j++) {

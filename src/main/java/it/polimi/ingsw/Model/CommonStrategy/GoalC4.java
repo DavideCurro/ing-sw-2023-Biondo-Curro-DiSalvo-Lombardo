@@ -1,8 +1,10 @@
 package it.polimi.ingsw.Model.CommonStrategy;
 
 import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Model.Playground.Tiles;
 
 import java.io.Serializable;
+import java.util.Vector;
 
 
 public class GoalC4 implements CommonObj, Serializable {
@@ -16,21 +18,28 @@ public class GoalC4 implements CommonObj, Serializable {
      *  @return
      *  */
         public boolean check(Player p){
-
-            int type;
             int count = 0;
+            Vector<Tiles> riga0 = new Vector<>();
+            for(int j = 0; j<5; j++) {
+                for (int i = 5; i >=0; i--) {
+                    riga0.add(p.getMy_shelfie().getShelf()[i][j]);
+                }
+                if (checkcouple(riga0)>0) count += checkcouple(riga0);
+                riga0.clear();
+            }
 
-            for(int j = 0; j<4 ; j++){//columns
-                for(int i=0; i<5; i++){//rows
-                    type = p.getMy_shelfie().getShelf()[i][j].getType();
-                    if(type == -1)
-                        continue;
-                    if (((p.getMy_shelfie().getShelf()[i+1][j].getType()) == type) ||  ((p.getMy_shelfie().getShelf()[i][j+1].getType()) == type) )
-                        count++;
-                    if (count > 5)
-                        return true;
+
+            return count >= 6;
+
+        }
+        private int checkcouple(Vector<Tiles> riga){
+            int conteggio = 0;
+            for (int i = 0; i < riga.size() - 1; i++) {
+                if (riga.get(i).getType() == riga.get(i+1).getType()) {
+                        conteggio ++;
+                        i++;
                 }
             }
-            return false;
+            return conteggio;
         }
 }

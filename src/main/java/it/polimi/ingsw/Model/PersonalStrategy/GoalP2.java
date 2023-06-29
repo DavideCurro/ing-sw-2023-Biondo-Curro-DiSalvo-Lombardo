@@ -6,6 +6,7 @@ import it.polimi.ingsw.Model.Player.Player;
 import static it.polimi.ingsw.Model.Playground.Tiles.*;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
@@ -21,7 +22,7 @@ import java.util.Vector;
 public class GoalP2 implements PersonalObj, Serializable {
 
     private final Map<Integer,Integer> pointMap = Map.of(1,1,2,2,3,4,4,6,5,9,6,12);
-
+    private HashMap<Tiles, Boolean> test = new HashMap<>();
     private final int type = 2;
 
     private final Vector<Tiles> position = new Vector<>();
@@ -32,6 +33,7 @@ public class GoalP2 implements PersonalObj, Serializable {
         int[] type = new int[] {GREEN,PINK,YELLOW,WHITE,CYAN,BLUE};
         for(int i = 0; i < x.length; i++){
             this.position.add(new Tiles(type[i],x[i],y[i]));
+            this.test.put(new Tiles(type[i],x[i],y[i]) , false);
         }
 
 
@@ -41,13 +43,16 @@ public class GoalP2 implements PersonalObj, Serializable {
     public int check(Player p){
         int count = 0;
         int [] coordinate;
-        for(Tiles tmp : position){
+        for(Tiles tmp : test.keySet()){
             coordinate = tmp.getXYType();
-            if (p.getMy_shelfie().getShelf()[coordinate[0]][coordinate[1]].getType() == coordinate[2]) //you can also use all the get, by following le previous line code
+            if(test.get(tmp)) continue;
+            if (p.getMy_shelfie().getShelf()[coordinate[0]][coordinate[1]].getType() == coordinate[2]) { //you can also use all the get, by following le previous line code
                 count++;
+                test.replace(tmp,true);
+            }
         }
         //System.out.println("you won"+points+" points");
-        if(count == 0) return 0;
+        if(count == 0 ) return 0;
         return pointMap.get(count);
     }
     @Override

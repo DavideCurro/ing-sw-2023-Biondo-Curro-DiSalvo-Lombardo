@@ -9,6 +9,9 @@ public class Client {
     public Client(String args) throws IOException, ClassNotFoundException, InterruptedException {
         start(args);
     }
+    public Client() throws IOException, ClassNotFoundException, InterruptedException {
+        start("");
+    }
     public void start(String args) throws IOException, ClassNotFoundException, InterruptedException {
         if(!args.isEmpty()) {
             cliHandler cliHandler = new cliHandler(new Socket(args,2000), new ClientView());

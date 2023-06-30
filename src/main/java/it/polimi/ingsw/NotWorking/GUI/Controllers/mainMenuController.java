@@ -1,4 +1,4 @@
-package it.polimi.ingsw.NotWorking.GUI.Controllers;
+/*package it.polimi.ingsw.NotWorking.GUI.Controllers;
 
 import it.polimi.ingsw.Client.MessageDispatcher;
 
@@ -98,7 +98,7 @@ public class mainMenuController {
      * Prints the playground everytime the server sends it to the client
      *
      * @param playgroundmodel
-     */
+
     public void printplaygroundBoard(Playground playgroundmodel) {
 
         // playground.setStyle("-fx-background-image : url ");
@@ -121,7 +121,7 @@ public class mainMenuController {
      * Prints the personal goal of the player
      *
      * @param player
-     */
+
     public void printPersonalGoal(Player player) {
        switch (player.getPersonalObj().getPersonalObj().getType()){
            case 1-> {
@@ -261,7 +261,7 @@ public class mainMenuController {
 
     /**
      * Method that associate the image of the tile to the tile itself
-     */
+
     public void initTilesimage() {
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Cornici1.1.png").toExternalForm()));
         tilesImg.add(new Image(this.getClass().getResource("/resouces/item_tiles/Trofei1.1.png").toExternalForm()));
@@ -288,7 +288,7 @@ public class mainMenuController {
 
     /**
      * pick tiles from playground
-     */
+
     public void pickTiles(MouseEvent mouseEvent) {
         tmp = new Vector<>();
 
@@ -307,7 +307,7 @@ public class mainMenuController {
      * Inserts the picked tiles from the playground, in the library of the player, in the column chosen by a button
      *
      * @param mouseEvent
-     */
+
     public void insertTiles(MouseEvent mouseEvent) {
 
         button.setOnAction(e -> {
@@ -345,7 +345,7 @@ public class mainMenuController {
      * Prints the library of a player
      *
      * @param playermodel
-     */
+
     public void printLibrary(Player playermodel) {
         otherPlayers.setOnAction(e -> {
 
@@ -360,7 +360,7 @@ public class mainMenuController {
     /**
      * Prints an error
      * @param message
-     */
+
     public void showerror (String message){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
@@ -371,7 +371,7 @@ public class mainMenuController {
     /**
      * Prints an information from the server to the client
      * @param message
-     */
+
     public void showmessage (String message){
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("NEWS");
@@ -384,7 +384,7 @@ public class mainMenuController {
      * Handle new message, that arrives from server
      *
      * @param message  the message.
-     */
+
     public void handleNewMessage(Message message) {
         switch (message.getMessageType()) {
             case NEWGAME -> printplaygroundBoard((Playground) message.getPayload());
@@ -411,7 +411,7 @@ public class mainMenuController {
                 chooseNickname.setVisible(true);
                 nickname1 = nickname.getText();
                 messageDispatcher.setNickname(nickname1);
-            }*/
+            }
 
             case COMMONOBJDONE -> {
                 showmessage("You completed the common goal!");
@@ -446,3 +446,4 @@ public class mainMenuController {
     }
 }
 
+*/

@@ -54,8 +54,8 @@ public class Match implements Serializable {
      */
     public boolean setObjectiveCommonEXEC(CommonObj o1, CommonObj o2) throws MatchExeception {
         if(o1.getType() != o2.getType()) { //controlla che siano diversi
-            this.o1 = new ObjectiveCommonEXEC(new GoalC11()); //creo l'exec
-            this.o2 = new ObjectiveCommonEXEC(new GoalC12());
+            this.o1 = new ObjectiveCommonEXEC(o1); //creo l'exec
+            this.o2 = new ObjectiveCommonEXEC(o2);
             return true;
         }
         return false;

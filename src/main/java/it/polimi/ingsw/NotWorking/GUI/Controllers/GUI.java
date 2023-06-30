@@ -1,4 +1,4 @@
-package it.polimi.ingsw.NotWorking.GUI.Controllers;
+/* package it.polimi.ingsw.NotWorking.GUI.Controllers;
 
 import it.polimi.ingsw.Client.ClientView;
 
@@ -18,8 +18,7 @@ public class GUI extends ClientView {
         //Platform.runLater(()-> SceneController.changerootPane(mainmenu, "/it/polimi/MyShelfie/fxml/mainMenu.fxml"));
     }
 
-    @Override
-    public void printPlayground(Playground ground) {
+     void printPlayground(Playground ground) {
         mainMenuController mainmenu = (mainMenuController) SceneController.getActiveController();
         mainmenu.printplaygroundBoard(ground);
 
@@ -36,7 +35,7 @@ public class GUI extends ClientView {
     public void printCommonOBJ(int type) {
         mainMenuController mainmenu = (mainMenuController) SceneController.getActiveController();
         mainmenu.printCommonOBJ(type,is1);
-    }*/
+    }
 
     //da finire
     @Override
@@ -55,26 +54,26 @@ public class GUI extends ClientView {
 
     /**
      * Picktile
-     */
+
     //public void picktile
 
 
 
     /**
      * Shows the first scene
-     */
+
    /* public void showTheScene(){
         stage.setScene(currentScene);
         stage.sizeToScene();
         stage.setResizable(false);
         stage.setTitle("MyShelfie");
         stage.show();
-    }*/
+    }
 
     /**
      * Shows the new scene
      * @param scene
-     */
+
    /* public static void changeTheScene(String scene){
         System.out.println(scene);
         currentScene = nameToScene.get(scene);
@@ -84,8 +83,8 @@ public class GUI extends ClientView {
         //stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
         //stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
         stage.show();
-    }*/
+    }
 
 
 
-}
+}*/

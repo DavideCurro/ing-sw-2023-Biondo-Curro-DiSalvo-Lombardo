@@ -8,7 +8,7 @@ import it.polimi.ingsw.Model.PersonalStrategy.GoalP1;
 import it.polimi.ingsw.Model.Player.Player;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
+
 
 import java.util.Vector;
 
@@ -47,10 +47,6 @@ public class pickUpTestWrongInput {
         }
         assertTrue(thrown);
     }
-    @AfterEach
-    public void reset(){
-        player = null;
-        playground = null;
-    }
+
 
 }

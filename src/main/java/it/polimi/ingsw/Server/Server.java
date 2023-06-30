@@ -2,7 +2,6 @@ package it.polimi.ingsw.Server;
 
 
 
-import java.rmi.RemoteException;
 import java.util.LinkedList;
 
 public class Server {
@@ -16,8 +15,10 @@ public class Server {
 
     static LinkedList<Lobby> lobby4Player = new LinkedList<>();
 
-
-    public static void main(String[] args) throws RemoteException {
+    public Server(){
+        start();
+    }
+    public void start() {
         lobby2Player.add(new Lobby(2));
         lobby3Player.add(new Lobby(3));
         lobby4Player.add(new Lobby(4));

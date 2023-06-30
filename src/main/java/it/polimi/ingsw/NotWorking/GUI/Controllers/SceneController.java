@@ -1,4 +1,4 @@
-package it.polimi.ingsw.NotWorking.GUI.Controllers;
+/*package it.polimi.ingsw.NotWorking.GUI.Controllers;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -55,3 +55,4 @@ public class SceneController {
         activeController = controller;
     }
 }
+*/

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.NotWorking.GUI.Controllers;
+/*package it.polimi.ingsw.NotWorking.GUI.Controllers;
 
 
 
@@ -71,8 +71,7 @@ public class setupController implements GenericSceneController, Initializable {
        /* try {
             setupSocket(InetAddress.getLocalHost(),2000);
         } catch (IOException e) {
-            e.printStackTrace();
-        }*/
+
 
     }
 
@@ -95,9 +94,7 @@ public class setupController implements GenericSceneController, Initializable {
         this.objectOutputStream = objectOutputStream;
     }
 
-    public void setObjectInputStream(ObjectInputStream objectInputStream){
-        this.objectInputStream = objectInputStream;
-    }*/
+
 
 
     public String getNickname(){
@@ -122,8 +119,7 @@ public class setupController implements GenericSceneController, Initializable {
 
     /**
      * Method that starts the game once the nickname and the lobby have been chosen
-     * @param
-     */
+
     public void startgame(ActionEvent actionEvent) {
         StartGame.setOnAction(e-> {
             System.out.println("Funziona");
@@ -140,9 +136,7 @@ public class setupController implements GenericSceneController, Initializable {
 
     /**
      * Prints an error
-     * @param message
-     */
-    public void showerror(String message){
+ void showerror(String message){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(message);
@@ -151,8 +145,7 @@ public class setupController implements GenericSceneController, Initializable {
 
     /**
      * Prints an information from the server to the client
-     * @param message
-     */
+
     public void showmessage(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("NEWS");
@@ -162,3 +155,4 @@ public class setupController implements GenericSceneController, Initializable {
 
 }
 
+*/

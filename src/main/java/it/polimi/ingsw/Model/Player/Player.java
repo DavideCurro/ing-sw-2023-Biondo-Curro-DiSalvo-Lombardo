@@ -340,11 +340,10 @@ public class Player implements Serializable {
         // Initialize variables
         this.coordinates = coordinates;
         checkColValid(column);
-        if(coordinates.size() > 3) // Allow the player to pick up to 3 tiles
-            return false;
         int max = calculateMaxTiles(column,coordinates.size());
         System.out.println("Number of Tiles PICKED : "+max);
-
+        if((coordinates.size() > 3) || (coordinates.size() > max)) // Allow the player to pick up to 3 tiles
+            return false;
         for(Tiles tile:coordinates){
             if(!(checkCoordinateValid(tile.getX())||checkCoordinateValid(tile.getY()))) return false;
             tile.setType(p.getGround()[tile.getX()][tile.getY()].getType());

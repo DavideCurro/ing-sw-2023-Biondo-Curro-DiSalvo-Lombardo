@@ -46,6 +46,7 @@ public class goal9TestAchieved {
     }
     @Test
     public void validateGoal9(){
+        objectiveCommonEXEC.getType();
         assertTrue(objectiveCommonEXEC.execCheck(new Player(library)));
     }
 

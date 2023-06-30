@@ -21,7 +21,7 @@ public class goal5TestNotAchieved {
         Random random = new Random();
         for(int i = 0;i<6; i++){
             for(int j = 0;j<5;j++)
-                 library.getShelf()[i][j] = new Tiles(i);
+                 library.getShelf()[i][j] = new Tiles(1);
 
         }
         for (int i = 0; i < 6; i++) {

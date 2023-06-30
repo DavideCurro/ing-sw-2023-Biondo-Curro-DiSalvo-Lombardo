@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > CoordinateStateException</title>
+  <title>Coverage Report > Playground</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">it.polimi.ingsw.Model.Exception</a>
+    <a href="../index.html">it.polimi.ingsw.Model.Playground</a>
 </div>
 
-<h1>Coverage Summary for Class: CoordinateStateException (it.polimi.ingsw.Model.Exception)</h1>
+<h1>Coverage Summary for Class: Playground (it.polimi.ingsw.Model.Playground)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">CoordinateStateException</td>
+  <td class="name">Playground</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -51,18 +51,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    91,7%
   </span>
   <span class="absValue">
-    (1/1)
+    (11/12)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    82,5%
   </span>
   <span class="absValue">
-    (1/1)
+    (47/57)
   </span>
 </td>
 </tr>
@@ -74,19 +74,231 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.Exception;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.Playground;
 &nbsp;
-&nbsp;public class CoordinateStateException extends Exception {
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Exception.PlaygroundException;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Random;
+&nbsp;import java.util.Vector;
+&nbsp;
+&nbsp;import static it.polimi.ingsw.Model.Playground.Tiles.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * The class Playground
+&nbsp; */
+&nbsp;public class Playground implements Serializable {
+<b class="fc">&nbsp;    private final static int[][] mask2Player = new int[][]{{-1, -1,  -1, -1, -1, -1, -1, -1, -1},</b>
+&nbsp;                                                           {-1, -1,  -1,  0,  0, -1, -1, -1, -1},
+&nbsp;                                                           {-1, -1,  -1,  0,  0,  0, -1, -1, -1},
+&nbsp;                                                           {-1, -1,   0,  0,  0,  0,  0,  0, -1},
+&nbsp;                                                           {-1,  0,   0,  0,  0,  0,  0,  0, -1},
+&nbsp;                                                           {-1,  0,   0,  0,  0,  0,  0, -1, -1},
+&nbsp;                                                           {-1, -1,  -1,  0,  0,  0, -1, -1, -1},
+&nbsp;                                                           {-1, -1,  -1, -1,  0,  0, -1, -1, -1},
+&nbsp;                                                           {-1, -1,  -1, -1, -1, -1, -1, -1, -1}
+&nbsp;    };
+<b class="fc">&nbsp;    private final static int[][] mask3Player = new int[][]{{-1, -1, -1,  0, -1, -1, -1, -1, -1},</b>
+&nbsp;                                                           {-1, -1, -1,  0,  0, -1, -1, -1, -1},
+&nbsp;                                                           {-1, -1,  0,  0,  0,  0,  0, -1, -1},
+&nbsp;                                                           {-1, -1,  0,  0,  0,  0,  0,  0,  0},
+&nbsp;                                                           {-1,  0,  0,  0,  0,  0,  0,  0, -1},
+&nbsp;                                                           { 0,  0,  0,  0,  0,  0,  0, -1, -1},
+&nbsp;                                                           {-1, -1,  0,  0,  0,  0,  0, -1, -1},
+&nbsp;                                                           {-1, -1, -1, -1,  0,  0, -1, -1, -1},
+&nbsp;                                                           {-1, -1, -1, -1, -1,  0, -1, -1, -1}
+&nbsp;    };
+<b class="fc">&nbsp;    private final static int[][] mask4Player = new int[][]{{-1, -1, -1,  0, 0, -1, -1, -1, -1},</b>
+&nbsp;                                                           {-1, -1, -1,  0, 0,  0, -1, -1, -1},
+&nbsp;                                                           {-1, -1,  0,  0, 0,  0,  0, -1, -1},
+&nbsp;                                                           {-1,  0,  0,  0, 0,  0,  0,  0,  0},
+&nbsp;                                                           { 0,  0,  0,  0, 0,  0,  0,  0,  0},
+&nbsp;                                                           { 0,  0,  0,  0, 0,  0,  0,  0, -1},
+&nbsp;                                                           {-1, -1,  0,  0, 0,  0,  0, -1, -1},
+&nbsp;                                                           {-1, -1, -1,  0, 0,  0, -1, -1, -1},
+&nbsp;                                                           {-1, -1, -1, -1, 0,  0, -1, -1, -1}
+&nbsp;    };
+&nbsp;
+&nbsp;    private int num_players;
+&nbsp;    private Tiles[][] ground;
+&nbsp;
+&nbsp;
 &nbsp;    /**
 &nbsp;     *
-&nbsp;     * Coordinate state exception
+&nbsp;     * It is a constructor.
 &nbsp;     *
-&nbsp;     * @param errorMessage  the error message.
-&nbsp;     * @return public
 &nbsp;     */
-&nbsp;    public CoordinateStateException(String errorMessage) {
-<b class="fc">&nbsp;        super(errorMessage);</b>
+<b class="nc">&nbsp;    public Playground() {</b>
+<b class="nc">&nbsp;        ground = new Tiles[0][0];</b>
 &nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * It is a constructor. It uses num_players for setup mask
+&nbsp;     *
+&nbsp;     * @param num_players  the num_players.
+&nbsp;     * @throws PlaygroundException throws an exception for unexpected value of num_player, is a check for 2 &lt; num_player &lt; 4
+&nbsp;     */
+<b class="fc">&nbsp;    public Playground(int num_players) throws PlaygroundException {</b>
+<b class="fc">&nbsp;        this.num_players = num_players;</b>
+<b class="fc">&nbsp;        this.fillUP();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * It is a constructor.
+&nbsp;     *
+&nbsp;     *
+&nbsp;     *
+&nbsp;    public Playground(Tiles[][] ground, int num_players) {
+&nbsp;        this.num_players = num_players;
+&nbsp;        this.ground = ground;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Mask setup
+&nbsp;     *
+&nbsp;     * @param maskPlayer  the mask player.
+&nbsp;     */
+&nbsp;    private void maskSetup(int[][] maskPlayer) {
+<b class="fc">&nbsp;        Tiles[][] g = new Tiles[9][9];</b>
+<b class="fc">&nbsp;        Random r = new Random();</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; 9; i++) {</b>
+<b class="fc">&nbsp;            for (int j = 0; j &lt; 9; j++) {</b>
+<b class="fc">&nbsp;                if (maskPlayer[i][j] != NOT_VALID) {</b>
+<b class="fc">&nbsp;                    g[i][j] = new Tiles(r.nextInt(6), i, j);</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                    g[i][j] = new Tiles(NOT_VALID, i, j);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        setGround(g);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public int getNum_players() {
+<b class="fc">&nbsp;        return num_players;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Gets the ground
+&nbsp;     *
+&nbsp;     * @return the ground
+&nbsp;     */
+&nbsp;    public Tiles[][] getGround() {
+<b class="fc">&nbsp;        return ground;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Sets the ground
+&nbsp;     *
+&nbsp;     * @param ground  the ground.
+&nbsp;     */
+&nbsp;    public void setGround(Tiles[][] ground) {
+<b class="fc">&nbsp;        this.ground = ground;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * FillUp the matrix when is empty
+&nbsp;     *
+&nbsp;     * @throws   PlaygroundException throws an exception for unexpected value of num_player, is a check for 2 &lt; num_player &lt; 4
+&nbsp;     */
+&nbsp;    private void fillUP() throws PlaygroundException {
+<b class="fc">&nbsp;        switch (num_players) {</b>
+<b class="fc">&nbsp;            case 2 -&gt; maskSetup(mask2Player);</b>
+<b class="fc">&nbsp;            case 3 -&gt; maskSetup(mask3Player);</b>
+<b class="fc">&nbsp;            case 4 -&gt; maskSetup(mask4Player);</b>
+<b class="fc">&nbsp;            default -&gt; throw new PlaygroundException(&quot;Unexpected value: &quot; + num_players);</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    public void countSelected() throws PlaygroundException {
+<b class="fc">&nbsp;        int count = 0;</b>
+<b class="fc">&nbsp;        int countAlone = 0;</b>
+<b class="fc">&nbsp;        for(int i = 0;i&lt;9;i++){</b>
+<b class="fc">&nbsp;            for(int j = 0; j&lt;9;j++){</b>
+<b class="fc">&nbsp;                if(this.ground[i][j].getType()!= NOT_VALID){</b>
+<b class="fc">&nbsp;                    if(amIAlone(i,j))</b>
+<b class="nc">&nbsp;                        countAlone++;</b>
+<b class="fc">&nbsp;                    count ++;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        if((count == countAlone) || (count &lt; 3)) {</b>
+<b class="fc">&nbsp;            fillUP();</b>
+&nbsp;        }
+&nbsp;
+&nbsp;    }
+&nbsp;    public boolean amIAlone(int i, int j){
+&nbsp;        try{
+<b class="fc">&nbsp;            if((!this.ground[i-1][j].checkSet()) &amp;&amp; (!this.ground[i+1][j].checkSet()) &amp;&amp;(!this.ground[i][j-1].checkSet())&amp;&amp; (!this.ground[i][j+1].checkSet()))</b>
+<b class="nc">&nbsp;                return true;</b>
+<b class="nc">&nbsp;        }catch (IndexOutOfBoundsException e){</b>
+<b class="nc">&nbsp;            return true;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Adjacency
+&nbsp;     *
+&nbsp;     * @param c  the coordinate of tiles.
+&nbsp;     * @return boolean
+&nbsp;     */
+&nbsp;    public boolean adjacency(Vector&lt;Tiles&gt; c) {
+<b class="fc">&nbsp;        boolean done = false;</b>
+<b class="fc">&nbsp;        for (Tiles tiles : c) {</b>
+<b class="fc">&nbsp;            if (!isValid(tiles.getX(), tiles.getY())) return false;</b>
+<b class="fc">&nbsp;            if(c.size() == 1)   return true;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        for (int i = 0;i&lt;c.size();i++) {</b>
+<b class="fc">&nbsp;            if(!done)</b>
+<b class="fc">&nbsp;                for(int j = i; j&lt; c.size();j ++){</b>
+<b class="fc">&nbsp;                    if(j == i)  continue;</b>
+<b class="fc">&nbsp;                    done = c.get(j).checkSides(c, j, c.get(i).getX(), c.get(i).getY());</b>
+&nbsp;                }
+&nbsp;            else{
+&nbsp;                break;
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return done;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * isValid
+&nbsp;     *
+&nbsp;     * @param x  the x.
+&nbsp;     * @param y  the y.
+&nbsp;     * @return boolean, is true if the tile has at least one free spot adjacent it
+&nbsp;     */
+&nbsp;    private boolean isValid(int x, int y){
+&nbsp;        try {
+<b class="fc">&nbsp;            if (this.ground[x - 1][y].getType() == NOT_VALID) return true;</b>
+<b class="fc">&nbsp;            if (this.ground[x + 1][y].getType() == NOT_VALID) return true;</b>
+<b class="nc">&nbsp;            if (this.ground[x][y - 1].getType() == NOT_VALID) return true;</b>
+<b class="nc">&nbsp;            return this.ground[x][y + 1].getType() == NOT_VALID;</b>
+<b class="nc">&nbsp;        }catch (IndexOutOfBoundsException e){</b>
+<b class="nc">&nbsp;            return true;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -111,7 +323,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-12 18:13</div>
+    <div style="float:right;">generated on 2023-06-30 12:05</div>
 </div>
 </body>
 </html>

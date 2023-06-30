@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > Client</title>
+  <title>Coverage Report > Match</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">it.polimi.ingsw.Client</a>
+    <a href="../index.html">it.polimi.ingsw.Controller</a>
 </div>
 
-<h1>Coverage Summary for Class: Client (it.polimi.ingsw.Client)</h1>
+<h1>Coverage Summary for Class: Match (it.polimi.ingsw.Controller)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Client</td>
+  <td class="name">Match</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    52,2%
   </span>
   <span class="absValue">
-    (0/2)
+    (12/23)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    42,3%
   </span>
   <span class="absValue">
-    (0/3)
+    (58/137)
   </span>
 </td>
 </tr>
@@ -74,25 +74,363 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Client;
-&nbsp;
-&nbsp;import java.io.*;
-&nbsp;import java.net.InetAddress;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Controller;
 &nbsp;
 &nbsp;
-<b class="nc">&nbsp;public class Client {</b>
-&nbsp;    public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-<b class="nc">&nbsp;        ServerHandler serverHandler = new ServerHandler(InetAddress.getLocalHost(),2000,new ClientView());</b>
-&nbsp;        /*switch (mode){
-&nbsp;            case &quot;CLI&quot;: serverHandler.cli();
-&nbsp;            case &quot;GUI&quot;: serverHandler.gui();
-&nbsp;        }*/
-<b class="nc">&nbsp;        serverHandler.cli();</b>
+&nbsp;import it.polimi.ingsw.Model.Playground.Playground;
+&nbsp;import it.polimi.ingsw.Model.Playground.Tiles;
+&nbsp;import it.polimi.ingsw.Model.CommonStrategy.*;
+&nbsp;import it.polimi.ingsw.Model.Exception.CoordinateStateException;
+&nbsp;import it.polimi.ingsw.Model.Exception.PlaygroundException;
+&nbsp;import it.polimi.ingsw.Model.PersonalStrategy.*;
+&nbsp;import it.polimi.ingsw.Model.PersonalStrategy.PersonalObj;
+&nbsp;import it.polimi.ingsw.Model.Player.Player;
+&nbsp;import it.polimi.ingsw.Utility.VirtualView;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Hello world!
+&nbsp; *
+&nbsp; */
+&nbsp;public class Match implements Serializable {
+<b class="fc">&nbsp;    private static final Map&lt;Integer,Integer&gt; pointOBJ2player = Map.of(1,8,2,4);</b>
+<b class="fc">&nbsp;    private static final Map&lt;Integer,Integer&gt; pointOBJ3player = Map.of(1,8,2,6,3,4);</b>
+<b class="fc">&nbsp;    private static final Map&lt;Integer,Integer&gt; pointOBJ4player = Map.of(1,8,2,4,3,4,4,2);</b>
+&nbsp;    private static Playground p;
+&nbsp;    private ObjectiveCommonEXEC o1 ;
+&nbsp;    private ObjectiveCommonEXEC o2;
+<b class="fc">&nbsp;    private int objCount1 = 1;</b>
+<b class="fc">&nbsp;    private  int objCount2 = 1;</b>
+<b class="fc">&nbsp;    private static boolean thrown = false;</b>
+&nbsp;    private LinkedList&lt;Player&gt; players;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * It&#39;s a constructor
+&nbsp;     */
+<b class="fc">&nbsp;    public Match(){</b>
+<b class="fc">&nbsp;        players = new LinkedList&lt;&gt;();</b>
+&nbsp;
+&nbsp;       // this.o = new ObjectiveCommonEXEC(o);
+&nbsp;    }
+&nbsp;
+&nbsp;    //usato solo per test
+<b class="fc">&nbsp;    public Match(LinkedList&lt;Player&gt;p, CommonObj o1, CommonObj o2){</b>
+<b class="fc">&nbsp;        players = p;</b>
+<b class="fc">&nbsp;        this.o1 = new ObjectiveCommonEXEC(o1);</b>
+<b class="fc">&nbsp;        this.o2 = new ObjectiveCommonEXEC(o2);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Set the common objective, by checking if they are different
+&nbsp;     * @param o1 CommonOBJ
+&nbsp;     * @param o2 CommonOBJ
+&nbsp;     * @return True if they are different, False otherwise
+&nbsp;     */
+&nbsp;    public boolean setObjectiveCommonEXEC(CommonObj o1, CommonObj o2) throws MatchExeception {
+<b class="fc">&nbsp;        if(o1.getType() != o2.getType()) { //controlla che siano diversi</b>
+<b class="fc">&nbsp;            this.o1 = new ObjectiveCommonEXEC(o1); //creo l&#39;exec</b>
+<b class="fc">&nbsp;            this.o2 = new ObjectiveCommonEXEC(o2);</b>
+<b class="fc">&nbsp;            return true;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * retrieve from a map how many points should assign
+&nbsp;     * @param numPlayersDone, how many people made this goal
+&nbsp;     * @param pointOBJPlayer, depends on how many player is the match
+&nbsp;     * @return int that represent the point made
+&nbsp;     */
+&nbsp;    private static int pointsCheck(int numPlayersDone,Map&lt;Integer,Integer&gt; pointOBJPlayer){
+<b class="fc">&nbsp;        return pointOBJPlayer.get(numPlayersDone);</b>
 &nbsp;
 &nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public CommonObj getCommonOBJ1(){
+<b class="nc">&nbsp;        return o1.getCommonObj();</b>
+&nbsp;    }
+&nbsp;    public CommonObj getCommonOBJ2(){
+<b class="nc">&nbsp;        return o2.getCommonObj();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * assign public point to current player
+&nbsp;     * @param objCount how many people made this goal
+&nbsp;     * @param nowPlaying who made the goal
+&nbsp;     */
+&nbsp;    public static void pointSetter(int objCount, Player nowPlaying){
+<b class="fc">&nbsp;        switch (p.getNum_players()) {</b>
+<b class="nc">&nbsp;            case 2 -&gt; nowPlaying.setPublicPoints(nowPlaying.getPublicPoints() + pointsCheck(objCount, pointOBJ2player));</b>
+<b class="fc">&nbsp;            case 3 -&gt; nowPlaying.setPublicPoints(nowPlaying.getPublicPoints()  + pointsCheck(objCount, pointOBJ3player));</b>
+<b class="nc">&nbsp;            case 4 -&gt; nowPlaying.setPublicPoints(nowPlaying.getPublicPoints()  + pointsCheck(objCount, pointOBJ4player));</b>
+<b class="nc">&nbsp;            default -&gt; throw new IllegalStateException(&quot;Unexpected value: &quot; + p.getNum_players());</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Random select the personal goal
+&nbsp;     * @return personal goal
+&nbsp;     * @throws MatchExeception, if random fails
+&nbsp;     */
+&nbsp;    public PersonalObj personalOBJChooser() throws MatchExeception{
+<b class="fc">&nbsp;        Random random = new Random();</b>
+<b class="fc">&nbsp;        return switch (random.nextInt(12)+1) {</b>
+<b class="fc">&nbsp;            case 1 -&gt; new GoalP1();</b>
+<b class="fc">&nbsp;            case 2 -&gt; new GoalP2();</b>
+<b class="nc">&nbsp;            case 3 -&gt; new GoalP3();</b>
+<b class="fc">&nbsp;            case 4 -&gt; new GoalP4();</b>
+<b class="nc">&nbsp;            case 5 -&gt; new GoalP5();</b>
+<b class="nc">&nbsp;            case 6 -&gt; new GoalP6();</b>
+<b class="fc">&nbsp;            case 7 -&gt; new GoalP7();</b>
+<b class="nc">&nbsp;            case 8 -&gt; new GoalP8();</b>
+<b class="fc">&nbsp;            case 9 -&gt; new GoalP9();</b>
+<b class="nc">&nbsp;            case 10 -&gt;new GoalP10();</b>
+<b class="nc">&nbsp;            case 11 -&gt;new GoalP11();</b>
+<b class="fc">&nbsp;            case 12 -&gt;new GoalP12();</b>
+<b class="nc">&nbsp;            default -&gt; throw new IllegalStateException(&quot;Unexpected value: &quot; + random.nextInt(12) + 1);</b>
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Random select the common goal
+&nbsp;     * @return common goal
+&nbsp;     * @throws MatchExeception, if random fails
+&nbsp;     */
+&nbsp;    private CommonObj CommonOBJChooser() throws MatchExeception{
+<b class="fc">&nbsp;        Random random = new Random();</b>
+<b class="fc">&nbsp;        return switch (random.nextInt(12)+1) {</b>
+<b class="fc">&nbsp;            case 1 -&gt; new GoalC1();</b>
+<b class="nc">&nbsp;            case 2 -&gt; new GoalC2();</b>
+<b class="fc">&nbsp;            case 3 -&gt; new GoalC3();</b>
+<b class="fc">&nbsp;            case 4 -&gt; new GoalC3();</b>
+<b class="nc">&nbsp;            case 5 -&gt; new GoalC3();</b>
+<b class="fc">&nbsp;            case 6 -&gt; new GoalC3();</b>
+<b class="fc">&nbsp;            case 7 -&gt; new GoalC3();</b>
+<b class="fc">&nbsp;            case 8 -&gt; new GoalC3();</b>
+<b class="fc">&nbsp;            case 9 -&gt; new GoalC3();</b>
+<b class="nc">&nbsp;            case 10 -&gt; new GoalC3();</b>
+<b class="nc">&nbsp;            case 11 -&gt; new GoalC3();</b>
+<b class="fc">&nbsp;            case 12 -&gt; new GoalC3();</b>
+<b class="nc">&nbsp;            default -&gt; throw new MatchExeception(&quot;ERROR generation common OBJ&quot;);</b>
+&nbsp;        };
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handle the joining of a new player in the game.
+&nbsp;     * If the list of player is empty the commonOBJ will be generated.
+&nbsp;     * If the player is the second one joining the lobby it will be marked as second for endgame logic
+&nbsp;     * @param nick of player
+&nbsp;     * @throws MatchExeception, some error occurs on personal or common objective appear or Max Player, but those are quite impossible
+&nbsp;     */
+&nbsp;    public void newPlayer(String nick) throws  MatchExeception{
+<b class="fc">&nbsp;        if(players.isEmpty()){</b>
+<b class="fc">&nbsp;            players.add(new Player(personalOBJChooser(),nick,false));</b>
+<b class="fc">&nbsp;            VirtualView.printPersonalOBJ(players.getLast());</b>
+<b class="fc">&nbsp;           if(! setObjectiveCommonEXEC(CommonOBJChooser(),CommonOBJChooser()))</b>
+<b class="fc">&nbsp;               while(!setObjectiveCommonEXEC(CommonOBJChooser(),CommonOBJChooser())) {</b>
+<b class="fc">&nbsp;                   setObjectiveCommonEXEC(CommonOBJChooser(),CommonOBJChooser());</b>
+&nbsp;               }
+&nbsp;            return;
+&nbsp;        }
+<b class="fc">&nbsp;        if(players.size()&lt;4) {</b>
+&nbsp;            try {
+<b class="fc">&nbsp;                if(players.size() == 1)</b>
+<b class="fc">&nbsp;                    players.add(new Player(personalOBJChooser(), nick, true));</b>
+<b class="nc">&nbsp;                else players.add(new Player(personalOBJChooser(),nick,false));</b>
+<b class="nc">&nbsp;            } catch (MatchExeception exception) {</b>
+<b class="nc">&nbsp;                throw new MatchExeception(exception.getMessage());</b>
+<b class="fc">&nbsp;            }</b>
+&nbsp;        }else {
+<b class="nc">&nbsp;            throw new MatchExeception(&quot;Max Player reached&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        VirtualView.printPersonalOBJ(players.getLast());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Just initialize playground with the prefixed player size
+&nbsp;     */
+&nbsp;    public void setupPlayground(){
+&nbsp;        try {
+<b class="fc">&nbsp;            p = new Playground(players.size());</b>
+<b class="nc">&nbsp;        }catch (PlaygroundException e){</b>
+<b class="nc">&nbsp;            System.out.println(e.getMessage());</b>
+<b class="fc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Handle new turn, by rotating the queue and interrogating the model, if some error occur in the model it will abort the turn and notify this to gamehandler that will abort the phase
+&nbsp;     * @param column in which column should appear the tiles
+&nbsp;     * @param picked tiles picked
+&nbsp;     * @return 0 if everything went well, 1 otherwise
+&nbsp;     * @throws RuntimeException, if some error occur while pickup
+&nbsp;     */
+&nbsp;    public int newTurn(int column, Vector&lt;Tiles&gt; picked) throws RuntimeException{
+<b class="fc">&nbsp;        Player nowPlaying = players.remove();</b>
+<b class="fc">&nbsp;        players.addLast(nowPlaying);</b>
+<b class="fc">&nbsp;        thrown = false;</b>
+&nbsp;        try{
+<b class="fc">&nbsp;            if(nowPlaying.pickUp(p,column,picked)) {</b>
+<b class="fc">&nbsp;                p.countSelected();</b>
+<b class="fc">&nbsp;                return 0;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }catch (RuntimeException | PlaygroundException |CoordinateStateException e) {</b>
+<b class="nc">&nbsp;            System.out.println(e.getMessage());</b>
+<b class="nc">&nbsp;            return 1;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return 1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This is used to reset the queue in case of miss handling of the turn before, it will be called by the gameHandler after the abortion
+&nbsp;     */
+&nbsp;
+&nbsp;    public void resetPlayers(){
+<b class="nc">&nbsp;        Player tmp = players.removeLast();</b>
+<b class="nc">&nbsp;        players.addFirst(tmp);</b>
+<b class="nc">&nbsp;        System.out.println(players);</b>
+<b class="nc">&nbsp;        thrown = true;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *  get playground
+&nbsp;     * @return Playground
+&nbsp;     */
+&nbsp;    public Playground getP() {
+<b class="nc">&nbsp;        return p;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return who played last, thrown is used to know if the previous instruction was aborted or not,
+&nbsp;     * because if was aborted we need to pick the first
+&nbsp;     * @return player, the first in the queue if there is an abort in the turn, the last in the queue otherwise
+&nbsp;     */
+&nbsp;    public Player getLastPlayer(){
+&nbsp;
+<b class="fc">&nbsp;        return thrown ? players.peekFirst() : players.peekLast();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Return all player
+&nbsp;     * @return players
+&nbsp;     */
+&nbsp;    public  LinkedList&lt;Player&gt; getPlayer(){
+<b class="nc">&nbsp;        return players;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This will do a search into the players queue by the nickname
+&nbsp;     * @param nick, it&#39;s the search key
+&nbsp;     * @return the requested user
+&nbsp;     */
+&nbsp;    public Player getThisPlayer(String nick){
+<b class="nc">&nbsp;        for(Player player : players){</b>
+<b class="nc">&nbsp;            if(player.getNickname().equals(nick)){</b>
+<b class="nc">&nbsp;                return player;</b>
+&nbsp;            }
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return null;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This will return the player who has to make is his turn, no matter if before there was an abort.
+&nbsp;     * @return the first player in the queue
+&nbsp;     */
+&nbsp;    public Player getNowPlaying(){
+<b class="nc">&nbsp;        return players.peekFirst();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Test the common goal
+&nbsp;     * @param nowPlaying, who is playing
+&nbsp;     * @return result[0] means the success of the goal: -1 -&gt; NOT MADE
+&nbsp;     *                                                   1 -&gt; MADE THE FIRST
+&nbsp;     *                                                   2 -&gt; MADE THE SECOND
+&nbsp;     *                                                   3 -&gt; MADE BOTH
+&nbsp;     *        result[1] means the number of players that has made THE FIRST OBJECT
+&nbsp;     *        result[2] means the number of players that has made THE SECOND OBJECT
+&nbsp;     */
+&nbsp;    public int[] commonOBJTesting(Player nowPlaying){
+<b class="nc">&nbsp;        int[] result = new int[3];</b>
+<b class="nc">&nbsp;        result[0] = -1;</b>
+<b class="nc">&nbsp;        result[1] = -1;</b>
+<b class="nc">&nbsp;        result[2] = -1;</b>
+<b class="nc">&nbsp;        if(!nowPlaying.isHasMadeCommonOBJ1()) {</b>
+<b class="nc">&nbsp;            if (o1.execCheck(nowPlaying)) {</b>
+<b class="nc">&nbsp;                pointSetter(objCount1, nowPlaying);</b>
+<b class="nc">&nbsp;                objCount1++;</b>
+<b class="nc">&nbsp;                result[0] = 1;</b>
+<b class="nc">&nbsp;                result[1] = objCount1;</b>
+<b class="nc">&nbsp;                nowPlaying.setHasMadeCommonOBJ1(true);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        if(!nowPlaying.isHasMadeCommonOBJ2()){</b>
+<b class="nc">&nbsp;            if(o2.execCheck(nowPlaying)){</b>
+<b class="nc">&nbsp;                pointSetter(objCount2, nowPlaying);</b>
+<b class="nc">&nbsp;                objCount2++;</b>
+<b class="nc">&nbsp;                if(result[0] == -1){</b>
+<b class="nc">&nbsp;                    result[0] = 2;</b>
+&nbsp;                }else{
+<b class="nc">&nbsp;                    result[0] = 3;</b>
+&nbsp;                }
+<b class="nc">&nbsp;                result[2] = objCount2;</b>
+<b class="nc">&nbsp;                nowPlaying.setHasMadeCommonOBJ2(true);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return result;</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * This method will know how many turn we need to made before the end
+&nbsp;     * @return the index in the queue of the second player
+&nbsp;     */
+&nbsp;    public int detectEndGame(){
+<b class="nc">&nbsp;        if(getLastPlayer().getIs_second()){</b>
+<b class="nc">&nbsp;            return 0;</b>
+&nbsp;        }else{
+<b class="nc">&nbsp;            for(int i = 0; i&lt;players.size()-1;i++){</b>
+<b class="nc">&nbsp;                if(players.get(i).getIs_second())</b>
+<b class="nc">&nbsp;                    return i;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Search the max number of points
+&nbsp;     * @return the winner of the game
+&nbsp;     */
+&nbsp;    public Player getWinner(){
+<b class="nc">&nbsp;        Player winner = new Player();</b>
+<b class="nc">&nbsp;        for(Player player : players){</b>
+<b class="nc">&nbsp;            if(player.getPoints() &gt; winner.getPoints())</b>
+<b class="nc">&nbsp;                winner = player;</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return winner;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Will interrogate the model to calculate the adjacent of the same types of tiles.
+&nbsp;     */
+&nbsp;    public void calculateADJ(){
+<b class="nc">&nbsp;        for(Player player : players){</b>
+<b class="nc">&nbsp;            Vector&lt;Integer&gt; count = player.calculateADJ();</b>
+<b class="nc">&nbsp;            for(Integer point : count){</b>
+<b class="nc">&nbsp;                player.addPoint(point);</b>
+<b class="nc">&nbsp;            }</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
 &nbsp;}
-&nbsp;
-&nbsp;
 &nbsp;
 &nbsp;
 &nbsp;
@@ -119,7 +457,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-12 18:13</div>
+    <div style="float:right;">generated on 2023-06-30 12:05</div>
 </div>
 </body>
 </html>

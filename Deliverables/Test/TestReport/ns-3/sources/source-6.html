@@ -1,0 +1,149 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GoalC3</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.Model.CommonStrategy</a>
+</div>
+
+<h1>Coverage Summary for Class: GoalC3 (it.polimi.ingsw.Model.CommonStrategy)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GoalC3</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.CommonStrategy;
+&nbsp;
+&nbsp;import it.polimi.ingsw.Model.Player.Library;
+&nbsp;import it.polimi.ingsw.Model.Player.Player;
+&nbsp;import it.polimi.ingsw.Model.Playground.Tiles;
+&nbsp;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Vector;
+&nbsp;
+&nbsp;public class GoalC3 implements CommonObj, Serializable {
+<b class="fc">&nbsp;    private final int type = 3;</b>
+&nbsp;    public int getType(){
+<b class="fc">&nbsp;        return type;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    public GoalC3(){</b>
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * 4 column same
+&nbsp;     * @param p
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;    public boolean check(Player p) {
+<b class="fc">&nbsp;        int count = 0;</b>
+<b class="fc">&nbsp;        Vector&lt;Tiles&gt; riga0 = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;        for(int j = 0; j&lt;5; j++) {</b>
+<b class="fc">&nbsp;            for (int i = 5; i &gt;=0; i--) {</b>
+<b class="fc">&nbsp;                riga0.add(p.getMy_shelfie().getShelf()[i][j]);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            if (checkDown(riga0)) count++;</b>
+<b class="fc">&nbsp;            riga0.clear();</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return count&gt;=4;</b>
+&nbsp;    }
+&nbsp;    private boolean checkDown(Vector&lt;Tiles&gt; riga){
+<b class="fc">&nbsp;        for(int i = 0; i&lt;riga.size()-3;i++){</b>
+<b class="fc">&nbsp;            if (riga.get(i).getType() == riga.get(i + 1).getType() &amp;&amp; riga.get(i).getType() == riga.get(i + 2).getType() &amp;&amp; riga.get(i).getType() == riga.get(i + 3).getType()) {</b>
+<b class="fc">&nbsp;                return true;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-06-30 12:05</div>
+</div>
+</body>
+</html>

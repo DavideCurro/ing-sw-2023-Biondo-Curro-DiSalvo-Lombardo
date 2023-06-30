@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > setupController</title>
+  <title>Coverage Report > GoalC12</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">it.polimi.ingsw.Client.GUI.Controllers</a>
+    <a href="../index.html">it.polimi.ingsw.Model.CommonStrategy</a>
 </div>
 
-<h1>Coverage Summary for Class: setupController (it.polimi.ingsw.Client.GUI.Controllers)</h1>
+<h1>Coverage Summary for Class: GoalC12 (it.polimi.ingsw.Model.CommonStrategy)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">setupController</td>
+  <td class="name">GoalC12</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    80%
   </span>
   <span class="absValue">
-    (0/3)
+    (4/5)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    97,9%
   </span>
   <span class="absValue">
-    (0/5)
+    (47/48)
   </span>
 </td>
 </tr>
@@ -74,40 +74,94 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Client.GUI.Controllers;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.CommonStrategy;
 &nbsp;
-&nbsp;//import it.polimi.ingsw.socket.server.GameHandler;
-&nbsp;//import it.polimi.ingsw.socket.server.StarterServer;
-&nbsp;import javafx.fxml.FXML;
-&nbsp;import javafx.scene.control.Button;
-&nbsp;import javafx.scene.control.Label;
-&nbsp;import javafx.scene.control.TextField;
-&nbsp;import javafx.scene.input.MouseEvent;
-&nbsp;import javafx.stage.Modality;
-&nbsp;import javafx.stage.Stage;
+&nbsp;import it.polimi.ingsw.Model.Player.Player;
+&nbsp;import it.polimi.ingsw.Model.Playground.Tiles;
 &nbsp;
-&nbsp;import java.util.Scanner;
-&nbsp;
-<b class="nc">&nbsp;public class setupController {</b>
-&nbsp;    @FXML
-&nbsp;    Button startGame;
-&nbsp;    @FXML
-&nbsp;    Label selectNickname;
-&nbsp;    @FXML
-&nbsp;    TextField writeNickname;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Vector;
 &nbsp;
 &nbsp;
-&nbsp;    public void initialize() {
-<b class="nc">&nbsp;        startGame.setVisible(false);</b>
-<b class="nc">&nbsp;        selectNickname.setVisible(true);</b>
-<b class="nc">&nbsp;        writeNickname.setVisible(true);</b>
+<b class="fc">&nbsp;public class GoalC12 implements CommonObj, Serializable {</b>
+<b class="fc">&nbsp;    private final int type = 12;</b>
+&nbsp;    public int getType(){
+<b class="nc">&nbsp;        return type;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    Vector&lt;Tiles&gt; diagBlu = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;    Vector&lt;Tiles&gt; diagMarr = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;    Vector&lt;Tiles&gt; diagBianca = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;    Vector&lt;Tiles&gt; diagVerde = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;    Vector&lt;Tiles&gt; diagArcobaleno = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;    Vector&lt;Tiles&gt; diagFucsia = new Vector&lt;&gt;();</b>
+&nbsp;
+&nbsp;    /**Five columns of increasing or decreasing
+&nbsp;     *  height. Starting from the first column on
+&nbsp;     *  the left or on the right, each next column
+&nbsp;     *  must be made of exactly one more tile.
+&nbsp;     *  Tiles can be of any type.
+&nbsp;     * @param p
+&nbsp;     * @return
+&nbsp;     */
+&nbsp;
+&nbsp;    private void setUp(Player p){
+&nbsp;
+<b class="fc">&nbsp;        diagBlu.add(new Tiles(p.getMy_shelfie().getShelf()[0][0].getType(), 0, 0));</b>
+<b class="fc">&nbsp;        diagBlu.add(new Tiles(p.getMy_shelfie().getShelf()[1][1].getType(), 1, 1));</b>
+<b class="fc">&nbsp;        diagBlu.add(new Tiles(p.getMy_shelfie().getShelf()[2][2].getType(), 2, 2));</b>
+<b class="fc">&nbsp;        diagBlu.add(new Tiles(p.getMy_shelfie().getShelf()[3][3].getType(), 3, 3));</b>
+<b class="fc">&nbsp;        diagBlu.add(new Tiles(p.getMy_shelfie().getShelf()[4][4].getType(), 4, 4));</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        diagVerde.add(new Tiles(p.getMy_shelfie().getShelf()[0][4].getType(), 0, 4));</b>
+<b class="fc">&nbsp;        diagVerde.add(new Tiles(p.getMy_shelfie().getShelf()[1][3].getType(), 1, 3));</b>
+<b class="fc">&nbsp;        diagVerde.add(new Tiles(p.getMy_shelfie().getShelf()[2][2].getType(), 2, 2));</b>
+<b class="fc">&nbsp;        diagVerde.add(new Tiles(p.getMy_shelfie().getShelf()[3][1].getType(), 3, 1));</b>
+<b class="fc">&nbsp;        diagVerde.add(new Tiles(p.getMy_shelfie().getShelf()[4][0].getType(), 4, 0));</b>
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;        diagFucsia.add(new Tiles(p.getMy_shelfie().getShelf()[1][4].getType(), 1, 4));</b>
+<b class="fc">&nbsp;        diagFucsia.add(new Tiles(p.getMy_shelfie().getShelf()[2][3].getType(), 2, 3));</b>
+<b class="fc">&nbsp;        diagFucsia.add(new Tiles(p.getMy_shelfie().getShelf()[3][2].getType(), 3, 2));</b>
+<b class="fc">&nbsp;        diagFucsia.add(new Tiles(p.getMy_shelfie().getShelf()[4][1].getType(), 4, 1));</b>
+<b class="fc">&nbsp;        diagFucsia.add(new Tiles(p.getMy_shelfie().getShelf()[5][0].getType(), 5, 0));</b>
+&nbsp;
+<b class="fc">&nbsp;        diagMarr.add(new Tiles(p.getMy_shelfie().getShelf()[1][0].getType(), 1, 0));</b>
+<b class="fc">&nbsp;        diagMarr.add(new Tiles(p.getMy_shelfie().getShelf()[2][1].getType(), 2, 1));</b>
+<b class="fc">&nbsp;        diagMarr.add(new Tiles(p.getMy_shelfie().getShelf()[3][2].getType(), 3, 2));</b>
+<b class="fc">&nbsp;        diagMarr.add(new Tiles(p.getMy_shelfie().getShelf()[4][3].getType(), 4, 3));</b>
+<b class="fc">&nbsp;        diagMarr.add(new Tiles(p.getMy_shelfie().getShelf()[5][4].getType(), 5, 4));</b>
+&nbsp;
+<b class="fc">&nbsp;        diagBianca.add(new Tiles(p.getMy_shelfie().getShelf()[0][1].getType(), 0, 1));</b>
+<b class="fc">&nbsp;        diagBianca.add(new Tiles(p.getMy_shelfie().getShelf()[1][2].getType(), 1, 2));</b>
+<b class="fc">&nbsp;        diagBianca.add(new Tiles(p.getMy_shelfie().getShelf()[2][3].getType(), 2, 3));</b>
+<b class="fc">&nbsp;        diagBianca.add(new Tiles(p.getMy_shelfie().getShelf()[3][4].getType(), 3, 4));</b>
+&nbsp;
+<b class="fc">&nbsp;        diagArcobaleno.add(new Tiles(p.getMy_shelfie().getShelf()[0][3].getType(), 0, 3));</b>
+<b class="fc">&nbsp;        diagArcobaleno.add(new Tiles(p.getMy_shelfie().getShelf()[1][2].getType(), 1, 2));</b>
+<b class="fc">&nbsp;        diagArcobaleno.add(new Tiles(p.getMy_shelfie().getShelf()[2][1].getType(), 2, 1));</b>
+<b class="fc">&nbsp;        diagArcobaleno.add(new Tiles(p.getMy_shelfie().getShelf()[3][0].getType(), 3, 0));</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public void startGame(MouseEvent mouseEvent) {
-<b class="nc">&nbsp;        startGame.setVisible(true);</b>
+&nbsp;    public boolean check(Player p){
+<b class="fc">&nbsp;        setUp(p);</b>
+<b class="fc">&nbsp;        return checkDiagonal(diagBlu, diagBianca) || checkDiagonal(diagMarr,diagBlu) || checkDiagonal(diagVerde,diagArcobaleno) || checkDiagonal(diagFucsia,diagVerde);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private boolean checkDiagonal(Vector&lt;Tiles&gt; diag1, Vector&lt;Tiles&gt; diag2){
+<b class="fc">&nbsp;        for(Tiles tile : diag1){</b>
+<b class="fc">&nbsp;            if(!tile.checkSet())</b>
+<b class="fc">&nbsp;                return false;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        for(Tiles tile : diag2){</b>
+<b class="fc">&nbsp;            if(tile.checkSet())</b>
+<b class="fc">&nbsp;                return false;</b>
+<b class="fc">&nbsp;        }</b>
+<b class="fc">&nbsp;        return true;</b>
 &nbsp;    }
 &nbsp;
 &nbsp;}
+&nbsp;
 </code>
 </pre>
 </div>
@@ -131,7 +185,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-12 18:13</div>
+    <div style="float:right;">generated on 2023-06-30 12:05</div>
 </div>
 </body>
 </html>

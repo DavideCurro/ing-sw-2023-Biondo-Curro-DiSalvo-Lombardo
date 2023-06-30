@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > LibraryException</title>
+  <title>Coverage Report > Tiles</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">it.polimi.ingsw.Model.Exception</a>
+    <a href="../index.html">it.polimi.ingsw.Model.Playground</a>
 </div>
 
-<h1>Coverage Summary for Class: LibraryException (it.polimi.ingsw.Model.Exception)</h1>
+<h1>Coverage Summary for Class: Tiles (it.polimi.ingsw.Model.Playground)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,7 +40,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">LibraryException</td>
+  <td class="name">Tiles</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -54,7 +54,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (1/1)
+    (15/15)
   </span>
 </td>
 <td class="coverageStat">
@@ -62,7 +62,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (1/1)
+    (29/29)
   </span>
 </td>
 </tr>
@@ -74,23 +74,203 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.Exception;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.Playground;
 &nbsp;
 &nbsp;
-&nbsp;public class LibraryException extends Exception {
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Vector;
+&nbsp;
+&nbsp;/**
+&nbsp; * The class Tiles
+&nbsp; */
+&nbsp;public class Tiles implements Serializable {
+&nbsp;    public static final int NOT_VALID = -1;
+&nbsp;    public static final int BLUE = 0;
+&nbsp;    public static final int CYAN = 1;
+&nbsp;    public static final int YELLOW = 2;
+&nbsp;    public static final int WHITE = 3;
+&nbsp;    public static final int GREEN = 4;
+&nbsp;    public static final int PINK = 5;
+&nbsp;
+&nbsp;    private int type;
+&nbsp;    private final int x;
+&nbsp;    private final int y;
+&nbsp;
+&nbsp;
 &nbsp;    /**
 &nbsp;     *
-&nbsp;     * Library Exception
+&nbsp;     * It is a constructor.
 &nbsp;     *
-&nbsp;     * @param errorMessage  the error message.
-&nbsp;     *
+&nbsp;     * @param type  the type.
 &nbsp;     */
-&nbsp;    public LibraryException(String errorMessage) {
+<b class="fc">&nbsp;    public Tiles(int type){</b>
 &nbsp;
-<b class="fc">&nbsp;        super(errorMessage);</b>
+<b class="fc">&nbsp;        this.type = type;</b>
+<b class="fc">&nbsp;        this.x = 0;</b>
+<b class="fc">&nbsp;        this.y = 0;</b>
 &nbsp;    }
-&nbsp;}
 &nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * It is a constructor.
+&nbsp;     *
+&nbsp;     * @param type  the type.
+&nbsp;     * @param x  the x.
+&nbsp;     * @param y  the y.
+&nbsp;     */
+<b class="fc">&nbsp;    public Tiles(int type,int x,int y){</b>
+&nbsp;
+<b class="fc">&nbsp;        this.type = type;</b>
+<b class="fc">&nbsp;        this.x = x;</b>
+<b class="fc">&nbsp;        this.y = y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Gets the type
+&nbsp;     *
+&nbsp;     * @return the type
+&nbsp;     */
+&nbsp;    public int getType() {
+&nbsp;
+<b class="fc">&nbsp;        return type;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Sets the type
+&nbsp;     *
+&nbsp;     * @param type  the type.
+&nbsp;     */
+&nbsp;    public void setType(int type) {
+&nbsp;
+<b class="fc">&nbsp;        this.type = type;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Gets the X
+&nbsp;     *
+&nbsp;     * @return the  X
+&nbsp;     */
+&nbsp;    public int getX() {
+&nbsp;
+<b class="fc">&nbsp;        return x;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Gets the Y
+&nbsp;     *
+&nbsp;     * @return the  Y
+&nbsp;     */
+&nbsp;    public int getY() {
+&nbsp;
+<b class="fc">&nbsp;        return y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Gets the XY
+&nbsp;     *
+&nbsp;     * @return the  XY
+&nbsp;     */
+&nbsp;    public int[] getXYType(){
+&nbsp;
+<b class="fc">&nbsp;        int[] coordinate = new int[3];</b>
+<b class="fc">&nbsp;        coordinate[0] = this.x;</b>
+<b class="fc">&nbsp;        coordinate[1] = this.y;</b>
+<b class="fc">&nbsp;        coordinate[2] = this.type;</b>
+<b class="fc">&nbsp;        return coordinate;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;
+&nbsp;    public String toString() {
+&nbsp;
+<b class="fc">&nbsp;        return &quot;Tiles{&quot; +</b>
+&nbsp;                &quot;type=&quot; + type +
+&nbsp;                &quot;, x=&quot; + x +
+&nbsp;                &quot;, y=&quot; + y +
+&nbsp;                &#39;}&#39;;
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    public boolean checkSet(){
+<b class="fc">&nbsp;        return this.type != NOT_VALID;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public boolean checkSides(Vector&lt;Tiles&gt; c, int i, int x, int y){
+<b class="fc">&nbsp;        return (checkLeft(c,i,x,y) || checkRight(c,i,x,y) || checkUp(c,i,x,y) || checkDown(c,i,x,y));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Check up
+&nbsp;     *
+&nbsp;     * @param c  the coordinate.
+&nbsp;     * @param i  the index.
+&nbsp;     * @return boolean, return true if the two tiles are next to each other on left side for the index one
+&nbsp;     */
+&nbsp;    private boolean checkUp(Vector&lt;Tiles&gt; c, int i , int x, int y) {
+<b class="fc">&nbsp;        return c.get(i).getX() == x-1 &amp;&amp; c.get(i).getY() == y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Check down
+&nbsp;     *
+&nbsp;     * @param c  the coordinate.
+&nbsp;     * @param i  the index.
+&nbsp;     * @return boolean, return true if the two tiles are next to each other on right side for the index one
+&nbsp;     */
+&nbsp;    private boolean checkDown(Vector&lt;Tiles&gt; c, int i, int x, int y ){
+<b class="fc">&nbsp;        return c.get(i ).getX() == x+1  &amp;&amp; c.get(i).getY() == y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Check left
+&nbsp;     *
+&nbsp;     * @param c  the coordinate.
+&nbsp;     * @param i  the index.
+&nbsp;     * @return boolean, return true if the two tiles are next to each other on upper side for the index one
+&nbsp;     */
+&nbsp;    private boolean checkLeft(Vector&lt;Tiles&gt; c, int i , int x, int y ){
+<b class="fc">&nbsp;        return c.get(i).getY()  == y-1 &amp;&amp; c.get(i).getX() == x;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     *
+&nbsp;     * Check right
+&nbsp;     *
+&nbsp;     * @param c  the coordinate.
+&nbsp;     * @param i  the index.
+&nbsp;     * @return boolean, return true if the two tiles are next to each other on downside for the index one
+&nbsp;     */
+&nbsp;    private boolean checkRight(Vector&lt;Tiles&gt; c, int i , int x, int y ){
+<b class="fc">&nbsp;        return c.get(i).getY()  == y+1 &amp;&amp; c.get(i).getX() == x;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="fc">&nbsp;        if (this == o) return true;</b>
+<b class="fc">&nbsp;        if (!(o instanceof Tiles tiles)) return false;</b>
+&nbsp;
+<b class="fc">&nbsp;        if (type != tiles.type) return false;</b>
+<b class="fc">&nbsp;        if (x != tiles.x) return false;</b>
+<b class="fc">&nbsp;        return y == tiles.y;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;}
 </code>
 </pre>
 </div>
@@ -114,7 +294,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-12 18:13</div>
+    <div style="float:right;">generated on 2023-06-30 12:05</div>
 </div>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > ClientView</title>
+  <title>Coverage Report > MatchExeception</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">it.polimi.ingsw.Client</a>
+    <a href="../index.html">it.polimi.ingsw.Controller</a>
 </div>
 
-<h1>Coverage Summary for Class: ClientView (it.polimi.ingsw.Client)</h1>
+<h1>Coverage Summary for Class: MatchExeception (it.polimi.ingsw.Controller)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">ClientView</td>
+  <td class="name">MatchExeception</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    27,8%
+    0%
   </span>
   <span class="absValue">
-    (5/18)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    22,7%
+    0%
   </span>
   <span class="absValue">
-    (20/88)
+    (0/1)
   </span>
 </td>
 </tr>
@@ -74,169 +74,13 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Client;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Controller;
 &nbsp;
-&nbsp;import it.polimi.ingsw.Utility.Color;
-&nbsp;import it.polimi.ingsw.Model.Playground.Playground;
-&nbsp;import it.polimi.ingsw.Model.Playground.Tiles;
-&nbsp;import it.polimi.ingsw.Model.CommonStrategy.*;
-&nbsp;import it.polimi.ingsw.Model.Player.Library;
-&nbsp;import it.polimi.ingsw.Model.Player.Player;
-&nbsp;
-&nbsp;import java.util.Map;
-&nbsp;import java.util.Vector;
-&nbsp;
-&nbsp;public class ClientView {
-&nbsp;    private int playerNum;
-<b class="fc">&nbsp;    private static final Map&lt;Integer,Integer&gt; pointOBJ2player = Map.of(1,8,2,4);</b>
-<b class="fc">&nbsp;    private static final Map&lt;Integer,Integer&gt; pointOBJ3player = Map.of(1,8,2,6,3,4);</b>
-<b class="fc">&nbsp;    private static final Map&lt;Integer,Integer&gt; pointOBJ4player = Map.of(1,8,2,4,3,4,4,2);</b>
-<b class="fc">&nbsp;    public ClientView(){}</b>
-&nbsp;    public void setPlayerNum(int playerNum){
-<b class="nc">&nbsp;        this.playerNum = playerNum;</b>
-&nbsp;    }
-&nbsp;    public void printPlayground(Playground ground){
-<b class="nc">&nbsp;        for (int i = 0; i &lt; 10; i++) {</b>
-<b class="nc">&nbsp;            colorChange(3);</b>
-<b class="nc">&nbsp;            if(i !=0)  System.out.print(i+&quot;\t&quot;);</b>
-<b class="nc">&nbsp;            else System.out.print(&quot;\t&quot;);</b>
-<b class="nc">&nbsp;            for (int j = 0; j &lt; 9; j++) {</b>
-<b class="nc">&nbsp;                if(i == 0){</b>
-<b class="nc">&nbsp;                    System.out.print(j+1+&quot;\t&quot;);</b>
-&nbsp;                }else {
-<b class="nc">&nbsp;                    colorChange(ground.getGround()[i-1][j].getType());</b>
-<b class="nc">&nbsp;                    System.out.print(&quot;?&quot; + &quot;\t&quot;);</b>
-&nbsp;                }
-&nbsp;            }
-<b class="nc">&nbsp;            System.out.println();</b>
-&nbsp;        }
-<b class="nc">&nbsp;        colorChange(3);</b>
-&nbsp;
-&nbsp;    }
-&nbsp;    public void printPlayerLibrary(Player player){
-<b class="fc">&nbsp;        printOutLibrary(player);</b>
-&nbsp;    }
-&nbsp;    static void colorChange(int type){
-<b class="fc">&nbsp;        switch (type) {</b>
-<b class="fc">&nbsp;            case 0 -&gt; System.out.print(Color.BLUE);</b>
-<b class="nc">&nbsp;            case 1 -&gt; System.out.print(Color.CYAN_BRIGHT);</b>
-<b class="nc">&nbsp;            case 2 -&gt; System.out.print(Color.YELLOW_BRIGHT);</b>
-<b class="fc">&nbsp;            case 3 -&gt; System.out.print(Color.WHITE_BRIGHT);</b>
-<b class="nc">&nbsp;            case 4 -&gt; System.out.print(Color.GREEN_BRIGHT);</b>
-<b class="nc">&nbsp;            case 5 -&gt; System.out.print(Color.MAGENTA_BRIGHT);</b>
-<b class="nc">&nbsp;            case 6 -&gt; System.out.print(Color.RESET);</b>
-<b class="fc">&nbsp;            default -&gt; System.out.print(Color.BLACK);</b>
-&nbsp;        }
-&nbsp;    }
-&nbsp;    public void printCommonOBJ(Object commonObj){
-<b class="nc">&nbsp;        if(commonObj instanceof GoalC1){</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 1&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC2) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 2&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC3) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 3&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC4) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 4&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC5) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 5&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC6) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 6&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC7) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 7&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC8) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 8&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC9) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 9&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC10) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 10&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC11) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 11&quot;);</b>
-<b class="nc">&nbsp;        } else if (commonObj instanceof GoalC12) {</b>
-<b class="nc">&nbsp;            System.out.println(&quot;This game is playing on Goal 12&quot;);</b>
-&nbsp;        }
+&nbsp;public class MatchExeception extends Exception{
+&nbsp;    public MatchExeception(String errorMessage) {
+<b class="nc">&nbsp;        super(errorMessage);</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    /**
-&nbsp;     *
-&nbsp;     * Print output*
-&nbsp;     *
-&nbsp;     */
-&nbsp;    private static void printOutLibrary(Player player) {
-<b class="fc">&nbsp;        if(player.getMy_shelfie().isEmpty())   System.out.println(&quot;This player has an empty library&quot;);</b>
-<b class="fc">&nbsp;        for (int i = 0; i &lt; 7; i++) {</b>
-<b class="fc">&nbsp;            colorChange(3);</b>
-<b class="fc">&nbsp;            if(i!=0)  System.out.print(i+&quot;\t&quot;);</b>
-<b class="fc">&nbsp;            else System.out.print(&quot;\t&quot;);</b>
-<b class="fc">&nbsp;            for (int j = 0; j &lt; 5; j++) {</b>
-<b class="fc">&nbsp;                if(i==0) System.out.print(j+1+&quot;\t&quot;);</b>
-&nbsp;                else {
-<b class="fc">&nbsp;                    colorChange(player.getMy_shelfie().getShelf()[i-1][j].getType());</b>
-<b class="fc">&nbsp;                    System.out.print(&quot;?&quot; + &quot;\t&quot;);</b>
-&nbsp;                }
-&nbsp;            }
-<b class="fc">&nbsp;            System.out.println();</b>
-&nbsp;
-&nbsp;        }
-<b class="fc">&nbsp;        colorChange(3);</b>
-&nbsp;    }
-&nbsp;    public void printOutPointsPerPlayer(Player player){
-<b class="nc">&nbsp;        System.out.println(player.getNickname() + &quot; achieved : &quot;+ player.getPublicPoints()+&quot; points&quot; );</b>
-&nbsp;    }
-&nbsp;    public void printPersonalPoint(Player player){
-<b class="nc">&nbsp;        System.out.println(&quot;You achieved : &quot;+ player.getPoints()+&quot; points&quot; );</b>
-&nbsp;    }
-&nbsp;    private int checkRemainingPoint(int index){
-<b class="nc">&nbsp;        switch (playerNum){</b>
-<b class="nc">&nbsp;            case 2-&gt; {return pointOBJ2player.get(index);}</b>
-<b class="nc">&nbsp;            case 3-&gt; {return pointOBJ3player.get(index);}</b>
-<b class="nc">&nbsp;            case 4-&gt; {return pointOBJ4player.get(index);}</b>
-&nbsp;        }
-<b class="nc">&nbsp;        return -1;</b>
-&nbsp;    }
-&nbsp;    public void printNewHighestScore(int[] commonOBJResult){
-<b class="nc">&nbsp;        System.out.println(&quot;The players who made the first commonObj are &quot; + commonOBJResult[1]+1 +&quot; the remaining points are: &quot;+ checkRemainingPoint(commonOBJResult[1]));</b>
-<b class="nc">&nbsp;        System.out.println(&quot;The players who made the second commonObj are &quot; + commonOBJResult[2]+1 + &quot; the remaining points are: &quot;+ checkRemainingPoint(commonOBJResult[2]));</b>
-&nbsp;
-&nbsp;    }
-&nbsp;    public void printChooseLobby(String nickname){
-<b class="nc">&nbsp;        System.out.println(nickname + &quot; please choose in which lobby do you want to join!&quot;);</b>
-<b class="nc">&nbsp;        System.out.println(&quot;2\t3\t4&quot;);</b>
-<b class="nc">&nbsp;        System.out.print(&quot;Please log me in the lobby with : &quot;);</b>
-&nbsp;    }
-&nbsp;    public void printPersonalOBJ(Player player){
-<b class="nc">&nbsp;        Vector&lt;Tiles&gt; position = player.getPersonalObj().getPersonalObj().getPosition();</b>
-<b class="nc">&nbsp;        Library tmp = buildLibrarybyPosition(position);</b>
-<b class="nc">&nbsp;        printOutLibrary(new Player(tmp));</b>
-<b class="nc">&nbsp;        System.out.println();</b>
-&nbsp;    }
-&nbsp;    public void printEndGamePoint(Player player){
-<b class="nc">&nbsp;        System.out.println(player.getNickname()+  &quot; achieved&quot;+ player.getPoints()+&quot; points&quot; );</b>
-&nbsp;    }
-&nbsp;    private static Library buildLibrarybyPosition(Vector&lt;Tiles&gt; position){
-<b class="nc">&nbsp;        Library tmp = new Library();</b>
-<b class="nc">&nbsp;        for (Tiles tiles : position) {</b>
-<b class="nc">&nbsp;            tmp.getShelf()[tiles.getX()][tiles.getY()].setType(tiles.getType());</b>
-<b class="nc">&nbsp;        }</b>
-<b class="nc">&nbsp;        return tmp;</b>
-&nbsp;    }
-&nbsp;    public void welcome(){
-<b class="nc">&nbsp;        System.out.print(&quot;\033[H\033[2J&quot;);</b>
-<b class="nc">&nbsp;        System.out.flush();</b>
-<b class="nc">&nbsp;        System.out.println(&quot;\n&quot; +</b>
-&nbsp;                &quot; __     __     ______     __         ______     ______     __    __     ______        __     __   __        __    __     __  __        ______     __  __     ______     __         ______   __     ______    \n&quot; +
-&nbsp;                &quot;/\\ \\  _ \\ \\   /\\  ___\\   /\\ \\       /\\  ___\\   /\\  __ \\   /\\ \&quot;-./  \\   /\\  ___\\      /\\ \\   /\\ \&quot;-.\\ \\      /\\ \&quot;-./  \\   /\\ \\_\\ \\      /\\  ___\\   /\\ \\_\\ \\   /\\  ___\\   /\\ \\       /\\  ___\\ /\\ \\   /\\  ___\\   \n&quot; +
-&nbsp;                &quot;\\ \\ \\/ \&quot;.\\ \\  \\ \\  __\\   \\ \\ \\____  \\ \\ \\____  \\ \\ \\/\\ \\  \\ \\ \\-./\\ \\  \\ \\  __\\      \\ \\ \\  \\ \\ \\-.  \\     \\ \\ \\-./\\ \\  \\ \\____ \\     \\ \\___  \\  \\ \\  __ \\  \\ \\  __\\   \\ \\ \\____  \\ \\  __\\ \\ \\ \\  \\ \\  __\\   \n&quot; +
-&nbsp;                &quot; \\ \\__/\&quot;.~\\_\\  \\ \\_____\\  \\ \\_____\\  \\ \\_____\\  \\ \\_____\\  \\ \\_\\ \\ \\_\\  \\ \\_____\\     \\ \\_\\  \\ \\_\\\\\&quot;\\_\\     \\ \\_\\ \\ \\_\\  \\/\\_____\\     \\/\\_____\\  \\ \\_\\ \\_\\  \\ \\_____\\  \\ \\_____\\  \\ \\_\\    \\ \\_\\  \\ \\_____\\ \n&quot; +
-&nbsp;                &quot;  \\/_/   \\/_/   \\/_____/   \\/_____/   \\/_____/   \\/_____/   \\/_/  \\/_/   \\/_____/      \\/_/   \\/_/ \\/_/      \\/_/  \\/_/   \\/_____/      \\/_____/   \\/_/\\/_/   \\/_____/   \\/_____/   \\/_/     \\/_/   \\/_____/ \n&quot; +
-&nbsp;                &quot;                                                                                                                                                                                                             \n&quot;);
-&nbsp;    }
-&nbsp;
-&nbsp;    public void printWinner(Player player){
-<b class="nc">&nbsp;        System.out.println(&quot;\n&quot; +</b>
-&nbsp;                &quot;???????????? ??????????????????????????? ?????\n&quot; +
-&nbsp;                &quot;???????????? ??????????????????????????? ?????&quot;);
-<b class="nc">&nbsp;        System.out.println(player.getNickname());</b>
-&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -261,7 +105,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-12 18:13</div>
+    <div style="float:right;">generated on 2023-06-30 12:05</div>
 </div>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html id="htmlId">
 <head>
-  <title>Coverage Report > GUI</title>
+  <title>Coverage Report > GoalC1</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -18,10 +18,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">it.polimi.ingsw.Client.GUI.Controllers</a>
+    <a href="../index.html">it.polimi.ingsw.Model.CommonStrategy</a>
 </div>
 
-<h1>Coverage Summary for Class: GUI (it.polimi.ingsw.Client.GUI.Controllers)</h1>
+<h1>Coverage Summary for Class: GoalC1 (it.polimi.ingsw.Model.CommonStrategy)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -40,29 +40,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">GUI</td>
+  <td class="name">GoalC1</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/3)
+    (4/4)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    95,7%
   </span>
   <span class="absValue">
-    (0/7)
+    (22/23)
   </span>
 </td>
 </tr>
@@ -74,31 +74,58 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Client.GUI.Controllers;
+<code class="sourceCode" id="sourceCode">&nbsp;package it.polimi.ingsw.Model.CommonStrategy;
 &nbsp;
-&nbsp;import javafx.application.Application;
-&nbsp;import javafx.fxml.FXMLLoader;
-&nbsp;import javafx.scene.Scene;
-&nbsp;import javafx.stage.Stage;
+&nbsp;import it.polimi.ingsw.Model.Playground.Tiles;
+&nbsp;import it.polimi.ingsw.Model.Player.Player;
 &nbsp;
-&nbsp;import java.io.IOException;
+&nbsp;import java.io.Serializable;
+&nbsp;import java.util.Vector;
+&nbsp;import static it.polimi.ingsw.Model.Playground.Tiles.NOT_VALID;
 &nbsp;
-<b class="nc">&nbsp;public class GUI extends Application {</b>
 &nbsp;
-&nbsp;    @Override
-&nbsp;    public void start(Stage stage) throws IOException {
-<b class="nc">&nbsp;        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource(&quot;/it/polimi/MyShelfie/setup.fxml&quot;));</b>
-<b class="nc">&nbsp;        Scene scene = new Scene(fxmlLoader.load(), 320, 240);</b>
-<b class="nc">&nbsp;        stage.setTitle(&quot;Hello!&quot;);</b>
-<b class="nc">&nbsp;        stage.setScene(scene);</b>
-<b class="nc">&nbsp;        stage.show();</b>
+<b class="fc">&nbsp;public class GoalC1 implements CommonObj , Serializable {</b>
+&nbsp;
+<b class="fc">&nbsp;    private final int type = 1;</b>
+&nbsp;    public int getType(){
+<b class="fc">&nbsp;        return type;</b>
+&nbsp;    }
+&nbsp;    /**
+&nbsp;     *  Two groups each containing 4 tiles of the same type in a 2x2 square.
+&nbsp;     *  The tiles of one square can be different from those of the other square.
+&nbsp;     *  @param p player to check
+&nbsp;     *  @return
+&nbsp;     *  */
+&nbsp;
+&nbsp;    public boolean check(Player p){
+<b class="fc">&nbsp;        Vector&lt;Tiles&gt; square = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;        boolean correct = false;</b>
+<b class="fc">&nbsp;        int count = 0;</b>
+<b class="fc">&nbsp;        for(int j = 0; j&lt;4; j++){</b>
+<b class="fc">&nbsp;            for(int i = 0; i&lt;5; i++){</b>
+<b class="fc">&nbsp;                square.add(p.getMy_shelfie().getShelf()[i][j]);</b>
+<b class="fc">&nbsp;                square.add(p.getMy_shelfie().getShelf()[i][j+1]);</b>
+<b class="fc">&nbsp;                square.add(p.getMy_shelfie().getShelf()[i+1][j]);</b>
+<b class="fc">&nbsp;                square.add(p.getMy_shelfie().getShelf()[i+1][j+1]);</b>
+<b class="fc">&nbsp;                correct = squareCheck(square);</b>
+<b class="fc">&nbsp;                square = new Vector&lt;&gt;();</b>
+<b class="fc">&nbsp;                if(correct){</b>
+<b class="fc">&nbsp;                    count++;</b>
+<b class="fc">&nbsp;                    if(count&gt;1) return true;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return correct;</b>
 &nbsp;    }
 &nbsp;
-&nbsp;    public static void main(String[] args) {
-<b class="nc">&nbsp;        launch();</b>
-&nbsp;
+&nbsp;    public boolean squareCheck(Vector&lt;Tiles&gt;c){
+<b class="fc">&nbsp;        for (int i = 1;i&lt;c.size();i++){</b>
+<b class="fc">&nbsp;            if (c.get(i).getType() == NOT_VALID)</b>
+<b class="nc">&nbsp;                return false;</b>
+<b class="fc">&nbsp;            if(c.get(i).getType() != c.get(i-1).getType())  return false;</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return true;</b>
 &nbsp;    }
-&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -123,7 +150,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2023-05-12 18:13</div>
+    <div style="float:right;">generated on 2023-06-30 12:05</div>
 </div>
 </body>
 </html>

@@ -1,0 +1,13 @@
+it.polimi.ingsw
+it.polimi.ingsw.Client
+it.polimi.ingsw.Controller
+it.polimi.ingsw.Model.CommonStrategy
+it.polimi.ingsw.Model.Exception
+it.polimi.ingsw.Model.PersonalStrategy
+it.polimi.ingsw.Model.Player
+it.polimi.ingsw.Model.Playground
+it.polimi.ingsw.NotWorking
+it.polimi.ingsw.NotWorking.GUI.Controllers
+it.polimi.ingsw.Server
+it.polimi.ingsw.Utility
+it.polimi.ingsw.Utility.Message
